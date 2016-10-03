@@ -3,7 +3,6 @@ package org.ssa.ironyard.liquorstore.controller;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -12,10 +11,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.datetime.joda.LocalDateTimeParser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +21,6 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.InternalResourceView;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Customer.Address;
-import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.services.AdminService;
 import org.ssa.ironyard.liquorstore.services.AnalyticsService;
 import org.ssa.ironyard.liquorstore.services.CoreProductService;
@@ -105,7 +100,7 @@ public class CustomerController
     @RequestMapping(value="/customers", method = RequestMethod.POST)
     public ResponseEntity<Map<String,Customer>> addCustomer(HttpServletRequest request)
     {
-        Map<String,Customer> respsonse = new HashMap<>();
+        Map<String,Customer> response = new HashMap<>();
         
         
         String firstName = request.getParameter("firstName");
@@ -132,6 +127,56 @@ public class CustomerController
         LocalDateTime ldt = LocalDateTime.of(date, time);
         
         Customer customer = new Customer(firstName,lastName,userName,password,address,ldt);
+        
+        Customer customerAdd = customerService.addCustomer(customer);
+        
+        if(customerAdd == null)
+            response.put("error", customerAdd);
+        else
+            response.put("success", customerAdd);
+        
+        return ResponseEntity.ok().header("Customer", "Add Customer").body(response);
+    }
+    
+    @RequestMapping(value="/customers", method = RequestMethod.PUT)
+    public ResponseEntity<Map<String,Customer>> editCustomer(@PathVariable int id, HttpServletRequest request)
+    {
+        Map<String,Customer> response = new HashMap<>();
+        
+        int customerID = id;
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String userName = request.getParameter("userName");
+        String password = request.getParameter("password");
+        
+        String streetNumber = request.getParameter("streetNumber");
+        String streetName = request.getParameter("streetName");
+        String apptNumber = request.getParameter("apptNumber");
+        String city = request.getParameter("city");
+        String state = request.getParameter("state");
+        String zipCode = request.getParameter("zipCode");
+        Address address = new Address(streetNumber, streetName, apptNumber, city, state, zipCode);
+        
+        String month = request.getParameter("birthMonth");
+        String day = request.getParameter("birthDay");
+        String year = request.getParameter("birthYear");
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        formatter = formatter.withLocale(Locale.US);
+        LocalDate date = LocalDate.parse(year + "-" + month + "-" + day);
+        LocalTime time = null;
+        LocalDateTime ldt = LocalDateTime.of(date, time);
+        
+        Customer customer = new Customer(customerID,firstName,lastName,userName,password,address,ldt);
+        Customer customerEdit = customerService.editCustomer(customer);
+        
+        if(customerEdit == null)
+            response.put("error", customerEdit);
+        else
+            response.put("success", customerEdit);
+        
+        return ResponseEntity.ok().header("Customer", "Customer Edit").body(response);
+        
     }
     
     
