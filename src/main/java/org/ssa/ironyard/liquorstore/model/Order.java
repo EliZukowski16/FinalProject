@@ -1,4 +1,4 @@
-package org.ssa.ironyard.LiquorStore.Models;
+package org.ssa.ironyard.liquorstore.model;
 
 import java.util.Date;
 import java.util.List;
