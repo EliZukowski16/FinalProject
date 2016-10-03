@@ -82,7 +82,7 @@ public class Product implements DomainObject
     }
     
     @Override
-    public boolean deeplyEquals(Object obj) {
+    public boolean deeplyEquals(DomainObject obj) {
         if (this == obj)
             return true;
         if (obj == null)
