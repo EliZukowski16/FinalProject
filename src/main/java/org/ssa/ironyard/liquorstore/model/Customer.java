@@ -87,8 +87,6 @@ public class Customer implements DomainObject
 
         return null;
     }
-    
-    
 
     @Override
     public int hashCode()
@@ -115,6 +113,68 @@ public class Customer implements DomainObject
                 return false;
         }
         else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
+    @Override
+    public boolean deeplyEquals(DomainObject obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Customer other = (Customer) obj;
+        if (address == null)
+        {
+            if (other.address != null)
+                return false;
+        }
+        else if (!address.equals(other.address))
+            return false;
+        if (birthDate == null)
+        {
+            if (other.birthDate != null)
+                return false;
+        }
+        else if (!birthDate.equals(other.birthDate))
+            return false;
+        if (firstName == null)
+        {
+            if (other.firstName != null)
+                return false;
+        }
+        else if (!firstName.equals(other.firstName))
+            return false;
+        if (id == null)
+        {
+            if (other.id != null)
+                return false;
+        }
+        else if (!id.equals(other.id))
+            return false;
+        if (lastName == null)
+        {
+            if (other.lastName != null)
+                return false;
+        }
+        else if (!lastName.equals(other.lastName))
+            return false;
+        if (password == null)
+        {
+            if (other.password != null)
+                return false;
+        }
+        else if (!password.equals(other.password))
+            return false;
+        if (userName == null)
+        {
+            if (other.userName != null)
+                return false;
+        }
+        else if (!userName.equals(other.userName))
             return false;
         return true;
     }
