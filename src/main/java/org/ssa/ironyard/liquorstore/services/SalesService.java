@@ -1,6 +1,9 @@
 package org.ssa.ironyard.liquorstore.services;
 
-public interface SalesService
+import org.springframework.stereotype.Component;
+
+@Component
+public class SalesService implements SalesServiceInt
 {
 
 }

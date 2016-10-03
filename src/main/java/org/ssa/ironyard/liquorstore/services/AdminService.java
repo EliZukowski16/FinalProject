@@ -2,12 +2,46 @@ package org.ssa.ironyard.liquorstore.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
 import org.ssa.ironyard.liquorstore.model.Admin;
 
-public interface AdminService
+@Component
+public class AdminService implements AdminServiceInt
 {
-    Admin readAdmin(Integer id);
-    List<Admin> readAllAdmins();
-    Admin editAdmin(Admin admin);
-    Admin addAdmin(Admin admin);
+
+    @Override
+    public Admin readAdmin(Integer id)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Admin> readAllAdmins()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Admin editAdmin(Admin admin)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Admin addAdmin(Admin admin)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Admin deleteAdmin(Integer id)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

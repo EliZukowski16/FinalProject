@@ -1,6 +1,9 @@
 package org.ssa.ironyard.liquorstore.services;
 
-public interface AnalyticsService
+import org.springframework.stereotype.Component;
+
+@Component
+public class AnalyticsService implements AnalyticsServiceInt
 {
 
 }
