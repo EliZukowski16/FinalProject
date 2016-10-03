@@ -2,7 +2,7 @@ package org.ssa.ironyard.liquorstore.model;
 
 import java.util.List;
 
-public class CoreProject implements DomainObject
+public class CoreProduct implements DomainObject
 {
     private final Integer id;
     private final String name;
@@ -12,7 +12,7 @@ public class CoreProject implements DomainObject
     private final String description;
     
     
-    public CoreProject(int id, String name, List<String> tags, Type type, String subType, String description)
+    public CoreProduct(int id, String name, List<String> tags, Type type, String subType, String description)
     {
         this.id = id;
         this.name = name;
@@ -23,7 +23,7 @@ public class CoreProject implements DomainObject
     }
 
 
-    public CoreProject(String name, List<String> tags, Type type, String subType, String description)
+    public CoreProduct(String name, List<String> tags, Type type, String subType, String description)
     {
         this.id = null;
         this.name = name;
@@ -92,7 +92,7 @@ public class CoreProject implements DomainObject
             return false;
         if (getClass() != obj.getClass())
             return false;
-        CoreProject other = (CoreProject) obj;
+        CoreProduct other = (CoreProduct) obj;
         if (id != other.id)
             return false;
         return true;
@@ -108,8 +108,8 @@ public class CoreProject implements DomainObject
         return result;
     }
 
-
-    public boolean deeplyEquals(Object obj)
+    @Override
+    public boolean deeplyEquals(DomainObject obj)
     {
         if (this == obj)
             return true;
@@ -117,7 +117,7 @@ public class CoreProject implements DomainObject
             return false;
         if (getClass() != obj.getClass())
             return false;
-        CoreProject other = (CoreProject) obj;
+        CoreProduct other = (CoreProduct) obj;
         if (description == null)
         {
             if (other.description != null)
@@ -154,11 +154,11 @@ public class CoreProject implements DomainObject
     public DomainObject clone()
     {
     
-        CoreProject copy;
+        CoreProduct copy;
         
         try
         {
-            copy = (CoreProject) super.clone();
+            copy = (CoreProduct) super.clone();
             return copy;
         }
         catch (CloneNotSupportedException e)
