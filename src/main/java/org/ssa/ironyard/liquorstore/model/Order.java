@@ -5,14 +5,13 @@ import java.util.List;
 
 public class Order implements DomainObject
 {
-    
+
     private final Integer id;
     private final int customerID;
     private final Date date;
     private final float total;
     private List<orderDetail> oD;
-    
-    
+
     public Order(int id, int customerID, Date date, float total, List<orderDetail> oD)
     {
         this.id = id;
@@ -21,7 +20,6 @@ public class Order implements DomainObject
         this.total = total;
         this.oD = oD;
     }
-
 
     public Order(int customerID, Date date, float total, List<orderDetail> oD)
     {
@@ -32,15 +30,13 @@ public class Order implements DomainObject
         this.oD = oD;
     }
 
-
     public static class orderDetail
     {
         int id;
         int productID;
         int qty;
         float unitPrice;
-        
-        
+
         public orderDetail(int id, int productID, int qty, float unitPrice)
         {
             this.id = id;
@@ -48,34 +44,42 @@ public class Order implements DomainObject
             this.qty = qty;
             this.unitPrice = unitPrice;
         }
+
         public int getId()
         {
             return id;
         }
+
         public void setId(int id)
         {
             this.id = id;
         }
+
         public int getProductID()
         {
             return productID;
         }
+
         public void setProductID(int productID)
         {
             this.productID = productID;
         }
+
         public int getQty()
         {
             return qty;
         }
+
         public void setQty(int qty)
         {
             this.qty = qty;
         }
+
         public float getUnitPrice()
         {
             return unitPrice;
         }
+
         public void setUnitPrice(float unitPrice)
         {
             this.unitPrice = unitPrice;
@@ -93,7 +97,6 @@ public class Order implements DomainObject
         return customerID;
     }
 
-
     public Date getDate()
     {
         return date;
@@ -104,16 +107,15 @@ public class Order implements DomainObject
         return total;
     }
 
-
     public List<orderDetail> getoD()
     {
         return oD;
     }
+
     public void setoD(List<orderDetail> oD)
     {
         this.oD = oD;
     }
-
 
     @Override
     public int hashCode()
@@ -124,9 +126,6 @@ public class Order implements DomainObject
         result = prime * result + id;
         return result;
     }
-
-    
-    
 
     @Override
     public boolean equals(Object obj)
@@ -145,7 +144,7 @@ public class Order implements DomainObject
         return true;
     }
 
-    @Override
+
     public boolean deeplyEquals(DomainObject obj)
     {
         if (this == obj)
@@ -177,13 +176,12 @@ public class Order implements DomainObject
             return false;
         return true;
     }
-    
-    
+
     public DomainObject clone()
     {
-    
+
         Order copy;
-        
+
         try
         {
             copy = (Order) super.clone();
@@ -194,20 +192,14 @@ public class Order implements DomainObject
         {
             return null;
         }
-       
-    }
 
+    }
 
     @Override
     public String toString()
     {
-        return "Order [id=" + id + ", customerID=" + customerID + ", date=" + date + ", total=" + total + ", oD=" + oD + "]";
+        return "Order [id=" + id + ", customerID=" + customerID + ", date=" + date + ", total=" + total + ", oD=" + oD
+                + "]";
     }
-    
-    
-    
-    
-    
-    
-    
+
 }
