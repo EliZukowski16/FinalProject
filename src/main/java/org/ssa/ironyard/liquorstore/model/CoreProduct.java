@@ -2,42 +2,55 @@ package org.ssa.ironyard.liquorstore.model;
 
 import java.util.List;
 
-public class CoreProduct implements DomainObject
+public class CoreProduct extends AbstractDomainObject implements DomainObject
 {
-    private final Integer id;
     private final String name;
     private final List<String> tags;
     private final Type type;
     private final String subType;
     private final String description;
-    
-    
-    public CoreProduct(int id, String name, List<String> tags, Type type, String subType, String description)
+
+    public enum Type
     {
-        this.id = id;
+        BEER("beer"), WINE("wine"), SPIRITS("spirits");
+
+        private String alcoholType;
+
+        private Type(String alcoholType)
+        {
+            this.alcoholType = alcoholType;
+        }
+
+        @Override
+        public String toString()
+        {
+            return this.alcoholType;
+        }
+
+        public static Type getInstance(String alcoholType)
+        {
+            for (Type t : values())
+            {
+                if (t.alcoholType.equals(alcoholType))
+                    return t;
+            }
+            return null;
+        }
+    }
+
+    public CoreProduct(Integer id, String name, List<String> tags, Type type, String subType, String description)
+    {
+        super(id);
         this.name = name;
         this.tags = tags;
         this.type = type;
         this.subType = subType;
         this.description = description;
     }
-
 
     public CoreProduct(String name, List<String> tags, Type type, String subType, String description)
     {
-        this.id = null;
-        this.name = name;
-        this.tags = tags;
-        this.type = type;
-        this.subType = subType;
-        this.description = description;
-    }
-
-
-
-    public Integer getId()
-    {
-        return id;
+        this(null, name, tags, type, subType, description);
     }
 
     public String getName()
@@ -50,27 +63,10 @@ public class CoreProduct implements DomainObject
         return tags;
     }
 
-    public enum Type
-    {
-        
-        BEER,WINE,SPIRTS;
-        
-        private String type;
-        
-        public String getType()
-        {
-            return type;
-        }
-        
-    }
-    
-    
-
     public Type getType()
     {
         return type;
     }
-
 
     public String getSubType()
     {
@@ -82,7 +78,6 @@ public class CoreProduct implements DomainObject
         return description;
     }
 
-    
     @Override
     public boolean equals(Object obj)
     {
@@ -93,18 +88,22 @@ public class CoreProduct implements DomainObject
         if (getClass() != obj.getClass())
             return false;
         CoreProduct other = (CoreProduct) obj;
-        if (id != other.id)
+        if (this.getId() == null)
+        {
+            if (other.getId() != null)
+                return false;
+        }
+        else if (!this.getId().equals(other.getId()))
             return false;
         return true;
     }
-
 
     @Override
     public int hashCode()
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + id;
+        result = prime * result + this.getId();
         return result;
     }
 
@@ -125,7 +124,7 @@ public class CoreProduct implements DomainObject
         }
         else if (!description.equals(other.description))
             return false;
-        if (id != other.id)
+        if (this.getId() != other.getId())
             return false;
         if (name == null)
         {
@@ -153,9 +152,9 @@ public class CoreProduct implements DomainObject
 
     public DomainObject clone()
     {
-    
+
         CoreProduct copy;
-        
+
         try
         {
             copy = (CoreProduct) super.clone();
@@ -165,20 +164,14 @@ public class CoreProduct implements DomainObject
         {
             return null;
         }
-       
+
     }
 
     @Override
     public String toString()
     {
-        return "CoreProject [id=" + id + ", name=" + name + ", tags=" + tags + ", subType=" + subType + ", description=" + description + "]";
+        return "CoreProject [id=" + this.getId() + ", name=" + name + ", tags=" + tags + ", subType=" + subType
+                + ", description=" + description + "]";
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
 }

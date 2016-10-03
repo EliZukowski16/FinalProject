@@ -8,6 +8,8 @@ public interface DAO<T>
     T insert(T domain);
 
     T update(T domain);
+    
+    
 
     boolean delete(Integer id);
 

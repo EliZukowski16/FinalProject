@@ -9,6 +9,7 @@ import java.util.Objects;
 public interface DomainObject extends Cloneable
 {
     Integer getId();
+
     default boolean isLoaded()
     {
         return false;
@@ -16,12 +17,13 @@ public interface DomainObject extends Cloneable
 
     default boolean deeplyEquals(DomainObject other)
     {
-        if (! Objects.deepEquals(this, other))
+        if (!Objects.deepEquals(this, other))
             return false;
         return true;
     }
+
     /**
-     *  Re-declare for emphasis
+     * Re-declare for emphasis
      */
 
     @Override

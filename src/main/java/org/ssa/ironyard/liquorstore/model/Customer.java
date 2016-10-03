@@ -2,9 +2,8 @@ package org.ssa.ironyard.liquorstore.model;
 
 import java.time.LocalDateTime;
 
-public class Customer implements DomainObject
+public class Customer extends AbstractDomainObject implements DomainObject
 {
-    private final Integer id;
     private final String firstName;
     private final String lastName;
     private final String userName;
@@ -16,11 +15,16 @@ public class Customer implements DomainObject
     {
         this(null, null, null, userName, password, null, null);
     }
+    
+    public Customer(String firstName, String lastName, String userName, String password, Address address, LocalDateTime birthDate)
+    {
+        this(null, firstName, lastName, userName, password, address, birthDate);
+    }
 
     public Customer(Integer id, String firstName, String lastName, String userName, String password, Address address,
             LocalDateTime birthDate)
     {
-        this.id = id;
+        super(id);
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
@@ -65,12 +69,6 @@ public class Customer implements DomainObject
     }
 
     @Override
-    public Integer getId()
-    {
-        return id;
-    }
-
-    @Override
     public Customer clone()
     {
         try
@@ -93,7 +91,7 @@ public class Customer implements DomainObject
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((this.getId() == null) ? 0 : this.getId().hashCode());
         return result;
     }
 
@@ -107,12 +105,12 @@ public class Customer implements DomainObject
         if (getClass() != obj.getClass())
             return false;
         Customer other = (Customer) obj;
-        if (id == null)
+        if (this.getId() == null)
         {
-            if (other.id != null)
+            if (other.getId() != null)
                 return false;
         }
-        else if (!id.equals(other.id))
+        else if (!this.getId().equals(other.getId()))
             return false;
         return true;
     }
@@ -148,12 +146,12 @@ public class Customer implements DomainObject
         }
         else if (!firstName.equals(other.firstName))
             return false;
-        if (id == null)
+        if (this.getId() == null)
         {
-            if (other.id != null)
+            if (other.getId() != null)
                 return false;
         }
-        else if (!id.equals(other.id))
+        else if (!this.getId().equals(other.getId()))
             return false;
         if (lastName == null)
         {
