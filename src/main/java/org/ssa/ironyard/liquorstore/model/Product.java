@@ -1,56 +1,74 @@
 package org.ssa.ironyard.liquorstore.model;
 
-public class Product implements DomainObject
+public class Product extends AbstractDomainObject implements DomainObject
 {
-    private final Integer id;
     private final Integer coreProductId;
-    private String baseUnit; //e.g. 12oz can, 30 pack, etc.
-    private int quantity;
-    private int inventory;
+    private final BaseUnit baseUnit; // e.g. 12oz can, 30 pack, etc.
+    private final Integer quantity;
+    private final Integer inventory;
 
-    
-    public Product(Integer id, Integer coreProductId, String baseUnit, int quantity, int inventory)
+    public enum BaseUnit
     {
-        this.id = id;
+        _12OZ_CAN("12 oz can"), _12OZ_BOTTLE("12 oz bottle"), _750ML_BOTTLE("750 ml bottle");
+
+        private String unit;
+
+        private BaseUnit(String unit)
+        {
+            this.unit = unit;
+        }
+
+        @Override
+        public String toString()
+        {
+            return this.unit;
+        }
+
+        public static BaseUnit getInstance(String unit)
+        {
+            for (BaseUnit t : values())
+            {
+                if (t.unit.equals(unit))
+                    return t;
+            }
+            return null;
+        }
+    }
+
+    public Product(Integer id, Integer coreProductId, BaseUnit baseUnit, Integer quantity, Integer inventory)
+    {
+        super(id);
         this.coreProductId = coreProductId;
         this.baseUnit = baseUnit;
         this.quantity = quantity;
-        this.inventory = inventory;        
-    }
-    
-    
-    public String getBaseUnit() {
-        return baseUnit;
-    }
-
-    public void setBaseUnit(String baseUnit) {
-        this.baseUnit = baseUnit;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(int inventory) {
         this.inventory = inventory;
     }
 
-    public Integer getId() {
-        return id;
+    public Product(Integer coreProductId, BaseUnit baseUnit, Integer quantity, Integer inventory)
+    {
+        this(null, coreProductId, baseUnit, quantity, inventory);
     }
 
-    public Integer getCoreProductId() {
+    public BaseUnit getBaseUnit()
+    {
+        return baseUnit;
+    }
+
+    public int getQuantity()
+    {
+        return quantity;
+    }
+
+    public int getInventory()
+    {
+        return inventory;
+    }
+
+    public Integer getCoreProductId()
+    {
         return coreProductId;
     }
-    
+
     @Override
     public Product clone()
     {
@@ -58,31 +76,27 @@ public class Product implements DomainObject
         try
         {
             copy = (Product) super.clone();
-            copy.setBaseUnit(this.getBaseUnit());
-            copy.setQuantity(this.getQuantity());
-            copy.setInventory(this.getInventory());
             return copy;
-        } catch(CloneNotSupportedException e) {
+        }
+        catch (CloneNotSupportedException e)
+        {
             e.printStackTrace();
             return null;
         }
     }
 
-
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((baseUnit == null) ? 0 : baseUnit.hashCode());
-        result = prime * result + coreProductId;
-        result = prime * result + id;
-        result = prime * result + inventory;
-        result = prime * result + quantity;
+        result = prime * result + this.getId();
         return result;
     }
-    
+
     @Override
-    public boolean deeplyEquals(DomainObject obj) {
+    public boolean deeplyEquals(DomainObject obj)
+    {
         if (this == obj)
             return true;
         if (obj == null)
@@ -90,14 +104,16 @@ public class Product implements DomainObject
         if (getClass() != obj.getClass())
             return false;
         Product other = (Product) obj;
-        if (baseUnit == null) {
+        if (baseUnit == null)
+        {
             if (other.baseUnit != null)
                 return false;
-        } else if (!baseUnit.equals(other.baseUnit))
+        }
+        else if (!baseUnit.equals(other.baseUnit))
             return false;
         if (coreProductId != other.coreProductId)
             return false;
-        if (id != other.id)
+        if (this.getId() != other.getId())
             return false;
         if (inventory != other.inventory)
             return false;
@@ -105,7 +121,7 @@ public class Product implements DomainObject
             return false;
         return true;
     }
-    
+
     @Override
     public boolean equals(Object obj)
     {
@@ -116,16 +132,14 @@ public class Product implements DomainObject
         if (getClass() != obj.getClass())
             return false;
         Product other = (Product) obj;
-        if(this.getId() == null)
+        if (this.getId() == null)
         {
-            if(other.getId() != null)
+            if (other.getId() != null)
                 return false;
         }
         else if (!this.getId().equals(other.getId()))
             return false;
         return true;
     }
-    
-    
 
 }
