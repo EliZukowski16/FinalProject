@@ -145,8 +145,8 @@ public class Order implements DomainObject
         return true;
     }
 
-
-    public boolean deeplyEquals(Object obj)
+    @Override
+    public boolean deeplyEquals(DomainObject obj)
     {
         if (this == obj)
             return true;
