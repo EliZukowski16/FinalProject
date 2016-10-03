@@ -1,4 +1,4 @@
-package model;
+package org.ssa.ironyard.liquorstore.model;
 
 import java.time.LocalDateTime;
 
