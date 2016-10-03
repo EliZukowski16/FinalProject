@@ -3,7 +3,7 @@ package org.ssa.ironyard.liquorstore.model;
 import java.util.Date;
 import java.util.List;
 
-public class Order
+public class Order implements DomainObject
 {
     
     private final Integer id;
@@ -83,7 +83,7 @@ public class Order
 
     }
 
-    public int getId()
+    public Integer getId()
     {
         return id;
     }
@@ -179,7 +179,7 @@ public class Order
     }
     
     
-    public Object clone()
+    public DomainObject clone()
     {
     
         Order copy;

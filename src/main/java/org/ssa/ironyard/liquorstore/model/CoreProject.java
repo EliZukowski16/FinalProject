@@ -2,7 +2,7 @@ package org.ssa.ironyard.liquorstore.model;
 
 import java.util.List;
 
-public class CoreProject
+public class CoreProject implements DomainObject
 {
     private final Integer id;
     private final String name;
@@ -35,7 +35,7 @@ public class CoreProject
 
 
 
-    public int getId()
+    public Integer getId()
     {
         return id;
     }
@@ -151,7 +151,7 @@ public class CoreProject
         return true;
     }
 
-    public Object clone()
+    public DomainObject clone()
     {
     
         CoreProject copy;
