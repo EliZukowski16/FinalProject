@@ -1,58 +1,49 @@
 package org.ssa.ironyard.liquorstore.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Order implements DomainObject
+public class Order extends AbstractDomainObject implements DomainObject
 {
+    private final Integer customerID;
+    private final LocalDateTime date;
+    private final Float total;
+    private List<OrderDetail> oD = new ArrayList<>();
 
-    private final Integer id;
-    private final int customerID;
-    private final Date date;
-    private final float total;
-    private List<orderDetail> oD;
-
-    public Order(int id, int customerID, Date date, float total, List<orderDetail> oD)
+    public Order(Integer id, Integer customerID, LocalDateTime date, Float total, List<OrderDetail> oD)
     {
-        this.id = id;
+        super(id);
         this.customerID = customerID;
         this.date = date;
         this.total = total;
         this.oD = oD;
     }
 
-    public Order(int customerID, Date date, float total, List<orderDetail> oD)
+    public Order(int customerID, LocalDateTime date, Float total, List<OrderDetail> oD)
     {
-        this.id = null;
-        this.customerID = customerID;
-        this.date = date;
-        this.total = total;
-        this.oD = oD;
+        this(null, customerID, date, total, oD);
     }
 
-    public static class orderDetail
+    public static class OrderDetail extends AbstractDomainObject implements DomainObject
     {
-        int id;
-        int productID;
-        int qty;
-        float unitPrice;
+        Integer orderID;
+        Integer productID;
+        Integer qty;
+        Float unitPrice;
 
-        public orderDetail(int id, int productID, int qty, float unitPrice)
+        public OrderDetail(Integer id, Integer orderID, Integer productID, Integer qty, Float unitPrice)
         {
-            this.id = id;
+            super(id);
+            this.orderID = orderID;
             this.productID = productID;
             this.qty = qty;
             this.unitPrice = unitPrice;
         }
 
-        public int getId()
+        public OrderDetail(Integer orderID, Integer productID, Integer qty, Float unitPrice)
         {
-            return id;
-        }
-
-        public void setId(int id)
-        {
-            this.id = id;
+            this(null, orderID, productID, qty, unitPrice);
         }
 
         public int getProductID()
@@ -85,11 +76,21 @@ public class Order implements DomainObject
             this.unitPrice = unitPrice;
         }
 
-    }
+        @Override
+        public DomainObject clone()
+        {
 
-    public Integer getId()
-    {
-        return id;
+            OrderDetail copy;
+            try
+            {
+                copy = (OrderDetail) super.clone();
+                return copy;
+            }
+            catch (CloneNotSupportedException e)
+            {
+                return null;
+            }
+        }
     }
 
     public int getCustomerID()
@@ -97,7 +98,7 @@ public class Order implements DomainObject
         return customerID;
     }
 
-    public Date getDate()
+    public LocalDateTime getDate()
     {
         return date;
     }
@@ -107,12 +108,12 @@ public class Order implements DomainObject
         return total;
     }
 
-    public List<orderDetail> getoD()
+    public List<OrderDetail> getoD()
     {
         return oD;
     }
 
-    public void setoD(List<orderDetail> oD)
+    public void setoD(List<OrderDetail> oD)
     {
         this.oD = oD;
     }
@@ -122,8 +123,7 @@ public class Order implements DomainObject
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + customerID;
-        result = prime * result + id;
+        result = prime * result + this.getId();
         return result;
     }
 
@@ -137,13 +137,15 @@ public class Order implements DomainObject
         if (getClass() != obj.getClass())
             return false;
         Order other = (Order) obj;
-        if (customerID != other.customerID)
-            return false;
-        if (id != other.id)
+        if (this.getId() == null)
+        {
+            if (other.getId() != null)
+                return false;
+        }
+        if (this.getId() != other.getId())
             return false;
         return true;
     }
-
 
     public boolean deeplyEquals(DomainObject obj)
     {
@@ -163,7 +165,7 @@ public class Order implements DomainObject
         }
         else if (!date.equals(other.date))
             return false;
-        if (id != other.id)
+        if (this.getId() != other.getId())
             return false;
         if (oD == null)
         {
@@ -198,8 +200,8 @@ public class Order implements DomainObject
     @Override
     public String toString()
     {
-        return "Order [id=" + id + ", customerID=" + customerID + ", date=" + date + ", total=" + total + ", oD=" + oD
-                + "]";
+        return "Order [id=" + this.getId() + ", customerID=" + customerID + ", date=" + date + ", total=" + total
+                + ", oD=" + oD + "]";
     }
 
 }
