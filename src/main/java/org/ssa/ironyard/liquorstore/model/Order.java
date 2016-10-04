@@ -6,12 +6,12 @@ import java.util.List;
 
 public class Order extends AbstractDomainObject implements DomainObject
 {
-    private final Integer customerID;
+    private final Customer customerID;
     private final LocalDateTime date;
     private final Float total;
     private List<OrderDetail> oD = new ArrayList<>();
 
-    public Order(Integer id, Integer customerID, LocalDateTime date, Float total, List<OrderDetail> oD)
+    public Order(Integer id, Customer customerID, LocalDateTime date, Float total, List<OrderDetail> oD)
     {
         super(id);
         this.customerID = customerID;
@@ -20,7 +20,7 @@ public class Order extends AbstractDomainObject implements DomainObject
         this.oD = oD;
     }
 
-    public Order(int customerID, LocalDateTime date, Float total, List<OrderDetail> oD)
+    public Order(Customer customerID, LocalDateTime date, Float total, List<OrderDetail> oD)
     {
         this(null, customerID, date, total, oD);
     }
@@ -72,7 +72,7 @@ public class Order extends AbstractDomainObject implements DomainObject
         }
     }
 
-    public int getCustomerID()
+    public Customer getCustomerID()
     {
         return customerID;
     }

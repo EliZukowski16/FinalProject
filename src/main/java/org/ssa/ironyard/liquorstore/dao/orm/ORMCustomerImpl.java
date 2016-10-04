@@ -5,7 +5,9 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import org.ssa.ironyard.liquorstore.model.Customer;
-import org.ssa.ironyard.liquorstore.model.Customer.Address;
+import org.ssa.ironyard.liquorstore.model.Address;
+import org.ssa.ironyard.liquorstore.model.Address.State;
+import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
 
 public class ORMCustomerImpl extends AbstractORM<Customer> implements ORM<Customer>
 {
@@ -17,7 +19,10 @@ public class ORMCustomerImpl extends AbstractORM<Customer> implements ORM<Custom
         this.fields.add("password");
         this.fields.add("firstName");
         this.fields.add("lastName");
-        this.fields.add("address");
+        this.fields.add("street");
+        this.fields.add("city");
+        this.fields.add("state");
+        this.fields.add("zipCode");
         this.fields.add("birthDate");
     }
 
@@ -37,8 +42,11 @@ public class ORMCustomerImpl extends AbstractORM<Customer> implements ORM<Custom
         String password = results.getString("password");
         LocalDateTime birthDate = results.getTimestamp("birthDate").toLocalDateTime();
         
-        //TODO: Fix address modeling
-        Address address = new Address(null, null, null, null, null, null);
+        Address address = new Address();
+        address.setCity(results.getString("city"));
+        address.setZip(new ZipCode(results.getString("zipCode")));
+        address.setStreet(results.getString("street"));
+        address.setState(State.getInstance(results.getString("state")));
         
         return new Customer(id, firstName, lastName, userName, password, address, birthDate);
     }
