@@ -37,6 +37,39 @@ public class DAOCoreProductImpl extends AbstractDAOCoreProduct implements DAOCor
         insertStatement.setString(4, domainToInsert.getDescription());
     }
 
+    public CoreProduct insertTag(CoreProduct domain)
+    {
+        if(domain.getId() != null)
+        {
+            List<Tag> tags = new ArrayList<>();
+
+            for (Tag t : domain.getTags())
+            {
+
+                KeyHolder generatedId = new GeneratedKeyHolder();
+                if (this.springTemplate.update((Connection conn) ->
+                {
+                    PreparedStatement statement = conn.prepareStatement(
+                            ((ORMCoreProductImpl) this.orm).prepareInsertTag(), Statement.RETURN_GENERATED_KEYS);
+                    statement.setInt(1, domain.getId());
+                    statement.setString(2, t.getName());
+                    return statement;
+                }, generatedId) == 1)
+                {
+                    tags.add(new Tag(t.getName()));
+                }
+            }
+
+            CoreProduct copy = (CoreProduct) domain.clone();
+
+            copy.setTags(tags);
+
+            return copy;
+        }
+        
+        return null;
+    }
+    
     @Override
     public CoreProduct insert(CoreProduct domain)
     {

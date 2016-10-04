@@ -49,4 +49,10 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
         return new Order(id, customer, date, total, oD);
     }
 
+    public Object prepareInsertDetail()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
