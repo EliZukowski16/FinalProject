@@ -5,7 +5,7 @@ import javax.sql.DataSource;
 import org.ssa.ironyard.liquorstore.dao.orm.ORM;
 import org.ssa.ironyard.liquorstore.model.Customer;
 
-public abstract class AbstractDAOCustomer extends AbstractSpringDAO<Customer> implements DAOCustomer
+public abstract class AbstractDAOCustomer extends AbstractSpringDAO<Customer> implements DAO<Customer>
 {
 
     protected AbstractDAOCustomer(ORM<Customer> orm, DataSource dataSource)

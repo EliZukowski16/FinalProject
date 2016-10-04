@@ -5,13 +5,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 
 public class ORMCoreProductImpl extends AbstractORM<CoreProduct> implements ORM<CoreProduct>
 {    
-    ORMCoreProductImpl()
+    public ORMCoreProductImpl()
     {
         this.primaryKeys.add("id");
 
@@ -40,9 +41,17 @@ public class ORMCoreProductImpl extends AbstractORM<CoreProduct> implements ORM<
         return new CoreProduct(id, name, tags, type, subType, description);
     }
     
+    public String prepareInsertTag()
+    {
+        return " INSERT INTO product_tags (product_id, name) values (?, ?)";
+        
+    }
+    
     private String joinProductTags()
     {
         return " JOIN productTags ON " + this.table() + "." + this.primaryKeys.get(0) + " = productTags.coreProducttId ";
     }
+
+  
 
 }

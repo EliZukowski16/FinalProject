@@ -7,7 +7,6 @@ import java.sql.Timestamp;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.ssa.ironyard.liquorstore.dao.orm.ORM;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMCustomerImpl;
 import org.ssa.ironyard.liquorstore.model.Customer;
 
@@ -28,9 +27,10 @@ public class DAOCustomerImpl extends AbstractDAOCustomer implements DAOCustomer
         insertStatement.setString(3, domainToInsert.getFirstName());
         insertStatement.setString(4, domainToInsert.getLastName());
         insertStatement.setString(5, domainToInsert.getAddress().getStreet());
-        insertStatement.setString(6, domainToInsert.getAddress().getState().getAbbreviation());
-        insertStatement.setString(7, domainToInsert.getAddress().getZip().datafy());
-        insertStatement.setTimestamp(8, Timestamp.valueOf(domainToInsert.getBirthDate()));
+        insertStatement.setString(6, domainToInsert.getAddress().getCity());
+        insertStatement.setString(7, domainToInsert.getAddress().getState().getAbbreviation());
+        insertStatement.setString(8, domainToInsert.getAddress().getZip().datafy());
+        insertStatement.setTimestamp(9, Timestamp.valueOf(domainToInsert.getBirthDate()));
     }
 
     @Override
@@ -66,10 +66,11 @@ public class DAOCustomerImpl extends AbstractDAOCustomer implements DAOCustomer
                 ps.setString(3, domainToUpdate.getFirstName());
                 ps.setString(4, domainToUpdate.getLastName());
                 ps.setString(5, domainToUpdate.getAddress().getStreet());
-                ps.setString(6, domainToUpdate.getAddress().getState().getAbbreviation());
-                ps.setString(7, domainToUpdate.getAddress().getZip().datafy());
-                ps.setTimestamp(8, Timestamp.valueOf(domainToUpdate.getBirthDate()));
-                ps.setInt(9, domainToUpdate.getId());
+                ps.setString(6, domainToUpdate.getAddress().getCity());
+                ps.setString(7, domainToUpdate.getAddress().getState().getAbbreviation());
+                ps.setString(8, domainToUpdate.getAddress().getZip().datafy());
+                ps.setTimestamp(9, Timestamp.valueOf(domainToUpdate.getBirthDate()));
+                ps.setInt(10, domainToUpdate.getId());
             }
         };
     }

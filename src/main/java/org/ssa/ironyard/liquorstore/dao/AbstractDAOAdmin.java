@@ -5,7 +5,7 @@ import javax.sql.DataSource;
 import org.ssa.ironyard.liquorstore.dao.orm.ORM;
 import org.ssa.ironyard.liquorstore.model.Admin;
 
-public abstract class AbstractDAOAdmin extends AbstractSpringDAO<Admin> implements DAOAdmin
+public abstract class AbstractDAOAdmin extends AbstractSpringDAO<Admin> implements DAO<Admin>
 {
 
     protected AbstractDAOAdmin(ORM<Admin> orm, DataSource dataSource)
