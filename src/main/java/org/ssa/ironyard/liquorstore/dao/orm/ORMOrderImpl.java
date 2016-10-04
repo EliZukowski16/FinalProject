@@ -49,10 +49,9 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
         return new Order(id, customer, date, total, oD);
     }
 
-    public Object prepareInsertDetail()
+    public String prepareInsertDetail()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return " INSERT INTO order_detail (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)";
     }
 
 }
