@@ -25,26 +25,21 @@ public class Order extends AbstractDomainObject implements DomainObject
         this(null, customerID, date, total, oD);
     }
 
-    public static class OrderDetail extends AbstractDomainObject implements DomainObject
+    public static class OrderDetail
     {
         Integer orderID;
         Integer productID;
         Integer qty;
         Float unitPrice;
 
-        public OrderDetail(Integer id, Integer orderID, Integer productID, Integer qty, Float unitPrice)
+        public OrderDetail(Integer orderID, Integer productID, Integer qty, Float unitPrice)
         {
-            super(id);
             this.orderID = orderID;
             this.productID = productID;
             this.qty = qty;
             this.unitPrice = unitPrice;
         }
 
-        public OrderDetail(Integer orderID, Integer productID, Integer qty, Float unitPrice)
-        {
-            this(null, orderID, productID, qty, unitPrice);
-        }
 
         public int getProductID()
         {
@@ -74,22 +69,6 @@ public class Order extends AbstractDomainObject implements DomainObject
         public void setUnitPrice(float unitPrice)
         {
             this.unitPrice = unitPrice;
-        }
-
-        @Override
-        public DomainObject clone()
-        {
-
-            OrderDetail copy;
-            try
-            {
-                copy = (OrderDetail) super.clone();
-                return copy;
-            }
-            catch (CloneNotSupportedException e)
-            {
-                return null;
-            }
         }
     }
 

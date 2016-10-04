@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.Product;
+import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 
 public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 {
@@ -33,8 +34,19 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
     @Override
     public Product map(ResultSet results) throws SQLException
     {
-        // TODO Auto-generated method stub
-        return null;
+        Integer id = results.getInt("product.id");
+        BaseUnit baseUnit = BaseUnit.getInstance(results.getString("product.baseUnit"));
+        Integer quantity = results.getInt("product.quantity");
+        Integer inventory = results.getInt("product.inventory");
+        CoreProduct coreProduct = this.mapCoreProduct(results);
+        
+        return new Product(id, coreProduct, baseUnit, quantity, inventory);
+        
+    }
+    
+    private CoreProduct mapCoreProduct(ResultSet results) throws SQLException
+    {
+        return coreProductORM.map(results);
     }
 
 }
