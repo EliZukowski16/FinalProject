@@ -15,8 +15,9 @@ public class Customer extends AbstractDomainObject implements DomainObject
     {
         this(null, null, null, userName, password, null, null);
     }
-    
-    public Customer(String firstName, String lastName, String userName, String password, Address address, LocalDateTime birthDate)
+
+    public Customer(String firstName, String lastName, String userName, String password, Address address,
+            LocalDateTime birthDate)
     {
         this(null, firstName, lastName, userName, password, address, birthDate);
     }
@@ -177,56 +178,5 @@ public class Customer extends AbstractDomainObject implements DomainObject
         return true;
     }
 
-    public static class Address
-    {
-        final String streetNumber;
-        final String streetName;
-        final String apptNumber;
-        final String city;
-        final String state;
-        final String zipCode;
-
-        public Address(String streetNumber, String streetName, String apptNumber, String city, String state,
-                String zipCode)
-        {
-            this.streetNumber = streetNumber;
-            this.streetName = streetName;
-            this.apptNumber = apptNumber;
-            this.city = city;
-            this.state = state;
-            this.zipCode = zipCode;
-        }
-
-        public String getStreetNumber()
-        {
-            return streetNumber;
-        }
-
-        public String getStreetName()
-        {
-            return streetName;
-        }
-
-        public String getApptNumber()
-        {
-            return apptNumber;
-        }
-
-        public String getCity()
-        {
-            return city;
-        }
-
-        public String getState()
-        {
-            return state;
-        }
-
-        public String getZipCode()
-        {
-            return zipCode;
-        }
-
-    }
-
+    
 }

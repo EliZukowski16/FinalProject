@@ -6,12 +6,12 @@ import java.util.List;
 
 public class Order extends AbstractDomainObject implements DomainObject
 {
-    private final Integer customerID;
+    private final Customer customerID;
     private final LocalDateTime date;
     private final Float total;
     private List<OrderDetail> oD = new ArrayList<>();
 
-    public Order(Integer id, Integer customerID, LocalDateTime date, Float total, List<OrderDetail> oD)
+    public Order(Integer id, Customer customerID, LocalDateTime date, Float total, List<OrderDetail> oD)
     {
         super(id);
         this.customerID = customerID;
@@ -20,31 +20,26 @@ public class Order extends AbstractDomainObject implements DomainObject
         this.oD = oD;
     }
 
-    public Order(int customerID, LocalDateTime date, Float total, List<OrderDetail> oD)
+    public Order(Customer customerID, LocalDateTime date, Float total, List<OrderDetail> oD)
     {
         this(null, customerID, date, total, oD);
     }
 
-    public static class OrderDetail extends AbstractDomainObject implements DomainObject
+    public static class OrderDetail
     {
         Integer orderID;
         Integer productID;
         Integer qty;
         Float unitPrice;
 
-        public OrderDetail(Integer id, Integer orderID, Integer productID, Integer qty, Float unitPrice)
+        public OrderDetail(Integer orderID, Integer productID, Integer qty, Float unitPrice)
         {
-            super(id);
             this.orderID = orderID;
             this.productID = productID;
             this.qty = qty;
             this.unitPrice = unitPrice;
         }
 
-        public OrderDetail(Integer orderID, Integer productID, Integer qty, Float unitPrice)
-        {
-            this(null, orderID, productID, qty, unitPrice);
-        }
 
         public int getProductID()
         {
@@ -75,25 +70,9 @@ public class Order extends AbstractDomainObject implements DomainObject
         {
             this.unitPrice = unitPrice;
         }
-
-        @Override
-        public DomainObject clone()
-        {
-
-            OrderDetail copy;
-            try
-            {
-                copy = (OrderDetail) super.clone();
-                return copy;
-            }
-            catch (CloneNotSupportedException e)
-            {
-                return null;
-            }
-        }
     }
 
-    public int getCustomerID()
+    public Customer getCustomerID()
     {
         return customerID;
     }

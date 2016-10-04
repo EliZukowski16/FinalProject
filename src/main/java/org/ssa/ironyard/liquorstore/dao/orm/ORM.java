@@ -1,6 +1,7 @@
 package org.ssa.ironyard.liquorstore.dao.orm;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +13,6 @@ public interface ORM<T extends DomainObject>
     String projection();
     
     String table();
-    
-    String prepareRead();
 
     String prepareInsert();
 
@@ -24,23 +23,17 @@ public interface ORM<T extends DomainObject>
         return " DELETE FROM " + table() + " WHERE id = ? ";
     }
     
-    T map(ResultSet results);
+    T map(ResultSet results) throws SQLException;
 
     List<String> getFields();
 
-    void addField(String field);
-
     List<String> getPrimaryKeys();
 
-    void addPrimaryKey(String primaryKey);
-
     Map<String, String> getForeignKeys();
-
-    void addForeignKey(String foreignKeyTable, String foreignKeyName);
     
     public default String prepareQuery(String queryField)
     {
-        return " SELECT " + this.projection() + " FROM " + table() + " WHERE " + queryField + " = ? ";
+        return this.prepareReadAll() + " " + queryField + " = ? ";
     }
 
     default String prepareReadAll()
@@ -48,9 +41,9 @@ public interface ORM<T extends DomainObject>
         return " SELECT " + this.projection() + " FROM " + table();
     }
 
-    default String prepareReadById()
+    default String prepareRead()
     {
-        return " SELECT " + projection() + " FROM " + table() + " WHERE id = ? ";
+        return this.prepareReadAll() + " WHERE id = ? ";
     }
 
 }
