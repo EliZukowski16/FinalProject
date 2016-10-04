@@ -11,6 +11,6 @@ public interface ProductServiceInt
     List<Product> readAllProductsByCoreProduct(Integer coreProductId);
     Product editProduct(Product product);
     Product addProduct(Product product);
-    Product deleteProduct(Integer id);
+    boolean deleteProduct(Integer id);
     
 }

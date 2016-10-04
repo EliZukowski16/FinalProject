@@ -10,5 +10,5 @@ public interface CustomerServiceInt
     List<Customer> readAllCustomers();
     Customer editCustomer(Customer customer);
     Customer addCustomer(Customer customer);
-    Customer deleteCustomer(Integer id);
+    boolean deleteCustomer(Integer id);
 }

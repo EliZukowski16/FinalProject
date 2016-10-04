@@ -17,6 +17,15 @@ public class Admin extends AbstractDomainObject implements DomainObject
         this.lastName = lastName;
         this.role = role;
     }
+    
+    public Admin(String username, String password, String firstName, String lastName, Integer role)
+    {
+        this.userName = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+    }
 
     public Admin(String username, String password)
     {

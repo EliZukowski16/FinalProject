@@ -2,18 +2,27 @@ package org.ssa.ironyard.liquorstore.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
 
 @Component
 public class CoreProductService implements CoreProductServiceInt
 {
+    
+    DAOCoreProduct daoCP;
+    
+    @Autowired
+    public CoreProductService(DAOCoreProduct daoCP)
+    {
+        this.daoCP = daoCP;
+    }
 
     @Override
     public CoreProduct readCoreProduct(Integer id)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return daoCP.read(id);
     }
 
     @Override
@@ -26,22 +35,26 @@ public class CoreProductService implements CoreProductServiceInt
     @Override
     public CoreProduct editCoreProduct(CoreProduct coreproduct)
     {
-        // TODO Auto-generated method stub
-        return null;
+        if(daoCP.read(coreproduct.getId()) == null)
+            return null;
+        
+        CoreProduct cp = new CoreProduct(coreproduct.getId(),coreproduct.getName(),coreproduct.getTags(),coreproduct.getType(),coreproduct.getSubType(),coreproduct.getDescription());
+        return daoCP.update(cp);
     }
 
     @Override
     public CoreProduct addCoreProduct(CoreProduct coreproduct)
     {
-        // TODO Auto-generated method stub
-        return null;
+        CoreProduct cp = new CoreProduct(coreproduct.getId(),coreproduct.getName(),coreproduct.getTags(),coreproduct.getType(),coreproduct.getSubType(),coreproduct.getDescription());
+        return daoCP.update(cp);
     }
 
     @Override
-    public CoreProduct deleteCoreProduct(CoreProduct coreproduct)
+    public boolean deleteCoreProduct(Integer id)
     {
-        // TODO Auto-generated method stub
-        return null;
+        if(daoCP.read(id) == null)
+            return false;
+        return daoCP.delete(id);
     }
 
 }
