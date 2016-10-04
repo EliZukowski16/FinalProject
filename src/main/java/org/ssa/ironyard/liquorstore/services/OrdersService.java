@@ -2,21 +2,33 @@ package org.ssa.ironyard.liquorstore.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.ssa.ironyard.liquorstore.dao.DAOOrder;
 import org.ssa.ironyard.liquorstore.model.Order;
 
 @Component
 public class OrdersService implements OrdersServiceInt
 {
-
-    @Override
-    public Order readOrder(Integer id)
+    
+    DAOOrder daoOrder;
+    
+    @Autowired
+    public OrdersService(DAOOrder daoOrder)
     {
-        // TODO Auto-generated method stub
-        return null;
+        this.daoOrder = daoOrder;
     }
 
     @Override
+    @Transactional
+    public Order readOrder(Integer id)
+    {
+        return daoOrder.read(id);
+    }
+
+    @Override
+    @Transactional
     public List<Order> readAllOrder()
     {
         // TODO Auto-generated method stub
@@ -24,6 +36,7 @@ public class OrdersService implements OrdersServiceInt
     }
 
     @Override
+    @Transactional
     public List<Order> readOrdersByCustomer(Integer customerID)
     {
         // TODO Auto-generated method stub
@@ -31,6 +44,7 @@ public class OrdersService implements OrdersServiceInt
     }
 
     @Override
+    @Transactional
     public List<Order> readOrdersByProduct(Integer productID)
     {
         // TODO Auto-generated method stub
@@ -38,6 +52,7 @@ public class OrdersService implements OrdersServiceInt
     }
 
     @Override
+    @Transactional
     public List<Order> readOrdersByCoreProdcut(Integer coreProductID)
     {
         // TODO Auto-generated method stub
@@ -45,24 +60,33 @@ public class OrdersService implements OrdersServiceInt
     }
 
     @Override
+    @Transactional
     public Order editOrder(Order order)
     {
-        // TODO Auto-generated method stub
-        return null;
+        if(daoOrder.read(order.getId()) == null)
+            return null;
+        
+        Order ord = new Order(order.getId(),order.getCustomerID(),order.getDate(),order.getTotal(),order.getoD());
+        return daoOrder.update(ord);
     }
 
     @Override
+    @Transactional
     public Order addOrder(Order order)
     {
-        // TODO Auto-generated method stub
-        return null;
+        Order ord = new Order(order.getId(),order.getCustomerID(),order.getDate(),order.getTotal(),order.getoD());
+        return daoOrder.insert(ord);
+            
     }
 
     @Override
-    public Order deleteOrder(Order order)
+    @Transactional
+    public boolean deleteOrder(Integer id)
     {
-        // TODO Auto-generated method stub
-        return null;
+        if(daoOrder.read(id) == null)
+            return false;
+        
+        return daoOrder.delete(id);
     }
 
 }

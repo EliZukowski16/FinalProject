@@ -10,5 +10,5 @@ public interface CoreProductServiceInt
     List<CoreProduct> readAllCoreProduct();
     CoreProduct editCoreProduct(CoreProduct coreproduct);
     CoreProduct addCoreProduct(CoreProduct coreproduct);
-    CoreProduct deleteCoreProduct(CoreProduct coreproduct);
+    boolean deleteCoreProduct(Integer id);
 }

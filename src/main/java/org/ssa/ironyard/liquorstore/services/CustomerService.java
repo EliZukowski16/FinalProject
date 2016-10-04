@@ -2,21 +2,32 @@ package org.ssa.ironyard.liquorstore.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.ssa.ironyard.liquorstore.dao.DAOCustomer;
 import org.ssa.ironyard.liquorstore.model.Customer;
 
 @Component
 public class CustomerService implements CustomerServiceInt
 {
-
-    @Override
-    public Customer readCustomer(Integer id)
+    DAOCustomer daoCust;
+    
+    @Autowired
+    public CustomerService(DAOCustomer daoCust)
     {
-        // TODO Auto-generated method stub
-        return null;
+         this.daoCust = daoCust;
     }
 
     @Override
+    @Transactional
+    public Customer readCustomer(Integer id)
+    {
+        return daoCust.read(id);
+    }
+
+    @Override
+    @Transactional
     public List<Customer> readAllCustomers()
     {
         // TODO Auto-generated method stub
@@ -24,24 +35,33 @@ public class CustomerService implements CustomerServiceInt
     }
 
     @Override
+    @Transactional
     public Customer editCustomer(Customer customer)
     {
-        // TODO Auto-generated method stub
-        return null;
+        if(daoCust.read(customer.getId()) == null)
+            return null;
+        
+        Customer cust = new Customer(customer.getId(),customer.getUserName(),customer.getPassword(),customer.getFirstName(),customer.getLastName(),customer.getAddress(),customer.getBirthDate());
+        return daoCust.update(cust);
     }
 
     @Override
+    @Transactional
     public Customer addCustomer(Customer customer)
     {
-        // TODO Auto-generated method stub
-        return null;
+        Customer cust = new Customer(customer.getId(),customer.getUserName(),customer.getPassword(),customer.getFirstName(),customer.getLastName(),customer.getAddress(),customer.getBirthDate());
+        return daoCust.insert(cust);
     }
 
     @Override
-    public Customer deleteCustomer(Integer id)
+    @Transactional
+    public boolean deleteCustomer(Integer id)
     {
-        // TODO Auto-generated method stub
-        return null;
+        if(daoCust.read(id) == null)
+            return false;
+        
+        
+        return daoCust.delete(id);
     }
 
 }

@@ -10,5 +10,5 @@ public interface AdminServiceInt
     List<Admin> readAllAdmins();
     Admin editAdmin(Admin admin);
     Admin addAdmin(Admin admin);
-    Admin deleteAdmin(Integer id);
+    boolean deleteAdmin(Integer id);
 }

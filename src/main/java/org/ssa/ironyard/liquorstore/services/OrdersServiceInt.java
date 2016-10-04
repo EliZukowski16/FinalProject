@@ -13,5 +13,5 @@ public interface OrdersServiceInt
     List<Order> readOrdersByCoreProdcut(Integer coreProductID);
     Order editOrder(Order order);
     Order addOrder(Order order);
-    Order deleteOrder(Order order);
+    boolean deleteOrder(Integer id);
 }
