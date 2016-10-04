@@ -2,9 +2,12 @@ package org.ssa.ironyard.liquorstore.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javax.sql.DataSource;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -31,12 +34,17 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
     }
 
     @Override
-    public T read(Integer id) 
+    public T read(Integer id)
     {
         if (null == id)
             return null;
-        return this.springTemplate.query(this.orm.prepareRead(), (PreparedStatement ps) -> ps.setInt(1, id), 
-                                         this.orm::map);
+        return this.springTemplate.query(this.orm.prepareRead(), (PreparedStatement ps) -> ps.setInt(1, id),
+                (ResultSet cursor) ->
+                {
+                    if (cursor.next())
+                        return this.orm.map(cursor);
+                    return null;
+                });
 
     }
 
@@ -47,14 +55,16 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
             return domain;
 
         KeyHolder generatedId = new GeneratedKeyHolder();
-        if (this.springTemplate.update((Connection conn) -> 
-            {
-                PreparedStatement statement = conn.prepareStatement(this.orm.prepareInsert(), Statement.RETURN_GENERATED_KEYS);
-                insertPreparer(statement, domain);
-                return statement; 
-            }, generatedId) == 1)
+        if (this.springTemplate.update((Connection conn) ->
         {
-            T copy = (T) domain.clone(); //necessary to maintain 'immutable' semantics
+            PreparedStatement statement = conn.prepareStatement(this.orm.prepareInsert(),
+                    Statement.RETURN_GENERATED_KEYS);
+            insertPreparer(statement, domain);
+            return statement;
+        }, generatedId) == 1)
+        {
+            T copy = (T) domain.clone(); // necessary to maintain 'immutable'
+                                         // semantics
             return afterInsert(copy, generatedId.getKey().intValue());
         }
         return null;
@@ -71,8 +81,6 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
         return null;
     }
 
-
-
     @Override
     public boolean delete(Integer id)
     {
@@ -82,8 +90,12 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
     }
 
     /**
-     * Set the parameters on the <dd>insertStatement</dd> from <dd>domainToInsert</dd>
-     * @param insertStatement the {@link PreparedStatement}
+     * Set the parameters on the
+     * <dd>insertStatement</dd> from
+     * <dd>domainToInsert</dd>
+     * 
+     * @param insertStatement
+     *            the {@link PreparedStatement}
      * @param domainToInsert
      * @throws SQLException
      */
@@ -91,15 +103,21 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
 
     /**
      * Note: set id and loaded to true
-     * @param copy safe to modify, if using mutable {@link DomainObject domain objects}
+     * 
+     * @param copy
+     *            safe to modify, if using mutable {@link DomainObject domain
+     *            objects}
      * @param id
      * @return the domain object with its id properly set
      */
     protected abstract T afterInsert(T copy, Integer id);
 
     /**
-     * In most cases, is just used to ensure {@link DomainObject#isLoaded() } 
-     * @param copy safe to modify, if using mutable {@link DomainObject domain objects}
+     * In most cases, is just used to ensure {@link DomainObject#isLoaded() }
+     * 
+     * @param copy
+     *            safe to modify, if using mutable {@link DomainObject domain
+     *            objects}
      * @return
      */
     protected abstract T afterUpdate(T copy);
