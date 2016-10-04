@@ -15,9 +15,29 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
 
     public AbstractORM()
     {
+        foreignKeys = new HashMap<>();
         fields = new ArrayList<>();
         primaryKeys = new ArrayList<>();
-        foreignKeys = new HashMap<>();
+    }
+    
+    @Override
+    public String projection()
+    {
+        String projection = "";
+        
+        for (int i = 0; i < primaryKeys.size(); i++)
+        {
+            projection = projection + " " + this.table() + "." + this.primaryKeys.get(i) + ", ";
+        }
+        
+        for(int i = 0; i < fields.size(); i++)
+        {
+            projection = projection + " " + this.table() + "." + this.fields.get(i) + ", ";
+        }
+        
+        projection = projection.substring(0, projection.length() - 2);
+        
+        return projection;
     }
     
     @Override
@@ -27,21 +47,9 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
     }
     
     @Override
-    public void addField(String field)
-    {
-        fields.add(field);
-    }
-
-    @Override
     public List<String> getPrimaryKeys()
     {
         return primaryKeys;
-    }
-    
-    @Override
-    public void addPrimaryKey(String primaryKey)
-    {
-        primaryKeys.add(primaryKey);
     }
 
     @Override
@@ -51,18 +59,12 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
     }
     
     @Override
-    public void addForeignKey(String foreignKeyTable, String foreignKeyName)
-    {
-        foreignKeys.put(foreignKeyTable, foreignKeyName);
-    }
-    
-    @Override
     public String prepareUpdate()
     {
         String fieldNames = " SET ";
         for(int i = 0; i < this.fields.size(); i++)
         {
-            fieldNames += (this.fields.get(i) + " = ?, ");
+            fieldNames += (this.fields.size() + " = ?, ");
         }
         
         fieldNames = fieldNames.substring(0, fieldNames.length() - 2);

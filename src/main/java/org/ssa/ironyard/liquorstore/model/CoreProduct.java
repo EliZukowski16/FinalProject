@@ -5,7 +5,7 @@ import java.util.List;
 public class CoreProduct extends AbstractDomainObject implements DomainObject
 {
     private final String name;
-    private final List<String> tags;
+    private List<Tag> tags;
     private final Type type;
     private final String subType;
     private final String description;
@@ -38,7 +38,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         }
     }
 
-    public CoreProduct(Integer id, String name, List<String> tags, Type type, String subType, String description)
+    public CoreProduct(Integer id, String name, List<Tag> tags, Type type, String subType, String description)
     {
         super(id);
         this.name = name;
@@ -48,7 +48,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         this.description = description;
     }
 
-    public CoreProduct(String name, List<String> tags, Type type, String subType, String description)
+    public CoreProduct(String name, List<Tag> tags, Type type, String subType, String description)
     {
         this(null, name, tags, type, subType, description);
     }
@@ -58,9 +58,14 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         return name;
     }
 
-    public List<String> getTags()
+    public List<Tag> getTags()
     {
         return tags;
+    }
+
+    public void setTags(List<Tag> tags)
+    {
+        this.tags = tags;
     }
 
     public Type getType()
@@ -158,6 +163,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         try
         {
             copy = (CoreProduct) super.clone();
+            copy.setTags(this.tags);
             return copy;
         }
         catch (CloneNotSupportedException e)
@@ -172,6 +178,42 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
     {
         return "CoreProject [id=" + this.getId() + ", name=" + name + ", tags=" + tags + ", subType=" + subType
                 + ", description=" + description + "]";
+    }
+
+    public static class Tag extends AbstractDomainObject implements DomainObject
+    {
+        protected final String name;
+
+        public Tag(String name)
+        {
+            this(null, name);
+        }
+
+        public Tag(Integer id, String name)
+        {
+            super(id);
+            this.name = name;
+        }
+        
+        public String getName()
+        {
+            return name;
+        }
+
+        @Override
+        public Tag clone()
+        {
+            try
+            {
+                Tag copy = (Tag) super.clone();
+                return copy;
+            }
+            catch (CloneNotSupportedException e)
+            {
+                e.printStackTrace();
+                return null;
+            }
+        }
     }
 
 }
