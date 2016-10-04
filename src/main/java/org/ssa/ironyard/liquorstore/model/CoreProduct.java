@@ -180,39 +180,18 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
                 + ", description=" + description + "]";
     }
 
-    public static class Tag extends AbstractDomainObject implements DomainObject
+    public static class Tag
     {
         protected final String name;
 
         public Tag(String name)
         {
-            this(null, name);
-        }
-
-        public Tag(Integer id, String name)
-        {
-            super(id);
             this.name = name;
         }
         
         public String getName()
         {
             return name;
-        }
-
-        @Override
-        public Tag clone()
-        {
-            try
-            {
-                Tag copy = (Tag) super.clone();
-                return copy;
-            }
-            catch (CloneNotSupportedException e)
-            {
-                e.printStackTrace();
-                return null;
-            }
         }
     }
 

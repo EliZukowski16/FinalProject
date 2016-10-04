@@ -2,7 +2,7 @@ package org.ssa.ironyard.liquorstore.model;
 
 public class Product extends AbstractDomainObject implements DomainObject
 {
-    private final Integer coreProductId;
+    private final CoreProduct coreProductId;
     private final BaseUnit baseUnit; // e.g. 12oz can, 30 pack, etc.
     private final Integer quantity;
     private final Integer inventory;
@@ -35,7 +35,7 @@ public class Product extends AbstractDomainObject implements DomainObject
         }
     }
 
-    public Product(Integer id, Integer coreProductId, BaseUnit baseUnit, Integer quantity, Integer inventory)
+    public Product(Integer id, CoreProduct coreProductId, BaseUnit baseUnit, Integer quantity, Integer inventory)
     {
         super(id);
         this.coreProductId = coreProductId;
@@ -44,7 +44,7 @@ public class Product extends AbstractDomainObject implements DomainObject
         this.inventory = inventory;
     }
 
-    public Product(Integer coreProductId, BaseUnit baseUnit, Integer quantity, Integer inventory)
+    public Product(CoreProduct coreProductId, BaseUnit baseUnit, Integer quantity, Integer inventory)
     {
         this(null, coreProductId, baseUnit, quantity, inventory);
     }
@@ -64,7 +64,7 @@ public class Product extends AbstractDomainObject implements DomainObject
         return inventory;
     }
 
-    public Integer getCoreProductId()
+    public CoreProduct getCoreProductId()
     {
         return coreProductId;
     }
