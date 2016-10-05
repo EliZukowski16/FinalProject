@@ -117,6 +117,7 @@ public class DAOCoreProductImpl extends AbstractDAOCoreProduct implements DAOCor
                 ps.setString(2, domainToUpdate.getType().toString());
                 ps.setString(3, domainToUpdate.getSubType());
                 ps.setString(4, domainToUpdate.getDescription());
+                ps.setInt(5, domainToUpdate.getId());
 
             }
 

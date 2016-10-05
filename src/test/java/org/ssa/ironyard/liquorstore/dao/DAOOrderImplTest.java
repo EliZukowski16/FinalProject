@@ -9,7 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.ssa.ironyard.liquorstore.model.Order;
 
-public class DAOOrderImplTest extends AbstractSpringDAOTest<Order>
+public class DAOOrderImplTest
 {
 
     @BeforeClass
@@ -32,20 +32,20 @@ public class DAOOrderImplTest extends AbstractSpringDAOTest<Order>
     {
     }
 
-    @Test
+//    @Test
     public void test()
     {
         fail("Not yet implemented"); // TODO
     }
 
-    @Override
+//    @Override
     protected AbstractSpringDAO<Order> getDAO()
     {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
+//    @Override
     protected Order newInstance()
     {
         // TODO Auto-generated method stub

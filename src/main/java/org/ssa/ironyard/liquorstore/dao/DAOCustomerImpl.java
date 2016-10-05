@@ -9,9 +9,7 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
-import org.ssa.ironyard.liquorstore.dao.orm.ORMAdminImpl;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMCustomerImpl;
-import org.ssa.ironyard.liquorstore.model.Admin;
 import org.ssa.ironyard.liquorstore.model.Customer;
 
 @Repository
@@ -82,6 +80,7 @@ public class DAOCustomerImpl extends AbstractDAOCustomer implements DAOCustomer
         };
     }
     
+    @Override
     public Customer readByUserName(String username)
     {
         if (null == username)

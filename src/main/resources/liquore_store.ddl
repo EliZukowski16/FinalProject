@@ -76,7 +76,7 @@ quantity int(10) NOT NULL,
 unit_price DECIMAL(12,2) NOT NULL,
 PRIMARY KEY (order_id, product_id),
 CONSTRAINT order_detail_fk_1 FOREIGN KEY (order_id) REFERENCES _order(id) ON DELETE CASCADE,
-CONSTRAINT order_detail_fk_1 FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE)
+CONSTRAINT order_detail_fk_2 FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 

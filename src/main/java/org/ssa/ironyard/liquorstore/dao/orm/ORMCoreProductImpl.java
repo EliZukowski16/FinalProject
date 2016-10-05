@@ -32,7 +32,7 @@ public class ORMCoreProductImpl extends AbstractORM<CoreProduct> implements ORM<
     public CoreProduct map(ResultSet results) throws SQLException
     {
         Integer id = results.getInt("core_product.id");
-        String name = results.getString("core_product.getName");
+        String name = results.getString("core_product.name");
         Type type = Type.getInstance(results.getString("core_product.type"));
         String subType = results.getString("core_product.subtype");
         String description = results.getString("core_product.description");

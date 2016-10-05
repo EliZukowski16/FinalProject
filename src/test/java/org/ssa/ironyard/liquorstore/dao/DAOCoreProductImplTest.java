@@ -1,20 +1,36 @@
 package org.ssa.ironyard.liquorstore.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.sql.DataSource;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 
-public class DAOCoreProductImplTest extends AbstractSpringDAOTest<CoreProduct>
+import com.mysql.cj.jdbc.MysqlDataSource;
+
+public class DAOCoreProductImplTest
 {
+    static String URL = "jdbc:mysql://localhost/liquor_store?user=root&password=root&useServerPrpStmts=true";
+    static DataSource dataSource;
+
+    AbstractSpringDAO<CoreProduct> coreProductDAO;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception
     {
+        MysqlDataSource mysqlDdataSource = new MysqlDataSource();
+        mysqlDdataSource.setURL(URL);
+
+        dataSource = mysqlDdataSource;
     }
 
     @AfterClass
@@ -23,33 +39,42 @@ public class DAOCoreProductImplTest extends AbstractSpringDAOTest<CoreProduct>
     }
 
     @Before
-    public void setUp() throws Exception
+    public void setUpBeforeEach() throws Exception
     {
     }
 
     @After
-    public void tearDown() throws Exception
+    public void tearDownAfterEach() throws Exception
     {
     }
 
-    @Test
+    // @Test
     public void test()
     {
         fail("Not yet implemented"); // TODO
     }
 
-    @Override
+//    @Override
     protected AbstractSpringDAO<CoreProduct> getDAO()
     {
-        // TODO Auto-generated method stub
-        return null;
+        this.coreProductDAO = new DAOCoreProductImpl(dataSource);
+
+        return coreProductDAO;
     }
 
-    @Override
+//    @Override
     protected CoreProduct newInstance()
     {
-        // TODO Auto-generated method stub
-        return null;
+        String name = "testCoreProduct";
+        List<Tag> tags = new ArrayList<>();
+        Type type = Type.BEER;
+        String subType = "testSubType";
+        String description = "testDescription";
+
+        CoreProduct coreProduct = new CoreProduct(name, tags, type, subType, description);
+
+        return coreProduct;
+
     }
 
 }
