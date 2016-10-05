@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Password;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.ssa.ironyard.liquorstore.model.Address;
 import org.ssa.ironyard.liquorstore.model.Address.State;
 import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
@@ -60,6 +61,11 @@ public class ORMCustomerImpl extends AbstractORM<Customer> implements ORM<Custom
         customer.setLoaded(true);
         
         return customer;
+    }
+
+    public String prepareReadByUserName()
+    {
+        return this.prepareQuery("username");
     }
 
 }

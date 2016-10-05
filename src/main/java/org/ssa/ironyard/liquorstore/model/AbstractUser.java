@@ -1,6 +1,6 @@
 package org.ssa.ironyard.liquorstore.model;
 
-public abstract class AbstractUser extends AbstractDomainObject
+public abstract class AbstractUser extends AbstractDomainObject implements User
 {
     
     Boolean isAdmin;

@@ -20,7 +20,7 @@ public class ORMAdminImpl extends AbstractORM<Admin> implements ORM<Admin>
         this.fields.add("role");
     }
     
-    public String prepareReadUser()
+    public String prepareReadByUserName()
     {
         return this.prepareQuery("username");
     }
