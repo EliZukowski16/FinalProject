@@ -18,24 +18,24 @@ public class ORMCoreProductImpl extends AbstractORM<CoreProduct> implements ORM<
 
         this.fields.add("name");
         this.fields.add("type");
-        this.fields.add("subType");
+        this.fields.add("subtype");
         this.fields.add("description");
     }
 
     @Override
     public String table()
     {
-        return "coreProduct";
+        return "core_product";
     }
 
     @Override
     public CoreProduct map(ResultSet results) throws SQLException
     {
-        Integer id = results.getInt("coreProduct.id");
-        String name = results.getString("coreProduct.getName");
-        Type type = Type.getInstance(results.getString("coreProduct.type"));
-        String subType = results.getString("coreProduct.subType");
-        String description = results.getString("coreProduct.description");
+        Integer id = results.getInt("core_product.id");
+        String name = results.getString("core_product.getName");
+        Type type = Type.getInstance(results.getString("core_product.type"));
+        String subType = results.getString("core_product.subtype");
+        String description = results.getString("core_product.description");
         List<Tag> tags = new ArrayList<>();
         
         return new CoreProduct(id, name, tags, type, subType, description);

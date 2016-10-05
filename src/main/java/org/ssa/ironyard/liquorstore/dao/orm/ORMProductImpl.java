@@ -18,13 +18,13 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         
         this.primaryKeys.add("id");
         
-        this.fields.add("coreProductID");
-        this.fields.add("baseUnit");
+        this.fields.add("core_product_id");
+        this.fields.add("base_unit");
         this.fields.add("quantity");
         this.fields.add("inventory");
         this.fields.add("price");
         
-        this.foreignKeys.put("coreProduct", "coreProductID");
+        this.foreignKeys.put("core_product", "core_product_id");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
     public Product map(ResultSet results) throws SQLException
     {
         Integer id = results.getInt("product.id");
-        BaseUnit baseUnit = BaseUnit.getInstance(results.getString("product.baseUnit"));
+        BaseUnit baseUnit = BaseUnit.getInstance(results.getString("product.base_unit"));
         Integer quantity = results.getInt("product.quantity");
         Integer inventory = results.getInt("product.inventory");
         BigDecimal price = results.getBigDecimal("product.price");

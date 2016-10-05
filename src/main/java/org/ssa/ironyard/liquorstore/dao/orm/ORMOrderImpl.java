@@ -21,11 +21,11 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
     {
         this.primaryKeys.add("id");
         
-        this.fields.add("customerID");
+        this.fields.add("customer_id");
         this.fields.add("date");
         this.fields.add("total");
         
-        this.foreignKeys.put("customer", "customerID"); 
+        this.foreignKeys.put("customer", "customer_id"); 
         
         customerORM = new ORMCustomerImpl();
         productORM = new ORMProductImpl();

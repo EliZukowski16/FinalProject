@@ -33,7 +33,7 @@ public interface ORM<T extends DomainObject>
     
     public default String prepareQuery(String queryField)
     {
-        return this.prepareReadAll() + " " + queryField + " = ? ";
+        return this.prepareReadAll() + " WHERE " + queryField + " = ? ";
     }
 
     default String prepareReadAll()
