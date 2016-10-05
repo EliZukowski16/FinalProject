@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.dao.DAOAdmin;
 import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
 import org.ssa.ironyard.liquorstore.dao.DAOCustomer;
@@ -32,6 +33,7 @@ import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
+import org.ssa.ironyard.liquorstore.model.Password;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 import org.ssa.ironyard.liquorstore.services.AdminService;
 import org.ssa.ironyard.liquorstore.services.AnalyticsService;
@@ -102,8 +104,9 @@ public class CustomerControllerTest
        LocalDate d = LocalDate.of(1992, 12, 24);
        LocalTime t = LocalTime.of(12, 00);
        LocalDateTime ldt = LocalDateTime.of(d,t);
+       Password p = new BCryptSecurePassword().secureHash("password")
        
-       c = new Customer(1,"username","password","Michael","Patrick",address,ldt);
+       c = new Customer(1,"Michael","Patrick","username",p,address,ldt);
        ad = new Admin(1,"username","password","Joe","Patrick",1);
        
        c = new Customer(1,"username","password","Michael","Patrick",address,ldt);
