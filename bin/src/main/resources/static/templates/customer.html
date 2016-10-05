@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="liquorStore">
+<html ng-app="customer">
 <head>
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,6 +12,7 @@
      <script src="js/angular-ui-router.min.js"></script>
      <link rel="stylesheet" type="text/css" href="style.css">
      
+     <script src="js/controllers/CustomerController.js"></script>
      
      <script src="js/controllers/loginController.js"></script>   
      
@@ -41,8 +42,9 @@
 	</form> 
     </div>
     </nav>
+    
+    <h1>Welcome, {{ CC.username }}</h1>
 
-<div ng-view></div>
 
 </body>
 </html>
