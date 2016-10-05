@@ -22,6 +22,7 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         this.fields.add("baseUnit");
         this.fields.add("quantity");
         this.fields.add("inventory");
+        this.fields.add("price");
         
         this.foreignKeys.put("coreProduct", "coreProductID");
     }

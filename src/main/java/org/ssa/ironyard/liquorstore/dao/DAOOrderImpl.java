@@ -32,7 +32,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     {
         insertStatement.setInt(1, domainToInsert.getCustomer().getId());
         insertStatement.setTimestamp(2, Timestamp.valueOf(domainToInsert.getDate()));
-        insertStatement.setFloat(3, domainToInsert.getTotal());
+        insertStatement.setBigDecimal(3, domainToInsert.getTotal());
     }
 
     @Override
@@ -114,7 +114,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
             {
                 ps.setInt(1, domainToUpdate.getCustomer().getId());
                 ps.setTimestamp(2, Timestamp.valueOf(domainToUpdate.getDate()));
-                ps.setFloat(3, domainToUpdate.getTotal());
+                ps.setBigDecimal(3, domainToUpdate.getTotal());
             }
 
         };

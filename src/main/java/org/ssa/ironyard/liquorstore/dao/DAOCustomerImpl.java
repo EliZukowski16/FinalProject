@@ -23,21 +23,22 @@ public class DAOCustomerImpl extends AbstractDAOCustomer implements DAOCustomer
     protected void insertPreparer(PreparedStatement insertStatement, Customer domainToInsert) throws SQLException
     {
         insertStatement.setString(1, domainToInsert.getUserName());
-        insertStatement.setString(2, domainToInsert.getPassword());
-        insertStatement.setString(3, domainToInsert.getFirstName());
-        insertStatement.setString(4, domainToInsert.getLastName());
-        insertStatement.setString(5, domainToInsert.getAddress().getStreet());
-        insertStatement.setString(6, domainToInsert.getAddress().getCity());
-        insertStatement.setString(7, domainToInsert.getAddress().getState().getAbbreviation());
-        insertStatement.setString(8, domainToInsert.getAddress().getZip().datafy());
-        insertStatement.setTimestamp(9, Timestamp.valueOf(domainToInsert.getBirthDate()));
+        insertStatement.setString(2, domainToInsert.getPassword().getSalt());
+        insertStatement.setString(3, domainToInsert.getPassword().getHash());
+        insertStatement.setString(4, domainToInsert.getFirstName());
+        insertStatement.setString(5, domainToInsert.getLastName());
+        insertStatement.setString(6, domainToInsert.getAddress().getStreet());
+        insertStatement.setString(7, domainToInsert.getAddress().getCity());
+        insertStatement.setString(8, domainToInsert.getAddress().getState().getAbbreviation());
+        insertStatement.setString(9, domainToInsert.getAddress().getZip().datafy());
+        insertStatement.setTimestamp(10, Timestamp.valueOf(domainToInsert.getBirthDate()));
     }
 
     @Override
     protected Customer afterInsert(Customer copy, Integer id)
     {
         Customer customer;
-        customer = new Customer(id, copy.getFirstName(), copy.getLastName(), copy.getUserName(), copy.getPassword(),
+        customer = new Customer(id, copy.getUserName(), copy.getPassword(), copy.getFirstName(), copy.getLastName(), 
                 copy.getAddress(), copy.getBirthDate());
         customer.setLoaded(true);
 
@@ -62,15 +63,16 @@ public class DAOCustomerImpl extends AbstractDAOCustomer implements DAOCustomer
             public void setValues(PreparedStatement ps) throws SQLException
             {
                 ps.setString(1, domainToUpdate.getUserName());
-                ps.setString(2, domainToUpdate.getPassword());
-                ps.setString(3, domainToUpdate.getFirstName());
-                ps.setString(4, domainToUpdate.getLastName());
-                ps.setString(5, domainToUpdate.getAddress().getStreet());
-                ps.setString(6, domainToUpdate.getAddress().getCity());
-                ps.setString(7, domainToUpdate.getAddress().getState().getAbbreviation());
-                ps.setString(8, domainToUpdate.getAddress().getZip().datafy());
-                ps.setTimestamp(9, Timestamp.valueOf(domainToUpdate.getBirthDate()));
-                ps.setInt(10, domainToUpdate.getId());
+                ps.setString(2, domainToUpdate.getPassword().getSalt());
+                ps.setString(3, domainToUpdate.getPassword().getHash());
+                ps.setString(4, domainToUpdate.getFirstName());
+                ps.setString(5, domainToUpdate.getLastName());
+                ps.setString(6, domainToUpdate.getAddress().getStreet());
+                ps.setString(7, domainToUpdate.getAddress().getCity());
+                ps.setString(8, domainToUpdate.getAddress().getState().getAbbreviation());
+                ps.setString(9, domainToUpdate.getAddress().getZip().datafy());
+                ps.setTimestamp(10, Timestamp.valueOf(domainToUpdate.getBirthDate()));
+                ps.setInt(11, domainToUpdate.getId());
             }
         };
     }
