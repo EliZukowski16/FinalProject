@@ -2,12 +2,14 @@ package org.ssa.ironyard.liquorstore.services;
 
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.dao.DAOAdmin;
 import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
 import org.ssa.ironyard.liquorstore.dao.DAOCustomer;
@@ -23,6 +25,7 @@ import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
+import org.ssa.ironyard.liquorstore.model.Password;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 
@@ -74,8 +77,10 @@ public class FullTest
         LocalTime t = LocalTime.of(12, 00);
         LocalDateTime ldt = LocalDateTime.of(d,t);
         
-        c = new Customer("username","password","Michael","Patrick",address,ldt);
-        ad = new Admin("username","password","Joe","Patrick",1);
+        Password p = new BCryptSecurePassword().secureHash("password");
+        
+        c = new Customer("username",p,"Michael","Patrick",address,ldt);
+        ad = new Admin("username",p,"Joe","Patrick",1);
         
         List<Tag> tags = new ArrayList();
         tags.add(new Tag("beer"));
@@ -84,15 +89,15 @@ public class FullTest
         
         
         
-        prod = new Product(cp,BaseUnit._12OZ_BOTTLE,6,100);
-        prod2 = new Product(cp,BaseUnit._12OZ_CAN,30,50);
+        prod = new Product(cp,BaseUnit._12OZ_BOTTLE,6,100,BigDecimal.valueOf(20.00));
+        prod2 = new Product(cp,BaseUnit._12OZ_CAN,30,50,BigDecimal.valueOf(50.00));
         
         List<OrderDetail> odList = new ArrayList();
         OrderDetail od = new OrderDetail(1,prod,6,15.00f);
         OrderDetail od2 = new OrderDetail(2,prod2,12,20.00f);
         odList.add(od);
         odList.add(od2);
-        ord = new Order(c,ldt,50.00f,odList);
+        ord = new Order(c,ldt,BigDecimal.valueOf(50.00),odList);
         
         ci = custService.addCustomer(c);
         adi = adminService.addAdmin(ad);
@@ -126,7 +131,7 @@ public class FullTest
        assertTrue(orderService.readOrder(ordAdd.getId()) != null);
        
        Product prodAdd = prodService.addProduct(prod);
-       prod = new Product(prodAdd.getId(),prod.getCoreProduct(),prod.getBaseUnit(),prod.getQuantity(),prod.getInventory());
+       prod = new Product(prodAdd.getId(),prod.getCoreProduct(),prod.getBaseUnit(),prod.getQuantity(),prod.getInventory(),prod.getPrice());
        assertTrue(prodAdd.deeplyEquals(prod));
        assertTrue(prodService.readProduct(prodAdd.getId()) != null);
        
@@ -172,8 +177,10 @@ public class FullTest
         address.setState(State.ALABAMA);
         LocalDateTime ldt = LocalDateTime.of(10,30,52,0,0,0);
         
-        Customer c2 = new Customer("UN","PW","Joe","Pat",address,ldt);
-        Admin ad2 = new Admin("UN","PW","Mikr","John",2);
+        Password pw = new BCryptSecurePassword().secureHash("PW");
+        
+        Customer c2 = new Customer("UN",pw,"Joe","Pat",address,ldt);
+        Admin ad2 = new Admin("UN",pw,"Mikr","John",2);
         
         List<Tag> tags = new ArrayList();
         tags.add(new Tag("Whiskey"));
@@ -185,9 +192,9 @@ public class FullTest
         OrderDetail od2 = new OrderDetail(2,prod2,12,20.00f);
         odList.add(od);
         odList.add(od2);
-        Order ord2 = new Order(c,ldt,50.00f,odList);
+        Order ord2 = new Order(c,ldt,BigDecimal.valueOf(50.00),odList);
         
-        Product prod2 = new Product(cp,BaseUnit._750ML_BOTTLE,1,50);
+        Product prod2 = new Product(cp,BaseUnit._750ML_BOTTLE,1,50,BigDecimal.valueOf(20.00));
         
         custService.addCustomer(c2);
         adminService.addAdmin(ad2);
@@ -228,8 +235,10 @@ public class FullTest
         
         LocalDateTime ldt = LocalDateTime.of(10,30,52,0,0,0);
         
-        Customer cu = new Customer("UN","PW","Joe","Pat",address,ldt);
-        Admin adu = new Admin("UN","PW","Mikr","John",2);
+        Password pw = new BCryptSecurePassword().secureHash("PW");
+        
+        Customer cu = new Customer("UN",pw,"Joe","Pat",address,ldt);
+        Admin adu = new Admin("UN",pw,"Mikr","John",2);
         
         List<Tag> tags = new ArrayList();
         tags.add(new Tag("Whiskey"));
@@ -241,9 +250,9 @@ public class FullTest
         OrderDetail od2 = new OrderDetail(2,prod2,12,20.00f);
         odList.add(od);
         odList.add(od2);
-        Order ordu = new Order(c,ldt,50.00f,odList);
+        Order ordu = new Order(c,ldt,BigDecimal.valueOf(50.00),odList);
         
-        Product produ = new Product(cp,BaseUnit._750ML_BOTTLE,1,50);
+        Product produ = new Product(cp,BaseUnit._750ML_BOTTLE,1,50,BigDecimal.valueOf(20.00));
         
         
         assertTrue(ci.deeplyEquals(custService.readCustomer(ci.getId())));

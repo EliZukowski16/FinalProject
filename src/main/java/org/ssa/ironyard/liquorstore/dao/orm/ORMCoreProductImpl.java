@@ -38,7 +38,11 @@ public class ORMCoreProductImpl extends AbstractORM<CoreProduct> implements ORM<
         String description = results.getString("core_product.description");
         List<Tag> tags = new ArrayList<>();
         
-        return new CoreProduct(id, name, tags, type, subType, description);
+        CoreProduct coreProduct = new CoreProduct(id, name, tags, type, subType, description);
+        
+        coreProduct.setLoaded(true);
+        
+        return coreProduct;
     }
     
     public String prepareInsertTag()

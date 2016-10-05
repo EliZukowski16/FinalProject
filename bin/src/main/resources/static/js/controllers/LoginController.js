@@ -10,13 +10,21 @@ angular.module('liquorStore').controller('LoginController', loginCtrl)
 	      console.log('successful')
 	      authentication.isAuthenticated = true;
 	      authentication.user = { name: controller.username };
+<<<<<<< HEAD
 	      $location.url("/customer");
+=======
+	      $location.url("/customer.html");
+>>>>>>> b088a857180722688a04a59972446cc18e050127
 	    } else {
 	    	controller.loginError = "Invalid username/password combination. Try again.";
 	      console.log('Login failed.');
 	    };
 	  };
+<<<<<<< HEAD
 	};	
+=======
+	});	
+>>>>>>> b088a857180722688a04a59972446cc18e050127
 
 /*
 app.controller('LoginController', function($scope, authentication){

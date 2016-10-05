@@ -155,21 +155,14 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         return true;
     }
 
-    public DomainObject clone()
+    public CoreProduct clone()
     {
 
         CoreProduct copy;
 
-        try
-        {
-            copy = (CoreProduct) super.clone();
-            copy.setTags(this.tags);
-            return copy;
-        }
-        catch (CloneNotSupportedException e)
-        {
-            return null;
-        }
+        copy = (CoreProduct) super.clone();
+        copy.setTags(this.tags);
+        return copy;
 
     }
 

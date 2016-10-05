@@ -43,7 +43,11 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         BigDecimal price = results.getBigDecimal("product.price");
         CoreProduct coreProduct = this.mapCoreProduct(results);
         
-        return new Product(id, coreProduct, baseUnit, quantity, inventory, price);
+        Product product = new Product(id, coreProduct, baseUnit, quantity, inventory, price);
+        
+        product.setLoaded(true);
+        
+        return product;
         
     }
     

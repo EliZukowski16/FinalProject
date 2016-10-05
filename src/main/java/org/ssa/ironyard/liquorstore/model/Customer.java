@@ -2,7 +2,7 @@ package org.ssa.ironyard.liquorstore.model;
 
 import java.time.LocalDateTime;
 
-public class Customer extends AbstractDomainObject implements DomainObject
+public class Customer extends AbstractUser implements User
 {
     private final String firstName;
     private final String lastName;
@@ -32,6 +32,7 @@ public class Customer extends AbstractDomainObject implements DomainObject
         this.password = password;
         this.address = address;
         this.birthDate = birthDate;
+        this.isAdmin = false;
     }
 
     public String getFirstName()
@@ -72,19 +73,9 @@ public class Customer extends AbstractDomainObject implements DomainObject
     @Override
     public Customer clone()
     {
-        try
-        {
-            Customer copy = (Customer) super.clone();
-            copy.setAddress(this.getAddress());
-            return copy;
-
-        }
-        catch (CloneNotSupportedException e)
-        {
-            e.printStackTrace();
-        }
-
-        return null;
+        Customer copy = (Customer) super.clone();
+        copy.setAddress(this.getAddress());
+        return copy;
     }
 
     @Override
@@ -106,6 +97,7 @@ public class Customer extends AbstractDomainObject implements DomainObject
         if (getClass() != obj.getClass())
             return false;
         Customer other = (Customer) obj;
+        
         if (this.getId() == null)
         {
             if (other.getId() != null)
@@ -113,6 +105,7 @@ public class Customer extends AbstractDomainObject implements DomainObject
         }
         else if (!this.getId().equals(other.getId()))
             return false;
+        
         return true;
     }
 

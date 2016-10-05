@@ -35,5 +35,5 @@ public interface DomainObject extends Cloneable
     @Override
     int hashCode();
 
-    DomainObject clone();
+    public DomainObject clone();
 }

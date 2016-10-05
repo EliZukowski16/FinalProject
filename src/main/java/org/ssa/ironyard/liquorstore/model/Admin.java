@@ -1,6 +1,6 @@
 package org.ssa.ironyard.liquorstore.model;
 
-public class Admin extends AbstractDomainObject implements DomainObject
+public class Admin extends AbstractUser implements User
 {
     private final String userName;
     private final Password password;
@@ -16,15 +16,12 @@ public class Admin extends AbstractDomainObject implements DomainObject
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+        this.isAdmin = true;
     }
     
     public Admin(String username, Password password, String firstName, String lastName, Integer role)
     {
-        this.userName = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.role = role;
+        this(null, username, password, firstName, lastName, role);
     }
 
     public Admin(String username, Password password)
@@ -77,6 +74,7 @@ public class Admin extends AbstractDomainObject implements DomainObject
         if (getClass() != obj.getClass())
             return false;
         Admin other = (Admin) obj;
+        
         if (this.getId() == null)
         {
             if (other.getId() != null)
@@ -84,6 +82,7 @@ public class Admin extends AbstractDomainObject implements DomainObject
         }
         else if (!this.getId().equals(other.getId()))
             return false;
+        
         return true;
     }
 
@@ -97,6 +96,7 @@ public class Admin extends AbstractDomainObject implements DomainObject
         if (getClass() != obj.getClass())
             return false;
         Admin other = (Admin) obj;
+        
         if (firstName == null)
         {
             if (other.firstName != null)
@@ -104,8 +104,10 @@ public class Admin extends AbstractDomainObject implements DomainObject
         }
         else if (!firstName.equals(other.firstName))
             return false;
+        
         if (this.getId() != other.getId())
             return false;
+        
         if (lastName == null)
         {
             if (other.lastName != null)
@@ -113,6 +115,7 @@ public class Admin extends AbstractDomainObject implements DomainObject
         }
         else if (!lastName.equals(other.lastName))
             return false;
+        
         if (password == null)
         {
             if (other.password != null)
@@ -120,8 +123,10 @@ public class Admin extends AbstractDomainObject implements DomainObject
         }
         else if (!password.equals(other.password))
             return false;
+        
         if (role != other.role)
             return false;
+        
         if (userName == null)
         {
             if (other.userName != null)
@@ -129,6 +134,7 @@ public class Admin extends AbstractDomainObject implements DomainObject
         }
         else if (!userName.equals(other.userName))
             return false;
+        
         return true;
     }
 
@@ -136,17 +142,8 @@ public class Admin extends AbstractDomainObject implements DomainObject
     public Admin clone()
     {
         Admin copy;
-        try
-        {
-            copy = (Admin) super.clone();
-            return copy;
-
-        }
-        catch (CloneNotSupportedException e)
-        {
-            e.printStackTrace();
-            return null;
-        }
+        copy = (Admin) super.clone();
+        return copy;
     }
 
 }

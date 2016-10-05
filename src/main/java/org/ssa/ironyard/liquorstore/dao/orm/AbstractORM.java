@@ -64,7 +64,7 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
         String fieldNames = " SET ";
         for(int i = 0; i < this.fields.size(); i++)
         {
-            fieldNames += (this.fields.size() + " = ?, ");
+            fieldNames += (this.fields.get(i)) + " = ?, ";
         }
         
         fieldNames = fieldNames.substring(0, fieldNames.length() - 2);

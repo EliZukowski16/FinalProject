@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.model.Admin;
 import org.ssa.ironyard.liquorstore.model.Password;
+import org.ssa.ironyard.liquorstore.model.User;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
@@ -38,12 +39,13 @@ public class DAOAdminImplTest extends AbstractSpringDAOTest<Admin>
     }
 
     @Before
-    public void setUpBeforeEachTest() throws Exception
+    public void setUpBeforeEach() throws Exception
     {
+        this.adminDAO = new DAOAdminImpl(dataSource);
     }
 
     @After
-    public void tearDownAfterEachTest() throws Exception
+    public void tearDownAfterEach() throws Exception
     {
         
     }
@@ -56,12 +58,7 @@ public class DAOAdminImplTest extends AbstractSpringDAOTest<Admin>
 
     @Override
     protected AbstractSpringDAO<Admin> getDAO()
-    {
-        MysqlDataSource mysqlDdataSource = new MysqlDataSource();
-        mysqlDdataSource.setURL(URL);
-
-        dataSource = mysqlDdataSource;
-        
+    {      
         adminDAO = new DAOAdminImpl(dataSource);
         
         return adminDAO;
@@ -76,9 +73,9 @@ public class DAOAdminImplTest extends AbstractSpringDAOTest<Admin>
         String lastName = "Last";
         Integer role = 1;
         
-        Admin admin = new Admin(username, password, firstName, lastName, role);
+        User admin = new Admin(username, password, firstName, lastName, role);
         
-        return admin;
+        return (Admin) admin;
     }
 
 }
