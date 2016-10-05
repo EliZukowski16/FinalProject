@@ -34,7 +34,7 @@ import org.ssa.ironyard.liquorstore.services.SalesService;
 
 
 @RestController
-@RequestMapping("/TheBeerGuys")
+@RequestMapping("/TheBeerGuys/customer")
 public class CustomerController
 {
     
