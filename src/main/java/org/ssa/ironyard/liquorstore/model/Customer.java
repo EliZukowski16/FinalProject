@@ -13,16 +13,16 @@ public class Customer extends AbstractDomainObject implements DomainObject
 
     public Customer(String userName, Password password)
     {
-        this(null, null, null, userName, password, null, null);
+        this(null, userName, password, null, null,  null, null);
     }
 
-    public Customer(String firstName, String lastName, String userName, Password password, Address address,
+    public Customer(String userName, Password password, String firstName, String lastName, Address address,
             LocalDateTime birthDate)
     {
-        this(null, firstName, lastName, userName, password, address, birthDate);
+        this(null, userName, password, firstName, lastName,  address, birthDate);
     }
 
-    public Customer(Integer id, String firstName, String lastName, String userName, Password password, Address address,
+    public Customer(Integer id, String userName, Password password, String firstName, String lastName, Address address,
             LocalDateTime birthDate)
     {
         super(id);

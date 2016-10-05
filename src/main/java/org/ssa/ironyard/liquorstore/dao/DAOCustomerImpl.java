@@ -38,7 +38,7 @@ public class DAOCustomerImpl extends AbstractDAOCustomer implements DAOCustomer
     protected Customer afterInsert(Customer copy, Integer id)
     {
         Customer customer;
-        customer = new Customer(id, copy.getFirstName(), copy.getLastName(), copy.getUserName(), copy.getPassword(),
+        customer = new Customer(id, copy.getUserName(), copy.getPassword(), copy.getFirstName(), copy.getLastName(), 
                 copy.getAddress(), copy.getBirthDate());
         customer.setLoaded(true);
 
