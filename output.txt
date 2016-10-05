@@ -1,0 +1,217 @@
+commit 65f59677e301a058960b83aa5f85260e68570aed
+Author: Eli Zukowski <eli.zukowski@gmail.com>
+Date:   Wed Oct 5 11:17:18 2016 -0400
+
+    fixing
+
+diff --git a/.project b/.project
+deleted file mode 100644
+index db1700b..0000000
+--- a/.project
++++ /dev/null
+@@ -1,35 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<projectDescription>
+-	<name>LiquorStore</name>
+-	<comment></comment>
+-	<projects>
+-	</projects>
+-	<buildSpec>
+-		<buildCommand>
+-			<name>org.eclipse.wst.common.project.facet.core.builder</name>
+-			<arguments>
+-			</arguments>
+-		</buildCommand>
+-		<buildCommand>
+-			<name>org.eclipse.jdt.core.javabuilder</name>
+-			<arguments>
+-			</arguments>
+-		</buildCommand>
+-		<buildCommand>
+-			<name>org.springframework.ide.eclipse.core.springbuilder</name>
+-			<arguments>
+-			</arguments>
+-		</buildCommand>
+-		<buildCommand>
+-			<name>org.eclipse.m2e.core.maven2Builder</name>
+-			<arguments>
+-			</arguments>
+-		</buildCommand>
+-	</buildSpec>
+-	<natures>
+-		<nature>org.springframework.ide.eclipse.core.springnature</nature>
+-		<nature>org.eclipse.jdt.core.javanature</nature>
+-		<nature>org.eclipse.m2e.core.maven2Nature</nature>
+-		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+-	</natures>
+-</projectDescription>
+
+commit 1fe2aa477443175ecd05b1051a27a346007b9700
+Author: Eli Zukowski <eli.zukowski@gmail.com>
+Date:   Wed Oct 5 11:14:01 2016 -0400
+
+    needed to fix problems
+
+diff --git a/.project b/.project
+new file mode 100644
+index 0000000..db1700b
+--- /dev/null
++++ b/.project
+@@ -0,0 +1,35 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>LiquorStore</name>
++	<comment></comment>
++	<projects>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>org.eclipse.wst.common.project.facet.core.builder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.jdt.core.javabuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.springframework.ide.eclipse.core.springbuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.m2e.core.maven2Builder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>org.springframework.ide.eclipse.core.springnature</nature>
++		<nature>org.eclipse.jdt.core.javanature</nature>
++		<nature>org.eclipse.m2e.core.maven2Nature</nature>
++		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
++	</natures>
++</projectDescription>
+
+commit 7b01fe0a757533f096c48721db91dde837e70db1
+Author: Eli Zukowski <eli.zukowski@gmail.com>
+Date:   Tue Oct 4 16:30:30 2016 -0400
+
+    More work on DAOs
+
+diff --git a/.project b/.project
+deleted file mode 100644
+index db1700b..0000000
+--- a/.project
++++ /dev/null
+@@ -1,35 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<projectDescription>
+-	<name>LiquorStore</name>
+-	<comment></comment>
+-	<projects>
+-	</projects>
+-	<buildSpec>
+-		<buildCommand>
+-			<name>org.eclipse.wst.common.project.facet.core.builder</name>
+-			<arguments>
+-			</arguments>
+-		</buildCommand>
+-		<buildCommand>
+-			<name>org.eclipse.jdt.core.javabuilder</name>
+-			<arguments>
+-			</arguments>
+-		</buildCommand>
+-		<buildCommand>
+-			<name>org.springframework.ide.eclipse.core.springbuilder</name>
+-			<arguments>
+-			</arguments>
+-		</buildCommand>
+-		<buildCommand>
+-			<name>org.eclipse.m2e.core.maven2Builder</name>
+-			<arguments>
+-			</arguments>
+-		</buildCommand>
+-	</buildSpec>
+-	<natures>
+-		<nature>org.springframework.ide.eclipse.core.springnature</nature>
+-		<nature>org.eclipse.jdt.core.javanature</nature>
+-		<nature>org.eclipse.m2e.core.maven2Nature</nature>
+-		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+-	</natures>
+-</projectDescription>
+
+commit c4a648007849f477511f30a35b82940c42eb3685
+Author: Laura Slemp <lslemp13@yahoo.com>
+Date:   Mon Oct 3 13:26:27 2016 -0400
+
+    add admin and prodcut models
+
+diff --git a/.project b/.project
+index ea302a1..db1700b 100644
+--- a/.project
++++ b/.project
+@@ -16,12 +16,12 @@
+ 			</arguments>
+ 		</buildCommand>
+ 		<buildCommand>
+-			<name>org.eclipse.m2e.core.maven2Builder</name>
++			<name>org.springframework.ide.eclipse.core.springbuilder</name>
+ 			<arguments>
+ 			</arguments>
+ 		</buildCommand>
+ 		<buildCommand>
+-			<name>org.springframework.ide.eclipse.core.springbuilder</name>
++			<name>org.eclipse.m2e.core.maven2Builder</name>
+ 			<arguments>
+ 			</arguments>
+ 		</buildCommand>
+
+commit 601195a2bf929509c02f01e625993987caa3f538
+Author: Eli Zukowski <eli.zukowski@gmail.com>
+Date:   Mon Oct 3 10:48:07 2016 -0400
+
+    Initial commit
+
+diff --git a/.project b/.project
+new file mode 100644
+index 0000000..ea302a1
+--- /dev/null
++++ b/.project
+@@ -0,0 +1,35 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>LiquorStore</name>
++	<comment></comment>
++	<projects>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>org.eclipse.wst.common.project.facet.core.builder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.jdt.core.javabuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.m2e.core.maven2Builder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.springframework.ide.eclipse.core.springbuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>org.springframework.ide.eclipse.core.springnature</nature>
++		<nature>org.eclipse.jdt.core.javanature</nature>
++		<nature>org.eclipse.m2e.core.maven2Nature</nature>
++		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
++	</natures>
++</projectDescription>
