@@ -24,10 +24,11 @@ public class DAOAdminImpl extends AbstractDAOAdmin implements DAOAdmin
     protected void insertPreparer(PreparedStatement insertStatement, Admin domainToInsert) throws SQLException
     {
         insertStatement.setString(1, domainToInsert.getUsername());
-        insertStatement.setString(2, domainToInsert.getPassword());
-        insertStatement.setString(3, domainToInsert.getFirstName());
-        insertStatement.setString(4, domainToInsert.getLastName());
-        insertStatement.setInt(5, domainToInsert.getRole());
+        insertStatement.setString(2, domainToInsert.getPassword().getSalt());
+        insertStatement.setString(3, domainToInsert.getPassword().getHash());
+        insertStatement.setString(4, domainToInsert.getFirstName());
+        insertStatement.setString(5, domainToInsert.getLastName());
+        insertStatement.setInt(6, domainToInsert.getRole());
     }
 
     @Override
@@ -57,11 +58,12 @@ public class DAOAdminImpl extends AbstractDAOAdmin implements DAOAdmin
             public void setValues(PreparedStatement ps) throws SQLException
             {
                 ps.setString(1, domainToUpdate.getUsername());
-                ps.setString(2, domainToUpdate.getPassword());
-                ps.setString(3, domainToUpdate.getFirstName());
-                ps.setString(4, domainToUpdate.getLastName());
-                ps.setInt(5, domainToUpdate.getRole());
-                ps.setInt(6, domainToUpdate.getId());
+                ps.setString(2, domainToUpdate.getPassword().getSalt());
+                ps.setString(3, domainToUpdate.getPassword().getHash());
+                ps.setString(4, domainToUpdate.getFirstName());
+                ps.setString(5, domainToUpdate.getLastName());
+                ps.setInt(6, domainToUpdate.getRole());
+                ps.setInt(7, domainToUpdate.getId());
             }
         };
     }

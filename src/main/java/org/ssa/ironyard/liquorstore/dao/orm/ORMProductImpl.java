@@ -1,5 +1,6 @@
 package org.ssa.ironyard.liquorstore.dao.orm;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -21,6 +22,7 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         this.fields.add("baseUnit");
         this.fields.add("quantity");
         this.fields.add("inventory");
+        this.fields.add("price");
         
         this.foreignKeys.put("coreProduct", "coreProductID");
     }
@@ -38,9 +40,10 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         BaseUnit baseUnit = BaseUnit.getInstance(results.getString("product.baseUnit"));
         Integer quantity = results.getInt("product.quantity");
         Integer inventory = results.getInt("product.inventory");
+        BigDecimal price = results.getBigDecimal("product.price");
         CoreProduct coreProduct = this.mapCoreProduct(results);
         
-        return new Product(id, coreProduct, baseUnit, quantity, inventory);
+        return new Product(id, coreProduct, baseUnit, quantity, inventory, price);
         
     }
     

@@ -7,22 +7,22 @@ public class Customer extends AbstractDomainObject implements DomainObject
     private final String firstName;
     private final String lastName;
     private final String userName;
-    private final String password;
+    private final Password password;
     private Address address;
     private final LocalDateTime birthDate;
 
-    public Customer(String userName, String password)
+    public Customer(String userName, Password password)
     {
         this(null, null, null, userName, password, null, null);
     }
 
-    public Customer(String firstName, String lastName, String userName, String password, Address address,
+    public Customer(String firstName, String lastName, String userName, Password password, Address address,
             LocalDateTime birthDate)
     {
         this(null, firstName, lastName, userName, password, address, birthDate);
     }
 
-    public Customer(Integer id, String firstName, String lastName, String userName, String password, Address address,
+    public Customer(Integer id, String firstName, String lastName, String userName, Password password, Address address,
             LocalDateTime birthDate)
     {
         super(id);
@@ -49,7 +49,7 @@ public class Customer extends AbstractDomainObject implements DomainObject
         return userName;
     }
 
-    public String getPassword()
+    public Password getPassword()
     {
         return password;
     }

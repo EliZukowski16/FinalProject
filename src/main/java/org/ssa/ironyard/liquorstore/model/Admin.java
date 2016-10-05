@@ -3,12 +3,12 @@ package org.ssa.ironyard.liquorstore.model;
 public class Admin extends AbstractDomainObject implements DomainObject
 {
     private final String userName;
-    private final String password;
+    private final Password password;
     private final String firstName;
     private final String lastName;
     private final Integer role;
 
-    public Admin(Integer id, String username, String password, String firstName, String lastName, Integer role)
+    public Admin(Integer id, String username, Password password, String firstName, String lastName, Integer role)
     {
         super(id);
         this.userName = username;
@@ -18,7 +18,7 @@ public class Admin extends AbstractDomainObject implements DomainObject
         this.role = role;
     }
     
-    public Admin(String username, String password, String firstName, String lastName, Integer role)
+    public Admin(String username, Password password, String firstName, String lastName, Integer role)
     {
         this.userName = username;
         this.password = password;
@@ -27,7 +27,7 @@ public class Admin extends AbstractDomainObject implements DomainObject
         this.role = role;
     }
 
-    public Admin(String username, String password)
+    public Admin(String username, Password password)
     {
         this(null, username, password, null, null, null);
     }
@@ -37,7 +37,7 @@ public class Admin extends AbstractDomainObject implements DomainObject
         return userName;
     }
 
-    public String getPassword()
+    public Password getPassword()
     {
         return password;
     }
