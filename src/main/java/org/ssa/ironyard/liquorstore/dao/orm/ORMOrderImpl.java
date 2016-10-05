@@ -46,8 +46,13 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
         
         Customer customer = customerORM.map(results);
         
-        List<OrderDetail> oD = new ArrayList<>();        
-        return new Order(id, customer, date, total, oD);
+        List<OrderDetail> oD = new ArrayList<>();  
+        
+        Order order = new Order(id, customer, date, total, oD);
+        
+        order.setLoaded(true);
+        
+        return order;
     }
 
     public String prepareInsertDetail()

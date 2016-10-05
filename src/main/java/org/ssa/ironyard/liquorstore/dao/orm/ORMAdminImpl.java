@@ -41,7 +41,11 @@ public class ORMAdminImpl extends AbstractORM<Admin> implements ORM<Admin>
         String lastName = results.getString("admin.last_name");
         Integer role = results.getInt("admin.role");
         
-        return new Admin(id, userName, password, firstName, lastName, role);
+        Admin admin = new Admin(id, userName, password, firstName, lastName, role);
+        
+        admin.setLoaded(true);
+        
+        return admin;
     }
 
 }

@@ -38,12 +38,13 @@ public class DAOAdminImplTest extends AbstractSpringDAOTest<Admin>
     }
 
     @Before
-    public void setUpBeforeEachTest() throws Exception
+    public void setUpBeforeEach() throws Exception
     {
+        this.adminDAO = new DAOAdminImpl(dataSource);
     }
 
     @After
-    public void tearDownAfterEachTest() throws Exception
+    public void tearDownAfterEach() throws Exception
     {
         
     }
@@ -56,12 +57,7 @@ public class DAOAdminImplTest extends AbstractSpringDAOTest<Admin>
 
     @Override
     protected AbstractSpringDAO<Admin> getDAO()
-    {
-        MysqlDataSource mysqlDdataSource = new MysqlDataSource();
-        mysqlDdataSource.setURL(URL);
-
-        dataSource = mysqlDdataSource;
-        
+    {      
         adminDAO = new DAOAdminImpl(dataSource);
         
         return adminDAO;

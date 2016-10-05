@@ -24,7 +24,7 @@ public class ORMCustomerImpl extends AbstractORM<Customer> implements ORM<Custom
         this.fields.add("street");
         this.fields.add("city");
         this.fields.add("state");
-        this.fields.add("zipCode");
+        this.fields.add("zip_code");
         this.fields.add("birth_date");
     }
 
@@ -55,7 +55,11 @@ public class ORMCustomerImpl extends AbstractORM<Customer> implements ORM<Custom
         address.setStreet(results.getString("customer.street"));
         address.setState(State.getInstance(results.getString("customer.state")));
         
-        return new Customer(id, userName, password, firstName, lastName, address, birthDate);
+        Customer customer = new Customer(id, userName, password, firstName, lastName, address, birthDate);
+        
+        customer.setLoaded(true);
+        
+        return customer;
     }
 
 }
