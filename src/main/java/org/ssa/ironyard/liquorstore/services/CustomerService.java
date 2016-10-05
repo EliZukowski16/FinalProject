@@ -38,9 +38,7 @@ public class CustomerService implements CustomerServiceInt
     @Transactional
     public Customer editCustomer(Customer customer)
     {
-        if(daoCust.read(customer.getId()) == null)
-            return null;
-        
+     
         Customer cust = new Customer(customer.getId(),customer.getUserName(),customer.getPassword(),customer.getFirstName(),customer.getLastName(),customer.getAddress(),customer.getBirthDate());
         return daoCust.update(cust);
     }
@@ -57,10 +55,7 @@ public class CustomerService implements CustomerServiceInt
     @Transactional
     public boolean deleteCustomer(Integer id)
     {
-        if(daoCust.read(id) == null)
-            return false;
-        
-        
+
         return daoCust.delete(id);
     }
 
