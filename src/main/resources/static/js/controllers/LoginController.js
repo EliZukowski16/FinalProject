@@ -1,35 +1,28 @@
-var app = angular.module('liquorStore', ['ngRoute']);
+angular.module('liquorStore').controller('LoginController', loginCtrl)
+		
+		
+	loginCtrl.$inject = ['$http', '$location', 'authentication']
+	function loginCtrl($http, $location, authentication) {
+	 
+	var controller = this;
+	  controller.login = function() {
+	    if (controller.username === 'admin' && controller.password === 'pass') {
+	      console.log('successful')
+	      authentication.isAuthenticated = true;
+	      authentication.user = { name: controller.username };
+	      $location.url("/customer.html");
+	    } else {
+	    	controller.loginError = "Invalid username/password combination. Try again.";
+	      console.log('Login failed.');
+	    };
+	  };
+	});	
 
-	app.run(function(authentication, $rootScope, $location) {
-	  $rootScope.$on('$routeChangeStart', function(evt) {
-	    if(!authentication.isAuthenticated){ 
-	      $location.url("/customer");
-	    }
-	    event.preventDefault();
-	  });
-	})
-
-	
-app.controller('loginCtrl', function($scope, $http, $location, authentication) {
-  $scope.login = function() {
-    if ($scope.username === 'admin' && $scope.password === 'pass') {
-      console.log('successful')
-      authentication.isAuthenticated = true;
-      authentication.user = { name: $scope.username };
-      $location.url("/customer");
-    } else {
-      $scope.loginError = "Invalid username/password combination ";
-      console.log('Login failed..');
-    };
-  };
-});	
-	
-	
-
-app.controller('loginCtrl', function($scope, authentication){
+/*
+app.controller('LoginController', function($scope, authentication){
 	$scope.templates = 
 		[
-		 {url: 'login.html'},
+		 {url: 'index.html'},
 		 {url: 'customer.html'},
 		 {url: 'admin.html'}
 		];
@@ -44,6 +37,21 @@ app.controller('loginCtrl', function($scope, authentication){
 		    };
 		  };
 })
+
+
+
+	app.run(function(authentication, $rootScope, $location) {
+	  $rootScope.$on('$routeChangeStart', function(evt) {
+	    if(!authentication.isAuthenticated){ 
+	      $location.url("/customer.html");
+	    }
+	    event.preventDefault();
+	  });
+	})
+	
+	
+*/
+
 
 
 

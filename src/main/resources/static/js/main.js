@@ -6,25 +6,25 @@ configure.$inject = ['$stateProvider', '$urlRouterProvider']
 function configure($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('login', {
-      url: '/',
+      url: '/TheBeerGuys',
       controller: 'LoginController',
       controllerAs: 'LC',
-      templateUrl: 'login.html'
+      templateUrl: 'index.html'
     })
     .state('customer', {
-      url: '/customer/:id',
+      url: '/TheBeerGuys/customer',
       controller: 'CustomerController',
       controllerAs: 'CC',
       templateUrl: 'customer.html'
     })
     .state('admin', {
-      url: '/admin/:id',
+      url: '/TheBeerGuys/admin',
       controller: 'AdminController',
       controllerAs: 'AC',
       templateUrl: 'admin.html'
     })
 
-  $urlRouterProvider.otherwise('/')
+  $urlRouterProvider.otherwise('/TheBeerGuys')
 
   console.log("setting up", $stateProvider)
 }
