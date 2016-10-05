@@ -19,6 +19,7 @@ import org.ssa.ironyard.liquorstore.model.Address.State;
 import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Password;
+import org.ssa.ironyard.liquorstore.model.User;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
@@ -83,9 +84,9 @@ public class DAOCustomerImplTest extends AbstractSpringDAOTest<Customer>
         address.setZip(new ZipCode("12345"));
         LocalDateTime birthDate = LocalDateTime.of(LocalDate.of(2016, 5, 25), LocalTime.of(10, 15, 25));   
         
-        Customer customer = new Customer(userName, password, firstName, lastName, address, birthDate);
+        User customer = new Customer(userName, password, firstName, lastName, address, birthDate);
         
-        return customer;
+        return (Customer) customer;
     }
 
 }

@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.model.Admin;
 import org.ssa.ironyard.liquorstore.model.Password;
+import org.ssa.ironyard.liquorstore.model.User;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
@@ -72,9 +73,9 @@ public class DAOAdminImplTest extends AbstractSpringDAOTest<Admin>
         String lastName = "Last";
         Integer role = 1;
         
-        Admin admin = new Admin(username, password, firstName, lastName, role);
+        User admin = new Admin(username, password, firstName, lastName, role);
         
-        return admin;
+        return (Admin) admin;
     }
 
 }
