@@ -5,4 +5,6 @@ import org.ssa.ironyard.liquorstore.model.Order;
 public interface DAOOrder extends DAO<Order>
 {
 
+    Order insertDetail(Order domain);
+
 }

@@ -2,7 +2,7 @@ package org.ssa.ironyard.liquorstore.model;
 
 public class Product extends AbstractDomainObject implements DomainObject
 {
-    private final CoreProduct coreProductId;
+    private CoreProduct coreProduct;
     private final BaseUnit baseUnit; // e.g. 12oz can, 30 pack, etc.
     private final Integer quantity;
     private final Integer inventory;
@@ -35,18 +35,18 @@ public class Product extends AbstractDomainObject implements DomainObject
         }
     }
 
-    public Product(Integer id, CoreProduct coreProductId, BaseUnit baseUnit, Integer quantity, Integer inventory)
+    public Product(Integer id, CoreProduct coreProduct, BaseUnit baseUnit, Integer quantity, Integer inventory)
     {
         super(id);
-        this.coreProductId = coreProductId;
+        this.coreProduct = coreProduct;
         this.baseUnit = baseUnit;
         this.quantity = quantity;
         this.inventory = inventory;
     }
 
-    public Product(CoreProduct coreProductId, BaseUnit baseUnit, Integer quantity, Integer inventory)
+    public Product(CoreProduct coreProduct, BaseUnit baseUnit, Integer quantity, Integer inventory)
     {
-        this(null, coreProductId, baseUnit, quantity, inventory);
+        this(null, coreProduct, baseUnit, quantity, inventory);
     }
 
     public BaseUnit getBaseUnit()
@@ -64,9 +64,14 @@ public class Product extends AbstractDomainObject implements DomainObject
         return inventory;
     }
 
-    public CoreProduct getCoreProductId()
+    public CoreProduct getCoreProduct()
     {
-        return coreProductId;
+        return coreProduct;
+    }
+    
+    public void setCoreProduct(CoreProduct coreProduct)
+    {
+        this.coreProduct = coreProduct;
     }
 
     @Override
@@ -76,6 +81,7 @@ public class Product extends AbstractDomainObject implements DomainObject
         try
         {
             copy = (Product) super.clone();
+            copy.setCoreProduct(this.coreProduct);
             return copy;
         }
         catch (CloneNotSupportedException e)
@@ -111,7 +117,7 @@ public class Product extends AbstractDomainObject implements DomainObject
         }
         else if (!baseUnit.equals(other.baseUnit))
             return false;
-        if (coreProductId != other.coreProductId)
+        if (coreProduct != other.coreProduct)
             return false;
         if (this.getId() != other.getId())
             return false;

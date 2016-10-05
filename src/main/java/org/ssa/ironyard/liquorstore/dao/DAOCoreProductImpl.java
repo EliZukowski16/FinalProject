@@ -37,6 +37,7 @@ public class DAOCoreProductImpl extends AbstractDAOCoreProduct implements DAOCor
         insertStatement.setString(4, domainToInsert.getDescription());
     }
 
+    @Override
     public CoreProduct insertTag(CoreProduct domain)
     {
         if(domain.getId() != null)

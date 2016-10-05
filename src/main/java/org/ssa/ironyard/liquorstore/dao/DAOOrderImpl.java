@@ -30,11 +30,12 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     @Override
     protected void insertPreparer(PreparedStatement insertStatement, Order domainToInsert) throws SQLException
     {
-        insertStatement.setInt(1, domainToInsert.getCustomerID().getId());
+        insertStatement.setInt(1, domainToInsert.getCustomer().getId());
         insertStatement.setTimestamp(2, Timestamp.valueOf(domainToInsert.getDate()));
         insertStatement.setFloat(3, domainToInsert.getTotal());
     }
 
+    @Override
     public Order insertDetail(Order domain)
     {
         if (domain.getId() != null)
@@ -50,14 +51,14 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
                     PreparedStatement statement = conn.prepareStatement(((ORMOrderImpl) this.orm).prepareInsertDetail(),
                             Statement.RETURN_GENERATED_KEYS);
                     statement.setInt(1, domain.getId());
-                    statement.setInt(2, od.getProductID());
+                    statement.setInt(2, od.getProduct().getId());
                     statement.setInt(3, od.getQty());
                     statement.setFloat(4, od.getUnitPrice());
                     return statement;
                 }, generatedId) == 1)
                 {
                     orderDetails
-                            .add(new OrderDetail(domain.getId(), od.getProductID(), od.getQty(), od.getUnitPrice()));
+                            .add(new OrderDetail(domain.getId(), od.getProduct(), od.getQty(), od.getUnitPrice()));
                 }
             }
 
@@ -88,7 +89,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     protected Order afterInsert(Order copy, Integer id)
     {
         Order order;
-        order = new Order(id, copy.getCustomerID(), copy.getDate(), copy.getTotal(), copy.getoD());
+        order = new Order(id, copy.getCustomer(), copy.getDate(), copy.getTotal(), copy.getoD());
         order.setLoaded(true);
 
         return order;
@@ -111,7 +112,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
             @Override
             public void setValues(PreparedStatement ps) throws SQLException
             {
-                ps.setInt(1, domainToUpdate.getCustomerID().getId());
+                ps.setInt(1, domainToUpdate.getCustomer().getId());
                 ps.setTimestamp(2, Timestamp.valueOf(domainToUpdate.getDate()));
                 ps.setFloat(3, domainToUpdate.getTotal());
             }

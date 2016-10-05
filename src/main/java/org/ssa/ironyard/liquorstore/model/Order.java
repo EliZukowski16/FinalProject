@@ -6,49 +6,49 @@ import java.util.List;
 
 public class Order extends AbstractDomainObject implements DomainObject
 {
-    private final Customer customerID;
+    private Customer customer;
     private final LocalDateTime date;
     private final Float total;
     private List<OrderDetail> oD = new ArrayList<>();
 
-    public Order(Integer id, Customer customerID, LocalDateTime date, Float total, List<OrderDetail> oD)
+    public Order(Integer id, Customer customer, LocalDateTime date, Float total, List<OrderDetail> oD)
     {
         super(id);
-        this.customerID = customerID;
+        this.customer = customer;
         this.date = date;
         this.total = total;
         this.oD = oD;
     }
 
-    public Order(Customer customerID, LocalDateTime date, Float total, List<OrderDetail> oD)
+    public Order(Customer customer, LocalDateTime date, Float total, List<OrderDetail> oD)
     {
-        this(null, customerID, date, total, oD);
+        this(null, customer, date, total, oD);
     }
 
     public static class OrderDetail
     {
         Integer orderID;
-        Integer productID;
+        Product product;
         Integer qty;
         Float unitPrice;
 
-        public OrderDetail(Integer orderID, Integer productID, Integer qty, Float unitPrice)
+        public OrderDetail(Integer orderID, Product product, Integer qty, Float unitPrice)
         {
             this.orderID = orderID;
-            this.productID = productID;
+            this.product = product;
             this.qty = qty;
             this.unitPrice = unitPrice;
         }
 
 
-        public int getProductID()
+        public Product getProduct()
         {
-            return productID;
+            return product;
         }
 
-        public void setProductID(int productID)
+        public void setProduct(Product product)
         {
-            this.productID = productID;
+            this.product = product;
         }
 
         public int getQty()
@@ -72,9 +72,14 @@ public class Order extends AbstractDomainObject implements DomainObject
         }
     }
 
-    public Customer getCustomerID()
+    public Customer getCustomer()
     {
-        return customerID;
+        return customer;
+    }
+    
+    public void setCustomer(Customer customer)
+    {
+        this.customer = customer;
     }
 
     public LocalDateTime getDate()
@@ -135,7 +140,7 @@ public class Order extends AbstractDomainObject implements DomainObject
         if (getClass() != obj.getClass())
             return false;
         Order other = (Order) obj;
-        if (customerID != other.customerID)
+        if (customer != other.customer)
             return false;
         if (date == null)
         {
@@ -167,6 +172,7 @@ public class Order extends AbstractDomainObject implements DomainObject
         {
             copy = (Order) super.clone();
             copy.setoD(this.getoD());
+            copy.setCustomer(this.getCustomer());
             return copy;
         }
         catch (CloneNotSupportedException e)
@@ -179,7 +185,7 @@ public class Order extends AbstractDomainObject implements DomainObject
     @Override
     public String toString()
     {
-        return "Order [id=" + this.getId() + ", customerID=" + customerID + ", date=" + date + ", total=" + total
+        return "Order [id=" + this.getId() + ", customerID=" + customer + ", date=" + date + ", total=" + total
                 + ", oD=" + oD + "]";
     }
 
