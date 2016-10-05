@@ -34,15 +34,15 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
     @Override
     public String table()
     {
-        return "order";
+        return "_order";
     }
 
     @Override
     public Order map(ResultSet results) throws SQLException
     {
-        Integer id = results.getInt("order.id");
-        BigDecimal total = results.getBigDecimal("order.total");
-        LocalDateTime date = results.getTimestamp("order.date").toLocalDateTime();
+        Integer id = results.getInt("_order.id");
+        BigDecimal total = results.getBigDecimal("_order.total");
+        LocalDateTime date = results.getTimestamp("_order.date").toLocalDateTime();
         
         Customer customer = customerORM.map(results);
         
