@@ -2,6 +2,7 @@ package org.ssa.ironyard.liquorstore.services;
 
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -11,6 +12,7 @@ import java.util.List;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
+import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.dao.DAOAdmin;
 import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
 import org.ssa.ironyard.liquorstore.dao.DAOCustomer;
@@ -26,6 +28,7 @@ import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
+import org.ssa.ironyard.liquorstore.model.Password;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 
@@ -71,9 +74,11 @@ public class ServicesTest
         LocalTime t = LocalTime.of(12, 00);
         LocalDateTime ldt = LocalDateTime.of(d,t);
         
-        c = new Customer(1,"username","password","Michael","Patrick",address,ldt);
+        Password p = new BCryptSecurePassword().secureHash("password");
+        
+        c = new Customer(1,"username",p,"Michael","Patrick",address,ldt);
         c.setLoaded(true);
-        ad = new Admin(1,"username","password","Joe","Patrick",1);
+        ad = new Admin(1,"username",p,"Joe","Patrick",1);
         c.setLoaded(true);
         
         List<Tag> tags = new ArrayList();
@@ -83,14 +88,14 @@ public class ServicesTest
         
        
         
-        prod = new Product(1,cp,BaseUnit._12OZ_BOTTLE,6,100);
+        prod = new Product(1,cp,BaseUnit._12OZ_BOTTLE,6,100,BigDecimal.valueOf(100.00));
         
         List<OrderDetail> odList = new ArrayList();
         OrderDetail od = new OrderDetail(1,prod,6,15.00f);
         OrderDetail od2 = new OrderDetail(2,prod,12,20.00f);
         odList.add(od);
         odList.add(od2);
-        ord = new Order(1,c,ldt,50.00f,odList);
+        ord = new Order(1,c,ldt,BigDecimal.valueOf(50.00),odList);
         
         daoCustomer = EasyMock.niceMock(DAOCustomer.class);
         this.custService = new CustomerService(daoCustomer); 

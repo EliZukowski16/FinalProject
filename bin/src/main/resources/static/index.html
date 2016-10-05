@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="liquorStore">
+<head>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>The Beer Guys</title>
+	
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+     <link rel="stylesheet" type="text/css" href="style.css">
+     
+  	 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
+ 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+ 	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+     <script src="vendors/angular-1.5.3.min.js"></script>
+     <script src="vendors/angular-ui-router.min.js"></script>
+     
+
+	<script src="js/controllers/LoginController.js"></script>
+	<script src="js/controllers/CustomerController.js"></script>
+	<script src="js/controllers/AdminController.js"></script>
+
+
+
+</head>
+
+<body ng-controller="main">
+ 	 
+<!--  	 
+<header id="title">The Beer Guys</header>
+<nav class="navbar navbar-default" id="nav">
+  <div class="container-fluid">
+    </div>
+    </nav> -->
+    
+    
+    		<header>
+			<ul>
+				<li><a ui-sref="login">Login</a></li>
+				<li><a ui-sref="customer">Customer</a></li>
+				<li><a ui-sref="admin">Admin</a></li>
+			</ul>
+		</header>
+
+
+
+<main ui-view></main>
+
+</body>
+
+
+</html>

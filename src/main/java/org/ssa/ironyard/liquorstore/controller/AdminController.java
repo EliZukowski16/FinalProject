@@ -28,7 +28,7 @@ import org.ssa.ironyard.liquorstore.services.ProductService;
 import org.ssa.ironyard.liquorstore.services.SalesService;
 
 @RestController
-@RequestMapping("/TheBeerGuys")
+@RequestMapping("/TheBeerGuys/admin")
 public class AdminController
 {
     
@@ -61,11 +61,7 @@ public class AdminController
         
     }
     
-    @RequestMapping("")
-    public View home()
-    {
-        return new InternalResourceView("index.html");
-    }
+    
     
     @RequestMapping(value="/customers", method = RequestMethod.GET)
     public ResponseEntity<Map<String,List<Customer>>> getAllCustomers()

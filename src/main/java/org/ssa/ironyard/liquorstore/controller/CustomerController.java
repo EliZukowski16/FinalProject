@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.model.Address;
 import org.ssa.ironyard.liquorstore.model.Address.State;
 import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
 import org.ssa.ironyard.liquorstore.model.Customer;
+import org.ssa.ironyard.liquorstore.model.Password;
 import org.ssa.ironyard.liquorstore.services.AdminService;
 import org.ssa.ironyard.liquorstore.services.AnalyticsService;
 import org.ssa.ironyard.liquorstore.services.CoreProductService;
@@ -32,7 +34,7 @@ import org.ssa.ironyard.liquorstore.services.SalesService;
 
 
 @RestController
-@RequestMapping("/TheBeerGuys")
+@RequestMapping("/TheBeerGuys/customer")
 public class CustomerController
 {
     
@@ -99,7 +101,8 @@ public class CustomerController
         
         LOGGER.info("got customer info add ",userName,password,firstName,lastName,street,city,state,zipCode,address,ldt);
         
-        Customer customer = new Customer(userName,password,firstName,lastName,address,ldt);
+        Password p = new BCryptSecurePassword().secureHash(password);
+        Customer customer = new Customer(userName,p,firstName,lastName,address,ldt);
         
         Customer customerAdd = customerService.addCustomer(customer);
         
@@ -144,8 +147,8 @@ public class CustomerController
         
         LOGGER.info("got customer info edit ",customerID,userName,password,firstName,lastName,street,city,state,zipCode,address,ldt);
         
-        
-        Customer customer = new Customer(customerID,userName,password,firstName,lastName,address,ldt);
+        Password p = new BCryptSecurePassword().secureHash(password);
+        Customer customer = new Customer(customerID,userName,p,firstName,lastName,address,ldt);
         Customer customerEdit = customerService.editCustomer(customer);
         
         if(customerEdit == null)
