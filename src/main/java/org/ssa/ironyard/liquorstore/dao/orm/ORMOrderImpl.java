@@ -1,5 +1,6 @@
 package org.ssa.ironyard.liquorstore.dao.orm;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -40,7 +41,7 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
     public Order map(ResultSet results) throws SQLException
     {
         Integer id = results.getInt("order.id");
-        Float total = results.getFloat("order.total");
+        BigDecimal total = results.getBigDecimal("order.total");
         LocalDateTime date = results.getTimestamp("order.date").toLocalDateTime();
         
         Customer customer = customerORM.map(results);

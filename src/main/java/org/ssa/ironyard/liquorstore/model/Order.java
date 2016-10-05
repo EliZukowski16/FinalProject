@@ -1,5 +1,6 @@
 package org.ssa.ironyard.liquorstore.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +9,10 @@ public class Order extends AbstractDomainObject implements DomainObject
 {
     private Customer customer;
     private final LocalDateTime date;
-    private final Float total;
+    private final BigDecimal total;
     private List<OrderDetail> oD = new ArrayList<>();
 
-    public Order(Integer id, Customer customer, LocalDateTime date, Float total, List<OrderDetail> oD)
+    public Order(Integer id, Customer customer, LocalDateTime date, BigDecimal total, List<OrderDetail> oD)
     {
         super(id);
         this.customer = customer;
@@ -20,7 +21,7 @@ public class Order extends AbstractDomainObject implements DomainObject
         this.oD = oD;
     }
 
-    public Order(Customer customer, LocalDateTime date, Float total, List<OrderDetail> oD)
+    public Order(Customer customer, LocalDateTime date, BigDecimal total, List<OrderDetail> oD)
     {
         this(null, customer, date, total, oD);
     }
@@ -87,7 +88,7 @@ public class Order extends AbstractDomainObject implements DomainObject
         return date;
     }
 
-    public float getTotal()
+    public BigDecimal getTotal()
     {
         return total;
     }
@@ -158,7 +159,7 @@ public class Order extends AbstractDomainObject implements DomainObject
         }
         else if (!oD.equals(other.oD))
             return false;
-        if (Float.floatToIntBits(total) != Float.floatToIntBits(other.total))
+        if (this.total.compareTo(other.total) != 0)
             return false;
         return true;
     }

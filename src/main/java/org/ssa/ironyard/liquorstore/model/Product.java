@@ -1,11 +1,14 @@
 package org.ssa.ironyard.liquorstore.model;
 
+import java.math.BigDecimal;
+
 public class Product extends AbstractDomainObject implements DomainObject
 {
     private CoreProduct coreProduct;
     private final BaseUnit baseUnit; // e.g. 12oz can, 30 pack, etc.
     private final Integer quantity;
     private final Integer inventory;
+    private final BigDecimal price;
 
     public enum BaseUnit
     {
@@ -35,18 +38,19 @@ public class Product extends AbstractDomainObject implements DomainObject
         }
     }
 
-    public Product(Integer id, CoreProduct coreProduct, BaseUnit baseUnit, Integer quantity, Integer inventory)
+    public Product(Integer id, CoreProduct coreProduct, BaseUnit baseUnit, Integer quantity, Integer inventory, BigDecimal price)
     {
         super(id);
         this.coreProduct = coreProduct;
         this.baseUnit = baseUnit;
         this.quantity = quantity;
         this.inventory = inventory;
+        this.price = price;
     }
 
-    public Product(CoreProduct coreProduct, BaseUnit baseUnit, Integer quantity, Integer inventory)
+    public Product(CoreProduct coreProduct, BaseUnit baseUnit, Integer quantity, Integer inventory, BigDecimal price)
     {
-        this(null, coreProduct, baseUnit, quantity, inventory);
+        this(null, coreProduct, baseUnit, quantity, inventory, price);
     }
 
     public BaseUnit getBaseUnit()
@@ -62,6 +66,11 @@ public class Product extends AbstractDomainObject implements DomainObject
     public int getInventory()
     {
         return inventory;
+    }
+    
+    public BigDecimal getPrice()
+    {
+        return price;
     }
 
     public CoreProduct getCoreProduct()
@@ -124,6 +133,8 @@ public class Product extends AbstractDomainObject implements DomainObject
         if (inventory != other.inventory)
             return false;
         if (quantity != other.quantity)
+            return false;
+        if(this.price.compareTo(other.price) != 0)
             return false;
         return true;
     }
