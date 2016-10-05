@@ -39,7 +39,7 @@ description TEXT(1000) NOT NULL,
 ENGINE = InnoDB;
 
 
-CREATE TABLE productTags
+CREATE TABLE product_tags
 (core_product_id INT(10) NOT NULL,
 name VARCHAR(50) NOT NULL,
 PRIMARY KEY (product_id, tags),

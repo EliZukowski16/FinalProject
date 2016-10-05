@@ -49,7 +49,7 @@ public class ORMCoreProductImpl extends AbstractORM<CoreProduct> implements ORM<
     
     private String joinProductTags()
     {
-        return " JOIN productTags ON " + this.table() + "." + this.primaryKeys.get(0) + " = productTags.coreProducttId ";
+        return " JOIN product_tags ON " + this.table() + "." + this.primaryKeys.get(0) + " = product_tags.core_product_id ";
     }
 
   
