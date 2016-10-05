@@ -3,7 +3,8 @@ package org.ssa.ironyard.liquorstore.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.runners.Parameterized.Parameters;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,15 +48,17 @@ public class logInController
         return ResponseEntity.ok().header("log in", "Check").body(response);
     }
     
-    @RequestMapping(value = "/admin")
-    public View admin()
+    @RequestMapping(value = "/admin/{adminID}")
+    public View admin(@PathVariable int adminID, HttpSession session)
     {
+        session.setAttribute("adminID", adminID);
         return new InternalResourceView("adminIndex.html");
     }
     
-    @RequestMapping(value = "/customer")
-    public View customer()
+    @RequestMapping(value = "/customer/{customerID}")
+    public View customer(@PathVariable int customerID, HttpSession session)
     {
+        session.setAttribute("customerID", customerID);
         return new InternalResourceView("customerIndex.html");
     }
     
