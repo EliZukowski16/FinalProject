@@ -21,11 +21,11 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
     {
         this.primaryKeys.add("id");
         
-        this.fields.add("customerID");
+        this.fields.add("customer_id");
         this.fields.add("date");
         this.fields.add("total");
         
-        this.foreignKeys.put("customer", "customerID"); 
+        this.foreignKeys.put("customer", "customer_id"); 
         
         customerORM = new ORMCustomerImpl();
         productORM = new ORMProductImpl();
@@ -34,20 +34,25 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
     @Override
     public String table()
     {
-        return "order";
+        return "_order";
     }
 
     @Override
     public Order map(ResultSet results) throws SQLException
     {
-        Integer id = results.getInt("order.id");
-        BigDecimal total = results.getBigDecimal("order.total");
-        LocalDateTime date = results.getTimestamp("order.date").toLocalDateTime();
+        Integer id = results.getInt("_order.id");
+        BigDecimal total = results.getBigDecimal("_order.total");
+        LocalDateTime date = results.getTimestamp("_order.date").toLocalDateTime();
         
         Customer customer = customerORM.map(results);
         
-        List<OrderDetail> oD = new ArrayList<>();        
-        return new Order(id, customer, date, total, oD);
+        List<OrderDetail> oD = new ArrayList<>();  
+        
+        Order order = new Order(id, customer, date, total, oD);
+        
+        order.setLoaded(true);
+        
+        return order;
     }
 
     public String prepareInsertDetail()

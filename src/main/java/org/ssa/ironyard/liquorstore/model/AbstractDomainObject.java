@@ -35,4 +35,5 @@ public abstract class AbstractDomainObject
     {
         this.loaded = loaded;
     }
+    
 }

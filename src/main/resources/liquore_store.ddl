@@ -1,6 +1,8 @@
-
+DROP DATABASE liquor_store;
  
-CREATE DATABASE liquorStore;
+CREATE DATABASE liquor_store;
+
+USE liquor_store;
 
 CREATE TABLE admin
 (id INT AUTO_INCREMENT PRIMARY KEY,
@@ -25,61 +27,62 @@ street VARCHAR(50) NOT NULL,
 city VARCHAR(50) NOT NULL,
 state VARCHAR(2) NOT NULL,
 zip_code VARCHAR(5) NOT NULL,
-birthDate TIMESTAMP NOT NULL,
-UNIQUE (username),
+birth_date TIMESTAMP NOT NULL,
+UNIQUE (username))
 ENGINE = InnoDB;
 
 
-CREATE TABLE coreProduct
+CREATE TABLE core_product
 (id INT AUTO_INCREMENT PRIMARY KEY,
 name VARCHAR(50) NOT NULL,
 type ENUM('BEER', 'WINE', 'SPIRITS'),
 subtype VARCHAR(50) NOT NULL,
-description TEXT(1000) NOT NULL,
+description TEXT(1000) NOT NULL)
 ENGINE = InnoDB;
 
 
-CREATE TABLE productTags
-(coreProductId INT(10) NOT NULL,
+CREATE TABLE product_tags
+(core_product_id INT(10) NOT NULL,
 name VARCHAR(50) NOT NULL,
-PRIMARY KEY (productId, tags),
-CONSTRAINT productTags_fk_1 FOREIGN KEY (coreProductId) REFERENCES coreProduct(id) ON DELETE CASCADE,
+PRIMARY KEY (core_product_id, name),
+CONSTRAINT productTags_fk_1 FOREIGN KEY (core_product_id) REFERENCES core_product(id) ON DELETE CASCADE)
+ENGINE = InnoDB;
 
 
 CREATE TABLE product
 (id INT AUTO_INCREMENT PRIMARY KEY,
-coreProductId int(10) NOT NULL,
-baseUnit VARCHAR(50) NOT NULL,
+core_product_id int(10) NOT NULL,
+base_unit VARCHAR(50) NOT NULL,
 quantity INT(10) NOT NULL,
 inventory INT(10) NOT NULL,
 price decimal(12,2) NOT NULL,
-CONSTRAINT product_fk_1 FOREIGN KEY (coreProductId) REFERENCES coreProduct(id) ON DELETE CASCADE)
+CONSTRAINT product_fk_1 FOREIGN KEY (core_product_id) REFERENCES core_product(id) ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 
-CREATE TABLE order
+CREATE TABLE _order
 (id INT AUTO_INCREMENT PRIMARY KEY,
-customerId INT(10) NOT NULL,
+customer_id INT(10) NOT NULL,
 date TIMESTAMP NOT NULL,
 total DECIMAL(12,2) NOT NULL,
-CONSTRAINT order_fk_1FOREIGN KEY (customerId) REFERENCES customer(id) ON DELETE CASCADE)
+CONSTRAINT order_fk_1 FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 
-CREATE TABLE orderDetail
-(orderId int(10) NOT NULL,
-productId int(10) NOT NULL,
+CREATE TABLE order_detail
+(order_id int(10) NOT NULL,
+product_id int(10) NOT NULL,
 quantity int(10) NOT NULL,
-unitPrice DECIMAL(12,2) NOT NULL,
-PRIMARY KEY (orderId, productId),
-CONSTRAINT orderDetail_fk_1 FOREIGN KEY (orderId) REFERENCES order(id) ON DELETE CASCADE,
-CONSTRAINT orderDetail_fk_1 FOREIGN KEY (productId) REFERENCES product(id) ON DELETE CASCADE)
+unit_price DECIMAL(12,2) NOT NULL,
+PRIMARY KEY (order_id, product_id),
+CONSTRAINT order_detail_fk_1 FOREIGN KEY (order_id) REFERENCES _order(id) ON DELETE CASCADE,
+CONSTRAINT order_detail_fk_1 FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 
 CREATE TABLE sales
 (id INT AUTO_INCREMENT PRIMARY KEY,
-productId INT(10) NOT NULL,
+product_id INT(10) NOT NULL,
 year YEAR(4) NOT NULL,
 month ENUM('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'),
 sales DECIMAL(50) NOT NULL)

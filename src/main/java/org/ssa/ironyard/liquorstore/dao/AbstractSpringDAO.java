@@ -42,7 +42,9 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
                 (ResultSet cursor) ->
                 {
                     if (cursor.next())
+                    {
                         return this.orm.map(cursor);
+                    }
                     return null;
                 });
 
