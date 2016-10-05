@@ -6,47 +6,133 @@
 	<title>The Beer Guys</title>
 	
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-     <link rel="stylesheet" type="text/css" href="style.css">
+     <link rel="stylesheet" type="text/css" href="templates/style.css">
      
-  	 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
-	 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
  	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
  	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-     <script src="vendors/angular-1.5.3.min.js"></script>
+     <script src="vendors/angular.min.js"></script>
      <script src="vendors/angular-ui-router.min.js"></script>
+     <script src="vendors/bootstrap.min.css"></script>
      
-
-	<script src="js/controllers/LoginController.js"></script>
-	<script src="js/controllers/CustomerController.js"></script>
-	<script src="js/controllers/AdminController.js"></script>
-
-
-
+	 <script src="js/controllers/LoginController.js"></script>
 </head>
 
-<body ng-controller="main">
+<body ng-controller="LoginController as LC">
  	 
-<!--  	 
 <header id="title">The Beer Guys</header>
 <nav class="navbar navbar-default" id="nav">
   <div class="container-fluid">
     </div>
-    </nav> -->
+    </nav>
+
+<div class="container">
+<div class="jumbotron text-center">
+    <h1>Welcome</h1>
+    <p>Sign in or register to get started</p>
+  	<ul class="nav nav-tabs">
+   	    <li class="active"><a data-toggle="tab" href="#login">Login</a></li>
+    	<li><a data-toggle="tab" href="#register">Register</a></li>
+  	</ul>
+
+<!--  Login Tab -->
+
+ 	 <div class="tab-content">
+   	  <div id="login" class="tab-pane fade in active">
+      <h3 style="text-align:left">Login to Your Account</h3>
+      <div>
+      <form class="form-horizontal" id="login" ng-submit="LC.login()">
+         <div class="form-group">
+      <label class="control-label col-sm-2" for="username">Username:</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" id="username" ng-model="username" placeholder="Enter username">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">Password:</label>
+      <div class="col-sm-4">
+        <input type="password" class="form-control" id="pwd" ng-model="password" placeholder="Enter password">
+      </div>
+    </div>
+        <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-8">
+        <button type="submit" class="btn btn-success btn-lg">Login</button>
+      </div>
+    </div>
+    </form>
+    </div>
+    </div>
     
     
-    		<header>
-			<ul>
-				<li><a ui-sref="login">Login</a></li>
-				<li><a ui-sref="customer">Customer</a></li>
-				<li><a ui-sref="admin">Admin</a></li>
-			</ul>
-		</header>
+ <!--  Register Tab -->
+ 
+    <div id="register" class="tab-pane fade">
+          <h3 style="text-align:left">Register as a New Customer</h3>
+      <form class="form-horizontal">
+         <div class="form-group">
+      <label class="control-label col-sm-2" for="firstName">*First Name:</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" id="firstName" ng-model="firstName" placeholder="Enter first name">
+      </div>
+    </div>
+     <div class="form-group">
+      <label class="control-label col-sm-2" for="lastName">*Last Name:</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" id="lastName" ng-model="lastName" placeholder="Enter last name">
+      </div>
+    </div>
+     <div class="form-group">
+      <label class="control-label col-sm-2" for="DOB">*Date of Birth:</label>
+      <div class="col-sm-4">
+        <input type="date" class="form-control" id="DOB" ng-model="DOB" placeholder="Enter date of birth">
+      </div>
+    </div>
+     <div class="form-group">
+      <label class="control-label col-sm-2" for="address">*Street Address:</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" id="address" ng-model="address" placeholder="Enter address">
+      </div>
+      </div>
+      <div class="form-group">
+      <label class="control-label col-sm-2" for="city">*City:</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" id="city" ng-model="city" placeholder="Enter city">
+      </div>
+      </div>
+           <div class="form-group">
+      <label class="control-label col-sm-2" for="state">*State:</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" id="state" ng-model="state" placeholder="Enter state">
+      </div>
+      </div>
+           <div class="form-group">
+      <label class="control-label col-sm-2" for="zip">*Zip Code:</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" id="zip" ng-model="zip" placeholder="Enter zip code">
+      </div>
+    </div>
+     <div class="form-group">
+      <label class="control-label col-sm-2" for="userName">*Username:</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" id="userName" ng-model="newUsername" placeholder="Enter username">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="pwd">*Password:</label>
+      <div class="col-sm-4">
+        <input type="password" class="form-control" id="pwd" ng-model="newPassword" placeholder="Enter password">
+      </div>
+    </div>
+        <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-8">
+        <button type="submit" class="btn btn-primary btn-lg">Register</button>
+      </div>
+    </div>
+    </form>
+    </div>
+  </div>
+</div>
+</div>
 
-
-
-<main ui-view></main>
 
 </body>
-
-
 </html>
