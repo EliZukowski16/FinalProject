@@ -22,29 +22,53 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
     @Override
     protected void insertPreparer(PreparedStatement insertStatement, Product domainToInsert) throws SQLException
     {
-        // TODO Auto-generated method stub
+        insertStatement.setInt(1, domainToInsert.getCoreProduct().getId());
+        insertStatement.setString(2, domainToInsert.getBaseUnit().toString());
+        insertStatement.setInt(3, domainToInsert.getQuantity());
+        insertStatement.setInt(4, domainToInsert.getInventory());
+        insertStatement.setBigDecimal(5, domainToInsert.getPrice());
 
     }
 
     @Override
     protected Product afterInsert(Product copy, Integer id)
     {
-        // TODO Auto-generated method stub
-        return null;
+        Product product;
+        product = new Product(id, copy.getCoreProduct(), copy.getBaseUnit(), copy.getQuantity(), copy.getInventory(),
+                copy.getPrice());
+        product.setLoaded(true);
+
+        return product;
+
     }
 
     @Override
     protected Product afterUpdate(Product copy)
     {
-        // TODO Auto-generated method stub
-        return null;
+        copy.setLoaded(true);
+
+        return copy;
     }
 
     @Override
     protected PreparedStatementSetter updatePreparer(Product domainToUpdate)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new PreparedStatementSetter()
+        {
+
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException
+            {
+                ps.setInt(1, domainToUpdate.getCoreProduct().getId());
+                ps.setString(2, domainToUpdate.getBaseUnit().toString());
+                ps.setInt(3, domainToUpdate.getQuantity());
+                ps.setInt(4, domainToUpdate.getInventory());
+                ps.setBigDecimal(5, domainToUpdate.getPrice());
+                
+            }
+
+        };
+
     }
 
 }

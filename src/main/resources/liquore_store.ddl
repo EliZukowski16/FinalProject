@@ -2,75 +2,48 @@
  
 CREATE DATABASE liquorStore;
 
-
-
-
 CREATE TABLE admin
 (id INT AUTO_INCREMENT PRIMARY KEY,
 username VARCHAR(50) NOT NULL,
-password VARCHAR(50) NOT NULL,
-first VARCHAR(50) NOT NULL,
-last VARCHAR(50) NOT NULL,
-role int(5) NOT NULL,
+salt VARCHAR(50) NOT NULL,
+hash VARCHAR(50) NOT NULL,
+first_name VARCHAR(50) NOT NULL,
+last_name VARCHAR(50) NOT NULL,
+role INT(6) NOT NULL,
 UNIQUE (username))
 ENGINE = InnoDB;
 
 
 CREATE TABLE customer
 (id INT AUTO_INCREMENT PRIMARY KEY,
-first VARCHAR(50) NOT NULL,
-last VARCHAR(50) NOT NULL,
 username VARCHAR(50) NOT NULL,
-password VARCHAR(50) NOT NULL,
-address VARCHAR(50) NOT NULL,
-birthDate DATETIME(50) NOT NULL,
-UNIQUE (username),
-CONSTRAINT customer_fk_1 FOREIGN KEY (address) REFERENCES address(id) ON DELETE CASCADE)
-ENGINE = InnoDB;
-
-
-CREATE TABLE address
-(id INT AUTO_INCREMENT PRIMARY KEY,
-customerId int(10) NOT NULL,
-streetNumber VARCHAR(50) NOT NULL,
-streetName VARCHAR(50) NOT NULL,
-aptNumber VARCHAR(50) NOT NULL,
+salt VARCHAR(50) NOT NULL,
+hash VARCHAR(50) NOT NULL,
+first_name VARCHAR(50) NOT NULL,
+last_name VARCHAR(50) NOT NULL,
+street VARCHAR(50) NOT NULL,
 city VARCHAR(50) NOT NULL,
-state VARCHAR(50) NOT NULL,
-zipCode VARCHAR(50) NOT NULL,
-CONSTRAINT address_fk_1 FOREIGN KEY (customerId) REFERENCES customer(id) ON DELETE CASCADE)
+state VARCHAR(2) NOT NULL,
+zip_code VARCHAR(5) NOT NULL,
+birthDate TIMESTAMP NOT NULL,
+UNIQUE (username),
 ENGINE = InnoDB;
 
 
 CREATE TABLE coreProduct
 (id INT AUTO_INCREMENT PRIMARY KEY,
 name VARCHAR(50) NOT NULL,
-tags VARCHAR(100) NOT NULL,
 type ENUM('BEER', 'WINE', 'SPIRITS'),
 subtype VARCHAR(50) NOT NULL,
-description VARCHAR(100) NOT NULL,
-CONSTRAINT coreProduct_fk_1 FOREIGN KEY (tags) REFERENCES productTags(tags) ON DELETE CASCADE)
-ENGINE = InnoDB;
-
-
-
-
-
-CREATE TABLE tags
-(id INT AUTO_INCREMENT PRIMARY KEY,
-name VARCHAR(50) NOT NULL)
+description TEXT(1000) NOT NULL,
 ENGINE = InnoDB;
 
 
 CREATE TABLE productTags
-(coreProductId int(10) NOT NULL,
-tags int(10) NOT NULL,
+(coreProductId INT(10) NOT NULL,
+name VARCHAR(50) NOT NULL,
 PRIMARY KEY (productId, tags),
 CONSTRAINT productTags_fk_1 FOREIGN KEY (coreProductId) REFERENCES coreProduct(id) ON DELETE CASCADE,
-CONSTRAINT productTags_fk_2 FOREIGN KEY (tags) REFERENCES tags(id) ON DELETE CASCADE)
-
-
-
 
 
 CREATE TABLE product
@@ -79,6 +52,7 @@ coreProductId int(10) NOT NULL,
 baseUnit VARCHAR(50) NOT NULL,
 quantity INT(10) NOT NULL,
 inventory INT(10) NOT NULL,
+price decimal(12,2) NOT NULL,
 CONSTRAINT product_fk_1 FOREIGN KEY (coreProductId) REFERENCES coreProduct(id) ON DELETE CASCADE)
 ENGINE = InnoDB;
 
@@ -86,9 +60,8 @@ ENGINE = InnoDB;
 CREATE TABLE order
 (id INT AUTO_INCREMENT PRIMARY KEY,
 customerId INT(10) NOT NULL,
-date DATE(10) NOT NULL,
-total DECIMAL(10) NOT NULL,
-orderDetail INT(10) NOT NULL,
+date TIMESTAMP NOT NULL,
+total DECIMAL(12,2) NOT NULL,
 CONSTRAINT order_fk_1FOREIGN KEY (customerId) REFERENCES customer(id) ON DELETE CASCADE)
 ENGINE = InnoDB;
 
@@ -97,7 +70,7 @@ CREATE TABLE orderDetail
 (orderId int(10) NOT NULL,
 productId int(10) NOT NULL,
 quantity int(10) NOT NULL,
-unitPrice DECIMAL(50) NOT NULL,
+unitPrice DECIMAL(12,2) NOT NULL,
 PRIMARY KEY (orderId, productId),
 CONSTRAINT orderDetail_fk_1 FOREIGN KEY (orderId) REFERENCES order(id) ON DELETE CASCADE,
 CONSTRAINT orderDetail_fk_1 FOREIGN KEY (productId) REFERENCES product(id) ON DELETE CASCADE)
