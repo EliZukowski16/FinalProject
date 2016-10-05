@@ -2,6 +2,7 @@ package org.ssa.ironyard.liquorstore.controller;
 
 import static org.junit.Assert.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -20,12 +21,14 @@ import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Product;
+import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.model.Address;
 import org.ssa.ironyard.liquorstore.model.Address.State;
 import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
+import org.ssa.ironyard.liquorstore.model.Password;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 import org.ssa.ironyard.liquorstore.services.AdminService;
 import org.ssa.ironyard.liquorstore.services.AnalyticsService;
@@ -94,9 +97,10 @@ public class AdminControllerTest
        LocalTime t = LocalTime.of(12, 00);
        LocalDateTime ldt = LocalDateTime.of(d,t);
        
-       c = new Customer(1,"username","password","Michael","Patrick",address,ldt);
+       Password p = new BCryptSecurePassword().secureHash("password");
+       c = new Customer(1,"username",p,"Michael","Patrick",address,ldt);
        c.setLoaded(true);
-       ad = new Admin(1,"username","password","Joe","Patrick",1);
+       ad = new Admin(1,"username",p,"Joe","Patrick",1);
        c.setLoaded(true);
        
        List<Tag> tags = new ArrayList();
@@ -106,7 +110,7 @@ public class AdminControllerTest
        
       
        
-       prod = new Product(1,cp,BaseUnit._12OZ_BOTTLE,6,100);
+       prod = new Product(1,cp,BaseUnit._12OZ_BOTTLE,6,100,BigDecimal.valueOf(50.00));
     }
     
     @Test
@@ -176,6 +180,7 @@ public class AdminControllerTest
         assertEquals(prod.getBaseUnit(),p.getBaseUnit());
         assertEquals(prod.getQuantity(),p.getQuantity());
         assertEquals(prod.getInventory(),p.getInventory());
+        assertEquals(prod.getPrice(),p.getPrice());
 
         
     }

@@ -101,7 +101,7 @@ public class CustomerController
         
         LOGGER.info("got customer info add ",userName,password,firstName,lastName,street,city,state,zipCode,address,ldt);
         
-        Password p = new BCryptSecurePassword().secureHash(password)
+        Password p = new BCryptSecurePassword().secureHash(password);
         Customer customer = new Customer(userName,p,firstName,lastName,address,ldt);
         
         Customer customerAdd = customerService.addCustomer(customer);
@@ -147,8 +147,8 @@ public class CustomerController
         
         LOGGER.info("got customer info edit ",customerID,userName,password,firstName,lastName,street,city,state,zipCode,address,ldt);
         
-        
-        Customer customer = new Customer(customerID,userName,password,firstName,lastName,address,ldt);
+        Password p = new BCryptSecurePassword().secureHash(password);
+        Customer customer = new Customer(customerID,userName,p,firstName,lastName,address,ldt);
         Customer customerEdit = customerService.editCustomer(customer);
         
         if(customerEdit == null)
