@@ -56,11 +56,7 @@ public class DAOCustomerImplTest extends AbstractSpringDAOTest<Customer>
     {
     }
 
-//    @Test
-    public void test()
-    {
-        fail("Not yet implemented"); // TODO
-    }
+
 
     @Override
     protected AbstractSpringDAO<Customer> getDAO()

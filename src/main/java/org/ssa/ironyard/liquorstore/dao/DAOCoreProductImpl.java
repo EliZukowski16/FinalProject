@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import org.ssa.ironyard.liquorstore.dao.orm.ORM;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMCoreProductImpl;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
@@ -19,6 +20,7 @@ import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 
 import com.mysql.cj.api.jdbc.Statement;
 
+@Repository
 public class DAOCoreProductImpl extends AbstractDAOCoreProduct implements DAOCoreProduct
 {
 

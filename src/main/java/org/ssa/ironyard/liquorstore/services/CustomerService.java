@@ -3,12 +3,12 @@ package org.ssa.ironyard.liquorstore.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.ssa.ironyard.liquorstore.dao.DAOCustomer;
 import org.ssa.ironyard.liquorstore.model.Customer;
 
-@Component
+@Service
 public class CustomerService implements CustomerServiceInt
 {
     DAOCustomer daoCust;

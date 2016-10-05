@@ -3,11 +3,11 @@ package org.ssa.ironyard.liquorstore.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
 
-@Component
+@Service
 public class CoreProductService implements CoreProductServiceInt
 {
     
