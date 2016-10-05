@@ -164,22 +164,15 @@ public class Order extends AbstractDomainObject implements DomainObject
         return true;
     }
 
-    public DomainObject clone()
+    public Order clone()
     {
 
         Order copy;
 
-        try
-        {
-            copy = (Order) super.clone();
-            copy.setoD(this.getoD());
-            copy.setCustomer(this.getCustomer());
-            return copy;
-        }
-        catch (CloneNotSupportedException e)
-        {
-            return null;
-        }
+        copy = (Order) super.clone();
+        copy.setoD(this.getoD());
+        copy.setCustomer(this.getCustomer());
+        return copy;
 
     }
 

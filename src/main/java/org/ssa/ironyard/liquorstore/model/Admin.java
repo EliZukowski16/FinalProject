@@ -142,17 +142,8 @@ public class Admin extends AbstractUser implements User
     public Admin clone()
     {
         Admin copy;
-        try
-        {
-            copy = (Admin) super.clone();
-            return copy;
-
-        }
-        catch (CloneNotSupportedException e)
-        {
-            e.printStackTrace();
-            return null;
-        }
+        copy = (Admin) super.clone();
+        return copy;
     }
 
 }

@@ -87,17 +87,9 @@ public class Product extends AbstractDomainObject implements DomainObject
     public Product clone()
     {
         Product copy;
-        try
-        {
-            copy = (Product) super.clone();
-            copy.setCoreProduct(this.coreProduct);
-            return copy;
-        }
-        catch (CloneNotSupportedException e)
-        {
-            e.printStackTrace();
-            return null;
-        }
+        copy = (Product) super.clone();
+        copy.setCoreProduct(this.coreProduct);
+        return copy;
     }
 
     @Override

@@ -73,19 +73,9 @@ public class Customer extends AbstractUser implements User
     @Override
     public Customer clone()
     {
-        try
-        {
-            Customer copy = (Customer) super.clone();
-            copy.setAddress(this.getAddress());
-            return copy;
-
-        }
-        catch (CloneNotSupportedException e)
-        {
-            e.printStackTrace();
-        }
-
-        return null;
+        Customer copy = (Customer) super.clone();
+        copy.setAddress(this.getAddress());
+        return copy;
     }
 
     @Override

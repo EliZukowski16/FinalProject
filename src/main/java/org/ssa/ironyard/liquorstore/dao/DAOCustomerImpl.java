@@ -1,15 +1,20 @@
 package org.ssa.ironyard.liquorstore.dao;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.stereotype.Repository;
+import org.ssa.ironyard.liquorstore.dao.orm.ORMAdminImpl;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMCustomerImpl;
+import org.ssa.ironyard.liquorstore.model.Admin;
 import org.ssa.ironyard.liquorstore.model.Customer;
 
+@Repository
 public class DAOCustomerImpl extends AbstractDAOCustomer implements DAOCustomer
 {
 
@@ -75,6 +80,21 @@ public class DAOCustomerImpl extends AbstractDAOCustomer implements DAOCustomer
                 ps.setInt(11, domainToUpdate.getId());
             }
         };
+    }
+    
+    public Customer readByUserName(String username)
+    {
+        if (null == username)
+            return null;
+        return this.springTemplate.query(((ORMCustomerImpl) this.orm).prepareReadByUserName(), (PreparedStatement ps) -> ps.setString(1, username),
+                (ResultSet cursor) ->
+                {
+                    if (cursor.next())
+                    {
+                        return this.orm.map(cursor);
+                    }
+                    return null;
+                });
     }
 
 }
