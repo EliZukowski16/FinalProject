@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.ssa.ironyard.liquorstore.model.Address;
+import org.ssa.ironyard.liquorstore.model.Address.State;
+import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
 import org.ssa.ironyard.liquorstore.model.Customer;
-import org.ssa.ironyard.liquorstore.model.Customer.Address;
 import org.ssa.ironyard.liquorstore.services.AdminService;
 import org.ssa.ironyard.liquorstore.services.AnalyticsService;
 import org.ssa.ironyard.liquorstore.services.CoreProductService;
@@ -75,13 +77,15 @@ public class CustomerController
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         
-        String streetNumber = request.getParameter("streetNumber");
-        String streetName = request.getParameter("streetName");
-        String apptNumber = request.getParameter("apptNumber");
+        String street = request.getParameter("street");
         String city = request.getParameter("city");
-        String state = request.getParameter("state");
-        String zipCode = request.getParameter("zipCode");
-        Address address = new Address(streetNumber, streetName, apptNumber, city, state, zipCode);
+        ZipCode zipCode = new ZipCode(request.getParameter("zipCode"));
+        State state = State.getInstance(request.getParameter("state"));
+        Address address = new Address();
+        address.setStreet(street);
+        address.setCity(city);
+        address.setZip(zipCode);
+        address.setState(state);
         
         String month = request.getParameter("birthMonth");
         String day = request.getParameter("birthDay");
@@ -93,7 +97,7 @@ public class CustomerController
         LocalTime time = LocalTime.of(12, 00);
         LocalDateTime ldt = LocalDateTime.of(date, time);
         
-        LOGGER.info("got customer info add ",userName,password,firstName,lastName,streetNumber,streetName,apptNumber,city,state,zipCode,address,ldt);
+        LOGGER.info("got customer info add ",userName,password,firstName,lastName,street,city,state,zipCode,address,ldt);
         
         Customer customer = new Customer(userName,password,firstName,lastName,address,ldt);
         
@@ -118,13 +122,15 @@ public class CustomerController
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         
-        String streetNumber = request.getParameter("streetNumber");
-        String streetName = request.getParameter("streetName");
-        String apptNumber = request.getParameter("apptNumber");
+        String street = request.getParameter("street");
         String city = request.getParameter("city");
-        String state = request.getParameter("state");
-        String zipCode = request.getParameter("zipCode");
-        Address address = new Address(streetNumber, streetName, apptNumber, city, state, zipCode);
+        ZipCode zipCode = new ZipCode(request.getParameter("zipCode"));
+        State state = State.getInstance(request.getParameter("state"));
+        Address address = new Address();
+        address.setStreet(street);
+        address.setCity(city);
+        address.setZip(zipCode);
+        address.setState(state);
         
         String month = request.getParameter("birthMonth");
         String day = request.getParameter("birthDay");
@@ -136,7 +142,7 @@ public class CustomerController
         LocalTime time = LocalTime.of(12, 00);
         LocalDateTime ldt = LocalDateTime.of(date, time);
         
-        LOGGER.info("got customer info edit ",customerID,userName,password,firstName,lastName,streetNumber,streetName,apptNumber,city,state,zipCode,address,ldt);
+        LOGGER.info("got customer info edit ",customerID,userName,password,firstName,lastName,street,city,state,zipCode,address,ldt);
         
         
         Customer customer = new Customer(customerID,userName,password,firstName,lastName,address,ldt);

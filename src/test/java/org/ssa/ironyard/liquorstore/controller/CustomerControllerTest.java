@@ -21,13 +21,16 @@ import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
 import org.ssa.ironyard.liquorstore.dao.DAOCustomer;
 import org.ssa.ironyard.liquorstore.dao.DAOOrder;
 import org.ssa.ironyard.liquorstore.dao.DAOProduct;
+import org.ssa.ironyard.liquorstore.model.Address;
 import org.ssa.ironyard.liquorstore.model.Admin;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Product;
+import org.ssa.ironyard.liquorstore.model.Address.State;
+import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
-import org.ssa.ironyard.liquorstore.model.Customer.Address;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 import org.ssa.ironyard.liquorstore.services.AdminService;
@@ -91,7 +94,11 @@ public class CustomerControllerTest
        salesService = EasyMock.niceMock(SalesService.class);
        this.custController = new CustomerController(adminService,anService,cpService,custService,orderService,prodService,salesService);
        
-       Address address = new Address("111","road","","columbia","MD","21122");
+       Address address = new Address();
+       address.setStreet("111 road");
+       address.setCity("Columbia");
+       address.setZip(new ZipCode("21122"));
+       address.setState(State.ARIZONA);
        LocalDate d = LocalDate.of(1992, 12, 24);
        LocalTime t = LocalTime.of(12, 00);
        LocalDateTime ldt = LocalDateTime.of(d,t);
@@ -99,19 +106,26 @@ public class CustomerControllerTest
        c = new Customer(1,"username","password","Michael","Patrick",address,ldt);
        ad = new Admin(1,"username","password","Joe","Patrick",1);
        
-       List<String> tags = new ArrayList();
-       tags.add("beer");
-       tags.add("light beer");
+       c = new Customer(1,"username","password","Michael","Patrick",address,ldt);
+       c.setLoaded(true);
+       ad = new Admin(1,"username","password","Joe","Patrick",1);
+       c.setLoaded(true);
+       
+       List<Tag> tags = new ArrayList();
+       tags.add(new Tag("beer"));
+       tags.add(new Tag("light beer"));
        cp = new CoreProduct(1,"Bud Light", tags, Type.BEER, "Light Beer", "Tastes Great");
        
+      
+       
+       prod = new Product(1,cp,BaseUnit._12OZ_BOTTLE,6,100);
+       
        List<OrderDetail> odList = new ArrayList();
-       OrderDetail od = new OrderDetail(1,3,6,15.00f);
-       OrderDetail od2 = new OrderDetail(2,4,12,20.00f);
+       OrderDetail od = new OrderDetail(1,prod,6,15.00f);
+       OrderDetail od2 = new OrderDetail(2,prod,12,20.00f);
        odList.add(od);
        odList.add(od2);
-       ord = new Order(1,2,ldt,50.00f,odList);
-       
-       prod = new Product(1,3,BaseUnit._12OZ_BOTTLE,6,100);
+       ord = new Order(1,c,ldt,50.00f,odList);
     }
     
     @Test
@@ -122,11 +136,9 @@ public class CustomerControllerTest
         mockRequest.addParameter("password", "password");
         mockRequest.addParameter("firstName", "Michael");
         mockRequest.addParameter("lastName", "Patrick");
-        mockRequest.addParameter("streetNumber", "111");
-        mockRequest.addParameter("streetName", "road");
-        mockRequest.addParameter("apptNumber", "");
-        mockRequest.addParameter("city", "columbia");
-        mockRequest.addParameter("state", "MD");
+        mockRequest.addParameter("street", "111 road");
+        mockRequest.addParameter("city", "Columbia");
+        mockRequest.addParameter("state", "AZ");
         mockRequest.addParameter("zipCode", "21122");
         mockRequest.addParameter("birthMonth", "12");
         mockRequest.addParameter("birthDay", "24");
@@ -142,6 +154,8 @@ public class CustomerControllerTest
         
         Customer cust = customerMap.getBody().get("success");
         
+        
+        
         assertTrue(customerMap.getBody().containsKey("success"));
         assertFalse(customerMap.getBody().containsKey("error"));
         assertNotEquals(capturedCust.getValue().getId(), cust.getId());
@@ -149,12 +163,10 @@ public class CustomerControllerTest
         assertEquals(capturedCust.getValue().getPassword(),cust.getPassword());
         assertEquals(capturedCust.getValue().getFirstName(),cust.getFirstName());
         assertEquals(capturedCust.getValue().getLastName(),cust.getLastName());
-        assertEquals(capturedCust.getValue().getAddress().getStreetNumber(),cust.getAddress().getStreetNumber());
-        assertEquals(capturedCust.getValue().getAddress().getStreetName(),cust.getAddress().getStreetName());
-        assertEquals(capturedCust.getValue().getAddress().getApptNumber(),cust.getAddress().getApptNumber());
+        assertEquals(capturedCust.getValue().getAddress().getStreet(),cust.getAddress().getStreet());
         assertEquals(capturedCust.getValue().getAddress().getCity(),cust.getAddress().getCity());
         assertEquals(capturedCust.getValue().getAddress().getState(),cust.getAddress().getState());
-        assertEquals(capturedCust.getValue().getAddress().getZipCode(),cust.getAddress().getZipCode());        
+        assertEquals(capturedCust.getValue().getAddress().getZip().toString(),cust.getAddress().getZip().toString());        
         assertEquals(capturedCust.getValue().getBirthDate(),cust.getBirthDate());
     }
     
@@ -166,11 +178,9 @@ public class CustomerControllerTest
         mockRequest.addParameter("password", "password");
         mockRequest.addParameter("firstName", "Michael");
         mockRequest.addParameter("lastName", "Patrick");
-        mockRequest.addParameter("streetNumber", "111");
-        mockRequest.addParameter("streetName", "road");
-        mockRequest.addParameter("apptNumber", "");
-        mockRequest.addParameter("city", "columbia");
-        mockRequest.addParameter("state", "MD");
+        mockRequest.addParameter("street", "111 road");
+        mockRequest.addParameter("city", "Columbia");
+        mockRequest.addParameter("state", "AZ");
         mockRequest.addParameter("zipCode", "21122");
         mockRequest.addParameter("birthMonth", "12");
         mockRequest.addParameter("birthDay", "24");
@@ -186,6 +196,9 @@ public class CustomerControllerTest
         
         Customer cust = customerMap.getBody().get("success");
         
+        System.out.println(capturedCust.getValue().getAddress().getZip());
+        System.out.println(cust.getAddress().getZip());
+        
         assertTrue(customerMap.getBody().containsKey("success"));
         assertFalse(customerMap.getBody().containsKey("errors"));
         assertEquals(capturedCust.getValue().getId(), cust.getId());
@@ -193,12 +206,10 @@ public class CustomerControllerTest
         assertEquals(capturedCust.getValue().getPassword(),cust.getPassword());
         assertEquals(capturedCust.getValue().getFirstName(),cust.getFirstName());
         assertEquals(capturedCust.getValue().getLastName(),cust.getLastName());
-        assertEquals(capturedCust.getValue().getAddress().getStreetNumber(),cust.getAddress().getStreetNumber());
-        assertEquals(capturedCust.getValue().getAddress().getStreetName(),cust.getAddress().getStreetName());
-        assertEquals(capturedCust.getValue().getAddress().getApptNumber(),cust.getAddress().getApptNumber());
+        assertEquals(capturedCust.getValue().getAddress().getStreet(),cust.getAddress().getStreet());
         assertEquals(capturedCust.getValue().getAddress().getCity(),cust.getAddress().getCity());
         assertEquals(capturedCust.getValue().getAddress().getState(),cust.getAddress().getState());
-        assertEquals(capturedCust.getValue().getAddress().getZipCode(),cust.getAddress().getZipCode());        
+        assertEquals(capturedCust.getValue().getAddress().getZip().toString(),cust.getAddress().getZip().toString());            
         assertEquals(capturedCust.getValue().getBirthDate(),cust.getBirthDate());
         
     }

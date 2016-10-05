@@ -28,3 +28,33 @@
 16:36:50.340 [main] INFO org.ssa.ironyard.liquorstore.controller.AdminController - getting one product
 16:36:50.346 [main] INFO org.ssa.ironyard.liquorstore.controller.AdminController - returning single customer
 16:36:50.348 [main] INFO org.ssa.ironyard.liquorstore.controller.AdminController - Found customer
+10:39:54.446 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info add 
+10:39:54.474 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info edit 
+10:41:47.284 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info add 
+10:41:47.291 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info edit 
+10:43:03.153 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info add 
+10:43:03.163 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info edit 
+10:43:15.808 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info add 
+10:43:15.818 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info edit 
+10:43:52.577 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info add 
+10:43:52.587 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info edit 
+10:44:49.468 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info add 
+10:44:49.476 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info edit 
+10:45:40.202 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info add 
+10:45:40.212 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info edit 
+10:45:48.213 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info add 
+10:45:48.223 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info edit 
+10:46:55.004 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info add 
+10:46:55.012 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info edit 
+10:47:21.440 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info add 
+10:47:21.450 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info edit 
+10:47:49.641 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info add 
+10:47:49.649 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info edit 
+10:48:16.014 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info add 
+10:48:16.022 [main] INFO org.ssa.ironyard.liquorstore.controller.CustomerController - got customer info edit 
+10:50:52.275 [main] INFO org.ssa.ironyard.liquorstore.controller.AdminController - getting one product
+10:50:52.310 [main] INFO org.ssa.ironyard.liquorstore.controller.AdminController - returning single customer
+10:50:52.312 [main] INFO org.ssa.ironyard.liquorstore.controller.AdminController - Found customer
+10:54:13.411 [main] INFO org.ssa.ironyard.liquorstore.controller.AdminController - getting one product
+10:54:13.421 [main] INFO org.ssa.ironyard.liquorstore.controller.AdminController - returning single customer
+10:54:13.423 [main] INFO org.ssa.ironyard.liquorstore.controller.AdminController - Found customer

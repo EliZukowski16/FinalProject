@@ -1,6 +1,6 @@
 package org.ssa.ironyard.liquorstore.services;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,22 +8,23 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.ssa.ironyard.liquorstore.dao.DAOAdmin;
 import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
 import org.ssa.ironyard.liquorstore.dao.DAOCustomer;
 import org.ssa.ironyard.liquorstore.dao.DAOOrder;
 import org.ssa.ironyard.liquorstore.dao.DAOProduct;
+import org.ssa.ironyard.liquorstore.model.Address;
+import org.ssa.ironyard.liquorstore.model.Address.State;
+import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
 import org.ssa.ironyard.liquorstore.model.Admin;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Customer;
-import org.ssa.ironyard.liquorstore.model.Customer.Address;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
-import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 import org.ssa.ironyard.liquorstore.model.Product;
+import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 
 public class FullTest
 {
@@ -47,6 +48,7 @@ public class FullTest
     CoreProduct cp;
     Order ord;
     Product prod;
+    Product prod2;
     
     Customer ci;
     Admin adi;
@@ -63,7 +65,11 @@ public class FullTest
         orderService = new OrdersService(daoOrder);
         prodService = new ProductService(daoProduct);
         
-        Address address = new Address("111","road","","columbia","MD","21122");
+        Address address = new Address();
+        address.setStreet("111 road");
+        address.setCity("Columbia");
+        address.setZip(new ZipCode("21122"));
+        address.setState(State.ARIZONA);
         LocalDate d = LocalDate.of(1992, 12, 24);
         LocalTime t = LocalTime.of(12, 00);
         LocalDateTime ldt = LocalDateTime.of(d,t);
@@ -71,19 +77,22 @@ public class FullTest
         c = new Customer("username","password","Michael","Patrick",address,ldt);
         ad = new Admin("username","password","Joe","Patrick",1);
         
-        List<String> tags = new ArrayList();
-        tags.add("beer");
-        tags.add("light beer");
+        List<Tag> tags = new ArrayList();
+        tags.add(new Tag("beer"));
+        tags.add(new Tag("light beer"));
         cp = new CoreProduct("Bud Light", tags, Type.BEER, "Light Beer", "Tastes Great");
         
+        
+        
+        prod = new Product(cp,BaseUnit._12OZ_BOTTLE,6,100);
+        prod2 = new Product(cp,BaseUnit._12OZ_CAN,30,50);
+        
         List<OrderDetail> odList = new ArrayList();
-        OrderDetail od = new OrderDetail(1,3,6,15.00f);
-        OrderDetail od2 = new OrderDetail(2,4,12,20.00f);
+        OrderDetail od = new OrderDetail(1,prod,6,15.00f);
+        OrderDetail od2 = new OrderDetail(2,prod2,12,20.00f);
         odList.add(od);
         odList.add(od2);
-        ord = new Order(2,ldt,50.00f,odList);
-        
-        prod = new Product(3,BaseUnit._12OZ_BOTTLE,6,100);
+        ord = new Order(c,ldt,50.00f,odList);
         
         ci = custService.addCustomer(c);
         adi = adminService.addAdmin(ad);
@@ -112,12 +121,12 @@ public class FullTest
        assertTrue(cpService.readCoreProduct(cpAdd.getId()) != null);
        
        Order ordAdd = orderService.addOrder(ord);
-       ord = new Order(ordAdd.getId(),ord.getCustomerID(),ord.getDate(),ord.getTotal(),ord.getoD());
+       ord = new Order(ordAdd.getId(),ord.getCustomer(),ord.getDate(),ord.getTotal(),ord.getoD());
        assertTrue(ordAdd.deeplyEquals(ord));
        assertTrue(orderService.readOrder(ordAdd.getId()) != null);
        
        Product prodAdd = prodService.addProduct(prod);
-       prod = new Product(prodAdd.getId(),prod.getCoreProductId(),prod.getBaseUnit(),prod.getQuantity(),prod.getInventory());
+       prod = new Product(prodAdd.getId(),prod.getCoreProduct(),prod.getBaseUnit(),prod.getQuantity(),prod.getInventory());
        assertTrue(prodAdd.deeplyEquals(prod));
        assertTrue(prodService.readProduct(prodAdd.getId()) != null);
        
@@ -156,25 +165,29 @@ public class FullTest
     //@Test
     public void readAllTest()
     {
-        Address address = new Address("222","road","","columbia","MD","444444");
+        Address address = new Address();
+        address.setStreet("222 Road");
+        address.setCity("Columbia");
+        address.setZip(new ZipCode("44444"));
+        address.setState(State.ALABAMA);
         LocalDateTime ldt = LocalDateTime.of(10,30,52,0,0,0);
         
         Customer c2 = new Customer("UN","PW","Joe","Pat",address,ldt);
         Admin ad2 = new Admin("UN","PW","Mikr","John",2);
         
-        List<String> tags = new ArrayList();
-        tags.add("Whiskey");
-        tags.add("Bourbon");
+        List<Tag> tags = new ArrayList();
+        tags.add(new Tag("Whiskey"));
+        tags.add(new Tag("Bourbon"));
         CoreProduct cp2 = new CoreProduct("Jack Danials", tags, Type.SPIRITS, "Whiskey", "yay");
         
         List<OrderDetail> odList = new ArrayList();
-        OrderDetail od = new OrderDetail(1,3,6,15.00f);
-        OrderDetail od2 = new OrderDetail(2,4,12,20.00f);
+        OrderDetail od = new OrderDetail(1,prod,6,15.00f);
+        OrderDetail od2 = new OrderDetail(2,prod2,12,20.00f);
         odList.add(od);
         odList.add(od2);
-        Order ord2 = new Order(2,ldt,50.00f,odList);
+        Order ord2 = new Order(c,ldt,50.00f,odList);
         
-        Product prod2 = new Product(5,BaseUnit._750ML_BOTTLE,1,50);
+        Product prod2 = new Product(cp,BaseUnit._750ML_BOTTLE,1,50);
         
         custService.addCustomer(c2);
         adminService.addAdmin(ad2);
@@ -207,25 +220,31 @@ public class FullTest
     //@Test
     public void editTest()
     {
-        Address address = new Address("222","road","","columbia","MD","444444");
+        Address address = new Address();
+        address.setStreet("222 Road");
+        address.setCity("Columbia");
+        address.setZip(new ZipCode("44444"));
+        address.setState(State.ALABAMA);
+        
         LocalDateTime ldt = LocalDateTime.of(10,30,52,0,0,0);
         
         Customer cu = new Customer("UN","PW","Joe","Pat",address,ldt);
         Admin adu = new Admin("UN","PW","Mikr","John",2);
         
-        List<String> tags = new ArrayList();
-        tags.add("Whiskey");
-        tags.add("Bourbon");
+        List<Tag> tags = new ArrayList();
+        tags.add(new Tag("Whiskey"));
+        tags.add(new Tag("Bourbon"));
         CoreProduct cpu = new CoreProduct("Jack Danials", tags, Type.SPIRITS, "Whiskey", "yay");
         
         List<OrderDetail> odList = new ArrayList();
-        OrderDetail od = new OrderDetail(1,3,6,15.00f);
-        OrderDetail od2 = new OrderDetail(2,4,12,20.00f);
+        OrderDetail od = new OrderDetail(1,prod,6,15.00f);
+        OrderDetail od2 = new OrderDetail(2,prod2,12,20.00f);
         odList.add(od);
         odList.add(od2);
-        Order ordu = new Order(2,ldt,50.00f,odList);
+        Order ordu = new Order(c,ldt,50.00f,odList);
         
-        Product produ = new Product(5,BaseUnit._750ML_BOTTLE,1,50);
+        Product produ = new Product(cp,BaseUnit._750ML_BOTTLE,1,50);
+        
         
         assertTrue(ci.deeplyEquals(custService.readCustomer(ci.getId())));
         Customer cu2 = custService.editCustomer(cu);

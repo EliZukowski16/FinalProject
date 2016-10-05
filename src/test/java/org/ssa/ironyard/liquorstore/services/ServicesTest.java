@@ -1,6 +1,6 @@
 package org.ssa.ironyard.liquorstore.services;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,22 +8,25 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
-import org.easymock.EasyMock;
 import org.ssa.ironyard.liquorstore.dao.DAOAdmin;
 import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
 import org.ssa.ironyard.liquorstore.dao.DAOCustomer;
 import org.ssa.ironyard.liquorstore.dao.DAOOrder;
 import org.ssa.ironyard.liquorstore.dao.DAOProduct;
+import org.ssa.ironyard.liquorstore.model.Address;
+import org.ssa.ironyard.liquorstore.model.Address.State;
+import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
 import org.ssa.ironyard.liquorstore.model.Admin;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
-import org.ssa.ironyard.liquorstore.model.Product;
-import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
-import org.ssa.ironyard.liquorstore.model.Customer.Address;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
+import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 
 public class ServicesTest
@@ -59,7 +62,11 @@ public class ServicesTest
         orderService = new OrdersService(daoOrder);
         prodService = new ProductService(daoProduct);
         
-        Address address = new Address("111","road","","columbia","MD","21122");
+        Address address = new Address();
+        address.setStreet("111 road");
+        address.setCity("Columbia");
+        address.setZip(new ZipCode("21122"));
+        address.setState(State.ARIZONA);
         LocalDate d = LocalDate.of(1992, 12, 24);
         LocalTime t = LocalTime.of(12, 00);
         LocalDateTime ldt = LocalDateTime.of(d,t);
@@ -69,19 +76,21 @@ public class ServicesTest
         ad = new Admin(1,"username","password","Joe","Patrick",1);
         c.setLoaded(true);
         
-        List<String> tags = new ArrayList();
-        tags.add("beer");
-        tags.add("light beer");
+        List<Tag> tags = new ArrayList();
+        tags.add(new Tag("beer"));
+        tags.add(new Tag("light beer"));
         cp = new CoreProduct(1,"Bud Light", tags, Type.BEER, "Light Beer", "Tastes Great");
         
+       
+        
+        prod = new Product(1,cp,BaseUnit._12OZ_BOTTLE,6,100);
+        
         List<OrderDetail> odList = new ArrayList();
-        OrderDetail od = new OrderDetail(1,3,6,15.00f);
-        OrderDetail od2 = new OrderDetail(2,4,12,20.00f);
+        OrderDetail od = new OrderDetail(1,prod,6,15.00f);
+        OrderDetail od2 = new OrderDetail(2,prod,12,20.00f);
         odList.add(od);
         odList.add(od2);
-        ord = new Order(1,2,ldt,50.00f,odList);
-        
-        prod = new Product(1,3,BaseUnit._12OZ_BOTTLE,6,100);
+        ord = new Order(1,c,ldt,50.00f,odList);
         
         daoCustomer = EasyMock.niceMock(DAOCustomer.class);
         this.custService = new CustomerService(daoCustomer); 

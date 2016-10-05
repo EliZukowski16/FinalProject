@@ -66,7 +66,7 @@ public class OrdersService implements OrdersServiceInt
         if(daoOrder.read(order.getId()) == null)
             return null;
         
-        Order ord = new Order(order.getId(),order.getCustomerID(),order.getDate(),order.getTotal(),order.getoD());
+        Order ord = new Order(order.getId(),order.getCustomer(),order.getDate(),order.getTotal(),order.getoD());
         return daoOrder.update(ord);
     }
 
@@ -74,7 +74,7 @@ public class OrdersService implements OrdersServiceInt
     @Transactional
     public Order addOrder(Order order)
     {
-        Order ord = new Order(order.getId(),order.getCustomerID(),order.getDate(),order.getTotal(),order.getoD());
+        Order ord = new Order(order.getId(),order.getCustomer(),order.getDate(),order.getTotal(),order.getoD());
         return daoOrder.insert(ord);
             
     }
