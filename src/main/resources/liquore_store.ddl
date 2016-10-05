@@ -1,6 +1,6 @@
 
  
-CREATE DATABASE liquorStore;
+CREATE DATABASE liquor_store;
 
 CREATE TABLE admin
 (id INT AUTO_INCREMENT PRIMARY KEY,
