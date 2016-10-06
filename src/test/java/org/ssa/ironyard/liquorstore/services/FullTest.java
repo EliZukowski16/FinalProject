@@ -21,8 +21,11 @@ import org.ssa.ironyard.liquorstore.dao.DAOAdminImpl;
 import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
 import org.ssa.ironyard.liquorstore.dao.DAOCoreProductImpl;
 import org.ssa.ironyard.liquorstore.dao.DAOCustomer;
+import org.ssa.ironyard.liquorstore.dao.DAOCustomerImpl;
 import org.ssa.ironyard.liquorstore.dao.DAOOrder;
+import org.ssa.ironyard.liquorstore.dao.DAOOrderImpl;
 import org.ssa.ironyard.liquorstore.dao.DAOProduct;
+import org.ssa.ironyard.liquorstore.dao.DAOProductImpl;
 import org.ssa.ironyard.liquorstore.model.Address;
 import org.ssa.ironyard.liquorstore.model.Address.State;
 import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
@@ -83,12 +86,16 @@ public class FullTest
         
     }
     
-    //@Before
+    @Before
     public void setup()
     {
         daoAdmin = new DAOAdminImpl(dataSource);
         daoCoreProduct = new DAOCoreProductImpl(dataSource);
-        //dao
+        daoCustomer = new DAOCustomerImpl(dataSource);
+        daoOrder = new DAOOrderImpl(dataSource);
+        daoProduct = new DAOProductImpl(dataSource);
+        
+        
         
        
         
@@ -139,7 +146,7 @@ public class FullTest
         
     }
 
-    //@Test
+    @Test
     public void addTest()
     {
        Customer cAdd = custService.addCustomer(c);

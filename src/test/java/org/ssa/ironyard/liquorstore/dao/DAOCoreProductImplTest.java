@@ -17,7 +17,7 @@ import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
-public class DAOCoreProductImplTest
+public class DAOCoreProductImplTest extends AbstractSpringDAOTest<CoreProduct>
 {
     static String URL = "jdbc:mysql://localhost/liquor_store?user=root&password=root&useServerPrpStmts=true";
     static DataSource dataSource;
@@ -54,7 +54,7 @@ public class DAOCoreProductImplTest
         fail("Not yet implemented"); // TODO
     }
 
-//    @Override
+    @Override
     protected AbstractSpringDAO<CoreProduct> getDAO()
     {
         this.coreProductDAO = new DAOCoreProductImpl(dataSource);
@@ -62,7 +62,7 @@ public class DAOCoreProductImplTest
         return coreProductDAO;
     }
 
-//    @Override
+    @Override
     protected CoreProduct newInstance()
     {
         String name = "testCoreProduct";

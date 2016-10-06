@@ -29,6 +29,8 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
 
         public static Type getInstance(String alcoholType)
         {
+            alcoholType = alcoholType.toLowerCase();
+            
             for (Type t : values())
             {
                 if (t.alcoholType.equals(alcoholType))

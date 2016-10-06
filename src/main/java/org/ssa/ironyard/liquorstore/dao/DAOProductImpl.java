@@ -15,17 +15,18 @@ import org.ssa.ironyard.liquorstore.model.Product;
 public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
 {
     @Autowired
-    protected DAOProductImpl(DataSource dataSource)
+    public DAOProductImpl(DataSource dataSource)
     {
         super(new ORMProductImpl(), dataSource);
         // TODO Auto-generated constructor stub
     }
     
     @Override
-    public Product read(Integer id)
+    public Product readEager(Integer id)
     {
-        // TODO Auto-generated method stub
-        return super.read(id);
+        if (null == id)
+            return null;
+        return this.springTemplate.query(((ORMProductImpl) this.orm).prepareReadEager(), (PreparedStatement ps) -> ps.setInt(1, id), this.extractor);
     }
 
     @Override

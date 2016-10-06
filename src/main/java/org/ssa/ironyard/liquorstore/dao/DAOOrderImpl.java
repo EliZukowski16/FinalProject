@@ -24,7 +24,7 @@ import com.mysql.cj.api.jdbc.Statement;
 public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
 {
     @Autowired
-    protected DAOOrderImpl(DataSource dataSource)
+    public DAOOrderImpl(DataSource dataSource)
     {
         super(new ORMOrderImpl(), dataSource);
         // TODO Auto-generated constructor stub
@@ -61,7 +61,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
                 }, generatedId) == 1)
                 {
                     orderDetails
-                            .add(new OrderDetail(domain.getId(), od.getProduct(), od.getQty(), od.getUnitPrice()));
+                            .add(new OrderDetail(od.getProduct(), od.getQty(), od.getUnitPrice()));
                 }
             }
 

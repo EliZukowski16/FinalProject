@@ -55,5 +55,22 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
     {
         return coreProductORM.map(results);
     }
+     
+    
+    public String prepareReadEager()
+    {
+        return " SELECT " + this.projection() + " " + coreProductORM.projection() + " FROM " + this.coreProductJoin() +
+                " ON " + this.coreProductRelation() + " WHERE " + this.primaryKeys.get(0) + " = ? ";
+    }
+    
+    private String coreProductJoin()
+    {
+        return this.table() + " JOIN " + coreProductORM.table();
+    }
+    
+    private String coreProductRelation()
+    {
+        return this.foreignKeys.get(coreProductORM.table()) + " = " + coreProductORM.getPrimaryKeys().get(0);
+    }
 
 }
