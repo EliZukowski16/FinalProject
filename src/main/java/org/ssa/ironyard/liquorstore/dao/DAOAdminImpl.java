@@ -17,7 +17,7 @@ public class DAOAdminImpl extends AbstractDAOAdmin implements DAOAdmin
 {
 
     @Autowired
-    protected DAOAdminImpl(DataSource dataSource)
+    public DAOAdminImpl(DataSource dataSource)
     {
         super(new ORMAdminImpl(), dataSource);
     }
