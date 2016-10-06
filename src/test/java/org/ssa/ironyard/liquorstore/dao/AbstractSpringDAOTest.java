@@ -4,13 +4,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.ssa.ironyard.liquorstore.model.DomainObject;
 
 public abstract class AbstractSpringDAOTest<T extends DomainObject>
 {
-
+    static Logger LOGGER = LogManager.getLogger(AbstractSpringDAOTest.class);
+    
     protected abstract AbstractSpringDAO<T> getDAO();
 
     protected abstract T newInstance();
@@ -27,10 +30,16 @@ public abstract class AbstractSpringDAOTest<T extends DomainObject>
     public void testCRUD()
     {
         T t = newInstance();
+        
+        LOGGER.info("Object : {}, address : {}", t.getClass(), t);
 
         T tInDB = dao.insert(t);
      
+        LOGGER.info("Object inserted into database address : {}", tInDB);
+        
         T tFromDB = dao.read(tInDB.getId());
+        
+        LOGGER.info("Object read from database address : {}", tFromDB);
 
         assertTrue(tInDB.equals(tFromDB));
 

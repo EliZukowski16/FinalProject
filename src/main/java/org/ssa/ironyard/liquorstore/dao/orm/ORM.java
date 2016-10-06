@@ -5,11 +5,15 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.ssa.ironyard.liquorstore.model.DomainObject;
 
 public interface ORM<T extends DomainObject>
 {
+    static Logger LOGGER = LogManager.getLogger(ORM.class);
+    
     String projection();
     
     String table();
@@ -20,7 +24,11 @@ public interface ORM<T extends DomainObject>
 
     default String prepareDelete()
     {
-        return " DELETE FROM " + table() + " WHERE id = ? ";
+        String delete = " DELETE FROM " + table() + " WHERE id = ? ";
+        
+        LOGGER.info(delete);
+        
+        return delete;
     }
     
     T map(ResultSet results) throws SQLException;
@@ -33,17 +41,29 @@ public interface ORM<T extends DomainObject>
     
     public default String prepareQuery(String queryField)
     {
-        return this.prepareReadAll() + " WHERE " + queryField + " = ? ";
+        String query = this.prepareReadAll() + " WHERE " + queryField + " = ? ";
+        
+        LOGGER.info(query);
+        
+        return query;
     }
 
     default String prepareReadAll()
     {
-        return " SELECT " + this.projection() + " FROM " + table();
+        String readAll = " SELECT " + this.projection() + " FROM " + table();
+        
+        LOGGER.info(readAll);
+        
+        return readAll;
     }
 
     default String prepareRead()
     {
-        return this.prepareReadAll() + " WHERE id = ? ";
+        String read = this.prepareReadAll() + " WHERE id = ? ";
+        
+        LOGGER.info(read);
+        
+        return read;
     }
 
 }

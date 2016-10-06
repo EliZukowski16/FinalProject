@@ -20,14 +20,6 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
         super(new ORMProductImpl(), dataSource);
         // TODO Auto-generated constructor stub
     }
-    
-    @Override
-    public Product readEager(Integer id)
-    {
-        if (null == id)
-            return null;
-        return this.springTemplate.query(((ORMProductImpl) this.orm).prepareReadEager(), (PreparedStatement ps) -> ps.setInt(1, id), this.extractor);
-    }
 
     @Override
     protected void insertPreparer(PreparedStatement insertStatement, Product domainToInsert) throws SQLException
@@ -74,6 +66,7 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
                 ps.setInt(3, domainToUpdate.getQuantity());
                 ps.setInt(4, domainToUpdate.getInventory());
                 ps.setBigDecimal(5, domainToUpdate.getPrice());
+                ps.setInt(6, domainToUpdate.getId());
                 
             }
 

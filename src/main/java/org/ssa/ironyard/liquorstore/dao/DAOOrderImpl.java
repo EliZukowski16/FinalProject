@@ -118,6 +118,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
                 ps.setInt(1, domainToUpdate.getCustomer().getId());
                 ps.setTimestamp(2, Timestamp.valueOf(domainToUpdate.getDate()));
                 ps.setBigDecimal(3, domainToUpdate.getTotal());
+                ps.setInt(4, domainToUpdate.getId());
             }
 
         };

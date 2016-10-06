@@ -40,6 +40,7 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
     @Override
     public Order map(ResultSet results) throws SQLException
     {
+        
         Integer id = results.getInt(table() + ".id");
         BigDecimal total = results.getBigDecimal(table() + ".total");
         LocalDateTime date = results.getTimestamp(table() + ".date").toLocalDateTime();
@@ -54,10 +55,29 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
         
         return order;
     }
+    
+    
 
     public String prepareInsertDetail()
     {
         return " INSERT INTO order_detail (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)";
+    }
+    
+    @Override
+    public String prepareRead()
+    {
+        return " SELECT " + this.projection() + " , " + customerORM.projection() + " FROM " + this.customerJoin() +
+                " ON " + this.customerRelation() + " WHERE " + this.table() + "." + this.primaryKeys.get(0) + " = ? ";
+    }
+    
+    private String customerJoin()
+    {
+        return this.table() + " JOIN " + customerORM.table();
+    }
+    
+    private String customerRelation()
+    {
+        return this.table() + "." + this.foreignKeys.get(customerORM.table()) + " = " + customerORM.table() + "." + customerORM.getPrimaryKeys().get(0);
     }
 
 }

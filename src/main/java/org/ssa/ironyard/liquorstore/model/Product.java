@@ -118,7 +118,7 @@ public class Product extends AbstractDomainObject implements DomainObject
         }
         else if (!baseUnit.equals(other.baseUnit))
             return false;
-        if (coreProduct != other.coreProduct)
+        if (!coreProduct.equals(other.coreProduct))
             return false;
         if (this.getId() != other.getId())
             return false;
