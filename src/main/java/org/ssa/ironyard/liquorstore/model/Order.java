@@ -74,6 +74,55 @@ public class Order extends AbstractDomainObject implements DomainObject
         {
             this.unitPrice = unitPrice;
         }
+
+
+        @Override
+        public int hashCode()
+        {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((product == null) ? 0 : product.hashCode());
+            result = prime * result + ((qty == null) ? 0 : qty.hashCode());
+            result = prime * result + ((unitPrice == null) ? 0 : unitPrice.hashCode());
+            return result;
+        }
+
+
+        @Override
+        public boolean equals(Object obj)
+        {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            OrderDetail other = (OrderDetail) obj;
+            if (product == null)
+            {
+                if (other.product != null)
+                    return false;
+            }
+            else if (!product.equals(other.product))
+                return false;
+            if (qty == null)
+            {
+                if (other.qty != null)
+                    return false;
+            }
+            else if (!qty.equals(other.qty))
+                return false;
+            if (unitPrice == null)
+            {
+                if (other.unitPrice != null)
+                    return false;
+            }
+            else if (!unitPrice.equals(other.unitPrice))
+                return false;
+            return true;
+        }
+        
+        
     }
     
     public void addOrderDetail(OrderDetail oD)

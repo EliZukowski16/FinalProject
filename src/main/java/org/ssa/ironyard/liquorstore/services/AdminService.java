@@ -11,4 +11,5 @@ public interface AdminService
     Admin editAdmin(Admin admin);
     Admin addAdmin(Admin admin);
     boolean deleteAdmin(Integer id);
+   
 }
