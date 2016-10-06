@@ -50,11 +50,11 @@ public class logInController
         LOGGER.info(u);
         if(u == null)
         {
-            response.put("ERROR", u);
+            response.put("error", u);
         }
         else
         {
-            response.put("SUCCESS", u);
+            response.put("success", u);
         }
         LOGGER.info(response);
         return ResponseEntity.ok().header("log in", "Check").body(response);

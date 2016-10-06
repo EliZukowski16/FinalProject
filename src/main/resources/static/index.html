@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="liquorStore">
+<html>
 <head>
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -65,55 +65,55 @@
          <div class="form-group">
       <label class="control-label col-sm-2" for="firstName">*First Name:</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="firstName" ng-model="firstName" placeholder="Enter first name">
+        <input type="text" class="form-control" id="firstName" placeholder="Enter first name">
       </div>
     </div>
      <div class="form-group">
       <label class="control-label col-sm-2" for="lastName">*Last Name:</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="lastName" ng-model="lastName" placeholder="Enter last name">
+        <input type="text" class="form-control" id="lastName" placeholder="Enter last name">
       </div>
     </div>
      <div class="form-group">
       <label class="control-label col-sm-2" for="DOB">*Date of Birth:</label>
       <div class="col-sm-4">
-        <input type="date" class="form-control" id="DOB" ng-model="DOB" placeholder="Enter date of birth">
+        <input type="date" class="form-control" id="DOB" placeholder="Enter date of birth">
       </div>
     </div>
      <div class="form-group">
       <label class="control-label col-sm-2" for="address">*Street Address:</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="address" ng-model="address" placeholder="Enter address">
+        <input type="text" class="form-control" id="address" placeholder="Enter address">
       </div>
       </div>
       <div class="form-group">
       <label class="control-label col-sm-2" for="city">*City:</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="city" ng-model="city" placeholder="Enter city">
+        <input type="text" class="form-control" id="city" placeholder="Enter city">
       </div>
       </div>
            <div class="form-group">
       <label class="control-label col-sm-2" for="state">*State:</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="state" ng-model="state" placeholder="Enter state">
+        <input type="text" class="form-control" id="state" placeholder="Enter state">
       </div>
       </div>
            <div class="form-group">
       <label class="control-label col-sm-2" for="zip">*Zip Code:</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="zip" ng-model="zip" placeholder="Enter zip code">
+        <input type="text" class="form-control" id="zip" placeholder="Enter zip code">
       </div>
     </div>
      <div class="form-group">
       <label class="control-label col-sm-2" for="userName">*Username:</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="userName" ng-model="newUsername" placeholder="Enter username">
+        <input type="text" class="form-control" id="userName" placeholder="Enter username">
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-2" for="pwd">*Password:</label>
       <div class="col-sm-4">
-        <input type="password" class="form-control" id="pwd" ng-model="newPassword" placeholder="Enter password">
+        <input type="password" class="form-control" id="pwd" placeholder="Enter password">
       </div>
     </div>
         <div class="form-group">
@@ -143,20 +143,23 @@
 	                	password: $('#pwd').val()
 	                }
 	                , dataType: 'json'
-	            }).done(function (response) {
-	            	
-	            	console.log(response)
-                	if(response.status=="ERROR")
-            		{
-                		$('#error').removeClass('hidden');
+	
+	            }).done(loginResponse) 
+	            console.log("hello");
+	        }
+	            
+	            
+	            function loginResponse(response){   	
+	            	console.log("hello");
+                	if(response.success){
+                		if(response.success.isAdmin == "false")
+                			location.href = "/customer/" + response.success.id;
+                		location.href = "/admin/" + response.success.id;
+            		} else {
+            		if(response.error){
+            			$('#error').removeClass('hidden');
             		/* displayError($('#error'), response.msg); */
-            		}
-            	else
-            		{
-            		if(response.data.isAdmin == false)
-            			location.href = "/customer/" + response.data.id;
-            		location.href = "/admin/" + response.data.id;
-            		}})
+            		}	}	
         };
 	        
 	        
