@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 @Configuration
 public class DataSourceConfiguration 
 {
-    static final String DATABASE_URL = "jdbc:mysql://localhost/liquor_store?" + "user=root&password=Fireproof!007&" + "useServerPrepStmts=true";
+    static final String DATABASE_URL = "jdbc:mysql://localhost/liquor_store?" + "user=root&password=root&" + "useServerPrepStmts=true";
     static final Logger LOGGER = LogManager.getLogger(DataSourceConfiguration.class);
     @Bean
     public DataSource datasource()
