@@ -125,7 +125,7 @@ public class FullTest
         tags.add(new Tag("light beer"));
         cp = new CoreProduct("Bud Light", tags, Type.BEER, "Light Beer", "Tastes Great");
         
-        
+        cp = cpService.addCoreProduct(cp);
         
         prod = new Product(cp,BaseUnit._12OZ_BOTTLE,6,100,BigDecimal.valueOf(20.00));
         prod2 = new Product(cp,BaseUnit._12OZ_CAN,30,50,BigDecimal.valueOf(50.00));
@@ -134,16 +134,19 @@ public class FullTest
         
         ord = new Order(c,ldt,BigDecimal.valueOf(50.00),odList);
         
+        prod = prodService.addProduct(prod);
+        
         OrderDetail od = new OrderDetail(prod,6,BigDecimal.valueOf(15.00));
         OrderDetail od2 = new OrderDetail(prod2,12,BigDecimal.valueOf(20.00));
         
-        
+        ord.addOrderDetail(od);
+        ord.addOrderDetail(od2);
         
         
         ci = custService.addCustomer(c);
         adi = adminService.addAdmin(ad);
-        cpi = cpService.addCoreProduct(cp);
-        pi = prodService.addProduct(prod);
+        
+        
         oi = orderService.addOrder(ord);
         
         

@@ -45,8 +45,8 @@ public class CoreProductServiceImpl implements CoreProductService
     @Override
     public CoreProduct addCoreProduct(CoreProduct coreproduct)
     {
-        CoreProduct cp = new CoreProduct(coreproduct.getId(),coreproduct.getName(),coreproduct.getTags(),coreproduct.getType(),coreproduct.getSubType(),coreproduct.getDescription());
-        return daoCP.update(cp);
+        CoreProduct cp = new CoreProduct(coreproduct.getName(),coreproduct.getTags(),coreproduct.getType(),coreproduct.getSubType(),coreproduct.getDescription());
+        return daoCP.insert(cp);
     }
 
     @Override
