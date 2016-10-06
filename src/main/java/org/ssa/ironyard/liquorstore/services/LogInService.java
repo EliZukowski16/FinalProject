@@ -1,6 +1,7 @@
 package org.ssa.ironyard.liquorstore.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.dao.DAOAdmin;
 import org.ssa.ironyard.liquorstore.dao.DAOCustomer;
@@ -8,6 +9,7 @@ import org.ssa.ironyard.liquorstore.model.Admin;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.User;
 
+@Service
 public class LogInService implements LogInServiceInt
 {
     DAOAdmin daoAdmin;

@@ -12,12 +12,14 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMOrderImpl;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
 
 import com.mysql.cj.api.jdbc.Statement;
 
+@Repository
 public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
 {
 

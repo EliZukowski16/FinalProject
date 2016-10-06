@@ -160,7 +160,6 @@ public class CustomerControllerTest
         assertFalse(customerMap.getBody().containsKey("error"));
         assertNotEquals(capturedCust.getValue().getId(), cust.getId());
         assertEquals(capturedCust.getValue().getUserName(), cust.getUserName());
-        assertEquals(capturedCust.getValue().getPassword(),cust.getPassword());
         assertEquals(capturedCust.getValue().getFirstName(),cust.getFirstName());
         assertEquals(capturedCust.getValue().getLastName(),cust.getLastName());
         assertEquals(capturedCust.getValue().getAddress().getStreet(),cust.getAddress().getStreet());
@@ -202,7 +201,6 @@ public class CustomerControllerTest
         assertFalse(customerMap.getBody().containsKey("errors"));
         assertEquals(capturedCust.getValue().getId(), cust.getId());
         assertEquals(capturedCust.getValue().getUserName(), cust.getUserName());
-        assertEquals(capturedCust.getValue().getPassword(),cust.getPassword());
         assertEquals(capturedCust.getValue().getFirstName(),cust.getFirstName());
         assertEquals(capturedCust.getValue().getLastName(),cust.getLastName());
         assertEquals(capturedCust.getValue().getAddress().getStreet(),cust.getAddress().getStreet());

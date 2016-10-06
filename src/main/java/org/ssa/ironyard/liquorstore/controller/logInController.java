@@ -3,8 +3,11 @@ package org.ssa.ironyard.liquorstore.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,27 +27,36 @@ public class logInController
     @Autowired
     LogInService logInService;
     
+    static Logger LOGGER = LogManager.getLogger(logInController.class);
+    
     @RequestMapping("")
     public View home()
     {
+        LOGGER.info("we made it home");
         return new InternalResourceView("index.html");
     }
     
-    @RequestMapping(value = "/login/{userName}/{password}", method = RequestMethod.POST)
-    public ResponseEntity<Map<String,User>> Authenticate(@PathVariable String userName, @PathVariable String password)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResponseEntity<Map<String,User>> Authenticate(HttpServletRequest request)
     {
-        Map<String,User> response = new HashMap<>();
-        User u = logInService.checkAuthentication(userName, password);
+        LOGGER.info("autehntication");
         
+        Map<String,User> response = new HashMap<>();
+        
+        String userName = request.getParameter("username");
+        String password = request.getParameter("password");
+        
+        User u = logInService.checkAuthentication(userName, password);
+        LOGGER.info(u);
         if(u == null)
         {
-            response.put("error", u);
+            response.put("ERROR", u);
         }
         else
         {
-            response.put("success", u);
+            response.put("SUCCESS", u);
         }
-        
+        LOGGER.info(response);
         return ResponseEntity.ok().header("log in", "Check").body(response);
     }
     

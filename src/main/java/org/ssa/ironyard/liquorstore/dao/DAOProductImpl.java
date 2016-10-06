@@ -6,10 +6,12 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.stereotype.Repository;
 import org.ssa.ironyard.liquorstore.dao.orm.ORM;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMProductImpl;
 import org.ssa.ironyard.liquorstore.model.Product;
 
+@Repository
 public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
 {
 

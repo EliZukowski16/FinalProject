@@ -50,11 +50,6 @@ public class DAOAdminImplTest extends AbstractSpringDAOTest<Admin>
         
     }
 
-//    @Test
-    public void test()
-    {
-        fail("Not yet implemented"); // TODO
-    }
 
     @Override
     protected AbstractSpringDAO<Admin> getDAO()

@@ -3,12 +3,12 @@ package org.ssa.ironyard.liquorstore.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.ssa.ironyard.liquorstore.dao.DAOOrder;
 import org.ssa.ironyard.liquorstore.model.Order;
 
-@Component
+@Service
 public class OrdersService implements OrdersServiceInt
 {
     

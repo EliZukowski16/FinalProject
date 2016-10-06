@@ -137,13 +137,15 @@
 	        
 	        function login() {
 	            $.post({
-	                url: location.pathname, 
+	                url: location.pathname + "/login", 
 	                data: {
 	                	username: $('#username').val(),
 	                	password: $('#pwd').val()
 	                }
 	                , dataType: 'json'
 	            }).done(function (response) {
+	            	
+	            	console.log(response)
                 	if(response.status=="ERROR")
             		{
                 		$('#error').removeClass('hidden');
