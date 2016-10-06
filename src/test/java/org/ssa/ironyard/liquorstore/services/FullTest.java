@@ -221,11 +221,15 @@ public class FullTest
         Product pRead = prodService.readProduct(prodAdd.getId());
         assertTrue(pRead.deeplyEquals(prodAdd));
         
-//        Order oRead = orderService.readOrder(ordAdd.getId());
-//        assertTrue(oRead.deeplyEquals(ordAdd));
+        Order oRead = orderService.readOrder(ordAdd.getId());
+        //assertTrue(oRead.deeplyEquals(ordAdd));
         
-        
-        
+        assertEquals(oRead.getId(),ordAdd.getId());
+        assertEquals(oRead.getCustomer(),ordAdd.getCustomer());
+        assertEquals(oRead.getDate(),ordAdd.getDate());
+        //assertEquals(oRead.getoD(),ordAdd.getoD()); doesnt grab order detail yet
+        assertTrue(oRead.getTotal().compareTo(ordAdd.getTotal()) ==0);
+
     }
     
     @Test
