@@ -34,13 +34,13 @@ import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 
 public class ServicesTest
 {
-    AdminService adminService;
-    CustomerService custService;
-    AnalyticsService anService;
-    CoreProductService cpService;
-    OrdersService orderService;
-    ProductService prodService;
-    SalesService salesService;
+    AdminServiceImpl adminService;
+    CustomerServiceImpl custService;
+    AnalyticsServiceImpl anService;
+    CoreProductServiceImpl cpService;
+    OrdersServiceImpl orderService;
+    ProductServiceImpl prodService;
+    SalesServiceImpl salesService;
     
     DAOAdmin daoAdmin;
     DAOCoreProduct daoCoreProduct;
@@ -59,11 +59,11 @@ public class ServicesTest
     {
         
         
-        adminService = new AdminService(daoAdmin);
-        custService = new CustomerService(daoCustomer);
-        cpService = new CoreProductService(daoCoreProduct);
-        orderService = new OrdersService(daoOrder);
-        prodService = new ProductService(daoProduct);
+        adminService = new AdminServiceImpl(daoAdmin);
+        custService = new CustomerServiceImpl(daoCustomer);
+        cpService = new CoreProductServiceImpl(daoCoreProduct);
+        orderService = new OrdersServiceImpl(daoOrder);
+        prodService = new ProductServiceImpl(daoProduct);
         
         Address address = new Address();
         address.setStreet("111 road");
@@ -98,19 +98,19 @@ public class ServicesTest
         ord = new Order(1,c,ldt,BigDecimal.valueOf(50.00),odList);
         
         daoCustomer = EasyMock.niceMock(DAOCustomer.class);
-        this.custService = new CustomerService(daoCustomer); 
+        this.custService = new CustomerServiceImpl(daoCustomer); 
         
         daoAdmin = EasyMock.niceMock(DAOAdmin.class);
-        this.adminService = new AdminService(daoAdmin);
+        this.adminService = new AdminServiceImpl(daoAdmin);
         
         daoCoreProduct = EasyMock.niceMock(DAOCoreProduct.class);
-        this.cpService = new CoreProductService(daoCoreProduct);
+        this.cpService = new CoreProductServiceImpl(daoCoreProduct);
         
         daoOrder = EasyMock.niceMock(DAOOrder.class);
-        this.orderService = new OrdersService(daoOrder);
+        this.orderService = new OrdersServiceImpl(daoOrder);
         
         daoProduct = EasyMock.niceMock(DAOProduct.class);
-        this.prodService = new ProductService(daoProduct);
+        this.prodService = new ProductServiceImpl(daoProduct);
     }
 
     @Test
