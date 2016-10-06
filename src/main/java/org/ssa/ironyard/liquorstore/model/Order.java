@@ -10,7 +10,7 @@ public class Order extends AbstractDomainObject implements DomainObject
     private Customer customer;
     private final LocalDateTime date;
     private final BigDecimal total;
-    private List<OrderDetail> oD = new ArrayList<>();
+    private List<OrderDetail> oD;
 
     public Order(Integer id, Customer customer, LocalDateTime date, BigDecimal total, List<OrderDetail> oD)
     {
@@ -25,17 +25,20 @@ public class Order extends AbstractDomainObject implements DomainObject
     {
         this(null, customer, date, total, oD);
     }
+    
+    public Order(Customer customer, LocalDateTime date, BigDecimal total)
+    {   
+        this(customer, date, total, new ArrayList<>());
+    }
 
     public static class OrderDetail
     {
-        Integer orderID;
         Product product;
         Integer qty;
         BigDecimal unitPrice;
 
-        public OrderDetail(Integer orderID, Product product, Integer qty, BigDecimal unitPrice)
+        public OrderDetail(Product product, Integer qty, BigDecimal unitPrice)
         {
-            this.orderID = orderID;
             this.product = product;
             this.qty = qty;
             this.unitPrice = unitPrice;
@@ -71,6 +74,11 @@ public class Order extends AbstractDomainObject implements DomainObject
         {
             this.unitPrice = unitPrice;
         }
+    }
+    
+    public void addOrderDetail(OrderDetail oD)
+    {
+        this.oD.add(oD);
     }
 
     public Customer getCustomer()

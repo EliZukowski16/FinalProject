@@ -61,7 +61,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
                 }, generatedId) == 1)
                 {
                     orderDetails
-                            .add(new OrderDetail(domain.getId(), od.getProduct(), od.getQty(), od.getUnitPrice()));
+                            .add(new OrderDetail(od.getProduct(), od.getQty(), od.getUnitPrice()));
                 }
             }
 
