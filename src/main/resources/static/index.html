@@ -143,9 +143,6 @@
 	                	password: $('#pwd').val()
 	                },
 	                dataType: 'json',
-	                
-	
-
 	            }).done(loginResponse);
 	         
 	        };
@@ -159,14 +156,14 @@
                 		if(response.success.isAdmin == false)
                 		{
                 			console.log("reached cust if")
-                			location.href += "/customer/" + response.success.id;
-                			
+                			location.pathname = location.pathname.replace(/(.*)\/[^/]*/, "$1/"+"TheBeerGuys/customer/" + response.success.id);
+                			//location.href += "/customer/" + response.success.id;
                 		}
                 		else
                 		{
-                			location.href += "/admin/" + response.success.id;
+                			//location.href += "/admin/" + response.success.id;
+                			location.pathname = location.pathname.replace(/(.*)\/[^/]*/, "$1/"+"TheBeerGuys/admin/" + response.success.id);
                 		}
-	
             		} 
                 	else 
                 	{

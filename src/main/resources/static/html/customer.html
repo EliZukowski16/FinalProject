@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html ng-app="customer">
+<html ng-app="liquorStore">
 <head>
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>The Beer Guys</title>
 	
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
  	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-     <script src="/vendors/angular.min.js"></script>
-     <script src="/vendors/angular-ui-router.min.js"></script>
-     <link rel="stylesheet" type="text/css" href="/html/style.css">
-     
+  	 
+   	 <script src="/vendors/angular.min.js"></script>
+   	 <script src="/vendors/angular-ui-router.min.js"></script>
+   	 <link rel="stylesheet" type="text/css" href="/html/style.css">
+   	 
+   	 <script src="/js/main.js"></script>
      <script src="/js/controllers/CustomerController.js"></script>     
      
 </head>
@@ -23,24 +25,29 @@
   <div class="container-fluid">
   <ul class="nav navbar-nav">
       <li><a ui-sref="home" ui-sref-active="active">Home</a></li>
-      <li><a ui-sref="products" ui-sref-active="active">Products</a></li>
-      <li><a ui-sref="account" ui-sref-active="active">Your Account</a></li> 
-      <li><a ui-sref="cart" ui-sref-active="active">Shopping Cart</a></li> 
+      <li><a ui-sref="products">Products</a></li>
+      <li><a ui-sref="account">Your Account</a></li> 
+      <li><a ui-sref="cart">Shopping Cart</a></li> 
     </ul>
-
-       <form class="form-inline" ng-submit="BC.filter()">
-  	<div class="form-group">
-  	  	<div class="form-group">
-    	<label for="product">Filter Product by Keyword:</label>
-    	<input type="text" class="form-control" placeholder="Filter" id="filter" ng-model="filter">
-  	</div>
-  	</div>
-  	<button type="submit" class="btn btn-default" id="submit" ng-disabled ="! (BC.filter)">Submit</button>
-	</form> 
     </div>
     </nav>
     
-    <h1>Welcome, {{ CC.username }}</h1>
+    <div ng-show="$state.current.name === 'customer.home'">
+    <div ui-view="home"></div>
+	</div>
+	
+	<div ng-show="$state.current.name === 'customer.products'">
+    <div ui-view="products"></div>
+	</div>
+	
+	<div ng-show="$state.current.name === 'customer.account'">
+    <div ui-view="account"></div>
+	</div>
+	
+	<div ng-show="$state.current.name === 'customer.cart'">
+    <div ui-view="cart"></div>
+	</div>
+
 
 
 </body>
