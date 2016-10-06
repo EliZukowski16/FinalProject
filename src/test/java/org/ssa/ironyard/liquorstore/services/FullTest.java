@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -76,7 +77,7 @@ public class FullTest
     static String URL = "jdbc:mysql://localhost/liquor_store?user=root&password=root&useServerPrpStmts=true";
     static DataSource dataSource;
     
-    //@BeforeClass
+    @BeforeClass
     public static void setUpBeforeClass() throws Exception
     {
         MysqlDataSource mysqlDdataSource = new MysqlDataSource();
@@ -130,19 +131,21 @@ public class FullTest
         prod2 = new Product(cp,BaseUnit._12OZ_CAN,30,50,BigDecimal.valueOf(50.00));
         
         List<OrderDetail> odList = new ArrayList();
-        OrderDetail od = new OrderDetail(1,prod,6,BigDecimal.valueOf(15.00));
-        OrderDetail od2 = new OrderDetail(2,prod2,12,BigDecimal.valueOf(20.00));
-        odList.add(od);
-        odList.add(od2);
+        
         ord = new Order(c,ldt,BigDecimal.valueOf(50.00),odList);
+        
+        OrderDetail od = new OrderDetail(prod,6,BigDecimal.valueOf(15.00));
+        OrderDetail od2 = new OrderDetail(prod2,12,BigDecimal.valueOf(20.00));
+        
         
         
         
         ci = custService.addCustomer(c);
         adi = adminService.addAdmin(ad);
         cpi = cpService.addCoreProduct(cp);
-        oi = orderService.addOrder(ord);
         pi = prodService.addProduct(prod);
+        oi = orderService.addOrder(ord);
+        
         
     }
 
@@ -334,6 +337,16 @@ public class FullTest
         
         assertTrue(orderService.deleteOrder(oi.getId()) == true);
         assertTrue(orderService.readOrder(oi.getId()) == null);
+    }
+    
+    @After
+    public void clear()
+    {
+        daoAdmin.clear();
+        daoCoreProduct.clear();
+        daoCustomer.clear();
+        daoOrder.clear();
+        daoProduct.clear();
     }
 
 }
