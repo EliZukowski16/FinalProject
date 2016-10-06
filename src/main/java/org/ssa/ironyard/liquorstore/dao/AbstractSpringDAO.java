@@ -95,6 +95,12 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
             return false;
         return 1 == this.springTemplate.update(this.orm.prepareDelete(), (PreparedStatement ps) -> ps.setInt(1, id));
     }
+    
+    @Override
+    public void clear()
+    {
+        this.springTemplate.update("DELETE FROM " + this.orm.table());
+    }
 
     /**
      * Set the parameters on the
