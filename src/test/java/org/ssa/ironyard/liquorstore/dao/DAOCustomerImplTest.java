@@ -25,7 +25,7 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 
 public class DAOCustomerImplTest extends AbstractSpringDAOTest<Customer>
 {
-    static String URL = "jdbc:mysql://localhost/liquor_store?user=root&password=Fireproof!007&useServerPrpStmts=true";
+    static String URL = "jdbc:mysql://localhost/liquor_store?user=root&password=root&useServerPrpStmts=true";
     static DataSource dataSource;
     
     AbstractSpringDAO<Customer> customerDAO;
