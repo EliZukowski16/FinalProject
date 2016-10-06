@@ -21,13 +21,13 @@ import org.ssa.ironyard.liquorstore.services.LogInServiceImpl;
 
 @RestController
 @RequestMapping("/TheBeerGuys")
-public class logInController
+public class LogInController
 {
     
     @Autowired
     LogInServiceImpl logInService;
     
-    static Logger LOGGER = LogManager.getLogger(logInController.class);
+    static Logger LOGGER = LogManager.getLogger(LogInController.class);
     
     @RequestMapping("")
     public View home()
@@ -50,11 +50,11 @@ public class logInController
         LOGGER.info(u);
         if(u == null)
         {
-            response.put("error", u);
+            response.put("ERROR", u);
         }
         else
         {
-            response.put("success", u);
+            response.put("SUCCESS", u);
         }
         LOGGER.info(response);
         return ResponseEntity.ok().header("log in", "Check").body(response);
