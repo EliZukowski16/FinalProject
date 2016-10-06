@@ -15,7 +15,7 @@ import org.ssa.ironyard.liquorstore.model.Product;
 public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
 {
     @Autowired
-    protected DAOProductImpl(DataSource dataSource)
+    public DAOProductImpl(DataSource dataSource)
     {
         super(new ORMProductImpl(), dataSource);
         // TODO Auto-generated constructor stub

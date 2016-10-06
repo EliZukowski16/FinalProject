@@ -16,7 +16,7 @@ import org.ssa.ironyard.liquorstore.model.Customer;
 public class DAOCustomerImpl extends AbstractDAOCustomer implements DAOCustomer
 {
     @Autowired
-    protected DAOCustomerImpl(DataSource dataSource)
+    public DAOCustomerImpl(DataSource dataSource)
     {
         super(new ORMCustomerImpl(), dataSource);
         // TODO Auto-generated constructor stub
