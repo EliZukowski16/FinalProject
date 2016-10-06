@@ -149,7 +149,7 @@ public class Order extends AbstractDomainObject implements DomainObject
         if (getClass() != obj.getClass())
             return false;
         Order other = (Order) obj;
-        if (customer != other.customer)
+        if (!customer.equals(other.customer))
             return false;
         if (date == null)
         {

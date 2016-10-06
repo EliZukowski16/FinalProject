@@ -67,7 +67,7 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
     public String prepareRead()
     {
         return " SELECT " + this.projection() + " , " + customerORM.projection() + " FROM " + this.customerJoin() +
-                " ON " + this.customerRelation() + " WHERE " + this.primaryKeys.get(0) + " = ? ";
+                " ON " + this.customerRelation() + " WHERE " + this.table() + "." + this.primaryKeys.get(0) + " = ? ";
     }
     
     private String customerJoin()
