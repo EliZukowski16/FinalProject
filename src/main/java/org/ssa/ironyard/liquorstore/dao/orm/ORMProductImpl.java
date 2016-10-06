@@ -3,7 +3,10 @@ package org.ssa.ironyard.liquorstore.dao.orm;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
@@ -11,6 +14,8 @@ import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 {
     AbstractORM<CoreProduct> coreProductORM;
+    
+    static Logger LOGGER = LogManager.getLogger(ORMProductImpl.class);
     
     public ORMProductImpl()
     {
@@ -42,7 +47,6 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         Integer inventory = results.getInt(table() + ".inventory");
         BigDecimal price = results.getBigDecimal(table() + ".price");
         CoreProduct coreProduct = this.mapCoreProduct(results);
-        
         Product product = new Product(id, coreProduct, baseUnit, quantity, inventory, price);
         
         product.setLoaded(true);
@@ -56,11 +60,15 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         return coreProductORM.map(results);
     }
      
-    
-    public String prepareReadEager()
+    @Override
+    public String prepareRead()
     {
-        return " SELECT " + this.projection() + " " + coreProductORM.projection() + " FROM " + this.coreProductJoin() +
-                " ON " + this.coreProductRelation() + " WHERE " + this.primaryKeys.get(0) + " = ? ";
+        String ps = " SELECT " + this.projection() + " , " + coreProductORM.projection() + " FROM " + this.coreProductJoin() +
+                " ON " + this.coreProductRelation() + " WHERE " + this.table() +"." + this.primaryKeys.get(0) + " = ? ";
+        
+        LOGGER.info(ps);
+        
+        return ps;
     }
     
     private String coreProductJoin()
@@ -70,7 +78,7 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
     
     private String coreProductRelation()
     {
-        return this.foreignKeys.get(coreProductORM.table()) + " = " + coreProductORM.getPrimaryKeys().get(0);
+        return this.table() + "." + this.foreignKeys.get(coreProductORM.table()) + " = " + coreProductORM.table() + "." + coreProductORM.getPrimaryKeys().get(0);
     }
 
 }

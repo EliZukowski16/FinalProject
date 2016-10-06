@@ -7,4 +7,5 @@ public interface DAOProduct extends DAO<Product>
 
     Product readEager(Integer id);
 
+
 }

@@ -38,6 +38,8 @@ public class DAOCoreProductImpl extends AbstractDAOCoreProduct implements DAOCor
         insertStatement.setString(3, domainToInsert.getSubType());
         insertStatement.setString(4, domainToInsert.getDescription());
     }
+    
+    
 
     @Override
     public CoreProduct insertTag(CoreProduct domain)

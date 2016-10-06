@@ -26,7 +26,7 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
     {
         if (null == id)
             return null;
-        return this.springTemplate.query(((ORMProductImpl) this.orm).prepareReadEager(), (PreparedStatement ps) -> ps.setInt(1, id), this.extractor);
+        return this.springTemplate.query(((ORMProductImpl) this.orm).prepareRead(), (PreparedStatement ps) -> ps.setInt(1, id), this.extractor);
     }
 
     @Override
@@ -74,6 +74,7 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
                 ps.setInt(3, domainToUpdate.getQuantity());
                 ps.setInt(4, domainToUpdate.getInventory());
                 ps.setBigDecimal(5, domainToUpdate.getPrice());
+                ps.setInt(6, domainToUpdate.getId());
                 
             }
 

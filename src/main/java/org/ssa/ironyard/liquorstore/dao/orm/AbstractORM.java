@@ -5,10 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.ssa.ironyard.liquorstore.model.DomainObject;
 
 public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
 {
+    static Logger LOGGER = LogManager.getLogger(AbstractORM.class);
+    
     protected final List<String> fields;
     protected final List<String> primaryKeys;
     protected final Map<String, String> foreignKeys;
@@ -36,6 +40,8 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
         }
         
         projection = projection.substring(0, projection.length() - 2);
+        
+        LOGGER.info(projection);
         
         return projection;
     }
@@ -69,7 +75,11 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
         
         fieldNames = fieldNames.substring(0, fieldNames.length() - 2);
         
-        return " UPDATE " + this.table() + fieldNames + " WHERE id = ? ";
+        String update = " UPDATE " + this.table() + fieldNames + " WHERE id = ? ";
+        
+        LOGGER.info(update);
+        
+        return update;
     }
     
     @Override
@@ -89,7 +99,11 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
         fieldNames += " ) ";
         values += " ) ";
         
-        return " INSERT INTO " + this.table() + fieldNames + values;
+        String insert = " INSERT INTO " + this.table() + fieldNames + values;
+        
+        LOGGER.info(insert);
+        
+        return insert;
     }
 
     
