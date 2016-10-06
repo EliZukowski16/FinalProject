@@ -9,6 +9,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.dao.DAOAdmin;
 import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
@@ -59,7 +61,7 @@ public class FullTest
     Order oi;
     Product pi;
     
-    //@Before
+    @Before
     public void setup()
     {
         adminService = new AdminServiceImpl(daoAdmin);
@@ -107,7 +109,7 @@ public class FullTest
         
     }
 
-    //@Test
+    @Test
     public void addTest()
     {
        Customer cAdd = custService.addCustomer(c);
