@@ -6,7 +6,7 @@
 	<title>The Beer Guys</title>
 	
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-     <link rel="stylesheet" type="text/css" href="templates/style.css">
+     <link rel="stylesheet" type="text/css" href="html/style.css">
      
 </head>
 
@@ -153,17 +153,18 @@
 	            
 	            function loginResponse(response)
 	            {   	
-	            	console.log("hello");
+	            	console.log(response);
                 	if(response.success)
                 	{
                 		if(response.success.isAdmin == false)
                 		{
-                			location.href = "./customer/" + response.success.id;
+                			console.log("reached cust if")
+                			location.href += "/customer/" + response.success.id;
                 			
                 		}
                 		else
                 		{
-                			location.href = "./admin/" + response.success.id;
+                			location.href += "/admin/" + response.success.id;
                 		}
                 			
                 		

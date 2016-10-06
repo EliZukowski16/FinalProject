@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +37,7 @@ public class LogInController
     }
     
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<Map<String,User>> Authenticate(HttpServletRequest request)
+    public ResponseEntity<Map<String,User>> Authenticate(HttpServletRequest request, HttpSession session)
     {
         LOGGER.info("autehntication");
         
@@ -49,11 +50,12 @@ public class LogInController
         LOGGER.info(u);
         if(u == null)
         {
-            response.put("ERROR", u);
+            response.put("error", u);
         }
         else
         {
-            response.put("SUCCESS", u);
+            session.setAttribute("loggedin", true);
+            response.put("success", u);
         }
         LOGGER.info(response);
         return ResponseEntity.ok().header("log in", "Check").body(response);
