@@ -26,7 +26,8 @@ public class ProductServiceImpl implements ProductService
     @Transactional
     public Product readProduct(Integer id)
     {
-        return daoProd.read(id);
+        return daoProd.readEager(id);
+
     }
 
     @Override
