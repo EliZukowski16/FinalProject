@@ -36,11 +36,11 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
     @Override
     public Product map(ResultSet results) throws SQLException
     {
-        Integer id = results.getInt("product.id");
-        BaseUnit baseUnit = BaseUnit.getInstance(results.getString("product.base_unit"));
-        Integer quantity = results.getInt("product.quantity");
-        Integer inventory = results.getInt("product.inventory");
-        BigDecimal price = results.getBigDecimal("product.price");
+        Integer id = results.getInt(table() + ".id");
+        BaseUnit baseUnit = BaseUnit.getInstance(results.getString(table() + ".base_unit"));
+        Integer quantity = results.getInt(table() + ".quantity");
+        Integer inventory = results.getInt(table() + ".inventory");
+        BigDecimal price = results.getBigDecimal(table() + ".price");
         CoreProduct coreProduct = this.mapCoreProduct(results);
         
         Product product = new Product(id, coreProduct, baseUnit, quantity, inventory, price);

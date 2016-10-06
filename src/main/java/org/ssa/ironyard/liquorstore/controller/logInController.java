@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.InternalResourceView;
 import org.ssa.ironyard.liquorstore.model.User;
-import org.ssa.ironyard.liquorstore.services.LogInService;
+import org.ssa.ironyard.liquorstore.services.LogInServiceImpl;
 
 @RestController
 @RequestMapping("/TheBeerGuys")
@@ -25,7 +25,7 @@ public class logInController
 {
     
     @Autowired
-    LogInService logInService;
+    LogInServiceImpl logInService;
     
     static Logger LOGGER = LogManager.getLogger(logInController.class);
     

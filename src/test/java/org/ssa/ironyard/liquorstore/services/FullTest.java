@@ -32,13 +32,13 @@ import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 public class FullTest
 {
     
-    AdminService adminService;
-    CustomerService custService;
-    AnalyticsService anService;
-    CoreProductService cpService;
-    OrdersService orderService;
-    ProductService prodService;
-    SalesService salesService;
+    AdminServiceImpl adminService;
+    CustomerServiceImpl custService;
+    AnalyticsServiceImpl anService;
+    CoreProductServiceImpl cpService;
+    OrdersServiceImpl orderService;
+    ProductServiceImpl prodService;
+    SalesServiceImpl salesService;
     
     DAOAdmin daoAdmin;
     DAOCoreProduct daoCoreProduct;
@@ -62,11 +62,11 @@ public class FullTest
     //@Before
     public void setup()
     {
-        adminService = new AdminService(daoAdmin);
-        custService = new CustomerService(daoCustomer);
-        cpService = new CoreProductService(daoCoreProduct);
-        orderService = new OrdersService(daoOrder);
-        prodService = new ProductService(daoProduct);
+        adminService = new AdminServiceImpl(daoAdmin);
+        custService = new CustomerServiceImpl(daoCustomer);
+        cpService = new CoreProductServiceImpl(daoCoreProduct);
+        orderService = new OrdersServiceImpl(daoOrder);
+        prodService = new ProductServiceImpl(daoProduct);
         
         Address address = new Address();
         address.setStreet("111 road");

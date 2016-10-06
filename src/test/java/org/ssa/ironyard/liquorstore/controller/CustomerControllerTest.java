@@ -36,26 +36,26 @@ import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
 import org.ssa.ironyard.liquorstore.model.Password;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
-import org.ssa.ironyard.liquorstore.services.AdminService;
-import org.ssa.ironyard.liquorstore.services.AnalyticsService;
-import org.ssa.ironyard.liquorstore.services.CoreProductService;
-import org.ssa.ironyard.liquorstore.services.CustomerService;
-import org.ssa.ironyard.liquorstore.services.OrdersService;
-import org.ssa.ironyard.liquorstore.services.ProductService;
-import org.ssa.ironyard.liquorstore.services.SalesService;
+import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
+import org.ssa.ironyard.liquorstore.services.AnalyticsServiceImpl;
+import org.ssa.ironyard.liquorstore.services.CoreProductServiceImpl;
+import org.ssa.ironyard.liquorstore.services.CustomerServiceImpl;
+import org.ssa.ironyard.liquorstore.services.OrdersServiceImpl;
+import org.ssa.ironyard.liquorstore.services.ProductServiceImpl;
+import org.ssa.ironyard.liquorstore.services.SalesServiceImpl;
 
 
 
 public class CustomerControllerTest
 {
 
-    AdminService adminService;
-    CustomerService custService;
-    AnalyticsService anService;
-    CoreProductService cpService;
-    OrdersService orderService;
-    ProductService prodService;
-    SalesService salesService;
+    AdminServiceImpl adminService;
+    CustomerServiceImpl custService;
+    AnalyticsServiceImpl anService;
+    CoreProductServiceImpl cpService;
+    OrdersServiceImpl orderService;
+    ProductServiceImpl prodService;
+    SalesServiceImpl salesService;
     
     
     AdminController adminController;
@@ -76,25 +76,25 @@ public class CustomerControllerTest
     @Before
     public void setup()
     {
-       custService = EasyMock.niceMock(CustomerService.class);
+       custService = EasyMock.niceMock(CustomerServiceImpl.class);
        this.custController = new CustomerController(adminService,anService,cpService,custService,orderService,prodService,salesService);
        
-       adminService = EasyMock.niceMock(AdminService.class);
+       adminService = EasyMock.niceMock(AdminServiceImpl.class);
        this.custController = new CustomerController(adminService,anService,cpService,custService,orderService,prodService,salesService);
        
-       cpService = EasyMock.niceMock(CoreProductService.class);
+       cpService = EasyMock.niceMock(CoreProductServiceImpl.class);
        this.custController = new CustomerController(adminService,anService,cpService,custService,orderService,prodService,salesService);
        
-       orderService = EasyMock.niceMock(OrdersService.class);
+       orderService = EasyMock.niceMock(OrdersServiceImpl.class);
        this.custController = new CustomerController(adminService,anService,cpService,custService,orderService,prodService,salesService);
        
-       prodService = EasyMock.niceMock(ProductService.class);
+       prodService = EasyMock.niceMock(ProductServiceImpl.class);
        this.custController = new CustomerController(adminService,anService,cpService,custService,orderService,prodService,salesService);
        
-       anService = EasyMock.niceMock(AnalyticsService.class);
+       anService = EasyMock.niceMock(AnalyticsServiceImpl.class);
        this.custController = new CustomerController(adminService,anService,cpService,custService,orderService,prodService,salesService);
        
-       salesService = EasyMock.niceMock(SalesService.class);
+       salesService = EasyMock.niceMock(SalesServiceImpl.class);
        this.custController = new CustomerController(adminService,anService,cpService,custService,orderService,prodService,salesService);
        
        Address address = new Address();

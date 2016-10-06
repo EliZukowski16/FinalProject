@@ -24,13 +24,13 @@ import org.ssa.ironyard.liquorstore.model.Address.State;
 import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Password;
-import org.ssa.ironyard.liquorstore.services.AdminService;
-import org.ssa.ironyard.liquorstore.services.AnalyticsService;
-import org.ssa.ironyard.liquorstore.services.CoreProductService;
-import org.ssa.ironyard.liquorstore.services.CustomerService;
-import org.ssa.ironyard.liquorstore.services.OrdersService;
-import org.ssa.ironyard.liquorstore.services.ProductService;
-import org.ssa.ironyard.liquorstore.services.SalesService;
+import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
+import org.ssa.ironyard.liquorstore.services.AnalyticsServiceImpl;
+import org.ssa.ironyard.liquorstore.services.CoreProductServiceImpl;
+import org.ssa.ironyard.liquorstore.services.CustomerServiceImpl;
+import org.ssa.ironyard.liquorstore.services.OrdersServiceImpl;
+import org.ssa.ironyard.liquorstore.services.ProductServiceImpl;
+import org.ssa.ironyard.liquorstore.services.SalesServiceImpl;
 
 
 @RestController
@@ -39,23 +39,23 @@ public class CustomerController
 {
     
     @Autowired
-    AdminService adminService;
+    AdminServiceImpl adminService;
     @Autowired
-    AnalyticsService analyticsService;
+    AnalyticsServiceImpl analyticsService;
     @Autowired
-    CoreProductService coreProductService;
+    CoreProductServiceImpl coreProductService;
     @Autowired
-    CustomerService customerService;
+    CustomerServiceImpl customerService;
     @Autowired
-    OrdersService orderService;
+    OrdersServiceImpl orderService;
     @Autowired
-    ProductService productService;
+    ProductServiceImpl productService;
     @Autowired
-    SalesService salesService;
+    SalesServiceImpl salesService;
     
     static Logger LOGGER = LogManager.getLogger(CustomerController.class);
     
-    public CustomerController(AdminService as, AnalyticsService ans, CoreProductService cps, CustomerService cs, OrdersService os, ProductService ps, SalesService ss)
+    public CustomerController(AdminServiceImpl as, AnalyticsServiceImpl ans, CoreProductServiceImpl cps, CustomerServiceImpl cs, OrdersServiceImpl os, ProductServiceImpl ps, SalesServiceImpl ss)
     {
         adminService = as;
         analyticsService = ans;
