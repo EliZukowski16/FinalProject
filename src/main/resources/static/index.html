@@ -46,7 +46,7 @@
         <input type="password" class="form-control" id="pwd" placeholder="Enter password">
       </div>
     </div>
-    <div style="color:red" class="hidden" id="error">Invalid username/password combination. Try again.</div>
+    <div style="color:red"  class="hidden" id="error">Invalid username/password combination. Try again.</div><br>
         <div class="form-group">
       <div class="col-sm-offset-2 col-sm-8">
         <button type="button" class="btn btn-success btn-lg" id="submit">Login</button>
@@ -166,40 +166,14 @@
                 		{
                 			location.href += "/admin/" + response.success.id;
                 		}
-                			
-                		
+	
             		} 
                 	else 
                 	{
-            			if(response.error)
-            			{
-            				$('#error').removeClass('hidden');
-            				/* displayError($('#error'), response.msg); */
-            			}	
+            				$('#error').removeClass('hidden');	
             		}	
         		};
-	        
-	        
-/* 	        function displayError($element, message) {
-	            console.log($element);
-	            $element.text(message);
-	            $element.removeClass("hidden");
-	         	blankAndClear($element);
-	        };
 
-	        function blankAndClear($element){
-	        	$(document.body).click(function(){
-	        		$element.text("");
-	                $element.addClass("hidden");
-	    			location.reload();
-	        	})
-	        	$element.click(function(){
-	                $element.text("");
-	                $element.addClass("hidden");
-	    			location.reload();
-	     	
-	        	})
-	        }; */
 	 
 	 
 	 </script>
