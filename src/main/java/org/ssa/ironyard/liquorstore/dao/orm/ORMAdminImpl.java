@@ -34,12 +34,12 @@ public class ORMAdminImpl extends AbstractORM<Admin> implements ORM<Admin>
     @Override
     public Admin map(ResultSet results) throws SQLException
     {
-        Integer id = results.getInt("admin.id");
-        String userName = results.getString("admin.username");
-        Password password = new Password(results.getString("admin.salt"), results.getString("admin.hash"));
-        String firstName = results.getString("admin.first_name");
-        String lastName = results.getString("admin.last_name");
-        Integer role = results.getInt("admin.role");
+        Integer id = results.getInt(table() + ".id");
+        String userName = results.getString(table() + ".username");
+        Password password = new Password(results.getString(table() + ".salt"), results.getString(table() + ".hash"));
+        String firstName = results.getString(table() + ".first_name");
+        String lastName = results.getString(table() + ".last_name");
+        Integer role = results.getInt(table() + ".role");
         
         Admin admin = new Admin(id, userName, password, firstName, lastName, role);
         

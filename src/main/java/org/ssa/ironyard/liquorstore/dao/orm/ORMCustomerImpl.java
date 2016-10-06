@@ -43,18 +43,18 @@ public class ORMCustomerImpl extends AbstractORM<Customer> implements ORM<Custom
     @Override
     public Customer map(ResultSet results) throws SQLException
     {
-        Integer id = results.getInt("customer.id");
-        String userName = results.getString("customer.username");
-        String firstName = results.getString("customer.first_name");
-        String lastName = results.getString("customer.last_name");
-        Password password = new Password(results.getString("customer.salt"), results.getString("customer.hash"));
-        LocalDateTime birthDate = results.getTimestamp("customer.birth_date").toLocalDateTime();
+        Integer id = results.getInt(table() + ".id");
+        String userName = results.getString(table() + ".username");
+        String firstName = results.getString(table() + ".first_name");
+        String lastName = results.getString(table() + ".last_name");
+        Password password = new Password(results.getString(table() + ".salt"), results.getString(table() + ".hash"));
+        LocalDateTime birthDate = results.getTimestamp(table() + ".birth_date").toLocalDateTime();
         
         Address address = new Address();
-        address.setCity(results.getString("customer.city"));
-        address.setZip(new ZipCode(results.getString("customer.zip_code")));
-        address.setStreet(results.getString("customer.street"));
-        address.setState(State.getInstance(results.getString("customer.state")));
+        address.setCity(results.getString(table() + ".city"));
+        address.setZip(new ZipCode(results.getString(table() + ".zip_code")));
+        address.setStreet(results.getString(table() + ".street"));
+        address.setState(State.getInstance(results.getString(table() + ".state")));
         
         Customer customer = new Customer(id, userName, password, firstName, lastName, address, birthDate);
         

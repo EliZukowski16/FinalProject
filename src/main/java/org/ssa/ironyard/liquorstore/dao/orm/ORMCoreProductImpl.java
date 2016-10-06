@@ -31,11 +31,11 @@ public class ORMCoreProductImpl extends AbstractORM<CoreProduct> implements ORM<
     @Override
     public CoreProduct map(ResultSet results) throws SQLException
     {
-        Integer id = results.getInt("core_product.id");
-        String name = results.getString("core_product.name");
-        Type type = Type.getInstance(results.getString("core_product.type"));
-        String subType = results.getString("core_product.subtype");
-        String description = results.getString("core_product.description");
+        Integer id = results.getInt(table() + ".id");
+        String name = results.getString(table() + ".name");
+        Type type = Type.getInstance(results.getString(table() + ".type"));
+        String subType = results.getString(table() + ".subtype");
+        String description = results.getString(table() + ".description");
         List<Tag> tags = new ArrayList<>();
         
         CoreProduct coreProduct = new CoreProduct(id, name, tags, type, subType, description);
