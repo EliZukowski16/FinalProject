@@ -55,7 +55,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
                     statement.setInt(1, domain.getId());
                     statement.setInt(2, od.getProduct().getId());
                     statement.setInt(3, od.getQty());
-                    statement.setFloat(4, od.getUnitPrice());
+                    statement.setBigDecimal(4, od.getUnitPrice());
                     return statement;
                 }, generatedId) == 1)
                 {

@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMCustomerImpl;
 import org.ssa.ironyard.liquorstore.model.Customer;
@@ -80,20 +81,22 @@ public class DAOCustomerImpl extends AbstractDAOCustomer implements DAOCustomer
         };
     }
     
+    
     @Override
     public Customer readByUserName(String username)
     {
         if (null == username)
             return null;
         return this.springTemplate.query(((ORMCustomerImpl) this.orm).prepareReadByUserName(), (PreparedStatement ps) -> ps.setString(1, username),
-                (ResultSet cursor) ->
-                {
-                    if (cursor.next())
-                    {
-                        return this.orm.map(cursor);
-                    }
-                    return null;
-                });
+//                (ResultSet cursor) ->
+//                {
+//                    if (cursor.next())
+//                    {
+//                        return this.orm.map(cursor);
+//                    }
+//                    return null;
+//                });
+                this.extractor);
     }
 
 }

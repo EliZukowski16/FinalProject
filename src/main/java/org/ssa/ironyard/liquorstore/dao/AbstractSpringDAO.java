@@ -10,9 +10,11 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.ssa.ironyard.liquorstore.dao.orm.ORM;
+import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.DomainObject;
 
 /**
@@ -25,12 +27,14 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
     protected final ORM<T> orm;
     protected final DataSource dataSource;
     protected final JdbcTemplate springTemplate;
+    protected final ResultSetExtractor<T> extractor;
 
     protected AbstractSpringDAO(ORM<T> orm, DataSource dataSource)
     {
         this.orm = orm;
         this.dataSource = dataSource;
         this.springTemplate = new JdbcTemplate(dataSource);
+        this.extractor = (ResultSet cursor) -> {  if (cursor.next()) return this.orm.map(cursor); return null;  };
     }
 
     @Override
@@ -39,14 +43,15 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
         if (null == id)
             return null;
         return this.springTemplate.query(this.orm.prepareRead(), (PreparedStatement ps) -> ps.setInt(1, id),
-                (ResultSet cursor) ->
-                {
-                    if (cursor.next())
-                    {
-                        return this.orm.map(cursor);
-                    }
-                    return null;
-                });
+//                (ResultSet cursor) ->
+//                {
+//                    if (cursor.next())
+//                    {
+//                        return this.orm.map(cursor);
+//                    }
+//                    return null;
+//                });
+                this.extractor);
 
     }
 

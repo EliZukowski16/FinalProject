@@ -45,9 +45,14 @@ public class ORMCoreProductImpl extends AbstractORM<CoreProduct> implements ORM<
         return coreProduct;
     }
     
+    public Tag mapTag(ResultSet results) throws SQLException
+    {
+        return new Tag(results.getString("product_tags.name"));
+    }
+    
     public String prepareInsertTag()
     {
-        return " INSERT INTO product_tags (product_id, name) values (?, ?)";
+        return " INSERT INTO product_tags (core_product_id, name) values (?, ?)";
         
     }
     

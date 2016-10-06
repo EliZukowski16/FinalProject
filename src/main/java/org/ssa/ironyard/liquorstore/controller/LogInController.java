@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -61,17 +60,19 @@ public class LogInController
     }
     
     @RequestMapping(value = "/admin/{adminID}")
-    public View admin(@PathVariable int adminID, HttpSession session)
+    public View admin(@PathVariable int adminID)
     {
-        session.setAttribute("adminID", adminID);
-        return new InternalResourceView("adminIndex.html");
+        LOGGER.info("Made call to Admin with {}", adminID);
+//        session.setAttribute("adminID", adminID);
+        return new InternalResourceView("/html/admin.html");
     }
     
     @RequestMapping(value = "/customer/{customerID}")
-    public View customer(@PathVariable int customerID, HttpSession session)
+    public View customer(@PathVariable int customerID)
     {
-        session.setAttribute("customerID", customerID);
-        return new InternalResourceView("customerIndex.html");
+        LOGGER.info("Made call to Customer with {}", customerID);
+//        session.setAttribute("customerID", customerID);
+        return new InternalResourceView("/html/customer.html");
     }
     
 }

@@ -72,6 +72,11 @@ public class Address
         {
             return this.raw;
         }
+        
+        public String getZipCode()
+        {
+            return this.raw;
+        }
 
         @Override
         public String toString()

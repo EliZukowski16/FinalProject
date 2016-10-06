@@ -31,9 +31,9 @@ public class Order extends AbstractDomainObject implements DomainObject
         Integer orderID;
         Product product;
         Integer qty;
-        Float unitPrice;
+        BigDecimal unitPrice;
 
-        public OrderDetail(Integer orderID, Product product, Integer qty, Float unitPrice)
+        public OrderDetail(Integer orderID, Product product, Integer qty, BigDecimal unitPrice)
         {
             this.orderID = orderID;
             this.product = product;
@@ -62,12 +62,12 @@ public class Order extends AbstractDomainObject implements DomainObject
             this.qty = qty;
         }
 
-        public float getUnitPrice()
+        public BigDecimal getUnitPrice()
         {
             return unitPrice;
         }
 
-        public void setUnitPrice(float unitPrice)
+        public void setUnitPrice(BigDecimal unitPrice)
         {
             this.unitPrice = unitPrice;
         }
