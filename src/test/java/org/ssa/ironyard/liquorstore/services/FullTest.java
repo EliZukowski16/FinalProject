@@ -9,6 +9,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.dao.DAOAdmin;
 import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
@@ -59,7 +61,7 @@ public class FullTest
     Order oi;
     Product pi;
     
-    //@Before
+    @Before
     public void setup()
     {
         adminService = new AdminServiceImpl(daoAdmin);
@@ -99,6 +101,8 @@ public class FullTest
         odList.add(od2);
         ord = new Order(c,ldt,BigDecimal.valueOf(50.00),odList);
         
+        
+        
         ci = custService.addCustomer(c);
         adi = adminService.addAdmin(ad);
         cpi = cpService.addCoreProduct(cp);
@@ -107,7 +111,7 @@ public class FullTest
         
     }
 
-    //@Test
+    @Test
     public void addTest()
     {
        Customer cAdd = custService.addCustomer(c);
@@ -137,7 +141,7 @@ public class FullTest
        
     }
     
-    //@Test
+    @Test
     public void readTest()
     {
         
@@ -167,7 +171,7 @@ public class FullTest
         
     }
     
-    //@Test
+    @Test
     public void readAllTest()
     {
         Address address = new Address();
@@ -224,7 +228,7 @@ public class FullTest
         
     }
     
-    //@Test
+    @Test
     public void editTest()
     {
         Address address = new Address();
@@ -281,7 +285,7 @@ public class FullTest
         assertTrue(produ.deeplyEquals(prodService.readProduct(produ2.getId())));
     }
     
-    //@Test
+    @Test
     public void testDelete()
     {
         assertTrue(custService.deleteCustomer(pi.getId()) == true);
