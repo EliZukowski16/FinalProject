@@ -93,8 +93,8 @@ public class FullTest
         prod2 = new Product(cp,BaseUnit._12OZ_CAN,30,50,BigDecimal.valueOf(50.00));
         
         List<OrderDetail> odList = new ArrayList();
-        OrderDetail od = new OrderDetail(1,prod,6,15.00f);
-        OrderDetail od2 = new OrderDetail(2,prod2,12,20.00f);
+        OrderDetail od = new OrderDetail(1,prod,6,BigDecimal.valueOf(15.00));
+        OrderDetail od2 = new OrderDetail(2,prod2,12,BigDecimal.valueOf(20.00));
         odList.add(od);
         odList.add(od2);
         ord = new Order(c,ldt,BigDecimal.valueOf(50.00),odList);
@@ -188,8 +188,8 @@ public class FullTest
         CoreProduct cp2 = new CoreProduct("Jack Danials", tags, Type.SPIRITS, "Whiskey", "yay");
         
         List<OrderDetail> odList = new ArrayList();
-        OrderDetail od = new OrderDetail(1,prod,6,15.00f);
-        OrderDetail od2 = new OrderDetail(2,prod2,12,20.00f);
+        OrderDetail od = new OrderDetail(1,prod,6,BigDecimal.valueOf(15.00));
+        OrderDetail od2 = new OrderDetail(2,prod2,12,BigDecimal.valueOf(20.00));
         odList.add(od);
         odList.add(od2);
         Order ord2 = new Order(c,ldt,BigDecimal.valueOf(50.00),odList);
@@ -246,8 +246,8 @@ public class FullTest
         CoreProduct cpu = new CoreProduct("Jack Danials", tags, Type.SPIRITS, "Whiskey", "yay");
         
         List<OrderDetail> odList = new ArrayList();
-        OrderDetail od = new OrderDetail(1,prod,6,15.00f);
-        OrderDetail od2 = new OrderDetail(2,prod2,12,20.00f);
+        OrderDetail od = new OrderDetail(1,prod,6,BigDecimal.valueOf(15.00));
+        OrderDetail od2 = new OrderDetail(2,prod2,12,BigDecimal.valueOf(20.00));
         odList.add(od);
         odList.add(od2);
         Order ordu = new Order(c,ldt,BigDecimal.valueOf(50.00),odList);

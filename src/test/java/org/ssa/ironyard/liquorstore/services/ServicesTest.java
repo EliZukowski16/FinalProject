@@ -91,8 +91,8 @@ public class ServicesTest
         prod = new Product(1,cp,BaseUnit._12OZ_BOTTLE,6,100,BigDecimal.valueOf(100.00));
         
         List<OrderDetail> odList = new ArrayList();
-        OrderDetail od = new OrderDetail(1,prod,6,15.00f);
-        OrderDetail od2 = new OrderDetail(2,prod,12,20.00f);
+        OrderDetail od = new OrderDetail(1,prod,6,BigDecimal.valueOf(15.00));
+        OrderDetail od2 = new OrderDetail(2,prod,12,BigDecimal.valueOf(20.00));
         odList.add(od);
         odList.add(od2);
         ord = new Order(1,c,ldt,BigDecimal.valueOf(50.00),odList);

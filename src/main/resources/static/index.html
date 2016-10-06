@@ -144,24 +144,38 @@
 	                }
 	                , dataType: 'json'
 	
-	            })
-	            .done(loginResponse); 
-	            console.log("hello");
+
+	            }).done(loginResponse) 
+	         
 	        }
 	            
 	            
-	            function loginResponse(response){   	
+	            function loginResponse(response)
+	            {   	
 	            	console.log("hello");
-                	if(response.success){
+                	if(response.success)
+                	{
                 		if(response.success.isAdmin == "false")
+                		{
                 			location.href = "/customer/" + response.success.id;
-                		location.href = "/admin/" + response.success.id;
-            		} else {
-            		if(response.error){
-            			$('#error').removeClass('hidden');
-            		/* displayError($('#error'), response.msg); */
-            		}	}	
-        };
+                			
+                		}
+                		else
+                		{
+                			location.href = "/admin/" + response.success.id;
+                		}
+                			
+                		
+            		} 
+                	else 
+                	{
+            			if(response.error)
+            			{
+            				$('#error').removeClass('hidden');
+            				/* displayError($('#error'), response.msg); */
+            			}	
+            		}	
+        		};
 	        
 	        
 /* 	        function displayError($element, message) {
