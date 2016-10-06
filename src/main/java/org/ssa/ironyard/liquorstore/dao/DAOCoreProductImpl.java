@@ -24,7 +24,7 @@ public class DAOCoreProductImpl extends AbstractDAOCoreProduct implements DAOCor
 {
 
     @Autowired
-    protected DAOCoreProductImpl(DataSource dataSource)
+    public DAOCoreProductImpl(DataSource dataSource)
     {
         super(new ORMCoreProductImpl(), dataSource);
         // TODO Auto-generated constructor stub

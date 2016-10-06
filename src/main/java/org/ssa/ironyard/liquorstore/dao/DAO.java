@@ -13,4 +13,6 @@ public interface DAO<T>
 
     boolean delete(Integer id);
 
+    void clear();
+
 }
