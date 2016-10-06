@@ -9,9 +9,17 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
+import org.ssa.ironyard.liquorstore.dao.AbstractSpringDAO;
 import org.ssa.ironyard.liquorstore.dao.DAOAdmin;
+import org.ssa.ironyard.liquorstore.dao.DAOAdminImpl;
 import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
+import org.ssa.ironyard.liquorstore.dao.DAOCoreProductImpl;
 import org.ssa.ironyard.liquorstore.dao.DAOCustomer;
 import org.ssa.ironyard.liquorstore.dao.DAOOrder;
 import org.ssa.ironyard.liquorstore.dao.DAOProduct;
@@ -28,6 +36,8 @@ import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
 import org.ssa.ironyard.liquorstore.model.Password;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
+
+import com.mysql.cj.jdbc.MysqlDataSource;
 
 public class FullTest
 {
@@ -59,9 +69,29 @@ public class FullTest
     Order oi;
     Product pi;
     
+    
+    static String URL = "jdbc:mysql://localhost/liquor_store?user=root&password=root&useServerPrpStmts=true";
+    static DataSource dataSource;
+    
+    //@BeforeClass
+    public static void setUpBeforeClass() throws Exception
+    {
+        MysqlDataSource mysqlDdataSource = new MysqlDataSource();
+        mysqlDdataSource.setURL(URL);
+
+        dataSource = mysqlDdataSource;
+        
+    }
+    
     //@Before
     public void setup()
     {
+        daoAdmin = new DAOAdminImpl(dataSource);
+        daoCoreProduct = new DAOCoreProductImpl(dataSource);
+        //dao
+        
+       
+        
         adminService = new AdminServiceImpl(daoAdmin);
         custService = new CustomerServiceImpl(daoCustomer);
         cpService = new CoreProductServiceImpl(daoCoreProduct);
@@ -98,6 +128,8 @@ public class FullTest
         odList.add(od);
         odList.add(od2);
         ord = new Order(c,ldt,BigDecimal.valueOf(50.00),odList);
+        
+        
         
         ci = custService.addCustomer(c);
         adi = adminService.addAdmin(ad);

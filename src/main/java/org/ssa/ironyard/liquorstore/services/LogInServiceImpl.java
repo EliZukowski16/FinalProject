@@ -1,7 +1,10 @@
 package org.ssa.ironyard.liquorstore.services;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.ssa.ironyard.liquorstore.controller.LogInController;
 import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.dao.DAOAdmin;
 import org.ssa.ironyard.liquorstore.dao.DAOCustomer;
@@ -15,6 +18,8 @@ public class LogInServiceImpl implements LogInService
     DAOAdmin daoAdmin;
     DAOCustomer daoCust;
     
+    static Logger LOGGER = LogManager.getLogger(LogInServiceImpl.class);
+    
     @Autowired
     public LogInServiceImpl(DAOAdmin daoAdmin,DAOCustomer daoCust)
     {
@@ -26,7 +31,7 @@ public class LogInServiceImpl implements LogInService
     public User checkAuthentication(String userName, String password)
     {
         User u =null;
-        Admin a = null;
+
         boolean check;
         
         if((u = daoCust.readByUserName(userName)) != null)
@@ -39,9 +44,11 @@ public class LogInServiceImpl implements LogInService
         
         if((u = daoAdmin.readByUserName(userName)) != null)
         {
-            Admin admin = (Admin) a;
+            LOGGER.info("in service" + u);
+            Admin admin = (Admin) u;
             check = new BCryptSecurePassword().verify(password,admin.getPassword());
-            if(check == false)
+            LOGGER.info("check" + check);
+            if(check == true)
                 return admin;
         }
         

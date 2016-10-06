@@ -46,6 +46,10 @@ public class LogInController
         String userName = request.getParameter("username");
         String password = request.getParameter("password");
         
+        LOGGER.info(userName);
+        LOGGER.info(password);
+        
+        
         User u = logInService.checkAuthentication(userName, password);
         LOGGER.info(u);
         if(u == null)
