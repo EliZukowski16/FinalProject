@@ -5,20 +5,27 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
-import org.ssa.ironyard.liquorstore.dao.orm.ORM;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMProductImpl;
 import org.ssa.ironyard.liquorstore.model.Product;
 
 @Repository
 public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
 {
-
+    @Autowired
     protected DAOProductImpl(DataSource dataSource)
     {
         super(new ORMProductImpl(), dataSource);
         // TODO Auto-generated constructor stub
+    }
+    
+    @Override
+    public Product read(Integer id)
+    {
+        // TODO Auto-generated method stub
+        return super.read(id);
     }
 
     @Override

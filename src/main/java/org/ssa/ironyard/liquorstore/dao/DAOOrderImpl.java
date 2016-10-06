@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -22,7 +23,7 @@ import com.mysql.cj.api.jdbc.Statement;
 @Repository
 public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
 {
-
+    @Autowired
     protected DAOOrderImpl(DataSource dataSource)
     {
         super(new ORMOrderImpl(), dataSource);

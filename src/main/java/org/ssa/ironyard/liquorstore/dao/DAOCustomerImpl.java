@@ -1,14 +1,13 @@
 package org.ssa.ironyard.liquorstore.dao;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMCustomerImpl;
 import org.ssa.ironyard.liquorstore.model.Customer;
@@ -16,7 +15,7 @@ import org.ssa.ironyard.liquorstore.model.Customer;
 @Repository
 public class DAOCustomerImpl extends AbstractDAOCustomer implements DAOCustomer
 {
-
+    @Autowired
     protected DAOCustomerImpl(DataSource dataSource)
     {
         super(new ORMCustomerImpl(), dataSource);
