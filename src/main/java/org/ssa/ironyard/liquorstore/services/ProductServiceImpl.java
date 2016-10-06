@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.ssa.ironyard.liquorstore.dao.DAOProduct;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.Product;
+import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 
 @Service
 public class ProductServiceImpl implements ProductService
@@ -24,7 +26,7 @@ public class ProductServiceImpl implements ProductService
     @Transactional
     public Product readProduct(Integer id)
     {
-        return daoProd.read(id);
+        return daoProd.readEager(id);
     }
 
     @Override
@@ -71,5 +73,37 @@ public class ProductServiceImpl implements ProductService
         
         return daoProd.delete(id);
     }
+    
+    
+
+    @Override
+    public List<Product> searchBaseUnit(BaseUnit baseUnit)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Product> searchQuanity(Integer quanity)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Product> searchBaseUnitAndQuanity(BaseUnit baseUnit, Integer quanity)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Product> searchKeywordByTags(List<Tag> tag)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
 
 }

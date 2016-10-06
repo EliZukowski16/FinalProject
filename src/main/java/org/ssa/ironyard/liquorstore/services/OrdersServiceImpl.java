@@ -1,12 +1,16 @@
 package org.ssa.ironyard.liquorstore.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.ssa.ironyard.liquorstore.dao.DAOOrder;
+import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
+import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
+import org.ssa.ironyard.liquorstore.model.Product;
 
 @Service
 public class OrdersServiceImpl implements OrdersService
@@ -74,7 +78,7 @@ public class OrdersServiceImpl implements OrdersService
     @Transactional
     public Order addOrder(Order order)
     {
-        Order ord = new Order(order.getId(),order.getCustomer(),order.getDate(),order.getTotal(),order.getoD());
+        Order ord = new Order(order.getCustomer(),order.getDate(),order.getTotal(),order.getoD());
         return daoOrder.insert(ord);
             
     }
@@ -88,5 +92,58 @@ public class OrdersServiceImpl implements OrdersService
         
         return daoOrder.delete(id);
     }
+
+    @Override
+    public List<Order> searchByCustomers(Customer customer)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Order> searchTimeFrame(LocalDate date1, LocalDate date2)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Order> searchPast(LocalDate date1)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Order> serachFuture(LocalDate date1)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Order> searchMostRecent(LocalDate date1)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<OrderDetail> searchProduct(Product product)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<OrderDetail> searchTimeFrameAndProduct(LocalDate date1, LocalDate date2, Product product)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    
+    
 
 }
