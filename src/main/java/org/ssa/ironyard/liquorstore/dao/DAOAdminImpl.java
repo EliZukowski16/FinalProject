@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMAdminImpl;
@@ -15,6 +16,7 @@ import org.ssa.ironyard.liquorstore.model.Admin;
 public class DAOAdminImpl extends AbstractDAOAdmin implements DAOAdmin
 {
 
+    @Autowired
     protected DAOAdminImpl(DataSource dataSource)
     {
         super(new ORMAdminImpl(), dataSource);

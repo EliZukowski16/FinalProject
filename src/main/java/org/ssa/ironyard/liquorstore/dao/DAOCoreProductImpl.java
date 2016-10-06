@@ -3,17 +3,16 @@ package org.ssa.ironyard.liquorstore.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.ssa.ironyard.liquorstore.dao.orm.ORM;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMCoreProductImpl;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
@@ -24,6 +23,7 @@ import com.mysql.cj.api.jdbc.Statement;
 public class DAOCoreProductImpl extends AbstractDAOCoreProduct implements DAOCoreProduct
 {
 
+    @Autowired
     protected DAOCoreProductImpl(DataSource dataSource)
     {
         super(new ORMCoreProductImpl(), dataSource);
