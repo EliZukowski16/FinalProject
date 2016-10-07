@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -24,6 +26,7 @@ import org.ssa.ironyard.liquorstore.model.Address.State;
 import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Password;
+import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
 import org.ssa.ironyard.liquorstore.services.AnalyticsServiceImpl;
 import org.ssa.ironyard.liquorstore.services.CoreProductServiceImpl;
@@ -67,8 +70,8 @@ public class CustomerController
         
     }
     
-    @RequestMapping(value="/customers", method = RequestMethod.POST)
-    public ResponseEntity<Map<String,Customer>> addCustomer(HttpServletRequest request)
+    @RequestMapping(value="{customerID}/customers", method = RequestMethod.POST)
+    public ResponseEntity<Map<String,Customer>> addCustomer(@PathVariable String CustomerID, HttpServletRequest request)
     {
         Map<String,Customer> response = new HashMap<>();
         
@@ -114,7 +117,7 @@ public class CustomerController
         return ResponseEntity.ok().header("Customer", "Add Customer").body(response);
     }
     
-    @RequestMapping(value="/customers/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value="{customerID}/customerEdit", method = RequestMethod.PUT)
     public ResponseEntity<Map<String,Customer>> editCustomer(@PathVariable String id, HttpServletRequest request)
     {
         Map<String,Customer> response = new HashMap<>();
@@ -158,6 +161,25 @@ public class CustomerController
         
         return ResponseEntity.ok().header("Customer", "Customer Edit").body(response);
         
+    }
+    
+    @RequestMapping(value= "{customerID}/products", method = RequestMethod.GET)
+    public ResponseEntity<Map<String,List<Product>>> getProducts(@PathVariable String customerID)
+    {
+        Map<String,List<Product>> response = new HashMap<>();
+        
+        //List<Product> products = productService.readAllProducts();
+        
+        List<Product> products = new ArrayList();
+        Product p = productService.readProduct(88);
+        products.add(p);
+        
+        if(products == null)
+            response.put("error", products);
+        else
+            response.put("success", products);
+        
+        return ResponseEntity.ok().header("Products", "Get All Products").body(response);
     }
     
     

@@ -239,14 +239,18 @@ public class FullTest
         
         
         Product pRead = prodService.readProduct(prodAdd.getId());
-        //assertTrue(pRead.deeplyEquals(prodAdd));
+        assertTrue(pRead.deeplyEquals(prodAdd));
+        
+        
+        System.out.println(pRead.getPrice());
+        System.out.println(prodAdd.getPrice());
         
         assertEquals(pRead.getId(),prodAdd.getId());
         assertEquals(pRead.getCoreProduct(),prodAdd.getCoreProduct());
         assertEquals(pRead.getBaseUnit(),prodAdd.getBaseUnit());
         assertEquals(pRead.getInventory(),prodAdd.getInventory());
-        //assertEquals(pRead.getPrice(),prodAdd.getInventory());//same as inventory
-        //assertEquals(pRead.getPrice(),prodAdd.getPrice());//comes back as 1200 or 120 instead of 12
+        assertEquals(pRead.getInventory(),prodAdd.getInventory());//same as inventory
+        assertTrue(pRead.getPrice().compareTo(prodAdd.getPrice()) == 0);//comes back as 1200 or 120 instead of 12
         assertEquals(pRead.getQuantity(),prodAdd.getQuantity());
         
         
@@ -268,7 +272,7 @@ public class FullTest
         
     }
     
-    @Test
+    //@Test
     public void editTest()
     {
         String userName = "usernameEdit";
