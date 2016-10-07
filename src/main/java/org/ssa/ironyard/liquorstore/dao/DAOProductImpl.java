@@ -41,7 +41,7 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
     protected Product afterInsert(Product copy, Integer id)
     {
         Product product;
-        product = new Product(id, copy.getCoreProduct(), copy.getBaseUnit(), copy.getQuantity(), copy.getInventory(),
+        product = new Product(id, copy.getCoreProduct(), copy.getBaseUnitType(), copy.getQuantity(), copy.getInventory(),
                 copy.getPrice());
         product.setLoaded(true);
 

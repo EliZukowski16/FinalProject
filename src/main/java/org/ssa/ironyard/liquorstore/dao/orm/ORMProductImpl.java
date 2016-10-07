@@ -129,6 +129,8 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         }
         
         productSearch = productSearch + " ) ";
+        productSearch = productSearch + " GROUP BY " + this.table() + "." + this.primaryKeys.get(0) +
+                " ORDER BY matches DESC ";
         
         LOGGER.debug(this.getClass().getSimpleName());
         LOGGER.debug("Product Search prepared statement: {}", productSearch);
