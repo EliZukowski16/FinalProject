@@ -6,8 +6,9 @@ angular
 	function productCtrl($http){
 	
 	var ctrl = this;
-	
-	$http.get("/products").then(function(response) {
+
+	$http.get(location.pathname +"/products").then(function(response) {
+		
       ctrl.products = response.success.data
     })
     
