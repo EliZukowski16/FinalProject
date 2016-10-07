@@ -7,28 +7,30 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 
 public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 {
     AbstractORM<CoreProduct> coreProductORM;
-    
+
     static Logger LOGGER = LogManager.getLogger(ORMProductImpl.class);
-    
+
     public ORMProductImpl()
     {
         coreProductORM = new ORMCoreProductImpl();
-        
+
         this.primaryKeys.add("id");
-        
+
         this.fields.add("core_product_id");
         this.fields.add("base_unit");
         this.fields.add("quantity");
         this.fields.add("inventory");
         this.fields.add("price");
-        
+
         this.foreignKeys.put("core_product", "core_product_id");
     }
 
@@ -48,38 +50,91 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         BigDecimal price = results.getBigDecimal(table() + ".price");
         CoreProduct coreProduct = this.mapCoreProduct(results);
         Product product = new Product(id, coreProduct, baseUnit, quantity, inventory, price);
-        
+
         product.setLoaded(true);
-        
+
         return product;
-        
+
     }
-    
+
     private CoreProduct mapCoreProduct(ResultSet results) throws SQLException
     {
         return coreProductORM.map(results);
     }
-     
+
     @Override
     public String prepareRead()
     {
-        String read = " SELECT " + this.projection() + " , " + coreProductORM.projection() + " FROM " + this.coreProductJoin() +
-                " ON " + this.coreProductRelation() + " WHERE " + this.table() +"." + this.primaryKeys.get(0) + " = ? ";
-        
+        String read = " SELECT " + this.projection() + " , " + coreProductORM.projection() + " FROM "
+                + this.coreProductJoin() + " ON " + this.coreProductRelation() + " WHERE " + this.table() + "."
+                + this.primaryKeys.get(0) + " = ? ";
+
         LOGGER.debug(this.getClass().getSimpleName());
         LOGGER.debug("Read prepared Statement: {}", read);
-        
+
         return read;
     }
-    
+
     private String coreProductJoin()
     {
         return this.table() + " JOIN " + coreProductORM.table();
     }
-    
+
     private String coreProductRelation()
     {
-        return this.table() + "." + this.foreignKeys.get(coreProductORM.table()) + " = " + coreProductORM.table() + "." + coreProductORM.getPrimaryKeys().get(0);
+        return this.table() + "." + this.foreignKeys.get(coreProductORM.table()) + " = " + coreProductORM.table() + "."
+                + coreProductORM.getPrimaryKeys().get(0);
+    }
+
+    public String prepareProductSearch(Integer tags, Integer types)
+    {
+        String productSearch = " SELECT " + this.projection() + " , " + coreProductORM.projection() + " , count(*) as matches " +
+                " FROM " + this.table() +
+                " INNER JOIN " + coreProductORM.table() + 
+                " ON " + coreProductORM.table() + "." + coreProductORM.primaryKeys.get(0) + 
+                " = " + this.table() + "." + this.getForeignKeys().get(coreProductORM.table()) +     
+                " INNER JOIN product_tags " +
+                " ON product_tags.core_product_id = " + coreProductORM.primaryKeys.get(0) + 
+                " WHERE ( ";
+
+        if (tags > 0)
+        {
+            productSearch = productSearch + " (product_tags.name ( ";
+
+            for (int i = 0; i < tags; i++)
+            {
+                productSearch = productSearch + " LIKE ? OR ";
+            }
+            
+            productSearch = productSearch.substring(0, productSearch.length() - 3);
+            productSearch = productSearch + " ) ";
+        }
+        
+        if(tags > 0 && ((types > 0) && (types != Type.values().length)))
+        {
+            productSearch = productSearch + " AND ";
+        }
+        
+        if((types > 0) && (types != Type.values().length))
+        {
+            productSearch = productSearch + coreProductORM.table() + "." + coreProductORM.fields.get(1) + " IN ( ";
+            
+            for(int i = 0; i < types; i++)
+            {
+                productSearch = productSearch + " ?, ";
+            }
+            
+            productSearch = productSearch.substring(0, productSearch.length() - 2);
+            productSearch = productSearch + " ) ";
+        }
+        
+        productSearch = productSearch + " ) ";
+        
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Product Search prepared statement: {}", productSearch);
+        
+        return productSearch;
+
     }
 
 }

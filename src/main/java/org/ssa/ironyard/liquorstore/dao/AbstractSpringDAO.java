@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -28,6 +30,7 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
     protected final DataSource dataSource;
     protected final JdbcTemplate springTemplate;
     protected final ResultSetExtractor<T> extractor;
+    protected final ResultSetExtractor<List<T>> listExtractor;
 
     protected AbstractSpringDAO(ORM<T> orm, DataSource dataSource)
     {
@@ -35,6 +38,16 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
         this.dataSource = dataSource;
         this.springTemplate = new JdbcTemplate(dataSource);
         this.extractor = (ResultSet cursor) -> {  if (cursor.next()) return this.orm.map(cursor); return null;  };
+        this.listExtractor = (ResultSet cursor) -> 
+        { 
+            List<T> resultList = new ArrayList<>();
+            while (cursor.next())
+            {
+                resultList.add(this.orm.map(cursor));
+            }
+            
+            return resultList;
+        };
     }
 
     @Override
