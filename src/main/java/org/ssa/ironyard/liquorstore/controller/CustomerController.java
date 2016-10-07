@@ -173,6 +173,7 @@ public class CustomerController
         List<Product> products = new ArrayList();
         Product p = productService.readProduct(107);
         Product p2 = productService.readProduct(108);
+
         products.add(p);
         products.add(p2);
         
