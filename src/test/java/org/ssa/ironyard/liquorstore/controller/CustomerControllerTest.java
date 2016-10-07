@@ -152,7 +152,7 @@ public class CustomerControllerTest
         EasyMock.expect(custService.addCustomer(EasyMock.capture(capturedCust))).andReturn(c);
         EasyMock.replay(custService);
         
-        ResponseEntity<Map<String,Customer>> customerMap = this.custController.addCustomer(mockRequest);
+        ResponseEntity<Map<String,Customer>> customerMap = this.custController.addCustomer("2",mockRequest);
         
         Customer cust = customerMap.getBody().get("success");
         

@@ -5,30 +5,29 @@ angular
 configure.$inject = ['$stateProvider', '$urlRouterProvider']
 function configure($stateProvider, $urlRouterProvider) {
   $stateProvider
-    .state('customer',{
-		url: '/TheBeerGuys/customer/{customerID}',
-    	views: {
-    		'home@': {
-    			controller: 'CustomerHomeController',
-    			controllerAs: 'HC',
-    			templateUrl: 'customer-home.html',
-    		},
-			'products@': {
-    			controller: 'CustomerProductsController',
-    			controllerAs: 'PC',
-    			templateUrl: 'customer-products.html',
-			},
-			'account@': {
-    			controller: 'CustomerAccountController',
-    			controllerAs: 'AC',
-    			templateUrl: 'customer-account.html',
-			},
-			'cart@': {
-    			controller: 'CustomerCartController',
-    			controllerAs: 'CC',
-    			templateUrl: 'customer-cart.html',
-			}
-    	}
+  .state('customerHome', {
+      url: '/',
+      controller: 'CustomerHomeController',
+      controllerAs: 'HC',
+      templateUrl: 'html/customer-home.html'
+    })
+      .state('customerProducts', {
+      url: '/products',
+      controller: 'CustomerProductsController',
+      controllerAs: 'PC',
+      templateUrl: '/html/customer-products.html'
+    })
+      .state('customerAccount', {
+      url: '/account',
+      controller: 'CustomerAccountController',
+      controllerAs: 'AC',
+      templateUrl: 'html/customer-account.html'
+    })
+      .state('customerCart', {
+      url: '/cart',
+      controller: 'CustomerCartController',
+      controllerAs: 'CC',
+      templateUrl: 'html/customer-cart.html'
     })
     
     

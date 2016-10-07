@@ -14,7 +14,10 @@
    	 <link rel="stylesheet" type="text/css" href="/html/style.css">
    	 
    	 <script src="/js/main.js"></script>
-     <script src="/js/controllers/CustomerController.js"></script>     
+     <script src="/js/controllers/CustomerHomeController.js"></script>
+     <script src="/js/controllers/CustomerProductsController.js"></script> 
+     <script src="/js/controllers/CustomerAccountController.js"></script> 
+     <script src="/js/controllers/CustomerCartController.js"></script>    
      
 </head>
 <body>
@@ -24,30 +27,15 @@
 <nav class="navbar navbar-default" id="nav">
   <div class="container-fluid">
   <ul class="nav navbar-nav">
-      <li><a ui-sref="home" ui-sref-active="active">Home</a></li>
-      <li><a ui-sref="products">Products</a></li>
-      <li><a ui-sref="account">Your Account</a></li> 
-      <li><a ui-sref="cart">Shopping Cart</a></li> 
+      <li><a ui-sref="customerHome" ui-sref-active="active">Home</a></li>
+      <li><a ui-sref="customerProducts" ui-sref-active="active">Products</a></li>
+      <li><a ui-sref="customerAccount" ui-sref-active="active">Your Account</a></li> 
+      <li><a ui-sref="customerCart" ui-sref-active="active">Shopping Cart</a></li> 
     </ul>
     </div>
     </nav>
-    
-    <div ng-show="$state.current.name === 'customer.home'">
-    <div ui-view="home"></div>
-	</div>
-	
-	<div ng-show="$state.current.name === 'customer.products'">
-    <div ui-view="products"></div>
-	</div>
-	
-	<div ng-show="$state.current.name === 'customer.account'">
-    <div ui-view="account"></div>
-	</div>
-	
-	<div ng-show="$state.current.name === 'customer.cart'">
-    <div ui-view="cart"></div>
-	</div>
 
+<main ui-view></main> 
 
 
 </body>

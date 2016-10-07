@@ -26,7 +26,10 @@ public abstract class AbstractSpringDAOTest<T extends DomainObject>
         dao = getDAO();
     }
 
-//    @Test
+
+ 
+
+    //@Test
     public void testCRUD()
     {
         T t = newInstance();
