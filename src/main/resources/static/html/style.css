@@ -21,7 +21,8 @@ padding-top: 7px
 
 
 /*customer-product.html*/
-#add{
-float:right;
-padding: 5px;
-}
+
+#add{margin-top: 10px}
+#products{margin-left:18%; width:50%}
+h2{margin-left:20%}
+#cart{margin-left:70%; width:15%}

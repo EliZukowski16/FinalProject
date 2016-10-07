@@ -173,8 +173,11 @@ public class CustomerController
         List<Product> products = new ArrayList();
         Product p = productService.readProduct(107);
         Product p2 = productService.readProduct(108);
+        Product p3 = productService.readProduct(70);
+        Product p4 = productService.readProduct(71);
 
-        products.add(p);
+        products.add(p3);
+        products.add(p4);
         
         LOGGER.info(products);
         if(products == null)
