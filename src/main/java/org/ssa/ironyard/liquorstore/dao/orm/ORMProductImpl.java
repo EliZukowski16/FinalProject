@@ -94,16 +94,16 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
                 " ON " + coreProductORM.table() + "." + coreProductORM.primaryKeys.get(0) + 
                 " = " + this.table() + "." + this.getForeignKeys().get(coreProductORM.table()) +     
                 " INNER JOIN product_tags " +
-                " ON product_tags.core_product_id = " + coreProductORM.primaryKeys.get(0) + 
-                " WHERE ( ";
+                " ON product_tags.core_product_id = " + coreProductORM.table() + "." + coreProductORM.primaryKeys.get(0) + 
+                " WHERE ";
 
         if (tags > 0)
         {
-            productSearch = productSearch + " (product_tags.name ( ";
+            productSearch = productSearch + " ( ";
 
             for (int i = 0; i < tags; i++)
             {
-                productSearch = productSearch + " LIKE ? OR ";
+                productSearch = productSearch + " product_tags.name LIKE ? OR ";
             }
             
             productSearch = productSearch.substring(0, productSearch.length() - 3);
@@ -117,7 +117,7 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         
         if((types > 0) && (types != Type.values().length))
         {
-            productSearch = productSearch + coreProductORM.table() + "." + coreProductORM.fields.get(1) + " IN ( ";
+            productSearch = productSearch + " ( " + coreProductORM.table() + "." + coreProductORM.fields.get(1) + " IN ( ";
             
             for(int i = 0; i < types; i++)
             {
@@ -125,12 +125,11 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
             }
             
             productSearch = productSearch.substring(0, productSearch.length() - 2);
-            productSearch = productSearch + " ) ";
+            productSearch = productSearch + " ) ) ";
         }
         
-        productSearch = productSearch + " ) ";
-        productSearch = productSearch + " GROUP BY " + this.table() + "." + this.primaryKeys.get(0) +
-                " ORDER BY matches DESC ";
+        productSearch = productSearch + " GROUP BY ( " + this.table() + "." + this.primaryKeys.get(0) +
+                " ) ORDER BY matches DESC ";
         
         LOGGER.debug(this.getClass().getSimpleName());
         LOGGER.debug("Product Search prepared statement: {}", productSearch);

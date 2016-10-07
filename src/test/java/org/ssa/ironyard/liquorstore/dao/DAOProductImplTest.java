@@ -1,5 +1,8 @@
 package org.ssa.ironyard.liquorstore.dao;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -7,7 +10,12 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -15,6 +23,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
@@ -39,6 +48,8 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
     static List<Product> rawProducts;
     static List<Product> productsInDB;
 
+    static Map<Tag, List<Product>> tagMap;
+
 //    @BeforeClass
     public static void setUpBeforeClass() throws Exception
     {
@@ -55,13 +66,27 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
         rawProducts = new ArrayList<>();
         productsInDB = new ArrayList<>();
 
+        tagMap = new HashMap<>();
+
         rawTags = new ArrayList<>();
+
         rawTags.add(new Tag("dry"));
+        tagMap.put(new Tag("dry"), new ArrayList<>());
+
         rawTags.add(new Tag("white"));
+        tagMap.put(new Tag("white"), new ArrayList<>());
+
         rawTags.add(new Tag("red"));
+        tagMap.put(new Tag("red"), new ArrayList<>());
+
         rawTags.add(new Tag("sweet"));
+        tagMap.put(new Tag("sweet"), new ArrayList<>());
+
         rawTags.add(new Tag("imported"));
+        tagMap.put(new Tag("imported"), new ArrayList<>());
+
         rawTags.add(new Tag("domestic"));
+        tagMap.put(new Tag("domestic"), new ArrayList<>());
 
         BufferedReader reader = null;
 
@@ -82,17 +107,29 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
 
                 List<Tag> tags = new ArrayList<>();
 
-                for (int i = 0; i < 1; i++)
+                List<Integer> tagsChosen = new ArrayList<>();
+
+                for (int i = 0; i < 3; i++)
                 {
                     Integer randomTagIndex = (int) (Math.random() * rawTags.size());
 
+                    while (tagsChosen.contains(randomTagIndex))
+                    {
+                        randomTagIndex = (int) (Math.random() * rawTags.size());
+                    }
+
                     tags.add(rawTags.get(randomTagIndex));
+
+                    tagsChosen.add(randomTagIndex);
                 }
 
                 testCoreProduct = new CoreProduct(name, tags, type, subType, description);
 
                 rawCoreProducts.add(testCoreProduct);
-                coreProductsInDB.add(coreProductDAO.insert(testCoreProduct));
+
+                CoreProduct coreProductFromDB = coreProductDAO.insert(testCoreProduct);
+
+                coreProductsInDB.add(coreProductFromDB);
             }
         }
         catch (IOException iex)
@@ -124,12 +161,27 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
                 Integer randomCoreProductIndex = (int) (Math.random() * coreProductsInDB.size());
 
                 CoreProduct coreProduct = coreProductsInDB.get(randomCoreProductIndex);
+                
+                
 
                 Product testProduct = new Product(coreProduct, baseUnit, quantity, inventory, price);
-
+                
+                
+                
                 rawProducts.add(testProduct);
 
-                productsInDB.add(productDAO.insert(testProduct));
+                Product productInDB = productDAO.insert(testProduct);
+                
+                for (Tag t : coreProduct.getTags())
+                {
+                    List<Product> mappedProducts = tagMap.get(t);
+
+                    mappedProducts.add(productInDB);
+
+                    tagMap.put(t, mappedProducts);
+                }
+                
+                productsInDB.add(productInDB);
 
             }
         }
@@ -149,7 +201,7 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
     @AfterClass
     public static void tearDownAfterClass() throws Exception
     {
-//        coreProductDAO.clear();
+        coreProductDAO.clear();
     }
 
     @Before
@@ -162,16 +214,70 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
     {
     }
 
-    // @Test
+//    @Test
     public void testProductSearchByTags()
     {
+        List<Product> testProducts = new ArrayList<>();
+
+        for (Tag t : rawTags)
+        {
+            List<Tag> testTags = new ArrayList<>();
+            Set<Product> productSet = new HashSet<>();
+            
+            testTags.add(t);
+
+            testProducts = ((DAOProductImpl) productDAO).searchProducts(testTags, new ArrayList<Type>());
+
+            productSet = testProducts.stream().collect(Collectors.toSet());
+            
+            assertEquals(productSet.size(), testProducts.size());
+            assertEquals(tagMap.get(t).size(), testProducts.size());
+            assertTrue(tagMap.get(t).containsAll(testProducts));
+            assertTrue(testProducts.containsAll(tagMap.get(t)));
+        }
+        
+        for(int i = 0; i < rawTags.size(); i++)
+        {
+            for(int j = 0; j < rawTags.size(); j++)
+            {
+                if(i != j)
+                {
+                    List<Product> matchingProducts = new ArrayList<>();
+                    
+                    List<Tag> testTags = new ArrayList<>();
+                    Set<Product> productSet = new HashSet<>();
+                    
+
+                    matchingProducts.addAll(tagMap.get(rawTags.get(i)));
+                    matchingProducts.addAll(tagMap.get(rawTags.get(j)));
+                    
+                    productSet = matchingProducts.stream().collect(Collectors.toSet());
+                    
+                    matchingProducts = productSet.stream().collect(Collectors.toList());
+                    
+                    testTags.add(rawTags.get(i));
+                    testTags.add(rawTags.get(j));
+                    
+                    testProducts = ((DAOProductImpl) productDAO).searchProducts(testTags, new ArrayList<Type>());
+                    
+                    productSet = testProducts.stream().collect(Collectors.toSet());
+                    
+                    assertEquals(productSet.size(), testProducts.size());
+                    assertEquals(matchingProducts.size(), testProducts.size());
+                    assertTrue(matchingProducts.containsAll(testProducts));
+                    assertTrue(testProducts.containsAll(matchingProducts));
+                    assertTrue(testProducts.containsAll(tagMap.get(rawTags.get(i))));
+                    assertTrue(testProducts.containsAll(tagMap.get(rawTags.get(j))));  
+                }
+            }
+        }
 
     }
 
     // @Test
     public void testProductSearchByTypes()
     {
-
+        
     }
 
     // @Test
