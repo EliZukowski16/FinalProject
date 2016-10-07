@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService
         if(daoProd.read(product.getId()) == null)
             return null;
         
-        Product prod = new Product(product.getId(),product.getCoreProduct(),product.getBaseUnitType(),product.getQuantity(),product.getInventory(),product.getPrice());
+        Product prod = new Product(product.getId(),product.getCoreProduct(),product.getBaseUnit(),product.getQuantity(),product.getInventory(),product.getPrice());
         return daoProd.update(prod);
     }
 
@@ -62,7 +62,7 @@ public class ProductServiceImpl implements ProductService
     @Transactional
     public Product addProduct(Product product)
     {
-        Product prod = new Product(product.getCoreProduct(),product.getBaseUnitType(),product.getQuantity(),product.getInventory(),product.getPrice());
+        Product prod = new Product(product.getCoreProduct(),product.getBaseUnit(),product.getQuantity(),product.getInventory(),product.getPrice());
         return daoProd.insert(prod);
     }
 

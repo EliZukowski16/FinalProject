@@ -10,5 +10,4 @@ public interface DAOProduct extends DAO<Product>
 {
     List<Product> searchProducts(List<Tag> tags, List<Type> types);
 
-
 }

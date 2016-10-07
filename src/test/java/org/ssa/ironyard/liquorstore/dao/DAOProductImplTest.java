@@ -52,6 +52,8 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
         coreProductDAO = new DAOCoreProductImpl(dataSource);
         rawCoreProducts = new ArrayList<>();
         coreProductsInDB = new ArrayList<>();
+        rawProducts = new ArrayList<>();
+        productsInDB = new ArrayList<>();
 
         rawTags = new ArrayList<>();
         rawTags.add(new Tag("dry"));
@@ -147,7 +149,7 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
     @AfterClass
     public static void tearDownAfterClass() throws Exception
     {
-        coreProductDAO.clear();
+//        coreProductDAO.clear();
     }
 
     @Before
