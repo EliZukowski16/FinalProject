@@ -1,6 +1,6 @@
 angular
 	.module("liquorStore")
-	.controller("CustomerProductController", productCtrl)
+	.controller("CustomerProductsController", productCtrl)
 	
 	productCtrl.$inject=['$http']
 	function productCtrl($http){
