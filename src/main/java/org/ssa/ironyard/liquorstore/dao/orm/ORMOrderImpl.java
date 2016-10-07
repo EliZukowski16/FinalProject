@@ -66,7 +66,8 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
     {
         String detailInsert = " INSERT INTO order_detail (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)";
         
-        LOGGER.debug(detailInsert);
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Insert Details prepared Statement: {}", detailInsert);
         
         return  detailInsert;
     }
@@ -77,7 +78,8 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
         String read = " SELECT " + this.projection() + " , " + customerORM.projection() + " FROM " + this.table() + this.customerJoin() +
                 " ON " + this.customerRelation() + " WHERE " + this.table() + "." + this.primaryKeys.get(0) + " = ? ";
         
-        LOGGER.debug(read);
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Read prepared Statement: {}", read);
         
         return read;
     }

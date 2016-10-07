@@ -12,15 +12,15 @@
 
 
 	<Loggers>
-		<Logger name="org.ssa.ironyard" level="DEBUG">
+		<Logger name="org.ssa.ironyard" level="debug" additivity="false">
 			<AppenderRef ref="log-file" />
 			<!-- takes precedence over root level -->
 		</Logger>
-		<Logger name="org.springframework.web" level="DEBUG"
+		<Logger name="org.springframework.web" level="debug"
 			additivity="false">
 			<AppenderRef ref="log-file" />
 		</Logger>
-		<Root level="ERROR">
+		<Root level="info">
 			<AppenderRef ref="Console" />
 		</Root>
 	</Loggers>

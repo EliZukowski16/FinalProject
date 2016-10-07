@@ -28,7 +28,7 @@ public class ProductServiceImpl implements ProductService
     public Product readProduct(Integer id)
     {
         return daoProd.read(id);
-        
+
     }
 
     @Override

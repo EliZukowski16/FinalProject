@@ -105,7 +105,12 @@ public class Admin extends AbstractUser implements User
         else if (!firstName.equals(other.firstName))
             return false;
         
-        if (this.getId() != other.getId())
+        if(this.getId() == null)
+        {
+            if(other.getId() != null)
+                return false;
+        }
+        else if (this.getId() != other.getId())
             return false;
         
         if (lastName == null)
@@ -124,7 +129,13 @@ public class Admin extends AbstractUser implements User
         else if (!password.equals(other.password))
             return false;
         
-        if (role != other.role)
+        
+        if(this.role == null)
+        {
+            if(other.role != null)
+                return false;
+        }
+        else if (role != other.role)
             return false;
         
         if (userName == null)
