@@ -87,7 +87,7 @@ public class FullTest
         
     }
     
-    @Before
+    //@Before
     public void setup()
     {
       //also used as addTest
@@ -197,7 +197,7 @@ public class FullTest
 
 
     
-    @Test
+    //@Test
     public void readTest()
     {
         Customer cRead = custService.readCustomer(cAdd.getId());

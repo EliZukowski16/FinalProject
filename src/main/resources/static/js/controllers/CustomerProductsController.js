@@ -6,11 +6,15 @@ angular
 	function productCtrl($http){
 	
 	var ctrl = this;
-
+	var product;
 	$http.get(location.pathname +"/products").then(function(response) {
 		
-      ctrl.products = response.success.data
+      var product = response.data.success
+      ctrl.products = response.data.success
+      console.log(product)
     })
     
-    console.log(ctrl.products);
+    ctrl.product = product;
+	console.log(ctrl.product)
+    
 }
