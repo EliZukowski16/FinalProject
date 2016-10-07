@@ -3,24 +3,20 @@
 
 <h2>Browse Our Products</h2>
 
-
-<div id="products" class="row list-group" ng-repeat="product in PC.products ">
+<div id="products" class="row list-group" ng-repeat="product in PC.product">
 	<div class="item  col-xs-4 col-lg-4">
 		<div class="thumbnail">
-			<img class="group list-group-image"	src="http://placehold.it/400x250/000/fff" alt="" />
+			<img class="group list-group-image"	src="http://placehold.it/400x250/000/fff" align="left" alt="" />
 			<div class="caption">
-				<h4 class="group inner list-group-item-heading">a {{ PC.name }}</h4>
-				<p class="group inner list-group-item-text">b {{PC.type}}</p>
-				<p class="group inner list-group-item-text">b {{PC.subType}}</p>
-				<p class="group inner list-group-item-text">b {{PC.baseUnit}}</p>
-				<p class="group inner list-group-item-text">b {{PC.quantity}}</p>
-				<p class="group inner list-group-item-text">b {{PC.desc}}</p>
+				<h4 class="group inner list-group-item-heading">{{ product.coreProduct.name }}</h4>
+				<p class="group inner list-group-item-text">{{product.coreProduct.type}}</p>
+				<p class="group inner list-group-item-text">{{product.coreProduct.subType}}</p>
+				<p class="group inner list-group-item-text">{{product.baseUnit}}</p>
+				<p class="group inner list-group-item-text">{{product.quantity}}</p>
+				<p class="group inner list-group-item-text">{{product.coreProduct.desc}}</p>
+				<h4 class="group inner list-group-item-text">${{product.price}}</h4>
 				<div class="row">
-					<div class="col-xs-12 col-md-6">
-						<p class="lead">b {{ PC.price }}</p>
-					</div>
-					<div class="col-xs-12 col-md-6">
-						<a class="btn btn-success">Add to cart</a>
+					<div class="col-xs-12 col-md-6"><a class="btn btn-success" id="add">Add to cart</a>
 					</div>
 				</div>
 			</div>
