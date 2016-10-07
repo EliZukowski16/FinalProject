@@ -38,7 +38,7 @@ public class CustomerServiceImpl implements CustomerService
     @Transactional
     public Customer editCustomer(Customer customer)
     {
-     
+        
         Customer cust = new Customer(customer.getId(),customer.getUserName(),customer.getPassword(),customer.getFirstName(),customer.getLastName(),customer.getAddress(),customer.getBirthDate());
         return daoCust.update(cust);
     }

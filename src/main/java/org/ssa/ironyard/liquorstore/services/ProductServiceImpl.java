@@ -69,8 +69,7 @@ public class ProductServiceImpl implements ProductService
     @Transactional
     public boolean deleteProduct(Integer id)
     {
-        if(daoProd.read(id) == null)
-            return false;
+     
         
         return daoProd.delete(id);
     }
