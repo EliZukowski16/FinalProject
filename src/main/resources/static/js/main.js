@@ -9,25 +9,25 @@ function configure($stateProvider, $urlRouterProvider) {
       url: '/TheBeerGuys/customer/{customerID}',
       controller: 'CustomerHomeController',
       controllerAs: 'HC',
-      templateUrl: 'customer-home.html'
+      templateUrl: 'html/customer-home.html'
     })
       .state('customerProducts', {
-      url: '/TheBeerGuys/customer/{customerID}',
+      url: '/TheBeerGuys/customer/{customerID}/products',
       controller: 'CustomerProductsController',
       controllerAs: 'PC',
-      templateUrl: 'customer-products.html'
+      templateUrl: './html/customer-products.html'
     })
       .state('customerAccount', {
-      url: '/TheBeerGuys/customer/{customerID}',
+      url: '/TheBeerGuys/customer/{customerID}/account',
       controller: 'CustomerAccountController',
       controllerAs: 'AC',
-      templateUrl: 'customer-account.html'
+      templateUrl: 'html/customer-account.html'
     })
       .state('customerCart', {
-      url: '/TheBeerGuys/customer/{customerID}',
+      url: '/TheBeerGuys/customer/{customerID}/cart',
       controller: 'CustomerCartController',
       controllerAs: 'CC',
-      templateUrl: 'customer-cart.html'
+      templateUrl: 'html/customer-cart.html'
     })
     
     
