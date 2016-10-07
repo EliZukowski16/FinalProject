@@ -9,12 +9,19 @@ angular
 	var product;
 	$http.get(location.pathname +"/products").then(function(response) {
 		
-      var product = response.data.success
-      ctrl.products = response.data.success
-      console.log(product)
+      
+      ctrl.product = response.data.success
+      ctrl.id = response.data.success[0].id
+      ctrl.type = response.data.success[0].coreProduct.type
+      ctrl.subType = response.data.success[0].coreProduct.subType
+      ctrl.name = response.data.success[0].coreProduct.name
+      ctrl.coreProduct = response.data.success[0].coreProduct.description
+      ctrl.baseUnit = response.data.success[0].baseUnit
+      ctrl.quanity = response.data.success[0].quantity
+      ctrl.price = response.data.succcess[0].price
+      console.log(ctrl.product)
     })
     
-    ctrl.product = product;
-	console.log(ctrl.product)
+
     
 }
