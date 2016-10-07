@@ -1,0 +1,10 @@
+SELECT core_product.*, product.*, count(*) as matches
+FROM product
+INNER JOIN core_product
+ON core_product.id = product.core_product_id
+INNER JOIN product_tags
+ON core_product.id = product_tags.core_product_id
+WHERE ((product_tags.name like 'dry%')
+AND (core_product.type in ('BEER', 'WINE')))
+GROUP BY (product.id)
+ORDER BY matches DESC;

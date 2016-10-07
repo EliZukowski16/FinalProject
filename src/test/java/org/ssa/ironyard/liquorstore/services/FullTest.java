@@ -165,7 +165,7 @@ public class FullTest
         Product prod = new Product(cpAdd,bu,q,inv,price);
         
         prodAdd = prodService.addProduct(prod);
-        prod = new Product(prodAdd.getId(),prod.getCoreProduct(),prod.getBaseUnit(),prod.getQuantity(),prod.getInventory(),prod.getPrice());
+        prod = new Product(prodAdd.getId(),prod.getCoreProduct(),prod.getBaseUnitType(),prod.getQuantity(),prod.getInventory(),prod.getPrice());
         assertTrue(prodAdd.deeplyEquals(prod));
         
         BaseUnit bu2 = BaseUnit._12OZ_BOTTLE;
@@ -175,7 +175,7 @@ public class FullTest
         Product prod2 = new Product(cpAdd,bu2,q2,inv2,price2);
         
         prodAdd2 = prodService.addProduct(prod2);
-        prod2 = new Product(prodAdd2.getId(),prod2.getCoreProduct(),prod2.getBaseUnit(),prod2.getQuantity(),prod2.getInventory(),prod2.getPrice());
+        prod2 = new Product(prodAdd2.getId(),prod2.getCoreProduct(),prod2.getBaseUnitType(),prod2.getQuantity(),prod2.getInventory(),prod2.getPrice());
         assertTrue(prodAdd2.deeplyEquals(prod2));
         
         LocalDate old = LocalDate.of(2016, 11, 15);
@@ -247,7 +247,7 @@ public class FullTest
         
         assertEquals(pRead.getId(),prodAdd.getId());
         assertEquals(pRead.getCoreProduct(),prodAdd.getCoreProduct());
-        assertEquals(pRead.getBaseUnit(),prodAdd.getBaseUnit());
+        assertEquals(pRead.getBaseUnitType(),prodAdd.getBaseUnitType());
         assertEquals(pRead.getInventory(),prodAdd.getInventory());
         assertEquals(pRead.getInventory(),prodAdd.getInventory());//same as inventory
         assertTrue(pRead.getPrice().compareTo(prodAdd.getPrice()) == 0);//comes back as 1200 or 120 instead of 12
