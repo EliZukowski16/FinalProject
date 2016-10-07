@@ -172,6 +172,7 @@ public class CustomerController
         LOGGER.info("we are trying to get all the products");
         List<Product> products = new ArrayList();
         Product p = productService.readProduct(107);
+        Product p2 = productService.readProduct(108);
         products.add(p);
         
         LOGGER.info(products);
