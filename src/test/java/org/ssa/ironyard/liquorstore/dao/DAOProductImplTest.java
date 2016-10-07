@@ -39,7 +39,7 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
     static List<Product> rawProducts;
     static List<Product> productsInDB;
 
-    @BeforeClass
+//    @BeforeClass
     public static void setUpBeforeClass() throws Exception
     {
         MysqlDataSource mysqlDdataSource = new MysqlDataSource();
