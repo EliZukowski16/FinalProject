@@ -1,3 +1,30 @@
+<link rel="stylesheet" type="text/css" href="/html/style.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 <h2>Browse Our Products</h2>
 
-<div>product {{PC.products}}</div>
+
+<div id="products" class="row list-group" ng-repeat="product in PC.products ">
+	<div class="item  col-xs-4 col-lg-4">
+		<div class="thumbnail">
+			<img class="group list-group-image"	src="http://placehold.it/400x250/000/fff" alt="" />
+			<div class="caption">
+				<h4 class="group inner list-group-item-heading">a {{ PC.name }}</h4>
+				<p class="group inner list-group-item-text">b {{PC.type}}</p>
+				<p class="group inner list-group-item-text">b {{PC.subType}}</p>
+				<p class="group inner list-group-item-text">b {{PC.baseUnit}}</p>
+				<p class="group inner list-group-item-text">b {{PC.quantity}}</p>
+				<p class="group inner list-group-item-text">b {{PC.desc}}</p>
+				<div class="row">
+					<div class="col-xs-12 col-md-6">
+						<p class="lead">b {{ PC.price }}</p>
+					</div>
+					<div class="col-xs-12 col-md-6">
+						<a class="btn btn-success">Add to cart</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
