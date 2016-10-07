@@ -30,6 +30,8 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
     static DataSource dataSource;
 
     static AbstractSpringDAO<CoreProduct> coreProductDAO;
+    static AbstractSpringDAO<Product> productDAO;
+
     static CoreProduct testCoreProduct;
     static List<CoreProduct> rawCoreProducts;
     static List<CoreProduct> coreProductsInDB;
@@ -37,9 +39,7 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
     static List<Product> rawProducts;
     static List<Product> productsInDB;
 
-    static AbstractSpringDAO<Product> productDAO;
-
-//    @BeforeClass
+    @BeforeClass
     public static void setUpBeforeClass() throws Exception
     {
         MysqlDataSource mysqlDdataSource = new MysqlDataSource();
@@ -52,7 +52,7 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
         coreProductDAO = new DAOCoreProductImpl(dataSource);
         rawCoreProducts = new ArrayList<>();
         coreProductsInDB = new ArrayList<>();
-        
+
         rawTags = new ArrayList<>();
         rawTags.add(new Tag("dry"));
         rawTags.add(new Tag("white"));
@@ -60,13 +60,12 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
         rawTags.add(new Tag("sweet"));
         rawTags.add(new Tag("imported"));
         rawTags.add(new Tag("domestic"));
-        
+
         BufferedReader reader = null;
-        
+
         try
         {
-            reader = Files.newBufferedReader(
-                    Paths.get("./src/test/resources/MOCK_CORE_PRODUCT_DATA.txt"),
+            reader = Files.newBufferedReader(Paths.get("./src/test/resources/MOCK_CORE_PRODUCT_DATA.txt"),
                     Charset.defaultCharset());
 
             String line;
@@ -78,18 +77,18 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
                 Type type = Type.getInstance(coreProductData[1].toLowerCase());
                 String subType = coreProductData[2];
                 String description = coreProductData[3];
-                
+
                 List<Tag> tags = new ArrayList<>();
-                
-                for(int i = 0; i < 1; i++)
+
+                for (int i = 0; i < 1; i++)
                 {
                     Integer randomTagIndex = (int) (Math.random() * rawTags.size());
-                    
+
                     tags.add(rawTags.get(randomTagIndex));
                 }
-                
+
                 testCoreProduct = new CoreProduct(name, tags, type, subType, description);
-                
+
                 rawCoreProducts.add(testCoreProduct);
                 coreProductsInDB.add(coreProductDAO.insert(testCoreProduct));
             }
@@ -104,14 +103,51 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
             if (null != reader)
                 reader.close();
         }
-        
-        
+
+        try
+        {
+            reader = Files.newBufferedReader(Paths.get("./src/test/resources/MOCK_PRODUCT_DATA.csv"),
+                    Charset.defaultCharset());
+
+            String line;
+
+            while (null != (line = reader.readLine()))
+            {
+                String[] productData = line.split(",");
+                BaseUnit baseUnit = BaseUnit.getInstance(productData[0]);
+                Integer quantity = Integer.parseInt(productData[1]);
+                Integer inventory = Integer.parseInt(productData[2]);
+                BigDecimal price = BigDecimal.valueOf(Double.parseDouble(productData[3]));
+
+                Integer randomCoreProductIndex = (int) (Math.random() * coreProductsInDB.size());
+
+                CoreProduct coreProduct = coreProductsInDB.get(randomCoreProductIndex);
+
+                Product testProduct = new Product(coreProduct, baseUnit, quantity, inventory, price);
+
+                rawProducts.add(testProduct);
+
+                productsInDB.add(productDAO.insert(testProduct));
+
+            }
+        }
+        catch (IOException iex)
+        {
+            System.err.println(iex);
+            throw iex;
+        }
+        finally
+        {
+            if (null != reader)
+                reader.close();
+        }
+
     }
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception
     {
-        
+        coreProductDAO.clear();
     }
 
     @Before
@@ -127,19 +163,19 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
     // @Test
     public void testProductSearchByTags()
     {
-        
+
     }
-    
-//    @Test
+
+    // @Test
     public void testProductSearchByTypes()
     {
-        
+
     }
-    
-//    @Test
+
+    // @Test
     public void testProductSearchByTagsAndTypes()
     {
-        
+
     }
 
     @Override
@@ -158,16 +194,16 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
         Type type = Type.BEER;
         String subType = "test sub type";
         String description = "test description";
-        
+
         testCoreProduct = coreProductDAO.insert(new CoreProduct(name, tags, type, subType, description));
-        
+
         BaseUnit baseUnit = BaseUnit._12OZ_BOTTLE;
         Integer quantity = 6;
         Integer inventory = 6;
         BigDecimal price = BigDecimal.valueOf(5.55);
-        
-        Product product = new Product(testCoreProduct, baseUnit , quantity, inventory, price);
-        
+
+        Product product = new Product(testCoreProduct, baseUnit, quantity, inventory, price);
+
         return product;
     }
 
