@@ -31,15 +31,15 @@ public abstract class AbstractSpringDAOTest<T extends DomainObject>
     {
         T t = newInstance();
         
-        LOGGER.info("Object : {}, address : {}", t.getClass(), t);
+        LOGGER.debug("Object : {}, address : {}", t.getClass(), t);
 
         T tInDB = dao.insert(t);
      
-        LOGGER.info("Object inserted into database address : {}", tInDB);
+        LOGGER.debug("Object inserted into database address : {}", tInDB);
         
         T tFromDB = dao.read(tInDB.getId());
         
-        LOGGER.info("Object read from database address : {}", tFromDB);
+        LOGGER.debug("Object read from database address : {}", tFromDB);
 
         assertTrue(tInDB.equals(tFromDB));
 

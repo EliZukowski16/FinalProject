@@ -66,7 +66,7 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         String ps = " SELECT " + this.projection() + " , " + coreProductORM.projection() + " FROM " + this.coreProductJoin() +
                 " ON " + this.coreProductRelation() + " WHERE " + this.table() +"." + this.primaryKeys.get(0) + " = ? ";
         
-        LOGGER.info(ps);
+        LOGGER.debug(ps);
         
         return ps;
     }

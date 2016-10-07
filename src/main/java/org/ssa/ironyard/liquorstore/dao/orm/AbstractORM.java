@@ -41,7 +41,7 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
         
         projection = projection.substring(0, projection.length() - 2);
         
-        LOGGER.info(projection);
+        LOGGER.debug(projection);
         
         return projection;
     }
@@ -77,7 +77,7 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
         
         String update = " UPDATE " + this.table() + fieldNames + " WHERE id = ? ";
         
-        LOGGER.info(update);
+        LOGGER.debug(update);
         
         return update;
     }
@@ -101,7 +101,7 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
         
         String insert = " INSERT INTO " + this.table() + fieldNames + values;
         
-        LOGGER.info(insert);
+        LOGGER.debug(insert);
         
         return insert;
     }
