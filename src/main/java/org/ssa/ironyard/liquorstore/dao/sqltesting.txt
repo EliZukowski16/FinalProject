@@ -8,3 +8,14 @@ WHERE ((product_tags.name like 'dry%')
 AND (core_product.type in ('BEER', 'WINE')))
 GROUP BY (product.id)
 ORDER BY matches DESC;
+
+SELECT  product.id,  product.core_product_id,  
+product.base_unit,  product.quantity,  product.inventory,  
+product.price ,  core_product.id,  core_product.name,  
+core_product.type,  core_product.subtype,  core_product.description , count(*) as matches 
+ FROM product 
+ INNER JOIN core_product 
+ ON core_product.id = product.core_product_id 
+ INNER JOIN product_tags  
+ ON product_tags.core_product_id = core_product.id 
+ WHERE  ( product_tags.name (  LIKE ?  )  )  GROUP BY product.id ORDER BY matches DESC

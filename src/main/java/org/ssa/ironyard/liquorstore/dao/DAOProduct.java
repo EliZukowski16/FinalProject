@@ -8,7 +8,5 @@ import org.ssa.ironyard.liquorstore.model.Product;
 
 public interface DAOProduct extends DAO<Product>
 {
-    List<Product> searchProducts(List<Tag> tags, List<Type> types);
-
-
+    public List<Product> searchProducts(List<Tag> tags, List<Type> types);
 }

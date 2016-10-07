@@ -101,7 +101,7 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
     {
         for (int i = 1; i <= tags.size(); i++)
         {
-            searchStatement.setString(i, tags.get(i - 1).getName());
+            searchStatement.setString(i, tags.get(i - 1).getName() + "%");
         }
 
         if (types.size() != Type.values().length)
