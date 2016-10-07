@@ -174,6 +174,7 @@ public class CustomerController
         Product p = productService.readProduct(107);
         Product p2 = productService.readProduct(108);
         products.add(p);
+        products.add(p2);
         
         LOGGER.info(products);
         if(products == null)
@@ -182,6 +183,17 @@ public class CustomerController
             response.put("success", products);
         
         return ResponseEntity.ok().header("Products", "Get All Products").body(response);
+    }
+    
+    @RequestMapping(value="/{customerID}/search", method = RequestMethod.GET)
+    public ResponseEntity<Map<String,List<Product>>> searchKeywordType(@PathVariable String customerID, HttpServletRequest request)
+    {
+        Map<String,List<Product>> response = new HashMap<>();
+        
+        LOGGER.info("Going to the search");
+        return null;
+        
+        //List<Product> products = productService.searchProduct(tags, type)
     }
     
     
