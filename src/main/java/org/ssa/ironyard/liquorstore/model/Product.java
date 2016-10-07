@@ -52,10 +52,15 @@ public class Product extends AbstractDomainObject implements DomainObject
     {
         this(null, coreProduct, baseUnit, quantity, inventory, price);
     }
-
-    public BaseUnit getBaseUnit()
+    
+    public BaseUnit getBaseUnitType()
     {
         return baseUnit;
+    }
+
+    public String getBaseUnit()
+    {
+        return baseUnit.toString();
     }
 
     public int getQuantity()

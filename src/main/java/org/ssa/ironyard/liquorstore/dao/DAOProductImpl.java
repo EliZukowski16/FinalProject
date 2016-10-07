@@ -1,7 +1,10 @@
 package org.ssa.ironyard.liquorstore.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -9,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMProductImpl;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Product;
 
 @Repository
@@ -36,7 +41,7 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
     protected Product afterInsert(Product copy, Integer id)
     {
         Product product;
-        product = new Product(id, copy.getCoreProduct(), copy.getBaseUnit(), copy.getQuantity(), copy.getInventory(),
+        product = new Product(id, copy.getCoreProduct(), copy.getBaseUnitType(), copy.getQuantity(), copy.getInventory(),
                 copy.getPrice());
         product.setLoaded(true);
 
@@ -67,10 +72,45 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
                 ps.setInt(4, domainToUpdate.getInventory());
                 ps.setBigDecimal(5, domainToUpdate.getPrice());
                 ps.setInt(6, domainToUpdate.getId());
-                
+
             }
 
         };
+
+    }
+
+    @Override
+    public List<Product> searchProducts(List<Tag> tags, List<Type> types)
+    {
+
+        if (tags.size() == 0 && types.size() == 0)
+            return new ArrayList<>();
+        return this.springTemplate.query((Connection conn) ->
+        {
+            PreparedStatement statement = conn
+                    .prepareStatement(((ORMProductImpl) this.orm).prepareProductSearch(tags.size(), types.size()));
+            productSearchPreparer(statement, tags, types);
+            return statement;
+
+        }, this.listExtractor);
+
+    }
+
+    private void productSearchPreparer(PreparedStatement searchStatement, List<Tag> tags, List<Type> types)
+            throws SQLException
+    {
+        for (int i = 1; i <= tags.size(); i++)
+        {
+            searchStatement.setString(i, tags.get(i - 1).getName());
+        }
+
+        if (types.size() != Type.values().length)
+        {
+            for (int i = tags.size() + 1; i <= types.size() + tags.size(); i++)
+            {
+                searchStatement.setString(i - tags.size(), types.get(i - tags.size() - 1).toString());
+            }
+        }
 
     }
 

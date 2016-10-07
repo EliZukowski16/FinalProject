@@ -1,8 +1,11 @@
 package org.ssa.ironyard.liquorstore.dao;
 
-import static org.junit.Assert.fail;
-
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +31,15 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
 
     static AbstractSpringDAO<CoreProduct> coreProductDAO;
     static CoreProduct testCoreProduct;
+    static List<CoreProduct> rawCoreProducts;
+    static List<CoreProduct> coreProductsInDB;
+    static List<Tag> rawTags;
+    static List<Product> rawProducts;
+    static List<Product> productsInDB;
 
-    AbstractSpringDAO<Product> productDAO;
+    static AbstractSpringDAO<Product> productDAO;
 
-    @BeforeClass
+//    @BeforeClass
     public static void setUpBeforeClass() throws Exception
     {
         MysqlDataSource mysqlDdataSource = new MysqlDataSource();
@@ -39,27 +47,76 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
 
         dataSource = mysqlDdataSource;
 
+        productDAO = new DAOProductImpl(dataSource);
+
         coreProductDAO = new DAOCoreProductImpl(dataSource);
+        rawCoreProducts = new ArrayList<>();
+        coreProductsInDB = new ArrayList<>();
+        
+        rawTags = new ArrayList<>();
+        rawTags.add(new Tag("dry"));
+        rawTags.add(new Tag("white"));
+        rawTags.add(new Tag("red"));
+        rawTags.add(new Tag("sweet"));
+        rawTags.add(new Tag("imported"));
+        rawTags.add(new Tag("domestic"));
+        
+        BufferedReader reader = null;
+        
+        try
+        {
+            reader = Files.newBufferedReader(
+                    Paths.get("./src/test/resources/MOCK_CORE_PRODUCT_DATA.txt"),
+                    Charset.defaultCharset());
 
-        String name = "testCoreProduct";
-        List<Tag> tags = new ArrayList<>();
-        Type type = Type.BEER;
-        String subType = "testSubType";
-        String description = "test Description";
+            String line;
 
-        testCoreProduct = coreProductDAO.insert(new CoreProduct(name, tags, type, subType, description));
+            while (null != (line = reader.readLine()))
+            {
+                String[] coreProductData = line.split(":");
+                String name = coreProductData[0];
+                Type type = Type.getInstance(coreProductData[1].toLowerCase());
+                String subType = coreProductData[2];
+                String description = coreProductData[3];
+                
+                List<Tag> tags = new ArrayList<>();
+                
+                for(int i = 0; i < 1; i++)
+                {
+                    Integer randomTagIndex = (int) (Math.random() * rawTags.size());
+                    
+                    tags.add(rawTags.get(randomTagIndex));
+                }
+                
+                testCoreProduct = new CoreProduct(name, tags, type, subType, description);
+                
+                rawCoreProducts.add(testCoreProduct);
+                coreProductsInDB.add(coreProductDAO.insert(testCoreProduct));
+            }
+        }
+        catch (IOException iex)
+        {
+            System.err.println(iex);
+            throw iex;
+        }
+        finally
+        {
+            if (null != reader)
+                reader.close();
+        }
+        
+        
     }
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception
     {
-        coreProductDAO.clear();
+        
     }
 
     @Before
     public void setUpBeforeEach() throws Exception
     {
-        productDAO = new DAOProductImpl(dataSource);
     }
 
     @After
@@ -68,9 +125,21 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
     }
 
     // @Test
-    public void test()
+    public void testProductSearchByTags()
     {
-        fail("Not yet implemented"); // TODO
+        
+    }
+    
+//    @Test
+    public void testProductSearchByTypes()
+    {
+        
+    }
+    
+//    @Test
+    public void testProductSearchByTagsAndTypes()
+    {
+        
     }
 
     @Override
@@ -84,6 +153,14 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
     @Override
     protected Product newInstance()
     {
+        String name = "test core product";
+        List<Tag> tags = new ArrayList<>();
+        Type type = Type.BEER;
+        String subType = "test sub type";
+        String description = "test description";
+        
+        testCoreProduct = coreProductDAO.insert(new CoreProduct(name, tags, type, subType, description));
+        
         BaseUnit baseUnit = BaseUnit._12OZ_BOTTLE;
         Integer quantity = 6;
         Integer inventory = 6;
