@@ -70,7 +70,7 @@ public class CustomerController
         
     }
     
-    @RequestMapping(value="{customerID}/customers", method = RequestMethod.POST)
+    @RequestMapping(value="/{customerID}/customers", method = RequestMethod.POST)
     public ResponseEntity<Map<String,Customer>> addCustomer(@PathVariable String CustomerID, HttpServletRequest request)
     {
         Map<String,Customer> response = new HashMap<>();
@@ -117,7 +117,7 @@ public class CustomerController
         return ResponseEntity.ok().header("Customer", "Add Customer").body(response);
     }
     
-    @RequestMapping(value="{customerID}/customerEdit", method = RequestMethod.PUT)
+    @RequestMapping(value="/{customerID}/customerEdit", method = RequestMethod.PUT)
     public ResponseEntity<Map<String,Customer>> editCustomer(@PathVariable String id, HttpServletRequest request)
     {
         Map<String,Customer> response = new HashMap<>();
@@ -163,17 +163,18 @@ public class CustomerController
         
     }
     
-    @RequestMapping(value= "{customerID}/products", method = RequestMethod.GET)
+    @RequestMapping(value= "/{customerID}/products", method = RequestMethod.GET)
     public ResponseEntity<Map<String,List<Product>>> getProducts(@PathVariable String customerID)
     {
         Map<String,List<Product>> response = new HashMap<>();
         
         //List<Product> products = productService.readAllProducts();
-        
+        LOGGER.info("we are trying to get all the products");
         List<Product> products = new ArrayList();
         Product p = productService.readProduct(88);
         products.add(p);
         
+        LOGGER.info(products);
         if(products == null)
             response.put("error", products);
         else
