@@ -70,7 +70,7 @@ public class LogInController
     {
         LOGGER.info("Made call to Admin with {}", adminID);
 //        session.setAttribute("adminID", adminID);
-        return new InternalResourceView("/html/admin.html");
+        return new InternalResourceView("/admin.html");
     }
     
     @RequestMapping(value = "/customer/{customerID}")
@@ -78,7 +78,7 @@ public class LogInController
     {
         LOGGER.info("Made call to Customer with {}", customerID);
 //        session.setAttribute("customerID", customerID);
-        return new InternalResourceView("/html/customer.html");
+        return new InternalResourceView("/customer.html");
     }
     
 }
