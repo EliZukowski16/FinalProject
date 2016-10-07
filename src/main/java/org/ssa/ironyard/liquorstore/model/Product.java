@@ -118,15 +118,45 @@ public class Product extends AbstractDomainObject implements DomainObject
         }
         else if (!baseUnit.equals(other.baseUnit))
             return false;
-        if (!coreProduct.equals(other.coreProduct))
+        
+        if(coreProduct == null)
+        {
+            if(other.coreProduct != null)
+                return false;
+        }
+        else if (!coreProduct.equals(other.coreProduct))
             return false;
-        if (this.getId() != other.getId())
+        
+        if (this.getId() == null)
+        {
+            if (other.getId() != null)
+                return false;
+        }
+        else if (!this.getId().equals(other.getId()))
             return false;
-        if (inventory != other.inventory)
+        
+        if(inventory == null)
+        {
+            if(other.inventory != null)
+                return false;
+        }
+        else if (inventory != other.inventory)
             return false;
-        if (quantity != other.quantity)
+        
+        if(quantity == null)
+        {
+            if(other.quantity != null)
+                return false;
+        }
+        else if (quantity != other.quantity)
             return false;
-        if(this.price.compareTo(other.price) != 0)
+        
+        if(price == null)
+        {
+            if(other.price != null)
+                return false;
+        }     
+        else if(this.price.compareTo(other.price) != 0)
             return false;
         return true;
     }

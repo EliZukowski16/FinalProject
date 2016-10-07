@@ -117,7 +117,7 @@ public class Order extends AbstractDomainObject implements DomainObject
                 if (other.unitPrice != null)
                     return false;
             }
-            else if (!unitPrice.equals(other.unitPrice))
+            else if (unitPrice.compareTo(other.unitPrice) != 0)
                 return false;
             return true;
         }
@@ -184,7 +184,7 @@ public class Order extends AbstractDomainObject implements DomainObject
             if (other.getId() != null)
                 return false;
         }
-        if (this.getId() != other.getId())
+        else if (this.getId() != other.getId())
             return false;
         return true;
     }
@@ -198,8 +198,15 @@ public class Order extends AbstractDomainObject implements DomainObject
         if (getClass() != obj.getClass())
             return false;
         Order other = (Order) obj;
-        if (!customer.equals(other.customer))
+        
+        if(this.customer == null)
+        {
+            if(other.customer != null)
+                return false;
+        }    
+        else if (!customer.equals(other.customer))
             return false;
+        
         if (date == null)
         {
             if (other.date != null)
@@ -207,16 +214,33 @@ public class Order extends AbstractDomainObject implements DomainObject
         }
         else if (!date.equals(other.date))
             return false;
-        if (this.getId() != other.getId())
+        
+        if (this.getId() == null)
+        {
+            if (other.getId() != null)
+                return false;
+        }
+        else if (this.getId() != other.getId())
             return false;
+        
         if (oD == null)
         {
             if (other.oD != null)
                 return false;
         }
-        else if (!oD.equals(other.oD))
+        else if (oD.size() != (other.oD.size()))
             return false;
-        if (this.total.compareTo(other.total) != 0)
+        else if (!oD.containsAll(other.oD))
+            return false;
+        else if (!other.oD.containsAll(oD))
+            return false;
+        
+        if(this.total == null)
+        {
+            if(other.total != null)
+                return false;
+        }
+        else if (this.total.compareTo(other.total) != 0)
             return false;
         return true;
     }

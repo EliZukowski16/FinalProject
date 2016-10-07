@@ -26,12 +26,12 @@ public abstract class AbstractSpringDAOTest<T extends DomainObject>
         dao = getDAO();
     }
 
-    @Test
+//    @Test
     public void testCRUD()
     {
         T t = newInstance();
         
-        LOGGER.debug("Object : {}, address : {}", t.getClass(), t);
+        LOGGER.debug("Object : {}, address : {}", t.getClass().getSimpleName(), t);
 
         T tInDB = dao.insert(t);
      
@@ -48,6 +48,8 @@ public abstract class AbstractSpringDAOTest<T extends DomainObject>
         T tCloned = (T) tFromDB.clone();
 
         T tUpdated = dao.update(tCloned);
+        
+        LOGGER.debug("Object updated in database : {}", tUpdated);
 
         assertEquals(tUpdated, tFromDB);
         assertTrue(tUpdated.deeplyEquals(tFromDB));
