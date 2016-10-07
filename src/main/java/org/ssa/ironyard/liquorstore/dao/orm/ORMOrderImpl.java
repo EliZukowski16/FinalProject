@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
@@ -14,6 +16,8 @@ import org.ssa.ironyard.liquorstore.model.Product;
 
 public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 {
+    static Logger LOGGER = LogManager.getLogger(ORMOrderImpl.class);
+    
     AbstractORM<Customer> customerORM;
     AbstractORM<Product> productORM;
     
@@ -60,24 +64,39 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 
     public String prepareInsertDetail()
     {
-        return " INSERT INTO order_detail (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)";
+        String detailInsert = " INSERT INTO order_detail (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)";
+        
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Insert Details prepared Statement: {}", detailInsert);
+        
+        return  detailInsert;
     }
     
     @Override
     public String prepareRead()
     {
-        return " SELECT " + this.projection() + " , " + customerORM.projection() + " FROM " + this.customerJoin() +
+        String read = " SELECT " + this.projection() + " , " + customerORM.projection() + " FROM " + this.table() + this.customerJoin() +
                 " ON " + this.customerRelation() + " WHERE " + this.table() + "." + this.primaryKeys.get(0) + " = ? ";
+        
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Read prepared Statement: {}", read);
+        
+        return read;
     }
     
     private String customerJoin()
     {
-        return this.table() + " JOIN " + customerORM.table();
+        return " JOIN " + customerORM.table();
     }
     
     private String customerRelation()
     {
         return this.table() + "." + this.foreignKeys.get(customerORM.table()) + " = " + customerORM.table() + "." + customerORM.getPrimaryKeys().get(0);
+    }
+    
+    private String orderDetailJoin()
+    {
+        return " JOIN order_detail ";
     }
 
 }

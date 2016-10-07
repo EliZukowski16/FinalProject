@@ -126,6 +126,7 @@ public class Customer extends AbstractUser implements User
         }
         else if (!address.equals(other.address))
             return false;
+        
         if (birthDate == null)
         {
             if (other.birthDate != null)
@@ -133,6 +134,7 @@ public class Customer extends AbstractUser implements User
         }
         else if (!birthDate.equals(other.birthDate))
             return false;
+        
         if (firstName == null)
         {
             if (other.firstName != null)
@@ -140,6 +142,7 @@ public class Customer extends AbstractUser implements User
         }
         else if (!firstName.equals(other.firstName))
             return false;
+        
         if (this.getId() == null)
         {
             if (other.getId() != null)
@@ -147,6 +150,7 @@ public class Customer extends AbstractUser implements User
         }
         else if (!this.getId().equals(other.getId()))
             return false;
+        
         if (lastName == null)
         {
             if (other.lastName != null)
@@ -154,6 +158,7 @@ public class Customer extends AbstractUser implements User
         }
         else if (!lastName.equals(other.lastName))
             return false;
+        
         if (password == null)
         {
             if (other.password != null)
@@ -161,6 +166,7 @@ public class Customer extends AbstractUser implements User
         }
         else if (!password.equals(other.password))
             return false;
+        
         if (userName == null)
         {
             if (other.userName != null)

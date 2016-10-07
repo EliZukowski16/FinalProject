@@ -26,7 +26,8 @@ public interface ORM<T extends DomainObject>
     {
         String delete = " DELETE FROM " + table() + " WHERE id = ? ";
         
-        LOGGER.info(delete);
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Delete prepared Statement: {}", delete);
         
         return delete;
     }
@@ -43,7 +44,8 @@ public interface ORM<T extends DomainObject>
     {
         String query = this.prepareReadAll() + " WHERE " + queryField + " = ? ";
         
-        LOGGER.info(query);
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Query prepared Statement: {}", query);        
         
         return query;
     }
@@ -52,7 +54,8 @@ public interface ORM<T extends DomainObject>
     {
         String readAll = " SELECT " + this.projection() + " FROM " + table();
         
-        LOGGER.info(readAll);
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Read All prepared Statement: {}", readAll);
         
         return readAll;
     }
@@ -61,7 +64,8 @@ public interface ORM<T extends DomainObject>
     {
         String read = this.prepareReadAll() + " WHERE id = ? ";
         
-        LOGGER.info(read);
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Read By ID prepared Statement: {}", read);
         
         return read;
     }

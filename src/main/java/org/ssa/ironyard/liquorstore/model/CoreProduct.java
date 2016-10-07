@@ -131,8 +131,15 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         }
         else if (!description.equals(other.description))
             return false;
-        if (this.getId() != other.getId())
+        
+        if (this.getId() == null)
+        {
+            if (other.getId() != null)
+                return false;
+        }
+        else if (!this.getId().equals(other.getId()))
             return false;
+        
         if (name == null)
         {
             if (other.name != null)
@@ -140,6 +147,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         }
         else if (!name.equals(other.name))
             return false;
+        
         if (subType == null)
         {
             if (other.subType != null)
@@ -147,6 +155,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         }
         else if (!subType.equals(other.subType))
             return false;
+        
         if (tags == null)
         {
             if (other.tags != null)
