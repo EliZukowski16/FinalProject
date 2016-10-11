@@ -273,6 +273,14 @@ public class Order extends AbstractDomainObject implements DomainObject
         }
         else if (this.total.compareTo(other.total) != 0)
             return false;
+        
+        if(this.status == null)
+        {
+            if(other.status != null)
+                return false;
+        }
+        else if(this.status != other.status)
+            return false;
         return true;
     }
 
@@ -284,6 +292,7 @@ public class Order extends AbstractDomainObject implements DomainObject
         copy = (Order) super.clone();
         copy.setoD(this.getoD());
         copy.setCustomer(this.getCustomer());
+        copy.status = this.getOrderStatus();
         return copy;
 
     }

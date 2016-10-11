@@ -19,3 +19,16 @@ core_product.type,  core_product.subtype,  core_product.description , count(*) a
  INNER JOIN product_tags  
  ON product_tags.core_product_id = core_product.id 
  WHERE  ( product_tags.name (  LIKE ?  )  )  GROUP BY product.id ORDER BY matches DESC
+ 
+SELECT  _order.id,  _order.customer_id,  _order.date,  _order.order_status,  
+_order.total ,  customer.id,  customer.username,  customer.salt,  customer.hash,  
+customer.first_name,  customer.last_name,  customer.street,  customer.city,  customer.state,  
+customer.zip_code,  customer.birth_date ,  core_product.id,  core_product.name,  
+core_product.type,  core_product.subtype,  core_product.description ,  product.id,  
+product.core_product_id,  product.base_unit,  product.quantity,  product.inventory,  product.price ,  
+order_detail.*  '
+FROM _order 
+INNER JOIN customer 
+ON _order.customer_id = customer.id   
+INNER JOIN product 
+ON product.id =  order_detail.product_id =   INNER JOIN core_product ON product.core_product_id = core_product.id INNER JOIN order_detail  ON _order.id = order_detail.order_id  WHERE _order.id = ?
