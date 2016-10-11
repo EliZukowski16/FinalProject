@@ -13,6 +13,9 @@ angular
       console.log(ctrl.product)
     })
     
-
+    ctrl.addToCart = function(){
+		
+		
+	}
     
 }

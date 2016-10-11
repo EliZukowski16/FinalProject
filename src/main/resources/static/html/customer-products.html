@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="/html/style.css">
+<link rel="stylesheet" type="text/css" href="style.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 
@@ -33,7 +33,7 @@
 		<label class="checkbox-inline"> <input type="checkbox" value="">Beer</label> 
 		<label class="checkbox-inline"> <input type="checkbox"	value="">Wine</label> 
 		<label class="checkbox-inline"> <input type="checkbox"	value="">Spirits</label> 
-		<label class="checkbox-inline"> <input type="checkbox"	value="">All</label>
+		<label class="checkbox-inline"> <input type="checkbox" checked="checked" value="">All</label>
 	</form>
 </form><br>
 
@@ -48,26 +48,25 @@
 				src="http://www.adweek.com/agencyspy/files/2011/10/budlight.png"
 				align="left" alt="" />
 			<div class="caption">
-				<h3 class="group inner list-group-item-heading">{{product.coreProduct.name }}</h3>
+				<button type = "button" id="add"><h3 class="group inner list-group-item-heading tooltip" >{{product.coreProduct.name }}<span class="tooltiptext">Click to add to cart</span></h3></button>
 				<p class="group inner list-group-item-text">{{product.coreProduct.type}}</p>
 				<p class="group inner list-group-item-text">{{product.coreProduct.subType}}</p>
 				<p class="group inner list-group-item-text">{{product.baseUnit}}</p>
 				<p class="group inner list-group-item-text">{{product.quantity}}</p>
 				<p class="group inner list-group-item-text">{{product.coreProduct.description}}</p>
 				<h4 class="group inner list-group-item-text">${{product.price}}</h4>
-				<button type="button" class="btn btn-success" id="add">Add to cart</button>
+				</div>
 				<div class="row"></div>
 			</div>
 		</div>
 	</div>
-</div>
 
 
 <!--  Shopping cart -->
 
-<div style="background-color:yellow"id="cart" class="col-md-3">
+<div id="cart">
 
-Shopping Cart goes here
+<h2>Shopping Cart</h2>
 
 </div>
 
