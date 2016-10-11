@@ -39,8 +39,7 @@ public class OrdersServiceImpl implements OrdersService
     @Transactional
     public List<Order> readAllOrder()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return daoOrder.readAll();
     }
 
     @Override
@@ -82,6 +81,7 @@ public class OrdersServiceImpl implements OrdersService
     @Transactional
     public Order addOrder(Order order)
     {
+        
         List<OrderDetail> odList = order.getoD();
         
         List<OrderDetail> outOfStock = new ArrayList();
@@ -135,15 +135,15 @@ public class OrdersServiceImpl implements OrdersService
         
         if(odPriceChange.size() > 0)
         {
-           Order ordPriceChange = new Order(order.getId(),null,null,null,odPriceChange);
+           Order ordPriceChange = new Order(null,null,order.getDate(),null,odPriceChange);
            return ordPriceChange;
         }
         
         //get price
         Order ord = new Order(order.getCustomer(),order.getDate(),order.getTotal(),order.getoD());
         return daoOrder.insert(ord);
-            
-    }
+           
+   }
 
     @Override
     @Transactional

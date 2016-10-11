@@ -1,5 +1,6 @@
 package org.ssa.ironyard.liquorstore.controller;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -27,12 +28,15 @@ import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.model.Address;
 import org.ssa.ironyard.liquorstore.model.Address.State;
 import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
+import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
+import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
 import org.ssa.ironyard.liquorstore.model.Password;
 import org.ssa.ironyard.liquorstore.model.Product;
+import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
 import org.ssa.ironyard.liquorstore.services.AnalyticsServiceImpl;
 import org.ssa.ironyard.liquorstore.services.CoreProductServiceImpl;
@@ -204,7 +208,7 @@ public class CustomerController
         LOGGER.info("Going to the search");
         
         String[] tagArray = request.getParameterValues("tags");
-        String [] typeArray = request.getParameterValues("types");
+        String[] typeArray = request.getParameterValues("types");
        
         LOGGER.info(tagArray);
         LOGGER.info(tagArray);
@@ -230,18 +234,67 @@ public class CustomerController
     }
     
     
-    @RequestMapping(value="/{customerID}/placeOrder", method = RequestMethod.GET)
+    @RequestMapping(value="/{customerID}/placeOrder", method = RequestMethod.POST)
     public ResponseEntity<Map<String,Order>> placeOrder(@PathVariable String customerID, HttpServletRequest request)
     {
         Order ord;
         
-        Customer cus;
-        String cusUserName = request.getParameter("customerUserName");
-        String cusPassword = request.getParameter("customerPassword");
-        String cusFName = request.getParameter("customerFName");
-        String cusLName = request.getParameter("customerLName");
-        String street = request.getParameter("street");
-        String city = request.getParameter("city");
+        Customer cus = new Customer(Integer.parseInt(customerID),null,null,null,null,null,null);
+
+        String[] orderDetailArray = request.getParameterValues("orderDetail");
+        
+        List<String> orderDetailStringList = Stream.of(orderDetailArray).collect(Collectors.toList());
+        List<OrderDetail> orderDetailList = new ArrayList();
+        
+        for (int i = 0; i < orderDetailStringList.size(); i += 10)
+        {
+            String name  = orderDetailStringList.get(i);
+            Type type = Type.getInstance(orderDetailStringList.get(i+1));
+            String subType = orderDetailStringList.get(i+2);
+            String desc = orderDetailStringList.get(i+3);
+            CoreProduct cp = new CoreProduct(name,new ArrayList(),type,subType,desc);
+            
+            BaseUnit baseUnit = BaseUnit.getInstance(orderDetailStringList.get(i+4));
+            Integer quantity = Integer.parseInt(orderDetailStringList.get(i+5));
+            Integer inventory = Integer.parseInt(orderDetailStringList.get(i+6));
+           
+            BigDecimal price = BigDecimal.valueOf(Double.parseDouble(orderDetailStringList.get(i+7)));
+            Product p = new Product(cp,baseUnit,quantity,inventory,price);
+            
+            Integer qty = Integer.parseInt(orderDetailStringList.get(i+8));
+            BigDecimal unitPrice = BigDecimal.valueOf(Double.parseDouble(orderDetailStringList.get(i+9)));
+            
+            OrderDetail od = new OrderDetail(p,qty,unitPrice);
+            orderDetailList.add(od);
+        }
+        
+        String month = request.getParameter("orderMonth");
+        String day = request.getParameter("orderDay");
+        String year = request.getParameter("orderYear"); 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        formatter = formatter.withLocale(Locale.US);
+        LocalDate date = LocalDate.parse(year + "-" + month + "-" + day);
+        LocalTime time = LocalTime.of(12, 00);
+        LocalDateTime ldt = LocalDateTime.of(date, time);
+        
+        BigDecimal total = BigDecimal.valueOf(Double.parseDouble(request.getParameter("total")));
+        
+        ord = new Order(cus,ldt,total,orderDetailList);
+        
+        Map<String,Order> addOrderMap = new HashMap<>();
+                
+        Order addOrder = orderService.addOrder(ord);
+        
+        if(addOrder == null)
+            addOrderMap.put("error", addOrder);
+        else if(addOrder.getCustomer() == null && addOrder.getDate() == null && addOrder.getTotal() == null && addOrder.getoD() != null)
+            addOrderMap.put("outofstock", addOrder);
+        else if(addOrder.getCustomer() == null && addOrder.getDate() != null && addOrder.getTotal() == null && addOrder.getoD() != null)
+            addOrderMap.put("pricechange", addOrder);
+        else
+            addOrderMap.put("success",addOrder);
+        
+        return ResponseEntity.ok().header("Customer", "Place Order").body(addOrderMap);
     }
     
     

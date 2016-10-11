@@ -33,8 +33,7 @@ public class AdminServiceImpl implements AdminService
     @Transactional
     public List<Admin> readAllAdmins()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return daoAdmin.readAll();
     }
 
     @Override

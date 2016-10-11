@@ -260,7 +260,7 @@ public class CustomerControllerTest
     @Test
     public void testSearchKeyword()
     {
-List<Product> products = new ArrayList();
+        List<Product> products = new ArrayList();
         
         String cpName = "Bud Light";
         Tag tag = new Tag("light beer");
@@ -327,6 +327,87 @@ List<Product> products = new ArrayList();
         assertTrue(productList.get(0).deeplyEquals(prod));
         assertTrue(productList.get(1).deeplyEquals(prod2));
         
+    }
+    
+    @Test
+    public void testPlaceOrderSucess()
+    {
+        String[] orderDetail = {"bud light","BEER","Light Beer","Taste great","12 oz can","6","25","12.50","1","12.50","wine bottle","WINE","Apple Wine","Tarty but great","750 ml bottle","1","25","15","1","15"};
+        MockHttpServletRequest mockRequest = new MockHttpServletRequest();
+        mockRequest.addParameter("orderDetail", orderDetail);
+        mockRequest.addParameter("orderMonth", "05");
+        mockRequest.addParameter("orderDay", "15");
+        mockRequest.addParameter("orderYear", "2016");
+        mockRequest.addParameter("total", "27.50");
+        
+        Order ordN = new Order(ord.getCustomer(),ord.getDate(),ord.getTotal(),ord.getoD());
+        
+        EasyMock.expect(orderService.addOrder(ordN)).andReturn(ord);
+        EasyMock.replay(orderService);
+        
+
+        ResponseEntity<Map<String,Order>> orderMap = this.custController.placeOrder(c.getId().toString(),mockRequest);
+        
+        Order ordPlace = orderMap.getBody().get("success");
+        
+        assertTrue(ord.deeplyEquals(ordPlace)); 
+        
+       
+            
+    }
+    
+    @Test
+    public void testPlaceOrderOutofStock()
+    {
+        String[] orderDetail = {"bud light","BEER","Light Beer","Taste great","12 oz can","6","25","12.50","1","12.50","wine bottle","WINE","Apple Wine","Tarty but great","750 ml bottle","1","25","15","1","15"};
+        MockHttpServletRequest mockRequest = new MockHttpServletRequest();
+        mockRequest.addParameter("orderDetail", orderDetail);
+        mockRequest.addParameter("orderMonth", "05");
+        mockRequest.addParameter("orderDay", "15");
+        mockRequest.addParameter("orderYear", "2016");
+        mockRequest.addParameter("total", "27.50");
+        
+        Order ordN = new Order(null,ord.getCustomer(),ord.getDate(),ord.getTotal(),ord.getoD());
+        Order ordS = new Order(null,null,null,ord.getoD());
+        
+        EasyMock.expect(orderService.addOrder(ordN)).andReturn(ordS);
+        EasyMock.replay(orderService);
+        
+
+        ResponseEntity<Map<String,Order>> orderStockMap = this.custController.placeOrder(c.getId().toString(),mockRequest);
+        
+        assertTrue(orderStockMap.getBody().containsKey("outofstock"));
+        Order ordStock = orderStockMap.getBody().get("outofstock");
+        
+        assertTrue(ordS.deeplyEquals(ordStock)); 
+
+    }
+    
+    @Test
+    public void testPlaceOrderPriceChange()
+    {
+        String[] orderDetail = {"bud light","BEER","Light Beer","Taste great","12 oz can","6","25","12.50","1","12.50","wine bottle","WINE","Apple Wine","Tarty but great","750 ml bottle","1","25","15","1","15"};
+        MockHttpServletRequest mockRequest = new MockHttpServletRequest();
+        mockRequest.addParameter("orderDetail", orderDetail);
+        mockRequest.addParameter("orderMonth", "05");
+        mockRequest.addParameter("orderDay", "15");
+        mockRequest.addParameter("orderYear", "2016");
+        mockRequest.addParameter("total", "27.50");
+        
+        Order ordN = new Order(null,ord.getCustomer(),ord.getDate(),ord.getTotal(),ord.getoD());
+        Order ordS = new Order(null,ord.getDate(),null,ord.getoD());
+        
+        EasyMock.expect(orderService.addOrder(ordN)).andReturn(ordS);
+        EasyMock.replay(orderService);
+        
+
+        ResponseEntity<Map<String,Order>> orderPriceMap = this.custController.placeOrder(c.getId().toString(),mockRequest);
+        
+        assertTrue(orderPriceMap.getBody().containsKey("pricechange"));
+        Order ordPrice = orderPriceMap.getBody().get("pricechange");
+        
+        assertTrue(ordS.deeplyEquals(ordPrice)); 
+
     }
 
 }

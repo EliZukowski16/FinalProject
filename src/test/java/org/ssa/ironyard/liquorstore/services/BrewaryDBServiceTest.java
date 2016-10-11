@@ -10,12 +10,12 @@ public class BrewaryDBServiceTest
     @Test
     public void test() 
     {
-//        JSONObject jsonObj = new JSONObject(bdbService.getBeers("budweiser"));
-//        
-//        String value = jsonObj.getString("data");
-//        
-//        
-//        System.out.println(value);
+        JSONObject jsonObj = new JSONObject(bdbService.getBeers("budweiser"));
+        
+        String value = jsonObj.getString("data");
+        
+        
+        System.out.println(value);
     }
 
 }

@@ -30,8 +30,7 @@ public class CustomerServiceImpl implements CustomerService
     @Transactional
     public List<Customer> readAllCustomers()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return daoCust.readAll();
     }
 
     @Override

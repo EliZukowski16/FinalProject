@@ -31,8 +31,7 @@ public class CoreProductServiceImpl implements CoreProductService
     @Override
     public List<CoreProduct> readAllCoreProduct()
     {
-        // TODO Auto-generated method stub
-        return null;
+       return daoCP.readAll();
     }
 
     @Override
