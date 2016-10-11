@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService
     @Transactional
     public List<Product> readAllProducts()
     {
-        daoProd.rea
+        return daoProd.readAll();
     }
 
     @Override

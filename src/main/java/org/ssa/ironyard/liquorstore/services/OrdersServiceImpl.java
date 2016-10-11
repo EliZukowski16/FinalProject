@@ -82,7 +82,7 @@ public class OrdersServiceImpl implements OrdersService
     @Transactional
     public Order addOrder(Order order)
     {
-        List<OrderDetail> odList = order.getoD();
+        /*List<OrderDetail> odList = order.getoD();
         
         List<OrderDetail> outOfStock = new ArrayList();
         Order ordOutOfStock;
@@ -141,8 +141,8 @@ public class OrdersServiceImpl implements OrdersService
         
         //get price
         Order ord = new Order(order.getCustomer(),order.getDate(),order.getTotal(),order.getoD());
-        return daoOrder.insert(ord);
-            
+        return daoOrder.insert(ord);*/
+            return order;
     }
 
     @Override
