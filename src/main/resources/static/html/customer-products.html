@@ -1,27 +1,91 @@
 <link rel="stylesheet" type="text/css" href="/html/style.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<h2>Browse Our Products</h2>
+
+ <h2>Browse Our Products</h2> 
+
+<!-- Quick links -->
+
+<div class="container col-md-2" id="quickLinks">
+  <h3>Quick Links</h3>
+  <ul class="nav nav-pills nav-stacked" id="links">
+    <li class="active"><a href="#">Add Order</a></li>
+    <li><a href="#">Beer</a></li>
+    <li><a href="#">Wine</a></li>
+    <li><a href="#">Liquor</a></li>
+  </ul>
+</div>
 
 
-<div id="products" class="row list-group" ng-repeat="product in PC.product">
-	<div class="item  col-xs-4 col-lg-4">
+<!-- Search features -->
+
+<form class="navbar-form"role="search" id="searchBar">
+	<div class="input-group add-on col-xs-3 col-md-3">
+		<input class="form-control " placeholder="Search by keyword..."	name="srch-term" id="srch-term" type="text">
+		<div class="input-group-btn">
+			<button class="btn btn-default" type="button" id="search">
+				<i class="glyphicon glyphicon-search"></i>
+			</button>
+		</div>
+	</div>
+
+	<form>
+		<label class="checkbox-inline"> <input type="checkbox" value="">Beer</label> 
+		<label class="checkbox-inline"> <input type="checkbox"	value="">Wine</label> 
+		<label class="checkbox-inline"> <input type="checkbox"	value="">Spirits</label> 
+		<label class="checkbox-inline"> <input type="checkbox"	value="">All</label>
+	</form>
+</form><br>
+
+
+<!-- Product list -->
+
+<div id="products" class="row list-group"
+	ng-repeat="product in PC.product">
+	<div class="item  col-xs-8 col-md-10">
 		<div class="thumbnail">
-			<img class="group list-group-image"	src="http://placehold.it/400x250/000/fff" align="left" alt="" />
+			<img class="group list-group-image"
+				src="http://www.adweek.com/agencyspy/files/2011/10/budlight.png"
+				align="left" alt="" />
 			<div class="caption">
-				<h4 class="group inner list-group-item-heading">{{ product.coreProduct.name }}</h4>
+				<h3 class="group inner list-group-item-heading">{{product.coreProduct.name }}</h3>
 				<p class="group inner list-group-item-text">{{product.coreProduct.type}}</p>
 				<p class="group inner list-group-item-text">{{product.coreProduct.subType}}</p>
 				<p class="group inner list-group-item-text">{{product.baseUnit}}</p>
 				<p class="group inner list-group-item-text">{{product.quantity}}</p>
-				<p class="group inner list-group-item-text">{{product.coreProduct.desc}}</p>
+				<p class="group inner list-group-item-text">{{product.coreProduct.description}}</p>
 				<h4 class="group inner list-group-item-text">${{product.price}}</h4>
-				<div class="row">
-					<div class="col-xs-12 col-md-6"><a class="btn btn-success" id="add">Add to cart</a>
-					</div>
-				</div>
+				<button type="button" class="btn btn-success" id="add">Add to cart</button>
+				<div class="row"></div>
 			</div>
 		</div>
 	</div>
 </div>
+
+
+<!--  Shopping cart -->
+
+<div style="background-color:yellow"id="cart" class="col-md-3">
+
+Shopping Cart goes here
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

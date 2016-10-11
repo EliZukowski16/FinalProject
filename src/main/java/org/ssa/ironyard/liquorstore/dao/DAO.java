@@ -1,5 +1,7 @@
 package org.ssa.ironyard.liquorstore.dao;
 
+import java.util.List;
+
 public interface DAO<T>
 {
 
@@ -9,7 +11,7 @@ public interface DAO<T>
 
     T update(T domain);
     
-    
+    List<T> readAll();
 
     boolean delete(Integer id);
 

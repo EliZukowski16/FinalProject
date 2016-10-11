@@ -190,7 +190,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
 
         public Tag(String name)
         {
-            this.name = name;
+            this.name = name.toLowerCase();
         }
         
         public String getName()

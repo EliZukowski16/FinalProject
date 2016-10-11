@@ -180,8 +180,12 @@ public class CustomerController
         //Product p = productService.readProduct(107);
         //Product p2 = productService.readProduct(108);
 
+
        // products.add(p);
         //products.add(p2);
+
+       
+
         
         LOGGER.info(products);
         if(products == null)
