@@ -29,8 +29,8 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
     protected final ORM<T> orm;
     protected final DataSource dataSource;
     protected final JdbcTemplate springTemplate;
-    protected final ResultSetExtractor<T> extractor;
-    protected final ResultSetExtractor<List<T>> listExtractor;
+    protected ResultSetExtractor<T> extractor;
+    protected ResultSetExtractor<List<T>> listExtractor;
 
     protected AbstractSpringDAO(ORM<T> orm, DataSource dataSource)
     {

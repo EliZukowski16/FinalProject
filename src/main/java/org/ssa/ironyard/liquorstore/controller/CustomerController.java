@@ -188,8 +188,7 @@ public class CustomerController
        // products.add(p);
         //products.add(p2);
 
-       
-
+    
         
         LOGGER.info(products);
         if(products == null)
@@ -239,6 +238,7 @@ public class CustomerController
     {
         Order ord;
         
+
         Customer cus = new Customer(Integer.parseInt(customerID),null,null,null,null,null,null);
 
         String[] orderDetailArray = request.getParameterValues("orderDetail");
@@ -295,6 +295,8 @@ public class CustomerController
             addOrderMap.put("success",addOrder);
         
         return ResponseEntity.ok().header("Customer", "Place Order").body(addOrderMap);
+
+
     }
     
     

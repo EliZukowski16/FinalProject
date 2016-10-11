@@ -73,7 +73,7 @@ public class OrdersServiceImpl implements OrdersService
         if(daoOrder.read(order.getId()) == null)
             return null;
         
-        Order ord = new Order(order.getId(),order.getCustomer(),order.getDate(),order.getTotal(),order.getoD());
+        Order ord = new Order(order.getId(),order.getCustomer(),order.getDate(),order.getTotal(),order.getoD(),order.getOrderStatus());
         return daoOrder.update(ord);
     }
 
@@ -81,8 +81,10 @@ public class OrdersServiceImpl implements OrdersService
     @Transactional
     public Order addOrder(Order order)
     {
+
         
         List<OrderDetail> odList = order.getoD();
+
         
         List<OrderDetail> outOfStock = new ArrayList();
         Order ordOutOfStock;
@@ -101,7 +103,7 @@ public class OrdersServiceImpl implements OrdersService
         
         if(outOfStock.size() > 0)
         {
-            ordOutOfStock = new Order(null,null,null,null,outOfStock);
+            ordOutOfStock = new Order(null,null,null,null,outOfStock,null);
             return ordOutOfStock;
         }
         
@@ -135,15 +137,17 @@ public class OrdersServiceImpl implements OrdersService
         
         if(odPriceChange.size() > 0)
         {
-           Order ordPriceChange = new Order(null,null,order.getDate(),null,odPriceChange);
+           Order ordPriceChange = new Order(null,null,order.getDate(),null,odPriceChange,null);
            return ordPriceChange;
         }
         
         //get price
-        Order ord = new Order(order.getCustomer(),order.getDate(),order.getTotal(),order.getoD());
+        Order ord = new Order(order.getCustomer(),order.getDate(),order.getTotal(),order.getoD(),order.getOrderStatus());
+
         return daoOrder.insert(ord);
            
    }
+
 
     @Override
     @Transactional

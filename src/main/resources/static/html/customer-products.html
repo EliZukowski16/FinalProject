@@ -21,54 +21,70 @@
 
 <form class="navbar-form"role="search" id="searchBar">
 	<div class="input-group add-on col-xs-3 col-md-3">
-		<input class="form-control " placeholder="Search by keyword..."	name="srch-term" id="srch-term" type="text">
+		<input class="form-control " placeholder="Search by keyword..."	name="srch-term" id="srch-term" type="text" ng-model="PC.keyword">
 		<div class="input-group-btn">
-			<button class="btn btn-default" type="button" id="search">
+			<button class="btn btn-default" type="button" id="search" ng-click = "PC.search()">
 				<i class="glyphicon glyphicon-search"></i>
 			</button>
 		</div>
 	</div>
 
 	<form>
-		<label class="checkbox-inline"> <input type="checkbox" value="">Beer</label> 
-		<label class="checkbox-inline"> <input type="checkbox"	value="">Wine</label> 
-		<label class="checkbox-inline"> <input type="checkbox"	value="">Spirits</label> 
-		<label class="checkbox-inline"> <input type="checkbox"	value="">All</label>
+		<label class="checkbox-inline"> <input type="checkbox" name="filter" value="">Beer</label> 
+		<label class="checkbox-inline"> <input type="checkbox" name="filter" value="">Wine</label> 
+		<label class="checkbox-inline"> <input type="checkbox" name="filter" value="">Spirits</label> 
+		<label class="checkbox-inline"> <input type="checkbox" name="filter" checked="checked" value="">All</label>
 	</form>
 </form><br>
 
 
 <!-- Product list -->
+<!-- product.addToCart($event, product.id) -->
 
-<div id="products" class="row list-group"
-	ng-repeat="product in PC.product">
-	<div class="item  col-xs-8 col-md-10">
+
+
+<div id="products" class="row list-group" ng-repeat="product in PC.searchResults">
+	<div class="item col-xs-8 col-md-10" ng-click="PC.addToCart(product)">
+	
 		<div class="thumbnail">
-			<img class="group list-group-image"
-				src="http://www.adweek.com/agencyspy/files/2011/10/budlight.png"
-				align="left" alt="" />
+			<img class="group list-group-image"	src="http://www.adweek.com/agencyspy/files/2011/10/budlight.png" align="left" alt="" />
 			<div class="caption">
 				<h3 class="group inner list-group-item-heading">{{product.coreProduct.name }}</h3>
-				<p class="group inner list-group-item-text">{{product.coreProduct.type}}</p>
-				<p class="group inner list-group-item-text">{{product.coreProduct.subType}}</p>
-				<p class="group inner list-group-item-text">{{product.baseUnit}}</p>
-				<p class="group inner list-group-item-text">{{product.quantity}}</p>
-				<p class="group inner list-group-item-text">{{product.coreProduct.description}}</p>
-				<h4 class="group inner list-group-item-text">${{product.price}}</h4>
-				<button type="button" class="btn btn-success" id="add">Add to cart</button>
+				<p class="group inner list-group-item-text">{{ product.coreProduct.type }}</p>
+				<p class="group inner list-group-item-text">{{ product.coreProduct.subType }}</p>
+				<p class="group inner list-group-item-text">{{ product.baseUnit }}</p>
+				<p class="group inner list-group-item-text">{{ product.quantity }}</p>
+				<p class="group inner list-group-item-text">{{ product.coreProduct.description }}</p>
+				<h4 class="group inner list-group-item-text">{{ product.price | currency}}</h4>
+				</div>
 				<div class="row"></div>
 			</div>
 		</div>
 	</div>
-</div>
 
 
 <!--  Shopping cart -->
+<!-- ng-show="product.cart().length" -->
 
-<div style="background-color:yellow"id="cart" class="col-md-3">
-
-Shopping Cart goes here
-
+<div class="cart col-md-3">
+<div class="panel panel-primary">
+    <div id="shoppingCart" class="panel-heading">
+        <h3 class="panel-title">Shopping Cart</h3>
+    </div>
+    
+    <div class="panel-body">    
+    <ul>
+   <!--  ng-repeat="product in PC.cart()" -->
+		<li ng-repeat="product in PC.cart">
+		<span>{{ product.coreProduct.name }} {{ product.price | currency }}</span>
+		</li>
+	</ul>
+    </div>
+</div>
+ 
+<div class="text-center">
+    <button type="button" class="btn btn-danger">Checkout <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></button>
+</div>
 </div>
 
 

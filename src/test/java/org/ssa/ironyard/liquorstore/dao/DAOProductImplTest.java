@@ -51,7 +51,7 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
     static Map<Tag, List<Product>> tagMap;
     static Map<Type, List<Product>> typeMap;
 
-//    @BeforeClass
+    @BeforeClass
     public static void setUpBeforeClass() throws Exception
     {
         MysqlDataSource mysqlDdataSource = new MysqlDataSource();
@@ -206,7 +206,7 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
 
     }
 
-//    @AfterClass
+    @AfterClass
     public static void tearDownAfterClass() throws Exception
     {
         coreProductDAO.clear();
@@ -415,6 +415,22 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
             assertTrue(typeMap.get(t).containsAll(testProducts));
             assertTrue(testProducts.containsAll(typeMap.get(t)));
         }
+    }
+    
+//    @Test
+    public void testReadAllProducts()
+    {
+        List<Product> testProducts = new ArrayList<>();
+        Set<Product> productSet = new HashSet<>();
+        
+        testProducts = productDAO.readAll();
+        
+        productSet = testProducts.stream().collect(Collectors.toSet());
+        
+        assertEquals(productSet.size(), testProducts.size());
+        assertEquals(productsInDB.size(), testProducts.size());
+        assertTrue(productsInDB.containsAll(testProducts));
+        assertTrue(testProducts.containsAll(productsInDB)); 
     }
 
     @Override

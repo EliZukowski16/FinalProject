@@ -16,7 +16,7 @@
 			<AppenderRef ref="log-file" />
 			<!-- takes precedence over root level -->
 		</Logger>
-		<Logger name="org.springframework.web" level="debug"
+		<Logger name="org.springframework.web" level="info"
 			additivity="false">
 			<AppenderRef ref="log-file" />
 		</Logger>

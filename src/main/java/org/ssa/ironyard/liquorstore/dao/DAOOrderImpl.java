@@ -2,10 +2,14 @@ package org.ssa.ironyard.liquorstore.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.sql.DataSource;
 
@@ -27,7 +31,56 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     public DAOOrderImpl(DataSource dataSource)
     {
         super(new ORMOrderImpl(), dataSource);
-        // TODO Auto-generated constructor stub
+        
+        this.extractor = (ResultSet cursor) ->
+        {
+            Order currentOrder = null;
+
+            List<OrderDetail> orderDetail = new ArrayList<>();
+
+            while (cursor.next())
+            {
+                currentOrder = this.orm.map(cursor);
+
+                orderDetail.addAll(currentOrder.getoD());
+            }
+
+            if (currentOrder != null)
+            {
+                currentOrder.setoD(orderDetail);
+                return currentOrder;
+            }
+
+            return null;
+        };
+
+        this.listExtractor = (ResultSet cursor) ->
+        {
+            Map<Order, Order> orderResults = new HashMap<>();
+            List<Order> orderList = new ArrayList<>();
+
+            while (cursor.next())
+            {
+                Order currentOrder;
+                Order o = this.orm.map(cursor);
+                if ((currentOrder = orderResults.get(o)) != null)
+                {
+                    List<OrderDetail> orderDetail = o.getoD();
+
+                    orderDetail.addAll(currentOrder.getoD());
+                    o.setoD(orderDetail);
+                }
+
+                orderResults.put(o, o);
+            }
+
+            for (Entry<Order, Order> e : orderResults.entrySet())
+            {
+                orderList.add(e.getValue());
+            }
+
+            return orderList;
+        };
     }
 
     @Override
@@ -35,7 +88,17 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     {
         insertStatement.setInt(1, domainToInsert.getCustomer().getId());
         insertStatement.setTimestamp(2, Timestamp.valueOf(domainToInsert.getDate()));
-        insertStatement.setBigDecimal(3, domainToInsert.getTotal());
+        insertStatement.setString(3, domainToInsert.getOrderStatus().toString());
+        insertStatement.setBigDecimal(4, domainToInsert.getTotal());
+    }
+
+    protected void insertDetailPreparer(PreparedStatement insertStatement, OrderDetail orderDetail, Order order)
+            throws SQLException
+    {
+        insertStatement.setInt(1, order.getId());
+        insertStatement.setInt(2, orderDetail.getProduct().getId());
+        insertStatement.setInt(3, orderDetail.getQty());
+        insertStatement.setBigDecimal(4, orderDetail.getUnitPrice());
     }
 
     @Override
@@ -53,15 +116,11 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
                 {
                     PreparedStatement statement = conn.prepareStatement(((ORMOrderImpl) this.orm).prepareInsertDetail(),
                             Statement.RETURN_GENERATED_KEYS);
-                    statement.setInt(1, domain.getId());
-                    statement.setInt(2, od.getProduct().getId());
-                    statement.setInt(3, od.getQty());
-                    statement.setBigDecimal(4, od.getUnitPrice());
+                    insertDetailPreparer(statement, od, domain);
                     return statement;
                 }, generatedId) == 1)
                 {
-                    orderDetails
-                            .add(new OrderDetail(od.getProduct(), od.getQty(), od.getUnitPrice()));
+                    orderDetails.add(new OrderDetail(od.getProduct(), od.getQty(), od.getUnitPrice()));
                 }
             }
 
@@ -92,7 +151,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     protected Order afterInsert(Order copy, Integer id)
     {
         Order order;
-        order = new Order(id, copy.getCustomer(), copy.getDate(), copy.getTotal(), copy.getoD());
+        order = new Order(id, copy.getCustomer(), copy.getDate(), copy.getTotal(), copy.getoD(), copy.getOrderStatus());
         order.setLoaded(true);
 
         return order;
@@ -117,8 +176,9 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
             {
                 ps.setInt(1, domainToUpdate.getCustomer().getId());
                 ps.setTimestamp(2, Timestamp.valueOf(domainToUpdate.getDate()));
-                ps.setBigDecimal(3, domainToUpdate.getTotal());
-                ps.setInt(4, domainToUpdate.getId());
+                ps.setString(3, domainToUpdate.getOrderStatus().toString());
+                ps.setBigDecimal(4, domainToUpdate.getTotal());
+                ps.setInt(5, domainToUpdate.getId());
             }
 
         };

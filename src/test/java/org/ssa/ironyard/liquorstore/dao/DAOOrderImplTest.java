@@ -21,6 +21,7 @@ import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
+import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Password;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Address.State;
@@ -128,7 +129,11 @@ public class DAOOrderImplTest extends AbstractSpringDAOTest<Order>
         BigDecimal total = BigDecimal.valueOf(50.00);
         List<OrderDetail> oD = new ArrayList<>();
         
-        Order order = new Order(testCustomer, date, total, oD);
+        OrderDetail orderDetail = new OrderDetail(testProduct, 10, BigDecimal.valueOf(5.55));
+        
+        oD.add(orderDetail);
+        
+        Order order = new Order(testCustomer, date, total, oD, OrderStatus.PENDING);
         
         return order;
     }
