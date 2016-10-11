@@ -28,6 +28,7 @@ import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
+import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Password;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
@@ -95,7 +96,7 @@ public class ServicesTest
         OrderDetail od2 = new OrderDetail(prod,12,BigDecimal.valueOf(20.00));
         odList.add(od);
         odList.add(od2);
-        ord = new Order(1,c,ldt,BigDecimal.valueOf(50.00),odList);
+        ord = new Order(1,c,ldt,BigDecimal.valueOf(50.00),odList,OrderStatus.PENDING);
         
         daoCustomer = EasyMock.niceMock(DAOCustomer.class);
         this.custService = new CustomerServiceImpl(daoCustomer); 

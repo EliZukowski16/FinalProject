@@ -32,6 +32,7 @@ import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
+import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 import org.ssa.ironyard.liquorstore.model.Admin;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
@@ -187,9 +188,9 @@ public class FullTest
         List<OrderDetail> odList = new ArrayList();
         odList.add(od);
         odList.add(od2);
-        Order ord = new Order(c,oldt,tot,odList);
+        Order ord = new Order(c,oldt,tot,odList,OrderStatus.PENDING);
         ordAdd = orderService.addOrder(ord);
-        ord = new Order(ordAdd.getId(),ord.getCustomer(),ord.getDate(),ord.getTotal(),ord.getoD());
+        ord = new Order(ordAdd.getId(),ord.getCustomer(),ord.getDate(),ord.getTotal(),ord.getoD(),ord.getOrderStatus());
         
         assertTrue(ordAdd.deeplyEquals(ord));
         
@@ -339,7 +340,7 @@ public class FullTest
         odListE.add(odE);
         odListE.add(od2E);
         
-        Order ordE = new Order(ordAdd.getId(),cE,oldtE,totE,odListE);
+        Order ordE = new Order(ordAdd.getId(),cE,oldtE,totE,odListE,OrderStatus.PENDING);
         Order ordEdit = orderService.editOrder(ordE);
         assertTrue(ordE.deeplyEquals(ordEdit));
         

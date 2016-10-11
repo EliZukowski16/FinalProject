@@ -35,6 +35,7 @@ import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
+import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Password;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
@@ -128,7 +129,7 @@ public class CustomerControllerTest
        OrderDetail od2 = new OrderDetail(prod,12,BigDecimal.valueOf(20.00));
        odList.add(od);
        odList.add(od2);
-       ord = new Order(1,c,ldt,BigDecimal.valueOf(50.00),odList);
+       ord = new Order(1,c,ldt,BigDecimal.valueOf(50.00),odList,OrderStatus.PENDING);
     }
     
     @Test
@@ -340,7 +341,7 @@ public class CustomerControllerTest
         mockRequest.addParameter("orderYear", "2016");
         mockRequest.addParameter("total", "27.50");
         
-        Order ordN = new Order(ord.getCustomer(),ord.getDate(),ord.getTotal(),ord.getoD());
+        Order ordN = new Order(ord.getCustomer(),ord.getDate(),ord.getTotal(),ord.getoD(),ord.getOrderStatus());
         
         EasyMock.expect(orderService.addOrder(ordN)).andReturn(ord);
         EasyMock.replay(orderService);
@@ -367,8 +368,8 @@ public class CustomerControllerTest
         mockRequest.addParameter("orderYear", "2016");
         mockRequest.addParameter("total", "27.50");
         
-        Order ordN = new Order(null,ord.getCustomer(),ord.getDate(),ord.getTotal(),ord.getoD());
-        Order ordS = new Order(null,null,null,ord.getoD());
+        Order ordN = new Order(null,ord.getCustomer(),ord.getDate(),ord.getTotal(),ord.getoD(),ord.getOrderStatus());
+        Order ordS = new Order(null,null,null,ord.getoD(),null);
         
         EasyMock.expect(orderService.addOrder(ordN)).andReturn(ordS);
         EasyMock.replay(orderService);
@@ -394,8 +395,8 @@ public class CustomerControllerTest
         mockRequest.addParameter("orderYear", "2016");
         mockRequest.addParameter("total", "27.50");
         
-        Order ordN = new Order(null,ord.getCustomer(),ord.getDate(),ord.getTotal(),ord.getoD());
-        Order ordS = new Order(null,ord.getDate(),null,ord.getoD());
+        Order ordN = new Order(null,ord.getCustomer(),ord.getDate(),ord.getTotal(),ord.getoD(),ord.getOrderStatus());
+        Order ordS = new Order(null,ord.getDate(),null,ord.getoD(),null);
         
         EasyMock.expect(orderService.addOrder(ordN)).andReturn(ordS);
         EasyMock.replay(orderService);

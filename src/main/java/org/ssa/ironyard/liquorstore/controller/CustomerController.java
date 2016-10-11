@@ -34,6 +34,7 @@ import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
+import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Password;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
@@ -278,8 +279,9 @@ public class CustomerController
         LocalDateTime ldt = LocalDateTime.of(date, time);
         
         BigDecimal total = BigDecimal.valueOf(Double.parseDouble(request.getParameter("total")));
+        OrderStatus orderStatus = OrderStatus.getInstance(request.getParameter("orderStatus"));
         
-        ord = new Order(cus,ldt,total,orderDetailList);
+        ord = new Order(cus,ldt,total,orderDetailList,orderStatus);
         
         Map<String,Order> addOrderMap = new HashMap<>();
                 

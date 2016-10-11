@@ -16,8 +16,11 @@ angular
 	
 	ctrl.search = function()
 	{		
-	$http.get(location.pathname +"/products").then(function(response) {
+	
+	console.log(location.pathname)
+	$http.get(location.pathname +"/search").then(function(response) {
 		
+		console.log("hello")
 		ctrl.tags = ctrl.keyword.split(" ");
 		ctrl.types = $("input[name='filter']:checked").val();
  
