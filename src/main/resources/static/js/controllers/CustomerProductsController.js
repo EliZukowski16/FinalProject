@@ -13,27 +13,26 @@ angular
 	ctrl.types = [];
 	ctrl.keyword = "";
 	
-	
+
 	ctrl.search = function()
 	{		
+		var queryParams = {
+				keywords: ctrl.keyword,
+				types: ctrl.types
+		}
 	
-	console.log(location.pathname)
-	$http.get(location.pathname +"/search").then(function(response) {
+	$http({
+		url: location.pathname +"/search",
+		method: 'GET',
+		params: queryParams
+	}).then(function(response) {		
 		
-		console.log("hello")
-		ctrl.tags = ctrl.keyword.split(" ");
-		ctrl.types = $("input[name='filter']:checked").val();
- 
 		ctrl.searchResults= response.data.success;
   		console.log(ctrl.searchResults);
-/*	for(i=0; i<response.data.success.length; i++){
-	var temp = {}
-	ctrl.searchResults.push(temp);*/
-/*	}*/
 	})
 	}
-    
-    
+	
+     
     
     ctrl.addToCart = function(product){
 		if(ctrl.cart.indexOf(product) == -1) 
