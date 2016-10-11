@@ -207,8 +207,12 @@ public class CustomerController
         
         LOGGER.info("Going to the search");
         
-        String[] tagArray = request.getParameterValues("tags");
+        
+        String keyword = request.getParameter("keywords");
+        LOGGER.info(keyword);
+        String[] tagArray = keyword.split("//s");
         String[] typeArray = request.getParameterValues("types");
+
        
         LOGGER.info(tagArray);
         LOGGER.info(tagArray);
