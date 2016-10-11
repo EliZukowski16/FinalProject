@@ -5,10 +5,13 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,7 +27,10 @@ import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.model.Address;
 import org.ssa.ironyard.liquorstore.model.Address.State;
 import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Customer;
+import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Password;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
@@ -168,13 +174,17 @@ public class CustomerController
     {
         Map<String,List<Product>> response = new HashMap<>();
         
-        //List<Product> products = productService.readAllProducts();
+        List<Product> products = productService.readAllProducts();
         LOGGER.info("we are trying to get all the products");
-        List<Product> products = new ArrayList();
-        Product p = productService.readProduct(107);
-        Product p2 = productService.readProduct(108);
+        //List<Product> products = new ArrayList();
+        //Product p = productService.readProduct(107);
+        //Product p2 = productService.readProduct(108);
 
-        //products.add(p);
+
+       // products.add(p);
+        //products.add(p2);
+
+    
         
         LOGGER.info(products);
         if(products == null)
@@ -191,9 +201,46 @@ public class CustomerController
         Map<String,List<Product>> response = new HashMap<>();
         
         LOGGER.info("Going to the search");
-        return null;
         
-        //List<Product> products = productService.searchProduct(tags, type)
+        String[] tagArray = request.getParameterValues("tags");
+        String [] typeArray = request.getParameterValues("types");
+       
+        LOGGER.info(tagArray);
+        LOGGER.info(tagArray);
+                
+        List<Tag> tags = Stream.of(tagArray).map(Tag::new).collect(Collectors.toList());
+        List<Type> types = Stream.of(typeArray).map(Type::getInstance).collect(Collectors.toList());
+        
+        LOGGER.info(tags);
+        LOGGER.info(types);
+        
+        List<Product> products = productService.searchProduct(tags,types);
+        
+        if(products.size() == 0)
+        {
+            response.put("error", products);
+        }
+        else
+        {
+            response.put("success", products);
+        }
+        
+        return ResponseEntity.ok().header("Products", "Search By Keyword").body(response);
+    }
+    
+    
+    @RequestMapping(value="/{customerID}/placeOrder", method = RequestMethod.GET)
+    public ResponseEntity<Map<String,Order>> placeOrder(@PathVariable String customerID, HttpServletRequest request)
+    {
+        Order ord;
+        
+        Customer cus;
+        String cusUserName = request.getParameter("customerUserName");
+        String cusPassword = request.getParameter("customerPassword");
+        String cusFName = request.getParameter("customerFName");
+        String cusLName = request.getParameter("customerLName");
+        String street = request.getParameter("street");
+        String city = request.getParameter("city");
     }
     
     

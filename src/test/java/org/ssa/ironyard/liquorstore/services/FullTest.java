@@ -100,7 +100,7 @@ public class FullTest
         adminService = new AdminServiceImpl(daoAdmin);
         custService = new CustomerServiceImpl(daoCustomer);
         cpService = new CoreProductServiceImpl(daoCoreProduct);
-        orderService = new OrdersServiceImpl(daoOrder);
+        orderService = new OrdersServiceImpl(daoOrder, daoProduct);
         prodService = new ProductServiceImpl(daoProduct);
    
         daoAdmin.clear();

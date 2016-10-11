@@ -74,6 +74,18 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 
         return read;
     }
+    
+    @Override
+    public String prepareReadAll()
+    {
+        String readAll = " SELECT " + this.projection() + " , " + coreProductORM.projection() + " FROM "
+                + this.coreProductJoin() + " ON " + this.coreProductRelation();
+        
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Read All prepared Statement: {}", readAll);
+        
+        return readAll;
+    }
 
     private String coreProductJoin()
     {

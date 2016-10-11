@@ -15,6 +15,7 @@ import org.easymock.Capture;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.config.PropertyOverrideConfigurer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
@@ -208,6 +209,123 @@ public class CustomerControllerTest
         assertEquals(capturedCust.getValue().getAddress().getState(),cust.getAddress().getState());
         assertEquals(capturedCust.getValue().getAddress().getZip().toString(),cust.getAddress().getZip().toString());            
         assertEquals(capturedCust.getValue().getBirthDate(),cust.getBirthDate());
+        
+    }
+    
+    
+    @Test
+    public void testGetProducts()
+    {
+        List<Product> products = new ArrayList();
+        
+        String cpName = "Bud Light";
+        Tag tag = new Tag("light beer");
+        Tag tag2 = new Tag("beer");
+        List<Tag> tagList = new ArrayList();
+        tagList.add(tag);
+        tagList.add(tag2);
+        Type type = Type.BEER;
+        String cpSubType = "Light Beer";
+        String cpDes = "Tastes Great";
+        CoreProduct cp = new CoreProduct(1,cpName,tagList,type,cpSubType,cpDes);
+        
+        BaseUnit bu = BaseUnit._12OZ_CAN;
+        Integer q = 12;
+        Integer inv = 100;
+        BigDecimal price = BigDecimal.valueOf(12.00);
+        Product prod = new Product(2,cp,bu,q,inv,price);
+        
+        BaseUnit bu2 = BaseUnit._12OZ_BOTTLE;
+        Integer q2 = 16;
+        Integer inv2 = 50;
+        BigDecimal price2 = BigDecimal.valueOf(15.00);
+        Product prod2 = new Product(3,cp,bu2,q2,inv2,price2);
+
+        products.add(prod);
+        products.add(prod2);
+        
+        EasyMock.expect(prodService.readAllProducts()).andReturn(products);
+        EasyMock.replay(prodService);
+        
+        ResponseEntity<Map<String,List<Product>>> productMap = this.custController.getProducts("12");
+        
+        List<Product> pList = productMap.getBody().get("success");
+        
+        
+        assertTrue(pList.size() == 2);
+        assertTrue(pList.get(0).deeplyEquals(prod));
+        assertTrue(pList.get(1).deeplyEquals(prod2));
+    }
+    
+    @Test
+    public void testSearchKeyword()
+    {
+List<Product> products = new ArrayList();
+        
+        String cpName = "Bud Light";
+        Tag tag = new Tag("light beer");
+        Tag tag2 = new Tag("beer");
+        List<Tag> tagList = new ArrayList();
+        tagList.add(tag);
+        tagList.add(tag2);
+        Type type = Type.BEER;
+        String cpSubType = "Light Beer";
+        String cpDes = "Tastes Great";
+        CoreProduct cp = new CoreProduct(1,cpName,tagList,type,cpSubType,cpDes);
+        
+        BaseUnit bu = BaseUnit._12OZ_CAN;
+        Integer q = 12;
+        Integer inv = 100;
+        BigDecimal price = BigDecimal.valueOf(12.00);
+        Product prod = new Product(2,cp,bu,q,inv,price);
+        
+        BaseUnit bu2 = BaseUnit._12OZ_BOTTLE;
+        Integer q2 = 16;
+        Integer inv2 = 50;
+        BigDecimal price2 = BigDecimal.valueOf(15.00);
+        Product prod2 = new Product(3,cp,bu2,q2,inv2,price2);
+
+        products.add(prod);
+        products.add(prod2);
+        
+        List<Tag> tags = new ArrayList();
+        Tag t = new Tag("beer");
+        Tag t2 = new Tag("light beer");
+        tags.add(t);
+        tags.add(t2);
+        
+        String[] tagsA = {"beer", "light beer"};
+       
+        
+        List<Type> types = new ArrayList();
+        Type ty = Type.BEER;
+        Type ty2 = Type.WINE;
+        types.add(ty);
+        types.add(ty2);
+        
+        String[] typesA = {"BEER", "WINE"};
+        
+                
+                 
+        MockHttpServletRequest mockRequest = new MockHttpServletRequest();
+        mockRequest.addParameter("tags", tagsA);
+        mockRequest.addParameter("types", typesA);
+        
+        
+        Capture<Product> capturedProdSearch = Capture.<Product>newInstance();
+        
+        
+        EasyMock.expect(prodService.searchProduct(tags, types)).andReturn(products);
+        EasyMock.replay(prodService);
+        
+        
+        ResponseEntity<Map<String,List<Product>>> searchMap = this.custController.searchKeywordType("12", mockRequest);
+        
+        List<Product> productList = searchMap.getBody().get("success");
+        
+        assertTrue(productList.size() == 2);
+        assertTrue(productList.get(0).deeplyEquals(prod));
+        assertTrue(productList.get(1).deeplyEquals(prod2));
         
     }
 
