@@ -62,7 +62,7 @@ public class ServicesTest
         adminService = new AdminServiceImpl(daoAdmin);
         custService = new CustomerServiceImpl(daoCustomer);
         cpService = new CoreProductServiceImpl(daoCoreProduct);
-        orderService = new OrdersServiceImpl(daoOrder);
+        orderService = new OrdersServiceImpl(daoOrder, daoProduct);
         prodService = new ProductServiceImpl(daoProduct);
         
         Address address = new Address();
@@ -107,7 +107,7 @@ public class ServicesTest
         this.cpService = new CoreProductServiceImpl(daoCoreProduct);
         
         daoOrder = EasyMock.niceMock(DAOOrder.class);
-        this.orderService = new OrdersServiceImpl(daoOrder);
+        this.orderService = new OrdersServiceImpl(daoOrder, daoProduct);
         
         daoProduct = EasyMock.niceMock(DAOProduct.class);
         this.prodService = new ProductServiceImpl(daoProduct);
