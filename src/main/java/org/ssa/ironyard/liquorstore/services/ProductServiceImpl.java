@@ -35,8 +35,7 @@ public class ProductServiceImpl implements ProductService
     @Transactional
     public List<Product> readAllProducts()
     {
-        // TODO Auto-generated method stub
-        return null;
+        daoProd.rea
     }
 
     @Override
@@ -97,16 +96,12 @@ public class ProductServiceImpl implements ProductService
     }
 
     @Override
-    public List<Product> searchProduct(List<Tag> tags, List<Type> type)
+    public List<Product> searchProduct(List<Tag> tags, List<Type> types)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return daoProd.searchProducts(tags, types);
     }
     
-    
 
-    
-    
     
 
 }
