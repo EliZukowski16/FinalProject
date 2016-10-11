@@ -11,24 +11,50 @@ public class Order extends AbstractDomainObject implements DomainObject
     private final LocalDateTime date;
     private final BigDecimal total;
     private List<OrderDetail> oD;
+    private OrderStatus status;
 
-    public Order(Integer id, Customer customer, LocalDateTime date, BigDecimal total, List<OrderDetail> oD)
+    public Order(Integer id, Customer customer, LocalDateTime date, BigDecimal total, List<OrderDetail> oD, OrderStatus status)
     {
         super(id);
         this.customer = customer;
         this.date = date;
         this.total = total;
         this.oD = oD;
+        this.status = status;
     }
 
-    public Order(Customer customer, LocalDateTime date, BigDecimal total, List<OrderDetail> oD)
+    public Order(Customer customer, LocalDateTime date, BigDecimal total, List<OrderDetail> oD, OrderStatus status)
     {
-        this(null, customer, date, total, oD);
+        this(null, customer, date, total, oD, status);
     }
     
-    public Order(Customer customer, LocalDateTime date, BigDecimal total)
+    public Order(Customer customer, LocalDateTime date, BigDecimal total, OrderStatus status)
     {   
-        this(customer, date, total, new ArrayList<>());
+        this(customer, date, total, new ArrayList<>(), status);
+    }
+    
+    public enum OrderStatus
+    {
+        APPROVED("approved"), PENDING("pending"), REJECTED("rejected");
+        
+        private String status;
+        
+        private OrderStatus(String status)
+        {
+            this.status = status;
+        }
+        
+        public static OrderStatus getInstance(String status)
+        {
+            for(OrderStatus s : values())
+            {
+                if(s.status.equals(status))
+                    return s;
+            }
+            
+            return null;
+        }
+        
     }
 
     public static class OrderDetail
@@ -159,6 +185,11 @@ public class Order extends AbstractDomainObject implements DomainObject
     {
         this.oD = oD;
     }
+    
+    public OrderStatus getOrderStatus()
+    {
+        return status;
+    }
 
     @Override
     public int hashCode()
@@ -242,6 +273,14 @@ public class Order extends AbstractDomainObject implements DomainObject
         }
         else if (this.total.compareTo(other.total) != 0)
             return false;
+        
+        if(this.status == null)
+        {
+            if(other.status != null)
+                return false;
+        }
+        else if(this.status != other.status)
+            return false;
         return true;
     }
 
@@ -253,6 +292,7 @@ public class Order extends AbstractDomainObject implements DomainObject
         copy = (Order) super.clone();
         copy.setoD(this.getoD());
         copy.setCustomer(this.getCustomer());
+        copy.status = this.getOrderStatus();
         return copy;
 
     }
