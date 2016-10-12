@@ -30,9 +30,9 @@
 	</div>
 
  
- <label ng-repeat="type in PC.types">
-  <input  type="checkbox"  name="selectedTypes[]" value="{{type}}" ng-checked="PC.selection.indexOf(type) > -1"  ng-click="PC.toggleSelection(type)"
-  > {{type}}
+ <label class="checkbox-inline" ng-repeat="type in PC.types">
+  <input  type="checkbox" name="selectedTypes[]" value="{{ type }}" 
+  ng-checked="PC.selection.indexOf(type)>-1"  ng-click="PC.toggleSelection(type)" checked="checked"> {{ type }}
 </label> <p>{{ PC.selection }}</p>
  
  
@@ -75,7 +75,7 @@
 <!--  Shopping cart -->
 <!-- ng-show="product.cart().length" -->
 
-<div class="cart col-md-2">
+<div class="cart col-md-3">
 <div class="panel panel-primary">
     <div id="shoppingCart" class="panel-heading">
         <h3 class="panel-title">Shopping Cart</h3>
@@ -92,7 +92,7 @@
 </div>
  
 <div class="text-center">
-    <button type="button" class="btn btn-danger">Checkout <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></button>
+    <button type="button" class="btn btn-danger btn-lg">Checkout <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></button>
 </div>
 </div>
 

@@ -23,8 +23,23 @@ padding-top: 7px
 /*customer-product.html*/
 
 h2{margin-left:20%}
-#products{margin-left:18%; width:40%}
-.cart{margin-left:70%} 
+
+#quickLinks{
+position: relative; 
+float: left
+}
+#products{
+position: relative; 
+float:left; 
+margin-left:18%; 
+width:40%
+}
+
+.cart{
+position: relative; 
+float: right; 
+margin-left:70%
+} 
 
 /* #products{float:left; width: 33%}
 h2{margin-left:20%}
