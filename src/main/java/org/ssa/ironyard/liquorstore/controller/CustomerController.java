@@ -209,21 +209,35 @@ public class CustomerController
         
         LOGGER.info("Going to the search");
         
-        LOGGER.info(request.getParameter("types") + "request types");
-        LOGGER.info(request.getParameter("keywords") + "request types");
+        LOGGER.info(request.getParameterValues("types") + " request types");
+        LOGGER.info(request.getParameter("keywords") + " request keywords");
         
         String keyword = request.getParameter("keywords");
-        LOGGER.info(keyword + "String keyword");
+        LOGGER.info(keyword + " String keyword");
         String[] tagArray = keyword.split("\\s");
         String[] typeArray = request.getParameterValues("types");
        
-        LOGGER.info(tagArray + "String array tags");
+        for (int i = 0; i < tagArray.length; i++)
+        {
+            LOGGER.info(tagArray[i] + " String array tags" + i);
+        }
         
+        for (int i = 0; i < typeArray.length; i++)
+        {
+            LOGGER.info(typeArray[i] + " String array type" + i);
+        }
+        
+        
+        
+       
+        List<Tag> tags = new ArrayList<>();
+        List<Type> types = new ArrayList<>();
                 
-        List<Tag> tags = Stream.of(tagArray).map(Tag::new).collect(Collectors.toList());
-        List<Type> types = Stream.of(typeArray).map(Type::getInstance).collect(Collectors.toList());
-        
-        System.out.println(tags.get(1).getName());
+        tags = Stream.of(tagArray).map(Tag::new).collect(Collectors.toList());
+        LOGGER.info("hello");
+        types = Stream.of(typeArray).map(Type::getInstance).collect(Collectors.toList());
+
+
         
         LOGGER.info(tags + "List tags");
         LOGGER.info(types + "List Tyeps");
