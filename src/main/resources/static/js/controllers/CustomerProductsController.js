@@ -88,8 +88,9 @@ angular
     	for(var i = 0; i<ctrl.cart.length; i++){
     		var product = ctrl.cart[i];
     		ctrl.orderDetails.push(product);
-    	
     	}
+//    	var date = angular.element('#deliveryDate').val();
+//    	ctrl.orderDetails.push(date);
     	console.log(ctrl.orderDetails);
     	
 //    	date:,
