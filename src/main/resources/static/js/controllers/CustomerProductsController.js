@@ -8,14 +8,13 @@ angular
 	
 	var ctrl = this;	
 	ctrl.searchResults = [];
-	
 	ctrl.cart = [];
 	ctrl.keyword = "";
-	
-	ctrl.types = ['beer', 'wine', 'spirits'];
+	ctrl.types = ['Beer', 'Wine', 'Spirits'];
 	ctrl.selection = [];
+    ctrl.orderDetails = [];
 	
-	
+	//Checkbox search
 	ctrl.toggleSelection = function toggleSelection(type){
 		var index = ctrl.selection.indexOf(type);
 		
@@ -26,6 +25,7 @@ angular
 		}
 	};
 	
+	//Send search to controller
 	ctrl.search = function()
 	{	
 		
@@ -43,18 +43,28 @@ angular
 		ctrl.searchResults= response.data.success;
   		console.log(ctrl.searchResults);
 	})
-	}
+	};
 	
-     
-    
-    ctrl.addToCart = function(evt, productId){
+    //Add product to cart 
+    ctrl.addToCart = function(product)
+    {
    		if(ctrl.cart.indexOf(product) == -1) 
 			ctrl.cart.push(product);
 	}
     
+    //Calculate cart grand total
+    ctrl.grandTotal = function()
+    {
+    	var total = 0;
+    	for(var i = 0; i<ctrl.cart.length; i++){
+    		var product = ctrl.cart[i];
+    		total += (product.price * product.qty)
+    	}
+    	return total;
+    };
     
     
-    
+        
 /*    ctrl.order = [
                   {
                 	  date:
@@ -70,6 +80,38 @@ angular
                 	            	 price:
                 	             }
                   }]*/
+
+    //Submit Order    
+    ctrl.submitOrder = function()
+    {
+
+    	for(var i = 0; i<ctrl.cart.length; i++){
+    		var product = ctrl.cart[i];
+    		ctrl.orderDetails.push(product);
+    	}
+//    	var date = angular.element('#deliveryDate').val();
+//    	ctrl.orderDetails.push(date);
+    	console.log(ctrl.orderDetails);
+    	
+//    	date:,
+//    	products: [{ 
+//    		productId,
+//    		qty,
+//    		price
+//    	}]
+//  	}]
+//
+//
+    $http({
+    	url: location.pathname +"/placeOrder",
+    	method: 'POST',
+    	data: ctrl.orderDetails
+    }).then(function(response) {		
+	
+		console.log(response);
+    })
+    };
+
     
     
     

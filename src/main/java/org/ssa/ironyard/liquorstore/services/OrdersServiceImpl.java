@@ -82,70 +82,69 @@ public class OrdersServiceImpl implements OrdersService
     public Order addOrder(Order order)
     {
 
-        return order;
-//        List<OrderDetail> odList = order.getoD();
-//
-//        
-//        List<OrderDetail> outOfStock = new ArrayList();
-//        Order ordOutOfStock;
-//        
-//        for (int i = 0; i < odList.size(); i++)
-//        {
-//            Product p =  daoProduct.read(odList.get(i).getProduct().getId());
-//            if(p.getInventory() <= 0)
-//            {
-//                OrderDetail od = new OrderDetail(p,null,null);
-//                outOfStock.add(od);
-//            }
-//            
-//           
-//        }
-//        
-//        if(outOfStock.size() > 0)
-//        {
-//            ordOutOfStock = new Order(null,null,null,null,outOfStock,null);
-//            return ordOutOfStock;
-//        }
-//        
-//        List<Integer> listProductIds = new ArrayList();
-//        
-//        for (int i = 0; i < order.getoD().size(); i++)
-//        {
-//            listProductIds.add(order.getoD().get(i).getProduct().getId());
-//        }
-//        
-//        List<Product> products = daoProduct.readProductIds(listProductIds);
-//        
-//        List<OrderDetail> odPriceChange = new ArrayList();
-//        
-//        for (int i = 0; i < products.size(); i++)
-//        {
-//            for (int j = 0; j < order.getoD().size(); j++)
-//            {
-//                if(products.get(i).getId() == order.getoD().get(j).getProduct().getId())
-//                {
-//                    if(products.get(i).getPrice().compareTo(order.getoD().get(j).getProduct().getPrice()) != 0)
-//                    {
-//                        Product pPrice = products.get(i);
-//                        OrderDetail odPrice = new OrderDetail(pPrice,null,null);
-//                        odPriceChange.add(odPrice);
-//                    }
-//                }
-//            }
-//            
-//        }
-//        
-//        if(odPriceChange.size() > 0)
-//        {
-//           Order ordPriceChange = new Order(null,null,order.getDate(),null,odPriceChange,null);
-//           return ordPriceChange;
-//        }
-//        
-//        //get price
-//        Order ord = new Order(order.getCustomer(),order.getDate(),order.getTotal(),order.getoD(),order.getOrderStatus());
-//
-//        return daoOrder.insert(ord);
-//           
+
+        List<OrderDetail> odList = order.getoD();
+
+        
+        List<OrderDetail> outOfStock = new ArrayList();
+        Order ordOutOfStock;
+        
+        for (int i = 0; i < odList.size(); i++)
+        {
+            Product p =  daoProduct.read(odList.get(i).getProduct().getId());
+            if(p.getInventory() <= 0)
+            {
+                OrderDetail od = new OrderDetail(p,null,null);
+                outOfStock.add(od);
+            }
+            
+           
+        }
+        
+        if(outOfStock.size() > 0)
+        {
+            ordOutOfStock = new Order(null,null,null,null,outOfStock,null);
+            return ordOutOfStock;
+        }
+        
+        List<Integer> listProductIds = new ArrayList();
+        
+        for (int i = 0; i < order.getoD().size(); i++)
+        {
+            listProductIds.add(order.getoD().get(i).getProduct().getId());
+        }
+        
+        List<Product> products = daoProduct.readByIds(listProductIds);
+        
+        List<OrderDetail> odPriceChange = new ArrayList();
+        
+        for (int i = 0; i < products.size(); i++)
+        {
+            for (int j = 0; j < order.getoD().size(); j++)
+            {
+                if(products.get(i).getId() == order.getoD().get(j).getProduct().getId())
+                {
+                    if(products.get(i).getPrice().compareTo(order.getoD().get(j).getProduct().getPrice()) != 0)
+                    {
+                        Product pPrice = products.get(i);
+                        OrderDetail odPrice = new OrderDetail(pPrice,null,null);
+                        odPriceChange.add(odPrice);
+                    }
+                }
+            }
+            
+        }
+        
+        if(odPriceChange.size() > 0)
+        {
+           Order ordPriceChange = new Order(null,null,order.getDate(),null,odPriceChange,null);
+           return ordPriceChange;
+        }
+        
+        //get price
+        Order ord = new Order(order.getCustomer(),order.getDate(),order.getTotal(),order.getoD(),order.getOrderStatus());
+
+        return daoOrder.insert(ord);          
    }
 
 

@@ -6,10 +6,10 @@ configure.$inject = ['$stateProvider', '$urlRouterProvider']
 function configure($stateProvider, $urlRouterProvider) {
   $stateProvider
   .state('customerHome', {
-      url: '/',
+      url: '/TheBeerGuys',
       controller: 'CustomerHomeController',
       controllerAs: 'HC',
-      templateUrl: 'html/customer-home.html'
+      templateUrl: '/html/customer-home.html'
     })
       .state('customerProducts', {
       url: '/products',
@@ -17,17 +17,17 @@ function configure($stateProvider, $urlRouterProvider) {
       controllerAs: 'PC',
       templateUrl: '/html/customer-products.html'
     })
+      .state('customerOrders', {
+      url: '/orders',
+      controller: 'CustomerOrdersController',
+      controllerAs: 'OC',
+      templateUrl: '/html/customer-orders.html'
+    })
       .state('customerAccount', {
       url: '/account',
       controller: 'CustomerAccountController',
       controllerAs: 'AC',
-      templateUrl: 'html/customer-account.html'
-    })
-      .state('customerCart', {
-      url: '/cart',
-      controller: 'CustomerCartController',
-      controllerAs: 'CC',
-      templateUrl: 'html/customer-cart.html'
+      templateUrl: '/html/customer-account.html'
     })
     
     
