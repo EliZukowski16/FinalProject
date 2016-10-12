@@ -207,6 +207,7 @@ public class CustomerController
         
         LOGGER.info("Going to the search");
         
+        LOGGER.info(request.getParameter("types"));
         
         String keyword = request.getParameter("keywords");
         System.out.println(keyword);
@@ -214,7 +215,6 @@ public class CustomerController
         String[] tagArray = keyword.split("\\s");
         String[] typeArray = request.getParameterValues("types");
        
-        LOGGER.info(tagArray);
         LOGGER.info(tagArray);
                 
         List<Tag> tags = Stream.of(tagArray).map(Tag::new).collect(Collectors.toList());
