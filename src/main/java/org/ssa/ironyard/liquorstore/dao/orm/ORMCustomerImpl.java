@@ -4,14 +4,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-import org.ssa.ironyard.liquorstore.model.Customer;
-import org.ssa.ironyard.liquorstore.model.Password;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.ssa.ironyard.liquorstore.model.Address;
 import org.ssa.ironyard.liquorstore.model.Address.State;
 import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
+import org.ssa.ironyard.liquorstore.model.Customer;
+import org.ssa.ironyard.liquorstore.model.Password;
 
 public class ORMCustomerImpl extends AbstractORM<Customer> implements ORM<Customer>
 {
@@ -75,7 +74,7 @@ public class ORMCustomerImpl extends AbstractORM<Customer> implements ORM<Custom
     @Override
     public String prepareReadByIds(Integer numberOfIds)
     {
-        String readByIds = " SELECT " + this.projection() + " , " + this.projection() + " FROM "
+        String readByIds = " SELECT " +  this.projection() + " FROM " + this.table() 
                 + " WHERE " + this.table() + "." + this.primaryKeys.get(0) + " IN ( ";
         
         for(int i = 0; i < numberOfIds; i++)

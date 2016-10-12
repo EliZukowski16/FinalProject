@@ -5,11 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -74,10 +78,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
                 orderResults.put(o, o);
             }
 
-            for (Entry<Order, Order> e : orderResults.entrySet())
-            {
-                orderList.add(e.getValue());
-            }
+            orderList = orderResults.entrySet().stream().map(e -> e.getValue()).collect(Collectors.toList());
 
             return orderList;
         };
@@ -90,6 +91,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
         insertStatement.setTimestamp(2, Timestamp.valueOf(domainToInsert.getDate()));
         insertStatement.setString(3, domainToInsert.getOrderStatus().toString());
         insertStatement.setBigDecimal(4, domainToInsert.getTotal());
+        insertStatement.setTimestamp(5, Timestamp.valueOf(domainToInsert.getTimeOfOrder()));
     }
 
     private void insertDetailPreparer(PreparedStatement insertStatement, OrderDetail orderDetail, Order order)
@@ -137,6 +139,10 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     @Override
     public Order insert(Order domain)
     {
+        if(domain == null)
+            return domain;
+        
+        domain.setTimeOfOrder(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         Order order;
 
         if ((order = super.insert(domain)) != null)
@@ -153,6 +159,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
         Order order;
         order = new Order(id, copy.getCustomer(), copy.getDate(), copy.getTotal(), copy.getoD(), copy.getOrderStatus());
         order.setLoaded(true);
+        order.setTimeOfOrder(copy.getTimeOfOrder());
 
         return order;
     }
@@ -178,11 +185,113 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
                 ps.setTimestamp(2, Timestamp.valueOf(domainToUpdate.getDate()));
                 ps.setString(3, domainToUpdate.getOrderStatus().toString());
                 ps.setBigDecimal(4, domainToUpdate.getTotal());
-                ps.setInt(5, domainToUpdate.getId());
+                ps.setTimestamp(5, Timestamp.valueOf(domainToUpdate.getTimeOfOrder()));
+                ps.setInt(6, domainToUpdate.getId());
             }
 
         };
 
+    }
+
+    @Override
+    public List<Order> readOrdersByCustomers(List<Integer> customerIDs)
+    {
+        List<Order> orders = new ArrayList<>();
+
+        if (customerIDs.size() == 0)
+            return orders;
+        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadByCustomers(customerIDs.size()),
+                (PreparedStatement ps) ->
+                {
+                    for (int i = 0; i < customerIDs.size(); i++)
+                    {
+                        ps.setInt(i + 1, customerIDs.get(i));
+                    }
+
+                }, this.listExtractor);
+    }
+
+    @Override
+    public List<Order> readOrdersByProduct(List<Integer> productIDs)
+    {
+        List<Order> orders = new ArrayList<>();
+
+        if (productIDs.size() == 0)
+            return orders;
+        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadByProducts(productIDs.size()),
+                (PreparedStatement ps) ->
+                {
+                    for (int i = 0; i < productIDs.size(); i++)
+                    {
+                        ps.setInt(i + 1, productIDs.get(i));
+                    }
+
+                }, this.listExtractor);
+    }
+
+    @Override
+    public List<Order> readOrderByCoreProduct(List<Integer> coreProductIDs)
+    {
+        List<Order> orders = new ArrayList<>();
+
+        if (coreProductIDs.size() == 0)
+            return orders;
+        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadByCoreProducts(coreProductIDs.size()),
+                (PreparedStatement ps) ->
+                {
+                    for (int i = 0; i < coreProductIDs.size(); i++)
+                    {
+                        ps.setInt(i + 1, coreProductIDs.get(i));
+                    }
+
+                }, this.listExtractor);
+    }
+    
+    
+    @Override
+    public List<Order> readOrdersInTimeFrame(LocalDate start, LocalDate end)
+    {
+        List<Order> orders = new ArrayList<>();
+
+        if (start == null && end == null)
+            return orders;
+        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadInTimeFrame(), (PreparedStatement ps) ->
+        {
+            if (start == null)
+                ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(LocalDate.MIN, LocalTime.of(0, 0))));
+            else
+                ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(start, LocalTime.of(0, 0))));
+            
+            if(end == null)
+                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(LocalDate.MAX, LocalTime.of(0, 0))));
+            else
+                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(end, LocalTime.of(0, 0))));
+        }, this.listExtractor);
+    }
+
+    @Override
+    public List<Order> readOrdersInThePast(LocalDate end)
+    {
+        return this.readOrdersInTimeFrame(null, end);
+    }
+
+    @Override
+    public List<Order> readOrdersInTheFuture(LocalDate start)
+    {
+        return this.readOrdersInTimeFrame(start, null);
+    }
+
+    @Override
+    public List<Order> readMostRecentOrders(Integer numberOfOrders)
+    {
+        List<Order> orders = new ArrayList<>();
+
+        if (numberOfOrders == 0)
+            return orders;
+        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadMostRecent(), (PreparedStatement ps) ->
+        {
+            ps.setInt(1, numberOfOrders);
+        }, this.listExtractor);
     }
 
 }

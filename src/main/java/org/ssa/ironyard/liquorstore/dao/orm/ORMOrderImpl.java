@@ -32,6 +32,7 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
         this.fields.add("date");
         this.fields.add("order_status");
         this.fields.add("total");
+        this.fields.add("time_order_placed");
 
         this.foreignKeys.put("customer", "customer_id");
 
@@ -53,6 +54,7 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
         BigDecimal total = results.getBigDecimal(table() + ".total");
         LocalDateTime date = results.getTimestamp(table() + ".date").toLocalDateTime();
         OrderStatus status = OrderStatus.getInstance(results.getString(table() + ".order_status").toLowerCase());
+        LocalDateTime timeOfOrder = results.getTimestamp(table() + ".time_order_placed").toLocalDateTime();
 
         Customer customer = customerORM.map(results);
 
@@ -63,6 +65,7 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
         Order order = new Order(id, customer, date, total, oD, status);
 
         order.setLoaded(true);
+        order.setTimeOfOrder(timeOfOrder);
 
         return order;
     }
@@ -87,33 +90,27 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 
         return detailInsert;
     }
-    
+
     private String buildEagerRead()
     {
-        return " SELECT " + this.projection() + " , " + customerORM.projection() + " , "
-                + coreProductORM.projection() + " , " + productORM.projection() + " , " + " order_detail.* " + 
-                " FROM " + this.table() + 
-                
-                " " + this.customerJoin() + 
-                " ON " + this.customerRelation() + " " + 
-                
-                " " + this.orderDetailJoin() + 
-                " ON " + this.orderDetailRelation() +
-                
-                " " + this.productJoin() +
-                " ON " + this.productRelation() + 
-                
-                " " + this.coreProductJoin() + 
-                " ON " + this.coreProductRelation();
+        return " SELECT " + this.projection() + " , " + customerORM.projection() + " , " + coreProductORM.projection()
+                + " , " + productORM.projection() + " , " + " order_detail.* " + " FROM " + this.table() +
+
+                " " + this.customerJoin() + " ON " + this.customerRelation() + " " +
+
+                " " + this.orderDetailJoin() + " ON " + this.orderDetailRelation() +
+
+                " " + this.productJoin() + " ON " + this.productRelation() +
+
+                " " + this.coreProductJoin() + " ON " + this.coreProductRelation();
     }
 
     @Override
     public String prepareRead()
     {
-        String read =  buildEagerRead() +
-                
-                " WHERE " + this.table() + "."
-                + this.primaryKeys.get(0) + " = ? ";
+        String read = buildEagerRead() +
+
+                " WHERE " + this.table() + "." + this.primaryKeys.get(0) + " = ? ";
 
         LOGGER.debug(this.getClass().getSimpleName());
         LOGGER.debug("Read prepared Statement: {}", read);
@@ -131,23 +128,22 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 
         return readAll;
     }
-    
+
     @Override
     public String prepareReadByIds(Integer numberOfIds)
     {
-        String readByIds = buildEagerRead() +
-                " WHERE " + this.table() + "." + this.getPrimaryKeys().get(0) + " IN ( ";
-        
-        for(int i = 0; i < numberOfIds; i++)
+        String readByIds = buildEagerRead() + " WHERE " + this.table() + "." + this.getPrimaryKeys().get(0) + " IN ( ";
+
+        for (int i = 0; i < numberOfIds; i++)
         {
             readByIds = readByIds + " ?, ";
         }
-        
+
         readByIds = readByIds.substring(0, readByIds.length() - 2) + " ) ";
-        
+
         LOGGER.debug(this.getClass().getSimpleName());
         LOGGER.debug("Read By IDs prepared Statement: {}", readByIds);
-        
+
         return readByIds;
     }
 
@@ -191,6 +187,82 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
     private String orderDetailRelation()
     {
         return this.table() + "." + this.primaryKeys.get(0) + " = order_detail.order_id ";
+    }
+
+    public String prepareReadByCustomers(int numberOfIds)
+    {
+        String readByCustomerIds = buildEagerRead() + " WHERE " + this.table() + "." + this.getFields().get(0)
+                + " IN ( ";
+
+        for (int i = 0; i < numberOfIds; i++)
+        {
+            readByCustomerIds = readByCustomerIds + " ?, ";
+        }
+
+        readByCustomerIds = readByCustomerIds.substring(0, readByCustomerIds.length() - 2) + " ) ";
+
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Read By Customer IDs prepared Statement: {}", readByCustomerIds);
+
+        return readByCustomerIds;
+    }
+
+    public String prepareReadInTimeFrame()
+    {
+        String readInTimeFrame = buildEagerRead() + " WHERE " + productORM.table() + "."
+                + productORM.getFields().get(1) + " BETWEEN ? AND ? ";
+
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Read In Time Frame prepared Statement: {}", readInTimeFrame);
+
+        return readInTimeFrame;
+    }
+
+    public String prepareReadMostRecent()
+    {
+        String readMostRecent = buildEagerRead() + " ORDER BY " + this.table() + "." + this.getFields().get(4) + " LIMIT ? ";
+
+
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Read Most Recent prepared Statement: {}", readMostRecent);
+
+        return readMostRecent;
+    }
+
+    public String prepareReadByProducts(int numberOfIds)
+    {
+        String readByProductIds = buildEagerRead() + " WHERE " + productORM.table() + "."
+                + productORM.getPrimaryKeys().get(0) + " IN ( ";
+
+        for (int i = 0; i < numberOfIds; i++)
+        {
+            readByProductIds = readByProductIds + " ?, ";
+        }
+
+        readByProductIds = readByProductIds.substring(0, readByProductIds.length() - 2) + " ) ";
+
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Read By Product IDs prepared Statement: {}", readByProductIds);
+
+        return readByProductIds;
+    }
+
+    public String prepareReadByCoreProducts(int numberOfIds)
+    {
+        String readByCoreProductIds = buildEagerRead() + " WHERE " + coreProductORM.table() + "."
+                + coreProductORM.getPrimaryKeys().get(0) + " IN ( ";
+
+        for (int i = 0; i < numberOfIds; i++)
+        {
+            readByCoreProductIds = readByCoreProductIds + " ?, ";
+        }
+
+        readByCoreProductIds = readByCoreProductIds.substring(0, readByCoreProductIds.length() - 2) + " ) ";
+
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Read By Core Product IDs prepared Statement: {}", readByCoreProductIds);
+
+        return readByCoreProductIds;
     }
 
 }

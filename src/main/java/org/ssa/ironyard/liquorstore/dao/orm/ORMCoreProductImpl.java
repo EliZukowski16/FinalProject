@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
@@ -68,7 +67,7 @@ public class ORMCoreProductImpl extends AbstractORM<CoreProduct> implements ORM<
     @Override
     public String prepareReadByIds(Integer numberOfIds)
     {
-        String readByIds = " SELECT " + this.projection() + " , " + this.projection() + " FROM "
+        String readByIds = " SELECT " + this.projection() +  " FROM " + this.table()
                 + " WHERE " + this.table() + "." + this.primaryKeys.get(0) + " IN ( ";
         
         for(int i = 0; i < numberOfIds; i++)

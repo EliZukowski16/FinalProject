@@ -66,6 +66,7 @@ customer_id INT(10) NOT NULL,
 date TIMESTAMP NOT NULL,
 order_status ENUM('APPROVED', 'PENDING', 'REJECTED') NOT NULL,
 total DECIMAL(12,2) NOT NULL,
+time_order_placed TIMESTAMP NOT NULL,
 CONSTRAINT order_fk_1 FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE)
 ENGINE = InnoDB;
 

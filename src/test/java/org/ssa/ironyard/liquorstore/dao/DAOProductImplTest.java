@@ -432,6 +432,44 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
         assertTrue(productsInDB.containsAll(testProducts));
         assertTrue(testProducts.containsAll(productsInDB)); 
     }
+    
+//    @Test
+    public void testReadMultipleProductsByIDs()
+    {
+        List<Product> productSubList = new ArrayList<>();
+        List<Product> testProducts = new ArrayList<>();
+        Set<Integer> productIdsSet = new HashSet<>();
+        List<Integer> productIdsList = new ArrayList<>();
+
+        while (productIdsSet.size() < (productsInDB.size() / 2))
+        {
+            Integer i = (int) (Math.random() * productsInDB.size());
+            if (!productIdsSet.contains(productsInDB.get(i).getId()))
+            {
+                productIdsSet.add(productsInDB.get(i).getId());
+                productSubList.add(productsInDB.get(i));
+            }
+        }
+
+        productIdsList = productIdsSet.stream().collect(Collectors.toList());
+
+        testProducts = productDAO.readByIds(productIdsList);
+
+        testProducts.sort((o1, o2) -> o1.getId().compareTo(o2.getId()));
+        productSubList.sort((o1, o2) -> o1.getId().compareTo(o2.getId()));
+
+        assertEquals(productIdsList.size(), productIdsSet.size());
+        assertEquals(productSubList.size(), testProducts.size());
+        assertTrue(productsInDB.containsAll(productSubList));
+        assertTrue(productSubList.containsAll(testProducts));
+        assertTrue(testProducts.containsAll(productSubList));
+
+        for (int i = 0; i < productIdsList.size(); i++)
+        {
+            assertEquals(productSubList.get(i), testProducts.get(i));
+            assertTrue(productSubList.get(i).deeplyEquals(testProducts.get(i)));
+        }
+    }
 
     @Override
     protected AbstractSpringDAO<Product> getDAO()
