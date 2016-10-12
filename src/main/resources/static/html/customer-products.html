@@ -84,7 +84,7 @@
 		</li>
  		<li>
 		<form action="action_page.php">Choose a delivery date:
-		<input type="date" name="deliveryDate"></form>		
+		<input type="date" name="deliveryDate" id="deliveryDate"></form>		
 		</li> 
 		<li>
 		<span>Total: {{ PC.grandTotal() | currency }}</span>
@@ -96,10 +96,10 @@
 <div class="text-center">
     <button type="button" class="btn btn-danger btn-lg" ng-click="PC.submitOrder()">Checkout 
     <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></button>
-</div>
-</div>
 
 
+</div>
+</div>
 
 
 
