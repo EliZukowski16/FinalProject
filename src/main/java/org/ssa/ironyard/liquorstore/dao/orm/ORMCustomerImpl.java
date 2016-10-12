@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Password;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.ssa.ironyard.liquorstore.model.Address;
 import org.ssa.ironyard.liquorstore.model.Address.State;
@@ -13,6 +15,8 @@ import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
 
 public class ORMCustomerImpl extends AbstractORM<Customer> implements ORM<Customer>
 {
+    static Logger LOGGER = LogManager.getLogger(ORMCustomerImpl.class);
+    
     public ORMCustomerImpl()
     {
         this.primaryKeys.add("id");
@@ -66,6 +70,25 @@ public class ORMCustomerImpl extends AbstractORM<Customer> implements ORM<Custom
     public String prepareReadByUserName()
     {
         return this.prepareQuery("username");
+    }
+
+    @Override
+    public String prepareReadByIds(Integer numberOfIds)
+    {
+        String readByIds = " SELECT " + this.projection() + " , " + this.projection() + " FROM "
+                + " WHERE " + this.table() + "." + this.primaryKeys.get(0) + " IN ( ";
+        
+        for(int i = 0; i < numberOfIds; i++)
+        {
+            readByIds = readByIds + " ?, ";
+        }
+        
+        readByIds = readByIds.substring(0, readByIds.length() - 2) + " ) ";
+        
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Read By IDs prepared Statement: {}", readByIds);
+        
+        return readByIds;
     }
 
 }
