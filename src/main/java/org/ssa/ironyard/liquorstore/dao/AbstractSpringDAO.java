@@ -16,8 +16,10 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.ssa.ironyard.liquorstore.dao.orm.ORM;
+import org.ssa.ironyard.liquorstore.dao.orm.ORMProductImpl;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.DomainObject;
+import org.ssa.ironyard.liquorstore.model.Product;
 
 /**
  *
@@ -64,6 +66,24 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
         return this.springTemplate.query(this.orm.prepareRead(), (PreparedStatement ps) -> ps.setInt(1, id),
                 this.extractor);
 
+    }
+    
+    @Override
+    public List<T> readByIds(List<Integer> ids)
+    {
+        List<T> t = new ArrayList<>();
+
+        if (ids.size() == 0)
+            return t;
+        return this.springTemplate.query(this.orm.prepareReadByIds(ids.size()),
+                (PreparedStatement ps) ->
+                {
+                    for (int i = 0; i < ids.size(); i++)
+                    {
+                        ps.setInt(i + 1, ids.get(i));
+                    }
+
+                }, this.listExtractor);
     }
     
     @Override

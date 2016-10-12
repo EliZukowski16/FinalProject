@@ -87,11 +87,10 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 
         return detailInsert;
     }
-
-    @Override
-    public String prepareRead()
+    
+    private String buildEagerRead()
     {
-        String read = " SELECT " + this.projection() + " , " + customerORM.projection() + " , "
+        return " SELECT " + this.projection() + " , " + customerORM.projection() + " , "
                 + coreProductORM.projection() + " , " + productORM.projection() + " , " + " order_detail.* " + 
                 " FROM " + this.table() + 
                 
@@ -105,7 +104,13 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
                 " ON " + this.productRelation() + 
                 
                 " " + this.coreProductJoin() + 
-                " ON " + this.coreProductRelation() +         
+                " ON " + this.coreProductRelation();
+    }
+
+    @Override
+    public String prepareRead()
+    {
+        String read =  buildEagerRead() +
                 
                 " WHERE " + this.table() + "."
                 + this.primaryKeys.get(0) + " = ? ";
@@ -119,16 +124,31 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
     @Override
     public String prepareReadAll()
     {
-        String readAll = " SELECT " + this.projection() + " , " + customerORM.projection() + " , "
-                + coreProductORM.projection() + " , " + productORM.projection() + " , " + " order_detail.* " + " FROM "
-                + this.table() + this.customerJoin() + " ON " + this.customerRelation() + " " + this.coreProductJoin()
-                + " ON " + this.coreProductRelation() + " " + this.productJoin() + " ON " + this.productRelation() + " "
-                + this.orderDetailJoin() + " ON " + this.orderDetailRelation();
+        String readAll = buildEagerRead();
 
         LOGGER.debug(this.getClass().getSimpleName());
         LOGGER.debug("Read All prepared Statement: {}", readAll);
 
         return readAll;
+    }
+    
+    @Override
+    public String prepareReadByIds(Integer numberOfIds)
+    {
+        String readByIds = buildEagerRead() +
+                " WHERE " + this.table() + "." + this.getPrimaryKeys().get(0) + " IN ( ";
+        
+        for(int i = 0; i < numberOfIds; i++)
+        {
+            readByIds = readByIds + " ?, ";
+        }
+        
+        readByIds = readByIds.substring(0, readByIds.length() - 2) + " ) ";
+        
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Read By IDs prepared Statement: {}", readByIds);
+        
+        return readByIds;
     }
 
     private String customerJoin()

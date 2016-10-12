@@ -3,11 +3,15 @@ package org.ssa.ironyard.liquorstore.dao.orm;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.ssa.ironyard.liquorstore.model.Admin;
 import org.ssa.ironyard.liquorstore.model.Password;
 
 public class ORMAdminImpl extends AbstractORM<Admin> implements ORM<Admin>
 {
+    static Logger LOGGER = LogManager.getLogger(ORMAdminImpl.class);
+    
     public ORMAdminImpl()
     {
         this.primaryKeys.add("id");
@@ -46,6 +50,25 @@ public class ORMAdminImpl extends AbstractORM<Admin> implements ORM<Admin>
         admin.setLoaded(true);
         
         return admin;
+    }
+    
+    @Override
+    public String prepareReadByIds(Integer numberOfIds)
+    {
+        String readByIds = " SELECT " + this.projection() + " , " + this.projection() + " FROM "
+                + " WHERE " + this.table() + "." + this.primaryKeys.get(0) + " IN ( ";
+        
+        for(int i = 0; i < numberOfIds; i++)
+        {
+            readByIds = readByIds + " ?, ";
+        }
+        
+        readByIds = readByIds.substring(0, readByIds.length() - 2) + " ) ";
+        
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Read By IDs prepared Statement: {}", readByIds);
+        
+        return readByIds;
     }
 
 }
