@@ -41,6 +41,8 @@ public class LogInController
     {
         LOGGER.info("autehntication");
         
+        LOGGER.info(request);
+        
         Map<String,User> response = new HashMap<>();
         
         String userName = request.getParameter("username");

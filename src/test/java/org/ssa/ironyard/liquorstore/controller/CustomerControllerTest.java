@@ -291,11 +291,13 @@ public class CustomerControllerTest
         
         List<Tag> tags = new ArrayList();
         Tag t = new Tag("beer");
-        Tag t2 = new Tag("light beer");
+        Tag t2 = new Tag("light");
+        Tag t3 = new Tag("beer");
         tags.add(t);
         tags.add(t2);
+        tags.add(t3);
         
-        String[] tagsA = {"beer", "light beer"};
+        String tagsA = "beer light beer";
        
         
         List<Type> types = new ArrayList();
@@ -309,15 +311,16 @@ public class CustomerControllerTest
                 
                  
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
-        mockRequest.addParameter("tags", tagsA);
+        mockRequest.addParameter("keywords", tagsA);
         mockRequest.addParameter("types", typesA);
         
         
         Capture<Product> capturedProdSearch = Capture.<Product>newInstance();
         
         
-        EasyMock.expect(prodService.searchProduct(tags, types)).andReturn(products);
+        EasyMock.expect(prodService.searchProduct(tags,types)).andReturn(products);
         EasyMock.replay(prodService);
+        
         
         
         ResponseEntity<Map<String,List<Product>>> searchMap = this.custController.searchKeywordType("12", mockRequest);

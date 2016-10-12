@@ -209,10 +209,10 @@ public class CustomerController
         
         
         String keyword = request.getParameter("keywords");
+        System.out.println(keyword);
         LOGGER.info(keyword);
-        String[] tagArray = keyword.split("//s");
+        String[] tagArray = keyword.split("\\s");
         String[] typeArray = request.getParameterValues("types");
-
        
         LOGGER.info(tagArray);
         LOGGER.info(tagArray);
@@ -220,10 +220,15 @@ public class CustomerController
         List<Tag> tags = Stream.of(tagArray).map(Tag::new).collect(Collectors.toList());
         List<Type> types = Stream.of(typeArray).map(Type::getInstance).collect(Collectors.toList());
         
+        System.out.println(tags.get(1).getName());
+        
         LOGGER.info(tags);
         LOGGER.info(types);
         
         List<Product> products = productService.searchProduct(tags,types);
+        
+        
+        System.out.println(products);
         
         if(products.size() == 0)
         {
