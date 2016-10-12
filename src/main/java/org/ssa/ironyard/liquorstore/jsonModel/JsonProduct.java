@@ -15,11 +15,11 @@ public class JsonProduct
         this.price = price;
     }
     public JsonProduct(){}
-    public int getProductId()
+    public int getid()
     {
         return id;
     }
-    public void setProductId(int id)
+    public void setid(int id)
     {
         this.id = id;
     }

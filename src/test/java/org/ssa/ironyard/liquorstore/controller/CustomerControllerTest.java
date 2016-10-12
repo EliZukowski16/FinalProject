@@ -421,7 +421,7 @@ public class CustomerControllerTest
     {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
                
-        String product = "{ \"productID\" : \"1\", \"qty\" : \"1\", \"price\" : \"15.00\"}";
+        String product = "{ \"id\" : \"1\", \"qty\" : \"1\", \"price\" : \"15.00\"}";
         
         map.add("orderMonth","12");
         map.add("orderDay", "15");
