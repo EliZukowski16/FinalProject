@@ -114,7 +114,7 @@ public class OrdersServiceImpl implements OrdersService
             listProductIds.add(order.getoD().get(i).getProduct().getId());
         }
         
-        List<Product> products = daoProduct.readProductIds(listProductIds);
+        List<Product> products = daoProduct.readByIds(listProductIds);
         
         List<OrderDetail> odPriceChange = new ArrayList();
         

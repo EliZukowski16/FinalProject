@@ -46,14 +46,25 @@ angular
 	})
 	};
 	
-     
-    
-    ctrl.addToCart = function(product){
+    //Add product to cart 
+    ctrl.addToCart = function(product)
+    {
    		if(ctrl.cart.indexOf(product) == -1) 
 			ctrl.cart.push(product);
 	}
     
-    
+    //Calculate cart grand total
+    ctrl.grandTotal = function()
+    {
+    	var total = 0;
+    	for(var i = 0; i<ctrl.cart.length; i++){
+    		var product = ctrl.cart[i];
+    		var qty = angular.element('#quantity').val();
+    		total += (product.price * qty)
+    	}
+    	return total;
+    	
+    }
     
     
 /*    ctrl.order = [

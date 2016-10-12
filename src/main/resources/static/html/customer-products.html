@@ -32,18 +32,11 @@
  
  <label class="checkbox-inline" ng-repeat="type in PC.types">
   <input  type="checkbox" name="selectedTypes[]" value="{{ type }}" 
-  ng-checked="PC.selection.indexOf(type)>-1"  ng-click="PC.toggleSelection(type)" checked="checked"> {{ type }}
-</label> <p>{{ PC.selection }}</p>
+  ng-checked="PC.selection.indexOf(type)>-1"  ng-click="PC.toggleSelection(type)" checked> {{ type }}
+</label> 
  
  
- 
- 
-<!--    	<form>
-		<label class="checkbox-inline"> <input type="checkbox" ng-model="PC.types.beer" >Beer</label> 
-		<label class="checkbox-inline"> <input type="checkbox" ng-model="PC.types.wine" value="wine">Wine</label> 
-		<label class="checkbox-inline"> <input type="checkbox" ng-model="PC.types.spirits" value="spirits">Spirits</label> 
-		<label class="checkbox-inline"> <input type="checkbox" name="filter" checked="checked" value="beer,wine,spirits">All</label>
-	</form> <p>{{ PC.types }}</p> -->
+
 </form><br>
 
 
@@ -53,12 +46,12 @@
 
 
 <div id="products" class="row list-group" ng-repeat="product in PC.searchResults">
-	<div class="item col-md-8" ng-click="PC.addToCart(product)">
+	<div class="item col-md-10">
 	
 		<div class="thumbnail">
 			<img class="group list-group-image"	src="http://www.adweek.com/agencyspy/files/2011/10/budlight.png" align="left" alt="" />
 			<div class="caption">
-				<h3 class="group inner list-group-item-heading">{{product.coreProduct.name }}</h3>
+				<button id="add" type="button" ng-click="PC.addToCart(product)"><h3 class="group inner list-group-item-heading">{{product.coreProduct.name }}</h3></button>
 				<p class="group inner list-group-item-text">{{ product.coreProduct.type }}</p>
 				<p class="group inner list-group-item-text">{{ product.coreProduct.subType }}</p>
 				<p class="group inner list-group-item-text">{{ product.baseUnit }}</p>
@@ -82,10 +75,20 @@
     </div>
     
     <div class="panel-body">    
-    <ul>
+    <ul style="list-style:none" id="shoppingCart">
    <!--  ng-repeat="product in PC.cart()" -->
 		<li ng-repeat="product in PC.cart">
-		<span>{{ product.coreProduct.name }} {{ product.price | currency }}</span>
+			<span>{{ product.coreProduct.name }}</span>
+			<span>{{ product.price | currency }} x</span>
+			<span><input type="number" value="1" min="1" max="10" ng-model="qty" id="quantity"></span>
+			<span>{{ product.price * qty | currency }}</span>
+		</li>
+ 		<li>
+		<form action="action_page.php">Choose a delivery date:
+		<input type="date" name="deliveryDate"></form>		
+		</li> 
+		<li>
+		<span>Total: {{ PC.grandTotal() | currency }}</span>
 		</li>
 	</ul>
     </div>

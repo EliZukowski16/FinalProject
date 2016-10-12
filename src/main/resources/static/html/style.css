@@ -23,14 +23,15 @@ padding-top: 7px
 /*customer-product.html*/
 
 h2{margin-left:20%}
+#add{border: none; background: none}
+#shoppingCart li:nth-child(odd){background-color: #D7DBDD}
+#shoppingCart li:nth-child(even) {background-color: #F2F4F4}
 
 #quickLinks{
 position: relative; 
 float: left
 }
 #products{
-position: relative; 
-float:left; 
 margin-left:18%; 
 width:40%
 }
