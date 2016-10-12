@@ -70,4 +70,6 @@ public interface ORM<T extends DomainObject>
         return read;
     }
 
+    String prepareReadByIds(Integer numberOfIds);
+
 }

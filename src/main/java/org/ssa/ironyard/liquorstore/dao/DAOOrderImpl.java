@@ -31,7 +31,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     public DAOOrderImpl(DataSource dataSource)
     {
         super(new ORMOrderImpl(), dataSource);
-        
+
         this.extractor = (ResultSet cursor) ->
         {
             Order currentOrder = null;
@@ -92,7 +92,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
         insertStatement.setBigDecimal(4, domainToInsert.getTotal());
     }
 
-    protected void insertDetailPreparer(PreparedStatement insertStatement, OrderDetail orderDetail, Order order)
+    private void insertDetailPreparer(PreparedStatement insertStatement, OrderDetail orderDetail, Order order)
             throws SQLException
     {
         insertStatement.setInt(1, order.getId());

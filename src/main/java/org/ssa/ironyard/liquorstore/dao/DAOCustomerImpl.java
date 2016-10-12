@@ -41,7 +41,7 @@ public class DAOCustomerImpl extends AbstractDAOCustomer implements DAOCustomer
     protected Customer afterInsert(Customer copy, Integer id)
     {
         Customer customer;
-        customer = new Customer(id, copy.getUserName(), copy.getPassword(), copy.getFirstName(), copy.getLastName(), 
+        customer = new Customer(id, copy.getUserName(), copy.getPassword(), copy.getFirstName(), copy.getLastName(),
                 copy.getAddress(), copy.getBirthDate());
         customer.setLoaded(true);
 
@@ -52,7 +52,7 @@ public class DAOCustomerImpl extends AbstractDAOCustomer implements DAOCustomer
     protected Customer afterUpdate(Customer copy)
     {
         copy.setLoaded(true);
-        
+
         return copy;
     }
 
@@ -61,7 +61,7 @@ public class DAOCustomerImpl extends AbstractDAOCustomer implements DAOCustomer
     {
         return new PreparedStatementSetter()
         {
-            
+
             @Override
             public void setValues(PreparedStatement ps) throws SQLException
             {
@@ -79,23 +79,14 @@ public class DAOCustomerImpl extends AbstractDAOCustomer implements DAOCustomer
             }
         };
     }
-    
-    
+
     @Override
     public Customer readByUserName(String username)
     {
         if (null == username)
             return null;
-        return this.springTemplate.query(((ORMCustomerImpl) this.orm).prepareReadByUserName(), (PreparedStatement ps) -> ps.setString(1, username),
-//                (ResultSet cursor) ->
-//                {
-//                    if (cursor.next())
-//                    {
-//                        return this.orm.map(cursor);
-//                    }
-//                    return null;
-//                });
-                this.extractor);
+        return this.springTemplate.query(((ORMCustomerImpl) this.orm).prepareReadByUserName(),
+                (PreparedStatement ps) -> ps.setString(1, username), this.extractor);
     }
 
 }

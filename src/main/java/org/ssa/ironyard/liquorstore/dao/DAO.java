@@ -17,4 +17,6 @@ public interface DAO<T>
 
     void clear();
 
+    List<T> readByIds(List<Integer> ids);
+
 }

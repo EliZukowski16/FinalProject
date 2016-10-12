@@ -46,6 +46,8 @@ import org.ssa.ironyard.liquorstore.services.OrdersServiceImpl;
 import org.ssa.ironyard.liquorstore.services.ProductServiceImpl;
 import org.ssa.ironyard.liquorstore.services.SalesServiceImpl;
 
+import com.mysql.cj.api.log.Log;
+
 
 @RestController
 @RequestMapping("/TheBeerGuys/customer")
@@ -207,26 +209,42 @@ public class CustomerController
         
         LOGGER.info("Going to the search");
         
-        LOGGER.info(request.getParameter("types"));
+        LOGGER.info(request.getParameterValues("types") + " request types");
+        LOGGER.info(request.getParameter("keywords") + " request keywords");
         
         String keyword = request.getParameter("keywords");
-        System.out.println(keyword);
-        LOGGER.info(keyword);
+        LOGGER.info(keyword + " String keyword");
         String[] tagArray = keyword.split("\\s");
         String[] typeArray = request.getParameterValues("types");
        
-        LOGGER.info(tagArray);
+        for (int i = 0; i < tagArray.length; i++)
+        {
+            LOGGER.info(tagArray[i] + " String array tags" + i);
+        }
+        
+        for (int i = 0; i < typeArray.length; i++)
+        {
+            LOGGER.info(typeArray[i] + " String array type" + i);
+        }
+        
+        
+        
+       
+        List<Tag> tags = new ArrayList<>();
+        List<Type> types = new ArrayList<>();
                 
-        List<Tag> tags = Stream.of(tagArray).map(Tag::new).collect(Collectors.toList());
-        List<Type> types = Stream.of(typeArray).map(Type::getInstance).collect(Collectors.toList());
+        tags = Stream.of(tagArray).map(Tag::new).collect(Collectors.toList());
+        LOGGER.info("hello");
+        types = Stream.of(typeArray).map(Type::getInstance).collect(Collectors.toList());
+
+
         
-        System.out.println(tags.get(1).getName());
-        
-        LOGGER.info(tags);
-        LOGGER.info(types);
+        LOGGER.info(tags + "List tags");
+        LOGGER.info(types + "List Tyeps");
         
         List<Product> products = productService.searchProduct(tags,types);
         
+        LOGGER.info(products + "products");
         
         System.out.println(products);
         
