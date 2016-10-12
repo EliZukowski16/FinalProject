@@ -23,8 +23,24 @@ padding-top: 7px
 /*customer-product.html*/
 
 h2{margin-left:20%}
-#products{margin-left:18%; width:40%}
-.cart{margin-left:70%} 
+#add{border: none; background: none}
+#shoppingCart li:nth-child(odd){background-color: #D7DBDD}
+#shoppingCart li:nth-child(even) {background-color: #F2F4F4}
+
+#quickLinks{
+position: relative; 
+float: left
+}
+#products{
+margin-left:18%; 
+width:40%
+}
+
+.cart{
+position: relative; 
+float: right; 
+margin-left:70%
+} 
 
 /* #products{float:left; width: 33%}
 h2{margin-left:20%}
