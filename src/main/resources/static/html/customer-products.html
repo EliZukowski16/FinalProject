@@ -29,16 +29,21 @@
 		</div>
 	</div>
 
-<!-- <label class="checkbox-inline" ng-repeat="(type,enabled) in PC.types">
-  <input class ="box col-md-3" type="checkbox" ng-model="types[type]"> {{type}}
-</label> -->
  
-   	<form>
-		<label class="checkbox-inline"> <input type="checkbox" ng-model="PC.types.beer" value="beer">Beer</label> 
+ <label ng-repeat="type in PC.types">
+  <input  type="checkbox"  name="selectedTypes[]" value="{{type}}" ng-checked="PC.selection.indexOf(type) > -1"  ng-click="PC.toggleSelection(type)"
+  > {{type}}
+</label> <p>{{ PC.selection }}</p>
+ 
+ 
+ 
+ 
+<!--    	<form>
+		<label class="checkbox-inline"> <input type="checkbox" ng-model="PC.types.beer" >Beer</label> 
 		<label class="checkbox-inline"> <input type="checkbox" ng-model="PC.types.wine" value="wine">Wine</label> 
 		<label class="checkbox-inline"> <input type="checkbox" ng-model="PC.types.spirits" value="spirits">Spirits</label> 
-		<!-- <label class="checkbox-inline"> <input type="checkbox" name="filter" checked="checked" value="beer,wine,spirits">All</label> -->
-	</form> <p>{{ PC.types }}</p>
+		<label class="checkbox-inline"> <input type="checkbox" name="filter" checked="checked" value="beer,wine,spirits">All</label>
+	</form> <p>{{ PC.types }}</p> -->
 </form><br>
 
 

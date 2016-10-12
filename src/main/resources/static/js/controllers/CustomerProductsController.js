@@ -10,16 +10,28 @@ angular
 	ctrl.searchResults = [];
 	
 	ctrl.cart = [];
-	ctrl.tags = [];
 	ctrl.keyword = "";
-	ctrl.types = {};
-
+	
+	ctrl.types = ['beer', 'wine', 'spirits'];
+	ctrl.selection = [];
+	
+	
+	ctrl.toggleSelection = function toggleSelection(type){
+		var index = ctrl.selection.indexOf(type);
+		
+		if(index >-1){
+			ctrl.selection.splice(index, 1);
+		} else {
+			ctrl.selection.push(type);
+		}
+	};
+	
 	ctrl.search = function()
 	{	
 		
 		var queryParams = {
 				keywords: ctrl.keyword,
-				types: ctrl.types
+				types: ctrl.selection
 		}
 	
 	$http({
