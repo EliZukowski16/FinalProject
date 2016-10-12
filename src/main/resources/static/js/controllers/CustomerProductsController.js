@@ -64,7 +64,23 @@ angular
     };
     
     
-    
+        
+/*    ctrl.order = [
+                  {
+                	  date:
+                	  products: [
+                	             {
+                	            	 id:
+                	            	 qty:
+                    	             price:
+                	             },
+                	             {
+                	            	 id:
+                	            	 qty:
+                	            	 price:
+                	             }
+                  }]*/
+
     //Submit Order    
     ctrl.submitOrder = function()
     {
@@ -95,6 +111,7 @@ angular
 		console.log(response);
     })
     };
+
     
     
     

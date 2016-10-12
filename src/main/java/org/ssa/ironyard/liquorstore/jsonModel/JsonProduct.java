@@ -4,24 +4,24 @@ import java.math.BigDecimal;
 
 public class JsonProduct
 {
-    int productID;
+    int id;
     int qty;
     BigDecimal price;
     
-    public JsonProduct(int productID, int qty, BigDecimal price)
+    public JsonProduct(int id, int qty, BigDecimal price)
     {
-        this.productID = productID;
+        this.id = id;
         this.qty = qty;
         this.price = price;
     }
     public JsonProduct(){}
-    public int getProductID()
+    public int getProductId()
     {
-        return productID;
+        return id;
     }
-    public void setProductID(int productID)
+    public void setProductId(int id)
     {
-        this.productID = productID;
+        this.id = id;
     }
     public int getQty()
     {

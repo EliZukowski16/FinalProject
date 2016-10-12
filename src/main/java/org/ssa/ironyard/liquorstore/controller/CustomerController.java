@@ -370,7 +370,7 @@ public class CustomerController
             try
             {
                 product = objectMapper.readValue(products.get(i), JsonProduct.class);
-                Product p = new Product(product.getProductID(), null, null, null, null,null);
+                Product p = new Product(product.getProductId(), null, null, null, null,null);
                 OrderDetail od = new OrderDetail(p, product.getQty(), product.getPrice());
                 orderDetailList.add(od);
             }
