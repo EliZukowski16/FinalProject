@@ -432,16 +432,22 @@ public class CustomerControllerTest
         
         Order ordN = new Order(ord.getCustomer(),ord.getDate(),ord.getTotal(),ord.getoD(),ord.getOrderStatus());
       
-      EasyMock.expect(orderService.addOrder(ordN)).andReturn(ord);
-      EasyMock.replay(orderService);
+        EasyMock.expect(orderService.addOrder(ordN)).andReturn(ord);
+        EasyMock.replay(orderService);
       
-      ResponseEntity<Map<String,Order>> orderMap = this.custController.placeOrder(c.getId().toString(),map);
+        ResponseEntity<Map<String,Order>> orderMap = this.custController.placeOrder(c.getId().toString(),map);
     
-      assertTrue(orderMap.getBody().containsKey("success"));
-      Order ordPrice = orderMap.getBody().get("success");
+        assertTrue(orderMap.getBody().containsKey("success"));
+        Order ordPrice = orderMap.getBody().get("success");
     
-      //assertTrue(ordS.deeplyEquals(ordPrice)); 
+        //assertTrue(ordN.deeplyEquals(ordPrice)); 
         
+       // assertEquals(ordN.getId(),ordPrice.getId());;
+        assertEquals(ordN.getCustomer(),ordPrice.getCustomer());
+        assertEquals(ordN.getDate(),ordPrice.getDate());
+        assertEquals(ordN.getoD(),ordPrice.getoD());
+        assertEquals(ordN.getOrderStatus(),ordPrice.getOrderStatus());
+        assertEquals(ordN.getTotal(),ordPrice.getTotal());
     }
 
 }
