@@ -8,12 +8,11 @@ angular
 	
 	var ctrl = this;	
 	ctrl.searchResults = [];
-	
 	ctrl.cart = [];
 	ctrl.keyword = "";
-	
 	ctrl.types = ['Beer', 'Wine', 'Spirits'];
 	ctrl.selection = [];
+    ctrl.orderDetails = [];
 	
 	//Checkbox search
 	ctrl.toggleSelection = function toggleSelection(type){
@@ -59,16 +58,13 @@ angular
     	var total = 0;
     	for(var i = 0; i<ctrl.cart.length; i++){
     		var product = ctrl.cart[i];
-    		var qty = angular.element('#quantity').val();
-    		total += (product.price * qty)
+    		total += (product.price * product.qty)
     	}
     	return total;
-    	
-    }
+    };
     
     
-    
-    
+        
 /*    ctrl.order = [
                   {
                 	  date:
@@ -84,6 +80,37 @@ angular
                 	            	 price:
                 	             }
                   }]*/
+
+    //Submit Order    
+    ctrl.submitOrder = function()
+    {
+
+    	for(var i = 0; i<ctrl.cart.length; i++){
+    		var product = ctrl.cart[i];
+    		ctrl.orderDetails.push(product);
+    	
+    	}
+    	console.log(ctrl.orderDetails);
+    	
+//    	date:,
+//    	products: [{ 
+//    		productId,
+//    		qty,
+//    		price
+//    	}]
+//  	}]
+//
+//
+    $http({
+    	url: location.pathname +"/placeOrder",
+    	method: 'POST',
+    	data: ctrl.orderDetails
+    }).then(function(response) {		
+	
+		console.log(response);
+    })
+    };
+
     
     
     
