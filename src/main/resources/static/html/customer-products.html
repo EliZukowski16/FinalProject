@@ -1,7 +1,8 @@
 <link rel="stylesheet" type="text/css" href="/html/style.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
  <h2>Browse Our Products</h2> 
 
 <!-- Quick links -->
@@ -20,7 +21,7 @@
 <!-- Search features -->
 
 <form class="navbar-form"role="search" id="searchBar">
-	<div class="input-group add-on col-xs-3 col-md-3">
+	<div class="input-group add-on col-md-3">
 		<input class="form-control " placeholder="Search by keyword..."	name="srch-term" id="srch-term" type="text" ng-model="PC.keyword">
 		<div class="input-group-btn">
 			<button class="btn btn-default" type="button" id="search" ng-click = "PC.search()">
@@ -67,7 +68,7 @@
 
 <!--  Shopping cart -->
  <!-- ng-init="product.qty='1'" -->
-
+<!-- ng-show="PC.cart.length>0" -->
 <div class="cart col-md-3" ng-show="PC.cart.length>0">
 <div class="panel panel-primary">
     <div id="shoppingCart" class="panel-heading">
@@ -95,13 +96,31 @@
 </div>
  
 <div class="text-center">
-    <button type="button" class="btn btn-danger btn-lg" ng-click="PC.submitOrder()">Checkout 
+    <button type="button" class="btn btn-danger btn-lg" ng-click="PC.submitOrder()" data-toggle="modal" data-target="#myModal">Checkout 
     <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></button>
 
-
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Order Receipt</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 </div>
 </div>
-
 
 
 
