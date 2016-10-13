@@ -1,9 +1,9 @@
 angular
 	.module("liquorStore")
 	.controller("CustomerProductsController", productCtrl)	
-	productCtrl.$inject=['$http']
+	productCtrl.$inject=['$http', '$location']
 
-	function productCtrl($http)
+	function productCtrl($http, $location)
 	{
 	
 	var ctrl = this;	
@@ -13,7 +13,7 @@ angular
 	ctrl.types = ['Beer', 'Wine', 'Spirits'];
 	ctrl.selection = [];
     ctrl.orderDetails = [];
-    
+    ctrl.orderResponse = [];
     
     
 	
@@ -95,14 +95,21 @@ angular
         		'total': ctrl.grandTotal(),
         		'products': products
         	}
-        }).then(function(response) {		
-    	
+        }).then(function(response) {	
+        	
+        	ctrl.orderResponse = response.data.success;
     		console.log(response);
         })
     	
     };
 
-    
-    
+    //Redirect after closing receipt
+    ctrl.redirect = function(){
+    	$location.path("orders");
+    	$('#myModal').modal('hide');
+    	$('body').removeClass('modal-open');
+    	$('.modal-backdrop').remove();
+    	
+    }
     
 }

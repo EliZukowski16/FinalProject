@@ -1,10 +1,15 @@
 package org.ssa.ironyard.liquorstore.model;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Builder;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 
 public class Product extends AbstractDomainObject implements DomainObject
 {
-    private CoreProduct coreProduct;
+    private final CoreProduct coreProduct;
     private final BaseUnit baseUnit; // e.g. 12oz can, 30 pack, etc.
     private final Integer quantity;
     private final Integer inventory;
@@ -91,19 +96,11 @@ public class Product extends AbstractDomainObject implements DomainObject
     {
         return coreProduct;
     }
-    
-    public void setCoreProduct(CoreProduct coreProduct)
-    {
-        this.coreProduct = coreProduct;
-    }
 
     @Override
     public Product clone()
     {
-        Product copy;
-        copy = (Product) super.clone();
-        copy.setCoreProduct(this.coreProduct);
-        return copy;
+        return this.of().coreProduct(this.getCoreProduct()).build();
     }
 
     @Override
@@ -194,5 +191,90 @@ public class Product extends AbstractDomainObject implements DomainObject
             return false;
         return true;
     }
+    
+    public Builder of()
+    {
+        return new Builder(this);
+    }
+
+    public static class Builder
+    {
+        private Integer id;
+        private Boolean loaded;
+        private CoreProduct coreProduct;
+        private BaseUnit baseUnit; // e.g. 12oz can, 30 pack, etc.
+        private Integer quantity;
+        private Integer inventory;
+        private BigDecimal price;
+
+        public Builder()
+        {
+        }
+
+        public Builder(Product product)
+        {
+            this.loaded = product.isLoaded();
+            this.id = product.getId();
+            this.coreProduct = product.getCoreProduct();
+            this.baseUnit = product.getBaseUnitType();
+            this.quantity = product.getQuantity();
+            this.inventory = product.getInventory();
+            this.price = product.getPrice();
+        }
+
+        public Builder id(Integer id)
+        {
+            this.id = id;
+            return this;
+        }
+
+        public Builder coreProduct(CoreProduct coreProduct)
+        {
+            this.coreProduct = coreProduct;
+            return this;
+        }
+
+        public Builder baseUnit(BaseUnit baseUnit)
+        {
+            this.baseUnit = baseUnit;
+            return this;
+        }
+
+        public Builder quantity(Integer quantity)
+        {
+            this.quantity = quantity;
+            return this;
+        }
+
+        public Builder inventory(Integer inventory)
+        {
+            this.inventory = inventory;
+            return this;
+        }
+
+        public Builder price(BigDecimal price)
+        {
+            this.price = price;
+            return this;
+        }
+        
+        public Builder price(Double price)
+        {
+            this.price = BigDecimal.valueOf(price);
+            return this;
+        }
+
+        public Builder loaded(Boolean loaded)
+        {
+            this.loaded = loaded;
+            return this;
+        }
+
+        public Product build()
+        {
+            return new Product(this.id, this.coreProduct, this.baseUnit, this.quantity, this.inventory, this.price, this.loaded);
+        }
+    }
+
 
 }

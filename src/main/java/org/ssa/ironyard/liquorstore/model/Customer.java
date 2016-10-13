@@ -12,7 +12,7 @@ public class Customer extends AbstractUser implements User
     private final String lastName;
     private final String userName;
     private final Password password;
-    private Address address;
+    private final Address address;
     private final LocalDateTime birthDate;
     
     public Customer(Integer id)
@@ -75,10 +75,10 @@ public class Customer extends AbstractUser implements User
         return null == this.address ? null : this.address.clone();
     }
 
-    public void setAddress(Address address)
-    {
-        this.address = address;
-    }
+//    public void setAddress(Address address)
+//    {
+//        this.address = address;
+//    }
 
     public LocalDateTime getBirthDate()
     {
@@ -93,9 +93,7 @@ public class Customer extends AbstractUser implements User
     @Override
     public Customer clone()
     {
-        Customer copy = (Customer) super.clone();
-        copy.setAddress(getAddress());
-        return copy;
+        return this.of().address(this.getAddress()).build();
     }
 
     @Override

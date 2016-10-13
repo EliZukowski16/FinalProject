@@ -26,7 +26,7 @@ public abstract class AbstractDomainObject implements DomainObject
         return id;
     }
 
-    public boolean isLoaded()
+    public Boolean isLoaded()
     {
         return loaded;
     }

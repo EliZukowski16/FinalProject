@@ -1,7 +1,9 @@
 <link rel="stylesheet" type="text/css" href="/html/style.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+  
   
  <h2>Browse Our Products</h2> 
 
@@ -47,7 +49,7 @@
 
 
 <div id="products" class="row list-group" ng-repeat="product in PC.searchResults">
-	<div class="item col-md-10">
+	<div class="item">
 	
 		<div class="thumbnail">
 			<img class="group list-group-image"	src="http://www.adweek.com/agencyspy/files/2011/10/budlight.png" align="left" alt="" />
@@ -68,8 +70,8 @@
 
 <!--  Shopping cart -->
  <!-- ng-init="product.qty='1'" -->
-<!-- ng-show="PC.cart.length>0" -->
-<div class="cart col-md-3" ng-show="PC.cart.length>0">
+
+<div class="cart" ng-show="PC.cart.length>0">
 <div class="panel panel-primary">
     <div id="shoppingCart" class="panel-heading">
         <h3 class="panel-title">Shopping Cart</h3>
@@ -110,10 +112,11 @@
           <h4 class="modal-title">Order Receipt</h4>
         </div>
         <div class="modal-body">
-          <p>Some text in the modal.</p>
+          <p>{{ PC.cart }}</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="PC.redirect()">Close</button>
+          <button type="button" class="btn btn-default" ng-click="PC.redirect()">Close</button>
+          
           
         </div>
       </div>

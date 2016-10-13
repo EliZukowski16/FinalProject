@@ -51,8 +51,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
 
             if (currentOrder != null)
             {
-                currentOrder.setoD(orderDetail);
-                return currentOrder;
+                return currentOrder.of().orderDetails(orderDetail).build();
             }
 
             return null;
@@ -72,7 +71,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
                     List<OrderDetail> orderDetail = o.getoD();
 
                     orderDetail.addAll(currentOrder.getoD());
-                    o.setoD(orderDetail);
+                    o = o.of().orderDetails(orderDetail).build();
                 }
 
                 orderResults.put(o, o);
@@ -128,8 +127,6 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
 
             Order copy = (Order) domain.clone();
 
-            copy.setoD(orderDetails);
-
             return copy;
         }
 
@@ -142,7 +139,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
         if(domain == null)
             return domain;
         
-        domain.setTimeOfOrder(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        domain = domain.of().timeOfOrder((LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))).build();
         Order order;
 
         if ((order = super.insert(domain)) != null)
@@ -156,21 +153,13 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     @Override
     protected Order afterInsert(Order copy, Integer id)
     {
-        Order order;
-        order = new Order(id, copy.getCustomer(), copy.getDate(), copy.getTotal(), copy.getoD(), copy.getOrderStatus(), true);
-        order.setTimeOfOrder(copy.getTimeOfOrder());
-
-        return order;
+        return copy.of().id(id).loaded(true).build();
     }
 
     @Override
     protected Order afterUpdate(Order copy)
     {
-        Order order;
-        order = new Order(copy.getId(), copy.getCustomer(), copy.getDate(), copy.getTotal(), copy.getoD(), copy.getOrderStatus(), true);
-        order.setTimeOfOrder(copy.getTimeOfOrder());
-
-        return order;
+        return copy.of().loaded(true).build();
     }
 
     @Override

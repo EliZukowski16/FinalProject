@@ -67,8 +67,6 @@ public class DAOCoreProductImpl extends AbstractDAOCoreProduct implements DAOCor
 
             CoreProduct copy = (CoreProduct) domain.clone();
 
-            copy.setTags(tags);
-
             return copy;
         }
         
