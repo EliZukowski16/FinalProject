@@ -2,7 +2,6 @@ package org.ssa.ironyard.liquorstore.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyBoolean;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,10 +23,8 @@ import java.util.stream.Collectors;
 import javax.sql.DataSource;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.model.Address;
 import org.ssa.ironyard.liquorstore.model.Address.State;
