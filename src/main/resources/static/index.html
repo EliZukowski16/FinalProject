@@ -10,7 +10,7 @@
      
 </head>
 
-<body>
+<body id="loginPage">
  	 
 <header id="title">The Beer Guys</header>
 <nav class="navbar navbar-default" id="nav">
@@ -153,7 +153,7 @@
 	            	console.log(response);
                 	if(response.success)
                 	{
-                		if(response.success.isAdmin == false)
+                		if(response.success.admin == false)
                 		{
                 			console.log("reached cust if")
                 			location.pathname = location.pathname.replace(/(.*)\/[^/]*/, "$1/"+"TheBeerGuys/customer/" + response.success.id);
