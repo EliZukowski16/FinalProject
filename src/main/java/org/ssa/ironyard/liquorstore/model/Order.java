@@ -87,7 +87,7 @@ public class Order extends AbstractDomainObject implements DomainObject
             this.product = product;
         }
 
-        public int getQty()
+        public Integer getQty()
         {
             return qty;
         }

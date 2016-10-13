@@ -53,7 +53,7 @@ public class Admin extends AbstractUser implements User
         return lastName;
     }
 
-    public int getRole()
+    public Integer getRole()
     {
         return role;
     }
