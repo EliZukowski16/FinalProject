@@ -172,7 +172,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         CoreProduct copy;
 
         copy = (CoreProduct) super.clone();
-        copy.setTags(this.tags);
+        copy.setTags(this.getTags());
         return copy;
 
     }

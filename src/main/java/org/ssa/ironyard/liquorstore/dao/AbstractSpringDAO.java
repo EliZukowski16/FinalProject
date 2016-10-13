@@ -97,7 +97,6 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
     {
         if (null == domain)
             return domain;
-
         KeyHolder generatedId = new GeneratedKeyHolder();
         if (this.springTemplate.update((Connection conn) ->
         {

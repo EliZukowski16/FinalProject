@@ -55,7 +55,7 @@ public class ORMAdminImpl extends AbstractORM<Admin> implements ORM<Admin>
     @Override
     public String prepareReadByIds(Integer numberOfIds)
     {
-        String readByIds = " SELECT " + this.projection() + " , " + this.projection() + " FROM "
+        String readByIds = " SELECT " + this.projection() + " FROM " + this.table()
                 + " WHERE " + this.table() + "." + this.primaryKeys.get(0) + " IN ( ";
         
         for(int i = 0; i < numberOfIds; i++)

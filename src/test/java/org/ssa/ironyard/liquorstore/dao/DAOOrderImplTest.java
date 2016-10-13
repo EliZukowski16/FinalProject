@@ -90,6 +90,11 @@ public class DAOOrderImplTest extends AbstractSpringDAOTest<Order>
         coreProductDAO = new DAOCoreProductImpl(dataSource);
         customerDAO = new DAOCustomerImpl(dataSource);
         orderDAO = new DAOOrderImpl(dataSource);
+        
+        productDAO.clear();
+        coreProductDAO.clear();
+        customerDAO.clear();
+        orderDAO.clear();
 
         rawCustomers = new ArrayList<>();
         customersInDB = new ArrayList<>();
@@ -292,16 +297,18 @@ public class DAOOrderImplTest extends AbstractSpringDAOTest<Order>
                 Customer customer = customersInDB.get((int) (Math.random() * customersInDB.size()));
 
                 List<Integer> orderDetailsChosen = new ArrayList<>();
-                while (oD.size() < 3)
+                for (int i = 0; i < 3; i++)
                 {
-                    Integer i = (int) (Math.random() * rawOrderDetails.size());
+                    Integer randomOrderDetailIndex = (int) (Math.random() * rawOrderDetails.size());
 
-                    if (!orderDetailsChosen.contains(i))
+                    while (orderDetailsChosen.contains(randomOrderDetailIndex))
                     {
-                        oD.add(rawOrderDetails.get(i));
-
-                        orderDetailsChosen.add(i);
+                        randomOrderDetailIndex = (int) (Math.random() * rawTags.size());
                     }
+
+                    oD.add(rawOrderDetails.get(randomOrderDetailIndex));
+
+                    orderDetailsChosen.add(randomOrderDetailIndex);
                 }
 
                 BigDecimal total = BigDecimal.ZERO;
@@ -406,18 +413,18 @@ public class DAOOrderImplTest extends AbstractSpringDAOTest<Order>
     @Override
     protected Order newInstance()
     {
-        testProduct = productsInDB.get((int) (Math.random() * productsInDB.size()));
-        testCustomer = customersInDB.get((int) (Math.random() * customersInDB.size()));
+        Product product = productsInDB.get((int) (Math.random() * productsInDB.size()));
+        Customer customer = customersInDB.get((int) (Math.random() * customersInDB.size()));
         
         LocalDateTime date = LocalDateTime.of(LocalDate.of(2016, 5, 12), LocalTime.of(5, 12, 25));
         BigDecimal total = BigDecimal.valueOf(50.00);
         List<OrderDetail> oD = new ArrayList<>();
 
-        OrderDetail orderDetail = new OrderDetail(testProduct, 10, BigDecimal.valueOf(5.55));
+        OrderDetail orderDetail = new OrderDetail(product, 10, BigDecimal.valueOf(5.55));
 
         oD.add(orderDetail);
 
-        Order order = new Order(testCustomer, date, total, oD, OrderStatus.PENDING);
+        Order order = new Order(customer, date, total, oD, OrderStatus.PENDING);
 
         return order;
     }

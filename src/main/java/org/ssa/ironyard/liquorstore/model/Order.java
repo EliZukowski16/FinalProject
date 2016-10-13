@@ -12,6 +12,7 @@ public class Order extends AbstractDomainObject implements DomainObject
     private final BigDecimal total;
     private List<OrderDetail> oD;
     private OrderStatus status;
+    private LocalDateTime timeOfOrder;
 
     public Order(Integer id, Customer customer, LocalDateTime date, BigDecimal total, List<OrderDetail> oD, OrderStatus status)
     {
@@ -215,7 +216,7 @@ public class Order extends AbstractDomainObject implements DomainObject
             if (other.getId() != null)
                 return false;
         }
-        else if (this.getId() != other.getId())
+        else if (!this.getId().equals(other.getId()))
             return false;
         return true;
     }
@@ -251,7 +252,7 @@ public class Order extends AbstractDomainObject implements DomainObject
             if (other.getId() != null)
                 return false;
         }
-        else if (this.getId() != other.getId())
+        else if (!this.getId().equals(other.getId()))
             return false;
         
         if (oD == null)
@@ -281,6 +282,14 @@ public class Order extends AbstractDomainObject implements DomainObject
         }
         else if(this.status != other.status)
             return false;
+        
+        if(this.getTimeOfOrder() == null)
+        {
+            if(other.getTimeOfOrder() != null)
+                return false;
+        }
+        else if(!this.getTimeOfOrder().equals(other.getTimeOfOrder()))
+            return false;
         return true;
     }
 
@@ -302,6 +311,16 @@ public class Order extends AbstractDomainObject implements DomainObject
     {
         return "Order [id=" + this.getId() + ", customerID=" + customer + ", date=" + date + ", total=" + total
                 + ", oD=" + oD + "]";
+    }
+
+    public LocalDateTime getTimeOfOrder()
+    {
+        return timeOfOrder;
+    }
+
+    public void setTimeOfOrder(LocalDateTime timeOfOrder)
+    {
+        this.timeOfOrder = timeOfOrder;
     }
 
 }
