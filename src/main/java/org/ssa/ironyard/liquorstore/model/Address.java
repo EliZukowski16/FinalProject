@@ -1,6 +1,6 @@
 package org.ssa.ironyard.liquorstore.model;
 
-public class Address
+public class Address implements Cloneable
 {
     String street;
     String city;
@@ -199,4 +199,18 @@ public class Address
         return true;
     }
 
+    @Override
+    public  Address clone() 
+    {
+        try
+        {
+            return (Address) super.clone();
+        }
+        catch (CloneNotSupportedException ex)
+        {
+            return null;
+        }
+    }
+
+    
 }
