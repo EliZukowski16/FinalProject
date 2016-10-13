@@ -57,7 +57,7 @@ public class OrdersServiceImpl implements OrdersService
         if (customerID == null)
             return new ArrayList<>();
 
-        List<Order> customerOrders = daoOrder.readOrdersByCustomers(customerID);
+        List<Order> customerOrders = daoOrder.readOrdersByCustomer(customerID);
 
         customerOrders.sort((o1, o2) -> o1.getTimeOfOrder().compareTo(o2.getTimeOfOrder()));
 
@@ -69,28 +69,28 @@ public class OrdersServiceImpl implements OrdersService
     @Transactional
     public List<Order> readOrdersByProduct(Integer productID)
     {
-        List<Integer> ids = new ArrayList<>();
-
         if (productID == null)
             return new ArrayList<>();
 
-        ids.add(productID);
+        List<Order> productOrders = daoOrder.readOrdersByProduct(productID);
 
-        return daoOrder.readOrdersByProduct(ids);
+        productOrders.sort((o1, o2) -> o1.getTimeOfOrder().compareTo(o2.getTimeOfOrder()));
+
+        return productOrders;
     }
 
     @Override
     @Transactional
     public List<Order> readOrdersByCoreProdcut(Integer coreProductID)
     {
-        List<Integer> ids = new ArrayList<>();
-
         if (coreProductID == null)
             return new ArrayList<>();
 
-        ids.add(coreProductID);
+        List<Order> coreProductOrders = daoOrder.readOrdersByCoreProduct(coreProductID);
 
-        return daoOrder.readOrderByCoreProduct(ids);
+        coreProductOrders.sort((o1, o2) -> o1.getTimeOfOrder().compareTo(o2.getTimeOfOrder()));
+
+        return coreProductOrders;
     }
 
     @Override
@@ -229,28 +229,42 @@ public class OrdersServiceImpl implements OrdersService
     @Override
     public List<Order> searchTimeFrame(LocalDate date1, LocalDate date2)
     {
-        return daoOrder.readOrdersInTimeFrame(date1, date2);
+        List<Order> orders = daoOrder.readOrdersInTimeFrame(date1, date2);
+
+        orders.sort((o1, o2) -> o1.getTimeOfOrder().compareTo(o2.getTimeOfOrder()));
+
+        return orders;
     }
 
     @Override
     public List<Order> searchPast(LocalDate date1)
     {
-        // TODO Auto-generated method stub
-        return null;
+        List<Order> orders = daoOrder.readOrdersInThePast(date1);
+
+        orders.sort((o1, o2) -> o1.getTimeOfOrder().compareTo(o2.getTimeOfOrder()));
+
+        return orders;
     }
 
     @Override
-    public List<Order> serachFuture(LocalDate date1)
+    public List<Order> searchFuture(LocalDate date1)
     {
-        // TODO Auto-generated method stub
-        return null;
+        List<Order> orders = daoOrder.readOrdersInTheFuture(date1);
+
+        orders.sort((o1, o2) -> o1.getTimeOfOrder().compareTo(o2.getTimeOfOrder()));
+
+        return orders;
+
     }
 
     @Override
-    public List<Order> searchMostRecent(LocalDate date1)
+    public List<Order> searchMostRecent(Integer numberOfOrders)
     {
-        // TODO Auto-generated method stub
-        return null;
+        List<Order> orders = daoOrder.readMostRecentOrders(numberOfOrders);
+        
+        orders.sort((o1,o2) -> o1.getTimeOfOrder().compareTo(o2.getTimeOfOrder()));
+        
+        return orders;
     }
 
     @Override

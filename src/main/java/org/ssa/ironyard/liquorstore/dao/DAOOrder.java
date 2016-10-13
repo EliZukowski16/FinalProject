@@ -10,12 +10,18 @@ public interface DAOOrder extends DAO<Order>
 
     public Order insertDetail(Order domain);
     public List<Order> readOrdersByCustomers(List<Integer> customerIDs);
-    public List<Order> readOrdersByProduct(List<Integer> productIDs);
-    public List<Order> readOrderByCoreProduct(List<Integer> coreProductIDs);
+    public List<Order> readOrdersByCustomer(Integer customerID);
+    
+    public List<Order> readOrdersByProducts(List<Integer> productIDs);
+    public List<Order> readOrdersByProduct(Integer productID);
+    
+    public List<Order> readOrdersByCoreProducts(List<Integer> coreProductIDs);
+    public List<Order> readOrdersByCoreProduct(Integer coreProductID);
+    
     public List<Order> readOrdersInTimeFrame(LocalDate start, LocalDate end);
     public List<Order> readOrdersInThePast(LocalDate end);
     public List<Order> readOrdersInTheFuture(LocalDate start);
     public List<Order> readMostRecentOrders(Integer numberOfOrders);
-    public List<Order> readOrdersByCustomers(Integer customerID);
+    
 
 }
