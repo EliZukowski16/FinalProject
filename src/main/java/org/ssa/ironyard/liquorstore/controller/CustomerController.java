@@ -390,7 +390,7 @@ public class CustomerController
         
         orderList = orderService.readOrdersByCustomer(cusID);
         
-        if(orderList == null)
+        if(orderList.size() == 0)
             response.put("error", orderList);
         else
             response.put("success", orderList);
