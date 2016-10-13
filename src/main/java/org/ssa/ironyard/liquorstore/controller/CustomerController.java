@@ -282,8 +282,23 @@ public class CustomerController
        Map<String,Order> addOrderMap = new HashMap<>();
         
         Customer cus = new Customer(Integer.parseInt(customerID),null,null,null,null,null,null);
-        Double totalD = (Double)(map.get("total")); 
-        BigDecimal total = BigDecimal.valueOf(totalD);
+        LOGGER.info("class of total: {}",map.get("total").getClass());
+        
+        BigDecimal total = null;
+        if(map.get("total") instanceof Double)
+        {
+            LOGGER.info("made it into instance of double total");
+            Double d = (Double) map.get("total");
+            total = BigDecimal.valueOf(d);
+        }
+        else if(map.get("total") instanceof Integer)
+        {
+            LOGGER.info("made it into instance of Integer total");
+            Integer I = (Integer) map.get("total");
+            total = BigDecimal.valueOf(I);
+        }
+//        Double totalD = (Double)(map.get("total")); 
+//        BigDecimal total = BigDecimal.valueOf(totalD);
         
         LOGGER.info("Total: {}", total);
             
@@ -302,17 +317,30 @@ public class CustomerController
         
         List<OrderDetail> ordDetailList = new ArrayList<>();
         
-        for(Map<String, Object> product: (List<Map<String,Object>>) map.get("products")){
+        for(Map<String, Object> product: (List<Map<String,Object>>) map.get("products"))
+        {
             
             //LOGGER.info("ID: {} QUANTITIY: {} PRICE: {}", product.get("id"), product.get("qty"), product.get("price"));
-            Object obj = product.get("id");
-            
             Integer id = (Integer) product.get("id");
             Integer qty = (Integer) product.get("qty");
 
+           
+            BigDecimal price = null;
+            if(product.get("price") instanceof Double)
+            {
+                LOGGER.info("made it into instance of double price");
+                Double d = (Double)(product.get("price"));
+                price = BigDecimal.valueOf(d);
+            }
+            else if(product.get("price") instanceof Integer)
+            {
+                LOGGER.info("made it into instance of integer price");
+                Integer I = (Integer)(product.get("price"));
+                price = BigDecimal.valueOf(I);
+            }
             
-            Double priceD= (Double)(product.get("price"));
-            BigDecimal price = BigDecimal.valueOf(priceD);
+//            Double priceD= (Double)(product.get("price"));
+//            BigDecimal price = BigDecimal.valueOf(priceD);
             LOGGER.info("Class of price: {}", product.get("price").getClass());
             LOGGER.info("ID: {} QTY: {} Price: {} ", id,qty,price);
             
