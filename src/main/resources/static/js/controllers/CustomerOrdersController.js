@@ -24,7 +24,6 @@ angular
 		
 		ctrl.getOrders();
 
-		ctrl.getOrders();
 		
 		
 		
