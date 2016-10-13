@@ -1,7 +1,25 @@
-<h2>My Orders</h2>
 
-<ul>
-<li ng-repeat="orders in OC.orders">
-<span>{{ orders.id }}</span>
-</li>
-</ul>
+<div class="orderContainer" style="width:80%; margin-left:2%">
+  <h2>My Orders</h2><br>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Total</th>
+        <th>Order Status</th>
+        <th>Date</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="orders in OC.orders">
+        <td>{{ orders.id }}</td>
+        <td>{{ orders.total | currency }}</td>
+        <td>{{ orders.orderStatus }}</td>
+        <td>{{ orders.date.dayOfWeek }}, {{ orders.date.month }} {{ orders.date.dayOfMonth }}, {{ orders.date.year }}</td>
+        <td>{{ orders.date.hour }}:{{ orders.date.minute }}:{{ orders.date.second }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
