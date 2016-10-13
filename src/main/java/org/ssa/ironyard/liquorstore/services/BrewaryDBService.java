@@ -11,11 +11,13 @@ public class BrewaryDBService
         
         final String uri =  "https://api.brewerydb.com/v2/search/?q=" + search + "$type=beers&key=c66e4aae43258ca39d5309cc0281d11f&format=json";
         
-        RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
         
         
+        
+        final String uri2 = "https://lcboapi.com/products?access_key=MDoxZjA5MTVmMC05MTU4LTExZTYtOWY3Ni02MzM2M2YyNzBlOWU6VldlVkdsZEVGSGZCUzhjYUF0WnN4VDlOOWJhS0FVWGdHekp3";
        
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri2, String.class);
         
         return result;
     }

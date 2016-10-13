@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.InternalResourceView;
+import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.User;
 import org.ssa.ironyard.liquorstore.services.LogInServiceImpl;
 
@@ -54,6 +55,7 @@ public class LogInController
         
         User u = logInService.checkAuthentication(userName, password);
         LOGGER.info(u);
+        
         if(u == null)
         {
             response.put("error", u);

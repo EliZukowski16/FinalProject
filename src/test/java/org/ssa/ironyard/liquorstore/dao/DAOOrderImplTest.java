@@ -343,14 +343,14 @@ public class DAOOrderImplTest extends AbstractSpringDAOTest<Order>
         }
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception
-    {
-        orderDAO.clear();
-        customerDAO.clear();
-        productDAO.clear();
-        coreProductDAO.clear();
-    }
+//    @AfterClass
+//    public static void tearDownAfterClass() throws Exception
+//    {
+//        orderDAO.clear();
+//        customerDAO.clear();
+//        productDAO.clear();
+//        coreProductDAO.clear();
+//    }
 
     @Before
     public void setUpBeforeEach() throws Exception
