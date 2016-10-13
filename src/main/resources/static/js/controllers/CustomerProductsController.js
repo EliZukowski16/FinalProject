@@ -103,6 +103,12 @@ angular
     };
 
     
-    
+    ctrl.redirect = function(){
+    	$location.path("/orders");
+    	$('#myModal').modal('hide');
+    	$('body').removeClass('modal-open');
+    	$('.modal-backdrop').remove();
+    	
+    }
     
 }
