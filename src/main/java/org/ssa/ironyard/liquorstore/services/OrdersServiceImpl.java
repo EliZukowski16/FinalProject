@@ -115,7 +115,7 @@ public class OrdersServiceImpl implements OrdersService
         
         LOGGER.info("Order from controller: {}", order);
         LOGGER.info("First Order Detail Price from controller: {}", order.getoD().get(0).getUnitPrice());
-        LOGGER.info("Second Order Detail Price from controller: {}", order.getoD().get(1).getUnitPrice());
+        
         
         
         List<OrderDetail> odList = order.getoD();
