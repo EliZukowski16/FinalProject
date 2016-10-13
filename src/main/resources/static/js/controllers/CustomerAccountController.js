@@ -3,5 +3,7 @@ angular
 	.controller("CustomerAccountController", accountCtrl)	
 	accountCtrl.$inject=['$http', '$location']
 
-	function accountCtrl($http, $location)
-	{
+	function accountCtrl($http, $location){
+	
+
+}
