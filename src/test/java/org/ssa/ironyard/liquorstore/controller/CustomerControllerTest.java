@@ -118,11 +118,9 @@ public class CustomerControllerTest
        LocalDateTime ldt = LocalDateTime.of(d,t);
        Password p = new BCryptSecurePassword().secureHash("password");
        
-       c = new Customer(1,"username",p,"Michael","Patrick",address,ldt);
-       ad = new Admin(1,"username",p,"Joe","Patrick",1);
+       c = new Customer(1,"username",p,"Michael","Patrick",address,ldt,true);
+       ad = new Admin(1,"username",p,"Joe","Patrick",1,true);
        
-       c.setLoaded(true);
-       ad.setLoaded(true);
        
        List<Tag> tags = new ArrayList();
        tags.add(new Tag("beer"));

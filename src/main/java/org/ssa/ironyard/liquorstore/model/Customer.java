@@ -14,35 +14,40 @@ public class Customer extends AbstractUser implements User
     private final Password password;
     private Address address;
     private final LocalDateTime birthDate;
-
+    
     public Customer(Integer id)
     {
-        this(id, null, null, null, null, null, null);
+        this(id, null, null, null, null, null, null, false);
     }
 
     
     public Customer(String userName, Password password)
     {
-        this(null, userName, password, null, null, null, null);
+        this(null, userName, password, null, null, null, null, false);
     }
 
     public Customer(String userName, Password password, String firstName, String lastName, Address address,
                     LocalDateTime birthDate)
     {
-        this(null, userName, password, firstName, lastName, address, birthDate);
+        this(null, userName, password, firstName, lastName, address, birthDate, false);
     }
-
+    
     public Customer(Integer id, String userName, Password password, String firstName, String lastName, Address address,
                     LocalDateTime birthDate)
     {
-        super(id);
+        this(id, userName, password, firstName, lastName, address, birthDate, false);
+    }
+
+    public Customer(Integer id, String userName, Password password, String firstName, String lastName, Address address,
+                    LocalDateTime birthDate, Boolean loaded)
+    {
+        super(id, loaded);
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
         this.password = password;
         this.address = address;
         this.birthDate = birthDate;
-        this.isAdmin = false;
     }
 
     public String getFirstName()
@@ -78,6 +83,11 @@ public class Customer extends AbstractUser implements User
     public LocalDateTime getBirthDate()
     {
         return birthDate;
+    }
+    
+    public Boolean isAdmin()
+    {
+        return false;
     }
 
     @Override
@@ -242,6 +252,7 @@ public class Customer extends AbstractUser implements User
 
     public static class Builder
     {
+        private Boolean loaded;
         private Integer id;
         private String firstName;
         private String lastName;
@@ -256,6 +267,7 @@ public class Customer extends AbstractUser implements User
         
         public Builder(Customer customer)
         {
+            this.loaded = customer.isLoaded();
             this.id = customer.getId();
             this.firstName = customer.firstName;
             this.lastName = customer.lastName;
@@ -336,10 +348,17 @@ public class Customer extends AbstractUser implements User
             this.userName = email;
             return this;
         }
+        
+        public Builder loaded(Boolean loaded)
+        {
+            this.loaded = loaded;
+            return this;
+        }
+        
         public Customer build()
         {
             return new Customer(this.id, this.userName, this.password, this.firstName, this.lastName, 
-                                this.address, this.birthDate);
+                                this.address, this.birthDate, this.loaded);
         }
     }
 

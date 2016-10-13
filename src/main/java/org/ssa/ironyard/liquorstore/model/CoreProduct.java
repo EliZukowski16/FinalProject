@@ -42,17 +42,23 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
 
     public CoreProduct(Integer id, String name, List<Tag> tags, Type type, String subType, String description)
     {
-        super(id);
+        this(id, name, tags, type, subType, description, false);
+    }
+
+    public CoreProduct(String name, List<Tag> tags, Type type, String subType, String description)
+    {
+        this(null, name, tags, type, subType, description, false);
+    }
+
+    public CoreProduct(Integer id, String name, List<Tag> tags, Type type, String subType, String description,
+            boolean loaded)
+    {
+        super(id, loaded);
         this.name = name;
         this.tags = tags;
         this.type = type;
         this.subType = subType;
         this.description = description;
-    }
-
-    public CoreProduct(String name, List<Tag> tags, Type type, String subType, String description)
-    {
-        this(null, name, tags, type, subType, description);
     }
 
     public String getName()

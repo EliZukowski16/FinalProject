@@ -14,14 +14,19 @@ public class Order extends AbstractDomainObject implements DomainObject
     private OrderStatus status;
     private LocalDateTime timeOfOrder;
 
-    public Order(Integer id, Customer customer, LocalDateTime date, BigDecimal total, List<OrderDetail> oD, OrderStatus status)
+    public Order(Integer id, Customer customer, LocalDateTime date, BigDecimal total, List<OrderDetail> oD, OrderStatus status, Boolean loaded)
     {
-        super(id);
+        super(id, false);
         this.customer = customer;
         this.date = date;
         this.total = total;
         this.oD = oD;
         this.status = status;
+    }
+    
+    public Order(Integer id, Customer customer, LocalDateTime date, BigDecimal total, List<OrderDetail> oD, OrderStatus status)
+    {
+        this(id, customer, date, total, oD, status, false);
     }
 
     public Order(Customer customer, LocalDateTime date, BigDecimal total, List<OrderDetail> oD, OrderStatus status)
