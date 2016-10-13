@@ -3,9 +3,9 @@ package org.ssa.ironyard.liquorstore.model;
 public abstract class AbstractDomainObject implements DomainObject
 {
     private final Integer id;
-    private Boolean loaded;
+    private final Boolean loaded;
 
-    private AbstractDomainObject(Integer id, Boolean loaded)
+    protected AbstractDomainObject(Integer id, Boolean loaded)
     {
         this.id = id;
         this.loaded = loaded;
@@ -29,11 +29,6 @@ public abstract class AbstractDomainObject implements DomainObject
     public boolean isLoaded()
     {
         return loaded;
-    }
-
-    public void setLoaded(Boolean loaded)
-    {
-        this.loaded = loaded;
     }
     
     public AbstractDomainObject clone()

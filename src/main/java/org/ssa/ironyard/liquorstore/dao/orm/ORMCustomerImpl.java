@@ -59,10 +59,8 @@ public class ORMCustomerImpl extends AbstractORM<Customer> implements ORM<Custom
         address.setStreet(results.getString(table() + ".street"));
         address.setState(State.getInstance(results.getString(table() + ".state")));
         
-        Customer customer = new Customer(id, userName, password, firstName, lastName, address, birthDate);
-        
-        customer.setLoaded(true);
-        
+        Customer customer = new Customer(id, userName, password, firstName, lastName, address, birthDate, true);
+                
         return customer;
     }
 

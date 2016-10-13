@@ -42,8 +42,7 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
     {
         Product product;
         product = new Product(id, copy.getCoreProduct(), copy.getBaseUnitType(), copy.getQuantity(), copy.getInventory(),
-                copy.getPrice());
-        product.setLoaded(true);
+                copy.getPrice(), true);
 
         return product;
 
@@ -52,9 +51,10 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
     @Override
     protected Product afterUpdate(Product copy)
     {
-        copy.setLoaded(true);
-
-        return copy;
+        Product product;
+        product = new Product(copy.getId(), copy.getCoreProduct(), copy.getBaseUnitType(), copy.getQuantity(), copy.getInventory(),
+                copy.getPrice(), true);
+        return product;
     }
 
     @Override

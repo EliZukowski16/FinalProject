@@ -157,8 +157,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     protected Order afterInsert(Order copy, Integer id)
     {
         Order order;
-        order = new Order(id, copy.getCustomer(), copy.getDate(), copy.getTotal(), copy.getoD(), copy.getOrderStatus());
-        order.setLoaded(true);
+        order = new Order(id, copy.getCustomer(), copy.getDate(), copy.getTotal(), copy.getoD(), copy.getOrderStatus(), true);
         order.setTimeOfOrder(copy.getTimeOfOrder());
 
         return order;
@@ -167,9 +166,11 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     @Override
     protected Order afterUpdate(Order copy)
     {
-        copy.setLoaded(true);
+        Order order;
+        order = new Order(copy.getId(), copy.getCustomer(), copy.getDate(), copy.getTotal(), copy.getoD(), copy.getOrderStatus(), true);
+        order.setTimeOfOrder(copy.getTimeOfOrder());
 
-        return copy;
+        return order;
     }
 
     @Override
