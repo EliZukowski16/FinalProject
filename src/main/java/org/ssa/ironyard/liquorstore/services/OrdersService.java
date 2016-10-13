@@ -21,8 +21,8 @@ public interface OrdersService
     List<Order> searchByCustomers(Customer customer);
     List<Order> searchTimeFrame(LocalDate date1, LocalDate date2);
     List<Order> searchPast(LocalDate date1);
-    List<Order> serachFuture(LocalDate date1);
-    List<Order> searchMostRecent(LocalDate date1);
+    List<Order> searchFuture(LocalDate date1);
+    List<Order> searchMostRecent(Integer numberOfOrders);
     List<OrderDetail> searchProduct(Product product);
     List<OrderDetail> searchTimeFrameAndProduct(LocalDate date1, LocalDate date2, Product product);
     
