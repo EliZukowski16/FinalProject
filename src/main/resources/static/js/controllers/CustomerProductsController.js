@@ -106,6 +106,7 @@ angular
     //Redirect after closing receipt
     ctrl.redirect = function(){
     	$location.path("orders");
+    	$(".modal-backdrop").hide();
     	
     }
     
