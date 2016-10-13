@@ -333,7 +333,7 @@ public class Order extends AbstractDomainObject implements DomainObject
         private Customer customer;
         private LocalDateTime date;
         private BigDecimal total;
-        private List<OrderDetail> oD;
+        private List<OrderDetail> oD = new ArrayList<>();
         private OrderStatus status;
         private LocalDateTime timeOfOrder;
 
@@ -396,6 +396,12 @@ public class Order extends AbstractDomainObject implements DomainObject
         public Builder orderDetails(List<OrderDetail> oD)
         {
             this.oD = oD;
+            return this;
+        }
+        
+        public Builder addOrderDetail(OrderDetail detail)
+        {
+            this.oD.add(detail);
             return this;
         }
 

@@ -175,7 +175,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
 
     public CoreProduct clone()
     {
-        return this.of().addTags(this.tags).build();
+        return this.of().tags(this.tags).build();
     }
 
     @Override
@@ -240,7 +240,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         private Boolean loaded;
         private Integer id;
         private String name;
-        private List<Tag> tags;
+        private List<Tag> tags = new ArrayList<>();
         private Type type;
         private String subType;
         private String description;
@@ -272,9 +272,21 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
             return this;
         }
 
-        public Builder addTags(List<Tag> tags)
+        public Builder tags(List<Tag> tags)
         {
             this.tags = tags;
+            return this;
+        }
+        
+        public Builder addTag(Tag tag)
+        {
+            this.tags.add(tag);
+            return this;
+        }
+        
+        public Builder addTag(String tag)
+        {
+            this.tags.add(new Tag(tag));
             return this;
         }
 
