@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -13,6 +14,7 @@ import org.ssa.ironyard.liquorstore.jsonModel.JsonBeer;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
+import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -41,6 +43,7 @@ public class BrewaryDBService
         JsonNode node;
         try
         {
+            
             node = objectMapper.readValue(result,JsonNode.class);
 
             JsonNode array = node.get("result");
@@ -57,6 +60,7 @@ public class BrewaryDBService
                 String primary_category = array.get(i).get("primary_category").asText();
                 String secondary_category = array.get(i).get("secondary_category").asText();
                 String origin = array.get(i).get("origin").asText();
+                String packageP = array.get(i).get("package").asText();
                 String package_unit_type = array.get(i).get("package_unit_type").asText();
                 String package_unit_volume_in_milliliters = array.get(i).get("package_unit_volume_in_milliliters").asText();
                 int total_package_units = array.get(i).get("total_package_units").asInt();
@@ -72,9 +76,16 @@ public class BrewaryDBService
                         image_thumb_url,image_url,tertiary_category);
                 
                 beers.add(jb);
+               
+                
+                
+                
             }
             
             System.out.println(beers);
+            
+            List<Product> productList = new ArrayList<>();
+            List<CoreProduct> coreProductList = new ArrayList<>();
             
             for (int i = 0; i < beers.size(); i++)
             {
@@ -91,11 +102,43 @@ public class BrewaryDBService
                 String thumbUrl = beers.get(i).getImage_thumb_url();
                 CoreProduct coreProduct = new CoreProduct(name,tags,type,subType,description);
                 
-                BaseUnit baseUnit; 
-                Integer quantity;
-                Integer inventory;
-                BigDecimal price;  
+                coreProductList.add(coreProduct);
+                
+                BaseUnit baseUnit = BaseUnit._12OZ_BOTTLE;
+                Integer quantity = beers.get(i).getTotal_package_units();
+                Random r = new Random();
+                int Low = 10;
+                int High = 500;
+                int resultR = r.nextInt(High-Low) + Low;
+                Integer inventory = resultR;
+                Double priceC = Double.valueOf(beers.get(i).getRegular_price_in_cents()); 
+                BigDecimal price = BigDecimal.valueOf(priceC/100);  
+                Product p = new Product(coreProduct,baseUnit,quantity,inventory,price);
+                
+                productList.add(p);
             }
+            
+            for (int i = 0; i < coreProductList.size(); i++)
+            {
+                System.out.println("Name: " + coreProductList.get(i).getName());
+                for (int j = 0; j < coreProductList.get(i).getTags().size(); j++)
+                {
+                    System.out.println("Tags: " + coreProductList.get(i).getTags().get(j).getName());
+                }
+                
+                System.out.println("Type: " + coreProductList.get(i).getType());
+                System.out.println("subType: " + coreProductList.get(i).getSubType());
+                System.out.println("Desc: " + coreProductList.get(i).getDescription());
+                
+                System.out.println("BU: " + productList.get(i).getBaseUnitType().toString());
+                System.out.println("Qty: " + productList.get(i).getQuantity());
+                System.out.println("Inv: " + productList.get(i).getInventory());
+                System.out.println("Price: " + productList.get(i).getPrice());
+                
+                
+                
+            }
+            
             
              
             
