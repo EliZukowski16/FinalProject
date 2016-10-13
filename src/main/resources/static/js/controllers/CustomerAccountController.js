@@ -5,3 +5,6 @@ angular
 
 	function accountCtrl($http, $location)
 	{
+	
+	
+	}
