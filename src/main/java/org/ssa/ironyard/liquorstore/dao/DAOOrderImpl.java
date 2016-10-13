@@ -136,9 +136,9 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     @Override
     public Order insert(Order domain)
     {
-        if(domain == null)
+        if (domain == null)
             return domain;
-        
+
         domain = domain.of().timeOfOrder((LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))).build();
         Order order;
 
@@ -182,14 +182,17 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
         };
 
     }
-    
+
     @Override
-    public List<Order> readOrdersByCustomers(Integer customerID)
+    public List<Order> readOrdersByCustomer(Integer customerID)
     {
+        if(customerID == null)
+            return new ArrayList<>();
+        
         List<Integer> customerIDs = new ArrayList<>();
-        
+
         customerIDs.add(customerID);
-        
+
         return readOrdersByCustomers(customerIDs);
     }
 
@@ -212,7 +215,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     }
 
     @Override
-    public List<Order> readOrdersByProduct(List<Integer> productIDs)
+    public List<Order> readOrdersByProducts(List<Integer> productIDs)
     {
         List<Order> orders = new ArrayList<>();
 
@@ -230,7 +233,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     }
 
     @Override
-    public List<Order> readOrderByCoreProduct(List<Integer> coreProductIDs)
+    public List<Order> readOrdersByCoreProducts(List<Integer> coreProductIDs)
     {
         List<Order> orders = new ArrayList<>();
 
@@ -246,26 +249,21 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
 
                 }, this.listExtractor);
     }
-    
-    
+
     @Override
     public List<Order> readOrdersInTimeFrame(LocalDate start, LocalDate end)
     {
-        List<Order> orders = new ArrayList<>();
-
-        if (start == null && end == null)
-            return orders;
         return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadInTimeFrame(), (PreparedStatement ps) ->
         {
             if (start == null)
                 ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(LocalDate.MIN, LocalTime.of(0, 0))));
             else
                 ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(start, LocalTime.of(0, 0))));
-            
-            if(end == null)
-                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(LocalDate.MAX, LocalTime.of(0, 0))));
+
+            if (end == null)
+                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(LocalDate.MAX, LocalTime.of(11, 59, 59))));
             else
-                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(end, LocalTime.of(0, 0))));
+                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(end, LocalTime.of(11, 59, 59))));
         }, this.listExtractor);
     }
 
@@ -292,6 +290,32 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
         {
             ps.setInt(1, numberOfOrders);
         }, this.listExtractor);
+    }
+
+    @Override
+    public List<Order> readOrdersByProduct(Integer productID)
+    {
+        if(productID == null)
+            return new ArrayList<>();
+        
+        List<Integer> productIDs = new ArrayList<>();
+
+        productIDs.add(productID);
+
+        return readOrdersByCustomers(productIDs);
+    }
+
+    @Override
+    public List<Order> readOrdersByCoreProduct(Integer coreProductID)
+    {
+        if(coreProductID == null)
+            return new ArrayList<>();
+        
+        List<Integer> coreProductIDs = new ArrayList<>();
+
+        coreProductIDs.add(coreProductID);
+
+        return readOrdersByCustomers(coreProductIDs);
     }
 
 }
