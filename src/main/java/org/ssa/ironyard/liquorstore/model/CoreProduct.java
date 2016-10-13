@@ -1,11 +1,12 @@
 package org.ssa.ironyard.liquorstore.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CoreProduct extends AbstractDomainObject implements DomainObject
 {
     private final String name;
-    private List<Tag> tags;
+    private final List<Tag> tags;
     private final Type type;
     private final String subType;
     private final String description;
@@ -30,7 +31,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         public static Type getInstance(String alcoholType)
         {
             alcoholType = alcoholType.toLowerCase();
-            
+
             for (Type t : values())
             {
                 if (t.alcoholType.equals(alcoholType))
@@ -68,13 +69,13 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
 
     public List<Tag> getTags()
     {
-        return tags;
+        return new ArrayList<>(this.tags);
     }
 
-    public void setTags(List<Tag> tags)
-    {
-        this.tags = tags;
-    }
+    // public void setTags(List<Tag> tags)
+    // {
+    // this.tags = tags;
+    // }
 
     public Type getType()
     {
@@ -137,7 +138,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         }
         else if (!description.equals(other.description))
             return false;
-        
+
         if (this.getId() == null)
         {
             if (other.getId() != null)
@@ -145,7 +146,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         }
         else if (!this.getId().equals(other.getId()))
             return false;
-        
+
         if (name == null)
         {
             if (other.name != null)
@@ -153,7 +154,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         }
         else if (!name.equals(other.name))
             return false;
-        
+
         if (subType == null)
         {
             if (other.subType != null)
@@ -161,7 +162,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         }
         else if (!subType.equals(other.subType))
             return false;
-        
+
         if (tags == null)
         {
             if (other.tags != null)
@@ -174,13 +175,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
 
     public CoreProduct clone()
     {
-
-        CoreProduct copy;
-
-        copy = (CoreProduct) super.clone();
-        copy.setTags(this.getTags());
-        return copy;
-
+        return this.of().addTags(this.tags).build();
     }
 
     @Override
@@ -198,7 +193,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         {
             this.name = name.toLowerCase();
         }
-        
+
         public String getName()
         {
             return name;
@@ -232,8 +227,86 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
                 return false;
             return true;
         }
-        
-        
+
+    }
+    
+    public Builder of()
+    {
+        return new Builder(this);
+    }
+
+    public static class Builder
+    {
+        private Boolean loaded;
+        private Integer id;
+        private String name;
+        private List<Tag> tags;
+        private Type type;
+        private String subType;
+        private String description;
+
+        public Builder()
+        {
+        }
+
+        public Builder(CoreProduct coreProduct)
+        {
+            this.loaded = coreProduct.isLoaded();
+            this.id = coreProduct.getId();
+            this.name = coreProduct.name;
+            this.tags = coreProduct.getTags();
+            this.type = coreProduct.getType(); // because address is mutable
+            this.subType = coreProduct.getSubType();
+            this.description = coreProduct.description;
+        }
+
+        public Builder id(Integer id)
+        {
+            this.id = id;
+            return this;
+        }
+
+        public Builder name(String name)
+        {
+            this.name = name;
+            return this;
+        }
+
+        public Builder addTags(List<Tag> tags)
+        {
+            this.tags = tags;
+            return this;
+        }
+
+        public Builder type(Type type)
+        {
+            this.type = type;
+            return this;
+        }
+
+        public Builder subType(String subType)
+        {
+            this.subType = subType;
+            return this;
+        }
+
+        public Builder description(String description)
+        {
+            this.description = description;
+            return this;
+        }
+
+        public Builder loaded(Boolean loaded)
+        {
+            this.loaded = loaded;
+            return this;
+        }
+
+        public CoreProduct build()
+        {
+            return new CoreProduct(this.id, this.name, this.tags, this.type, this.subType, this.description,
+                    this.loaded);
+        }
     }
 
 }

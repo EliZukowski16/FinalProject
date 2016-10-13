@@ -363,7 +363,7 @@ public class DAOOrderImplTest extends AbstractSpringDAOTest<Order>
 
     }
 
-//    @Test
+    @Test
     public void testReadByIds()
     {
         List<Order> orderSubList = new ArrayList<>();

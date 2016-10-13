@@ -10,7 +10,7 @@ public interface DomainObject extends Cloneable
 {
     Integer getId();
 
-    default boolean isLoaded()
+    default Boolean isLoaded()
     {
         return false;
     }

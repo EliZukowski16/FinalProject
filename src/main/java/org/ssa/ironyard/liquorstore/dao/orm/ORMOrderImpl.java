@@ -62,9 +62,8 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 
         oD.add(this.mapOrderDetail(results));
 
-        Order order = new Order(id, customer, date, total, oD, status, true);
+        Order order = new Order(id, customer, date, total, oD, status, timeOfOrder, true);
 
-        order.setTimeOfOrder(timeOfOrder);
 
         return order;
     }
