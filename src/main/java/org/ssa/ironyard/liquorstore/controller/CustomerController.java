@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.jsonModel.JsonOrder;
@@ -433,10 +434,11 @@ public class CustomerController
     
     
     @RequestMapping(value="/{customerID}/placeOrder", method = RequestMethod.POST)
-    public ResponseEntity<Map<String,Order>> placeOrder(@PathVariable String customerID,@RequestBody Map<String,Object> map)
+    @ResponseBody
+    public ResponseEntity<Map<String,Integer>> placeOrder(@PathVariable String customerID,@RequestBody Map<String,Object> map)
     {
         LOGGER.info("you've made it to place order");
-       Map<String,Order> addOrderMap = new HashMap<>();
+       Map<String,Integer> addOrderMap = new HashMap<>();
         
         Customer cus = new Customer(Integer.parseInt(customerID),null,null,null,null,null,null);
         BigDecimal total = getBigDecimal(map.get("total"));
@@ -488,15 +490,49 @@ public class CustomerController
         
         LOGGER.info("Order from service: {}", addOrder);
         
+//        if(addOrder == null)
+//        {
+//            LOGGER.info("made it to error: {}",addOrder);
+//            addOrderMap.put("error", addOrder);
+//        } 
+//        else if(addOrder.getCustomer() == null && addOrder.getDate() == null && addOrder.getTotal() == null && addOrder.getoD() != null)
+//        {
+//            LOGGER.info("made it to out of stock: {}",addOrder);
+//            addOrderMap.put("outofstock", addOrder);
+//        } 
+//        else if(addOrder.getCustomer() == null && addOrder.getDate() != null && addOrder.getTotal() == null && addOrder.getoD() != null)
+//        {
+//            LOGGER.info("made it to price change: {}",addOrder);
+//            addOrderMap.put("pricechange", addOrder);
+//        }
+//        else
+//        {
+//            LOGGER.info("made it to success: {}",addOrder);
+//            addOrderMap.put("success",addOrder);
+//        }
+        
         if(addOrder == null)
-          addOrderMap.put("error", addOrder);
+        {
+            LOGGER.info("made it to error: {}",addOrder);
+            addOrderMap.put("error", addOrder.getId());
+        } 
         else if(addOrder.getCustomer() == null && addOrder.getDate() == null && addOrder.getTotal() == null && addOrder.getoD() != null)
-          addOrderMap.put("outofstock", addOrder);
+        {
+            LOGGER.info("made it to out of stock: {}",addOrder);
+            addOrderMap.put("outofstock", addOrder.getId());
+        } 
         else if(addOrder.getCustomer() == null && addOrder.getDate() != null && addOrder.getTotal() == null && addOrder.getoD() != null)
-          addOrderMap.put("pricechange", addOrder);
+        {
+            LOGGER.info("made it to price change: {}",addOrder);
+            addOrderMap.put("pricechange", addOrder.getId());
+        }
         else
-          addOrderMap.put("success",addOrder);
-      
+        {
+            LOGGER.info("made it to success: {}",addOrder);
+            addOrderMap.put("success",addOrder.getId());
+        }
+          
+        LOGGER.info("Final repsonse map: {}",addOrderMap);
         return ResponseEntity.ok().header("Customer", "Place Order").body(addOrderMap);
     
 
