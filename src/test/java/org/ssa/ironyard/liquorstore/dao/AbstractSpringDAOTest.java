@@ -29,7 +29,7 @@ public abstract class AbstractSpringDAOTest<T extends DomainObject>
 
  
 
-//    @Test
+    @Test
     public void testCRUD()
     {
         T t = newInstance();

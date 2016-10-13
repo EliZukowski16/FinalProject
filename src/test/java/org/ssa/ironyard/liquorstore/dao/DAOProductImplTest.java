@@ -222,7 +222,7 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
     {
     }
 
-//    @Test
+    @Test
     public void testProductSearchByTags()
     {
         List<Product> testProducts = new ArrayList<>();
@@ -320,7 +320,7 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
     }
     
     
-//    @Test
+    @Test
     public void testSearchByPartialTags()
     {
         List<Product> matchingProducts = new ArrayList<>();
@@ -349,7 +349,7 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
         assertTrue(testProducts.size() >= tagMap.get(new Tag("dry")).size());
     }
 
-//    @Test
+    @Test
     public void testProductSearchByTagsAndTypes()
     {
         List<Product> testProducts = new ArrayList<>();
@@ -394,7 +394,7 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
 
     }
 
-//    @Test
+    @Test
     public void testProductSearchByTypes()
     {
         List<Product> testProducts = new ArrayList<>();
@@ -417,7 +417,7 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
         }
     }
     
-//    @Test
+    @Test
     public void testReadAllProducts()
     {
         List<Product> testProducts = new ArrayList<>();
@@ -433,7 +433,7 @@ public class DAOProductImplTest extends AbstractSpringDAOTest<Product>
         assertTrue(testProducts.containsAll(productsInDB)); 
     }
     
-//    @Test
+    @Test
     public void testReadMultipleProductsByIDs()
     {
         List<Product> productSubList = new ArrayList<>();

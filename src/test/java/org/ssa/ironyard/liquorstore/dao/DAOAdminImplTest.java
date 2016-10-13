@@ -114,7 +114,7 @@ public class DAOAdminImplTest extends AbstractSpringDAOTest<Admin>
         
     }
 
-//    @Test
+    @Test
     public void testReadMultipleAdminsByIDs()
     {
         List<Admin> adminSubList = new ArrayList<>();

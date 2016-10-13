@@ -162,7 +162,7 @@ public class DAOCoreProductImplTest extends AbstractSpringDAOTest<CoreProduct>
     {
     }
 
-//    @Test
+    @Test
     public void testReadMultipleCoreProductsByIDs()
     {
         List<CoreProduct> coreProductSubList = new ArrayList<>();

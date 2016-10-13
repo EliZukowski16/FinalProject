@@ -2,6 +2,7 @@ package org.ssa.ironyard.liquorstore.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyBoolean;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -90,7 +91,7 @@ public class DAOOrderImplTest extends AbstractSpringDAOTest<Order>
         coreProductDAO = new DAOCoreProductImpl(dataSource);
         customerDAO = new DAOCustomerImpl(dataSource);
         orderDAO = new DAOOrderImpl(dataSource);
-        
+
         productDAO.clear();
         coreProductDAO.clear();
         customerDAO.clear();
@@ -363,8 +364,8 @@ public class DAOOrderImplTest extends AbstractSpringDAOTest<Order>
 
     }
 
-    @Test
-    public void testReadByIds()
+//    @Test
+    public void testReadByOrderIds()
     {
         List<Order> orderSubList = new ArrayList<>();
         List<Order> testOrders = new ArrayList<>();
@@ -402,6 +403,42 @@ public class DAOOrderImplTest extends AbstractSpringDAOTest<Order>
 
     }
 
+//    @Test
+    public void testReadByCustomerIDs()
+    {
+
+        List<Order> testOrders = new ArrayList<>();
+
+        for (Customer c : customersInDB)
+        {
+            List<Order> orderSubList = new ArrayList<>();
+            for (Order o : ordersInDB)
+            {
+                if (o.getCustomer().equals(c))
+                {
+                    orderSubList.add(o);
+                }
+            }
+
+            List<Integer> customerIDs = new ArrayList<>();
+            customerIDs.add(c.getId());
+
+            testOrders = ((DAOOrderImpl) orderDAO).readOrdersByCustomers(customerIDs);
+
+            orderSubList.sort((o1, o2) -> o1.getId().compareTo(o2.getId()));
+            testOrders.sort((o1, o2) -> o1.getId().compareTo(o2.getId()));
+
+            assertEquals(orderSubList.size(), testOrders.size());
+            assertEquals(orderSubList, testOrders);
+
+            for (Order o : testOrders)
+            {
+                assertTrue(o.getCustomer().equals(c));
+                assertTrue(o.getCustomer().deeplyEquals(c));
+            }
+        }
+    }
+
     @Override
     protected AbstractSpringDAO<Order> getDAO()
     {
@@ -415,7 +452,7 @@ public class DAOOrderImplTest extends AbstractSpringDAOTest<Order>
     {
         Product product = productsInDB.get((int) (Math.random() * productsInDB.size()));
         Customer customer = customersInDB.get((int) (Math.random() * customersInDB.size()));
-        
+
         LocalDateTime date = LocalDateTime.of(LocalDate.of(2016, 5, 12), LocalTime.of(5, 12, 25));
         BigDecimal total = BigDecimal.valueOf(50.00);
         List<OrderDetail> oD = new ArrayList<>();

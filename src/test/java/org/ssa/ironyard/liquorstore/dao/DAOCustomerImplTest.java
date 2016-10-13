@@ -132,7 +132,7 @@ public class DAOCustomerImplTest extends AbstractSpringDAOTest<Customer>
     {
     }
 
-//    @Test
+    @Test
     public void testReadMultipleCustomersByIDs()
     {
         List<Customer> customerSubList = new ArrayList<>();
