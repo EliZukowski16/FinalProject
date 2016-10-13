@@ -182,6 +182,16 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
         };
 
     }
+    
+    @Override
+    public List<Order> readOrdersByCustomers(Integer customerID)
+    {
+        List<Integer> customerIDs = new ArrayList<>();
+        
+        customerIDs.add(customerID);
+        
+        return readOrdersByCustomers(customerIDs);
+    }
 
     @Override
     public List<Order> readOrdersByCustomers(List<Integer> customerIDs)

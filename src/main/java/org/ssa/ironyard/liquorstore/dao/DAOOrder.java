@@ -16,5 +16,6 @@ public interface DAOOrder extends DAO<Order>
     public List<Order> readOrdersInThePast(LocalDate end);
     public List<Order> readOrdersInTheFuture(LocalDate start);
     public List<Order> readMostRecentOrders(Integer numberOfOrders);
+    public List<Order> readOrdersByCustomers(Integer customerID);
 
 }
