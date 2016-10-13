@@ -10,7 +10,10 @@ angular
 		
 		ctrl.getOrders = function()
 		{
-			
+			$('#myModal').modal('hide');
+	    	$('body').removeClass('modal-open');
+	    	$('.modal-backdrop').remove();
+	    	
 			$http({
 				url: location.pathname +"/Orders",
 				method: 'GET',
