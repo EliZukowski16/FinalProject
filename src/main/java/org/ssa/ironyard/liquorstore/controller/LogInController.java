@@ -65,7 +65,7 @@ public class LogInController
             session.setAttribute("loggedin", true);
             response.put("success", u);
         }
-        LOGGER.info(response);
+        LOGGER.info(response.get("success"));
         return ResponseEntity.ok().header("log in", "Check").body(response);
     }
     

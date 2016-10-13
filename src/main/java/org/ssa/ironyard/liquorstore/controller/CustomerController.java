@@ -413,9 +413,12 @@ public class CustomerController
     }
     
     
-    @RequestMapping(value="/{customerID}/Orders", method = RequestMethod.POST)
+    @RequestMapping(value="/{customerID}/Orders", method = RequestMethod.GET)
     public ResponseEntity<Map<String,List<Order>>> getOrdersByCustomer(@PathVariable String customerID)
     {
+        LOGGER.info("You made it to the order by customer controller");
+        LOGGER.info("Custoemr ID: {}",customerID);
+        
         Map<String,List<Order>> response = new HashMap<>();
         List<Order> orderList = new ArrayList<>();
         

@@ -6,11 +6,33 @@ angular
 	function orderCtrl($http)
 	{
 		var ctrl = this;
+		var orders = [];
 		
-		ctrl.getOrders = function(){
+		ctrl.getOrders = function()
+		{
+	    	
+			$http({
+				url: location.pathname +"/Orders",
+				method: 'GET',
+			}).then(function(response) {		
+				
+				ctrl.orders= response.data.success;
+		  		console.log(ctrl.orders);
+			})
 			
-		}
+		};
 		
-	
+		ctrl.getOrders();
+
+		ctrl.getOrders();
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 	
