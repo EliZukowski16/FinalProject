@@ -103,12 +103,13 @@ angular
     	
     };
 
-//    //Redirect after closing receipt
-//    ctrl.redirect = function(){
-//    	$('#myModal').modal('hide');
-//    	$('body').removeClass('modal-open');
-//    	$('.modal-backdrop').remove();
-//    	
-//    }
+    //Redirect after closing receipt
+    ctrl.redirect = function(){
+    	$location.path("orders");
+    	$('#myModal').modal('hide');
+    	$('body').removeClass('modal-open');
+    	$('.modal-backdrop').remove();
+    	
+    }
     
 }
