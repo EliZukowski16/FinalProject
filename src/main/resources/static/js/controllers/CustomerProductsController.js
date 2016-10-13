@@ -66,23 +66,6 @@ angular
     	return total;
     };
     
-    
-        
-/*    ctrl.order = [
-                  {
-                	  date:
-                	  products: [
-                	             {
-                	            	 id:
-                	            	 qty:
-                    	             price:
-                	             },
-                	             {
-                	            	 id:
-                	            	 qty:
-                	            	 price:
-                	             }
-                  }]*/
 
     //Submit Order    
     ctrl.submitOrder = function()
@@ -96,27 +79,10 @@ angular
     		}
     		products.push(tempProduct);
     	}
-//    	var date = angular.element('#deliveryDate').val();
-//    	ctrl.orderDetails.push(date);
+
     	console.log(ctrl.orderDetails);
     	
-//    	date:,
-//    	products: [{ 
-//    		productId,
-//    		qty,
-//    		price
-//    	}]
-//  	}]
-//
-//
-//    $http({
-//    	url: location.pathname +"/placeOrder",
-//    	method: 'POST',
-//    	data: ctrl.orderDetails
-//    }).then(function(response) {		
-//	
-//		console.log(response);
-//    })
+
     	console.log(ctrl.grandTotal());
     	console.log(products);
     	$http({
@@ -137,6 +103,12 @@ angular
     };
 
     
-    
+    ctrl.redirect = function(){
+    	$location.path("/orders");
+    	$('#myModal').modal('hide');
+    	$('body').removeClass('modal-open');
+    	$('.modal-backdrop').remove();
+    	
+    }
     
 }
