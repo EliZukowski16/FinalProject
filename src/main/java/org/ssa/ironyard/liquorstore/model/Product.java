@@ -72,12 +72,12 @@ public class Product extends AbstractDomainObject implements DomainObject
         return baseUnit.toString();
     }
 
-    public int getQuantity()
+    public Integer getQuantity()
     {
         return quantity;
     }
 
-    public int getInventory()
+    public Integer getInventory()
     {
         return inventory;
     }
