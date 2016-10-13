@@ -282,7 +282,8 @@ public class CustomerController
        Map<String,Order> addOrderMap = new HashMap<>();
         
         Customer cus = new Customer(Integer.parseInt(customerID),null,null,null,null,null,null);
-        BigDecimal total = getBigDecimal(map.get("total"));
+        Double totalD = (Double)(map.get("total")); 
+        BigDecimal total = BigDecimal.valueOf(totalD);
         
         LOGGER.info("Total: {}", total);
             
@@ -308,7 +309,11 @@ public class CustomerController
             
             Integer id = (Integer) product.get("id");
             Integer qty = (Integer) product.get("qty");
-            BigDecimal price = getBigDecimal(product.get("price"));
+
+            
+            Double priceD= (Double)(product.get("price"));
+            BigDecimal price = BigDecimal.valueOf(priceD);
+            LOGGER.info("Class of price: {}", product.get("price").getClass());
             LOGGER.info("ID: {} QTY: {} Price: {} ", id,qty,price);
             
             Product p = new Product(id,null,null,null,null,null);

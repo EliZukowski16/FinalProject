@@ -173,17 +173,18 @@ public class OrdersServiceImpl implements OrdersService
             {
 
                 LOGGER.info("Product id from for loop: {}", products.get(i).getId());
-                LOGGER.info("Product id from controller order: {}", order.getoD().get(j).getUnitPrice());
+                LOGGER.info("Product id from controller order: {}", order.getoD().get(j).getProduct().getId());
                 
-                    LOGGER.info("Product price from for loop: {}", products.get(i).getPrice());
-                    LOGGER.info("Product price from controller order: {}", order.getoD().get(j).getUnitPrice());
-                    if(products.get(i).getPrice().compareTo(order.getoD().get(j).getUnitPrice()) != 0)
+                    
+                    
 
                 if (products.get(i).getId() == order.getoD().get(j).getProduct().getId())
                 {
-                    if (products.get(i).getPrice().compareTo(order.getoD().get(j).getProduct().getPrice()) != 0)
-
+                    LOGGER.info("Product price from for loop: {}", products.get(i).getPrice());
+                    LOGGER.info("Product price from controller order: {}", order.getoD().get(j).getUnitPrice());
+                    if (products.get(i).getPrice().compareTo(order.getoD().get(j).getUnitPrice()) != 0)
                     {
+                        LOGGER.info("price is not equal");
                         Product pPrice = products.get(i);
                         OrderDetail odPrice = new OrderDetail(pPrice, null, null);
                         odPriceChange.add(odPrice);
