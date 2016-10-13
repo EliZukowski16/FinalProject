@@ -23,7 +23,7 @@ public class Order extends AbstractDomainObject implements DomainObject
         this.customer = customer;
         this.date = date;
         this.total = total;
-        this.oD = oD;
+        this.oD = (oD == null ? new ArrayList<>() : oD);
         this.status = status;
         this.timeOfOrder = timeOfOrder;
     }

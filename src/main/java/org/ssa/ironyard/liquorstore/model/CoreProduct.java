@@ -56,7 +56,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
     {
         super(id, loaded);
         this.name = name;
-        this.tags = tags;
+        this.tags = (tags == null ? new ArrayList<>() : tags);
         this.type = type;
         this.subType = subType;
         this.description = description;
