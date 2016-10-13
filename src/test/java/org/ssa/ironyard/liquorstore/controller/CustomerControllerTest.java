@@ -433,7 +433,7 @@ public class CustomerControllerTest
         map.put("orderMonth","12");
         map.put("orderDay", "15");
         map.put("orderYear", "2016");
-        map.put("products", product);
+        //map.put("products", product);
         map.put("total", "15.00");
         map.put("orderStatus", "pending");
         
@@ -457,7 +457,7 @@ public class CustomerControllerTest
         assertEquals(ordN.getTotal(),ordPrice.getTotal());
     }
     
-    @Test
+    //@Test
     public void testObjectMapper()
     {
         String productS = "{ \"id\" : \"1\", \"qty\" : \"1\", \"price\" : \"15.00\"}";
