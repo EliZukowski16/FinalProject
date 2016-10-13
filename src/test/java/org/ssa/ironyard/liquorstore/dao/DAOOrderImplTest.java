@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //package org.ssa.ironyard.liquorstore.dao;
 //
 //import static org.junit.Assert.assertEquals;
@@ -81,7 +80,7 @@
 //
 //    @BeforeClass
 //    public static void setUpBeforeClass() throws Exception
-=======
+
 package org.ssa.ironyard.liquorstore.dao;
 
 import static org.junit.Assert.assertEquals;
@@ -895,4 +894,3 @@ public class DAOOrderImplTest extends AbstractSpringDAOTest<Order>
     }
 
 }
->>>>>>> b50d93fbe394e0580135989ff53b3374d2639555
