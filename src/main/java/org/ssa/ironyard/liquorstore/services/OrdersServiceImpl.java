@@ -4,9 +4,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.ssa.ironyard.liquorstore.controller.CustomerController;
 import org.ssa.ironyard.liquorstore.dao.DAOOrder;
 import org.ssa.ironyard.liquorstore.dao.DAOProduct;
 import org.ssa.ironyard.liquorstore.model.Customer;
@@ -14,12 +17,16 @@ import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
 import org.ssa.ironyard.liquorstore.model.Product;
 
+import com.mysql.cj.api.log.Log;
+
 @Service
 public class OrdersServiceImpl implements OrdersService
 {
     
     DAOOrder daoOrder;
     DAOProduct daoProduct;
+    
+    static Logger LOGGER = LogManager.getLogger(OrdersServiceImpl.class);
     
     @Autowired
     public OrdersServiceImpl(DAOOrder daoOrder, DAOProduct daoProduct)
@@ -82,8 +89,15 @@ public class OrdersServiceImpl implements OrdersService
     public Order addOrder(Order order)
     {
 
-
+        LOGGER.info("We Reacher order Service");
+        
+        LOGGER.info("Order from controller: {}", order);
+        LOGGER.info("First Order Detail Price from controller: {}", order.getoD().get(0).getUnitPrice());
+        LOGGER.info("Second Order Detail Price from controller: {}", order.getoD().get(1).getUnitPrice());
+        
+        
         List<OrderDetail> odList = order.getoD();
+
 
         
         List<OrderDetail> outOfStock = new ArrayList();
@@ -101,8 +115,12 @@ public class OrdersServiceImpl implements OrdersService
            
         }
         
+        LOGGER.info("made it past inventory check");
+        LOGGER.info("Size of stock: {}",outOfStock.size());
+        
         if(outOfStock.size() > 0)
         {
+            LOGGER.info("Out of Stock", outOfStock);
             ordOutOfStock = new Order(null,null,null,null,outOfStock,null);
             return ordOutOfStock;
         }
@@ -114,7 +132,14 @@ public class OrdersServiceImpl implements OrdersService
             listProductIds.add(order.getoD().get(i).getProduct().getId());
         }
         
+        LOGGER.info("made it past getting product ids");
+        LOGGER.info("Size of product ID's: {}", listProductIds.size());
+        
         List<Product> products = daoProduct.readByIds(listProductIds);
+        
+        LOGGER.info("size of product list from get product ids: {}", products.size());
+        
+        LOGGER.info("product list from get product ids: {}", products);
         
         List<OrderDetail> odPriceChange = new ArrayList();
         
@@ -122,9 +147,13 @@ public class OrdersServiceImpl implements OrdersService
         {
             for (int j = 0; j < order.getoD().size(); j++)
             {
+                LOGGER.info("Product id from for loop: {}", products.get(i).getId());
+                LOGGER.info("Product id from controller order: {}", order.getoD().get(j).getUnitPrice());
                 if(products.get(i).getId() == order.getoD().get(j).getProduct().getId())
                 {
-                    if(products.get(i).getPrice().compareTo(order.getoD().get(j).getProduct().getPrice()) != 0)
+                    LOGGER.info("Product price from for loop: {}", products.get(i).getPrice());
+                    LOGGER.info("Product price from controller order: {}", order.getoD().get(j).getUnitPrice());
+                    if(products.get(i).getPrice().compareTo(order.getoD().get(j).getUnitPrice()) != 0)
                     {
                         Product pPrice = products.get(i);
                         OrderDetail odPrice = new OrderDetail(pPrice,null,null);
@@ -135,16 +164,30 @@ public class OrdersServiceImpl implements OrdersService
             
         }
         
+        LOGGER.info("made it past price change check");
+        LOGGER.info("Size of Price Change: {}", odPriceChange.size());
+        
         if(odPriceChange.size() > 0)
         {
+           LOGGER.info("Order Price has changed", odPriceChange);
            Order ordPriceChange = new Order(null,null,order.getDate(),null,odPriceChange,null);
            return ordPriceChange;
         }
         
         //get price
         Order ord = new Order(order.getCustomer(),order.getDate(),order.getTotal(),order.getoD(),order.getOrderStatus());
+        
+        LOGGER.info("order being sent cus ID: {}",ord.getCustomer().getId());
+        LOGGER.info("order being sent date: {}",ord.getDate());
+        LOGGER.info("order being sent total: {}",ord.getTotal());
+        LOGGER.info("order being sent order Status: {}",ord.getOrderStatus());
 
-        return daoOrder.insert(ord);          
+        
+        Order goodOrder = daoOrder.insert(ord);
+        
+        LOGGER.info("Good Order", goodOrder);
+        
+        return goodOrder;          
    }
 
 

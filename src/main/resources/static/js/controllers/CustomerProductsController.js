@@ -13,6 +13,9 @@ angular
 	ctrl.types = ['Beer', 'Wine', 'Spirits'];
 	ctrl.selection = [];
     ctrl.orderDetails = [];
+    
+    
+    
 	
 	//Checkbox search
 	ctrl.toggleSelection = function toggleSelection(type){
@@ -84,10 +87,14 @@ angular
     //Submit Order    
     ctrl.submitOrder = function()
     {
-
+    	var products = [];
     	for(var i = 0; i<ctrl.cart.length; i++){
-    		var product = ctrl.cart[i];
-    		ctrl.orderDetails.push(product);
+    		var tempProduct = {
+    				'id': ctrl.cart[i].id,
+    				'qty': ctrl.cart[i].qty,
+    				'price': ctrl.cart[i].price
+    		}
+    		products.push(tempProduct);
     	}
 //    	var date = angular.element('#deliveryDate').val();
 //    	ctrl.orderDetails.push(date);
@@ -102,14 +109,31 @@ angular
 //  	}]
 //
 //
-    $http({
-    	url: location.pathname +"/placeOrder",
-    	method: 'POST',
-    	data: ctrl.orderDetails
-    }).then(function(response) {		
-	
-		console.log(response);
-    })
+//    $http({
+//    	url: location.pathname +"/placeOrder",
+//    	method: 'POST',
+//    	data: ctrl.orderDetails
+//    }).then(function(response) {		
+//	
+//		console.log(response);
+//    })
+    	console.log(ctrl.grandTotal());
+    	console.log(products);
+    	$http({
+        	url: location.pathname +"/placeOrder",
+        	method: 'POST',
+        	data: {
+        		'orderYear': "2016",
+        		'orderMonth': "12",
+        		'orderDay': "15",
+        		'total': ctrl.grandTotal(),
+        		'products': products
+        	}
+        }).then(function(response) {		
+    	
+    		console.log(response);
+        })
+    	
     };
 
     

@@ -2,6 +2,7 @@ package org.ssa.ironyard.liquorstore.controller;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -9,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -21,6 +23,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.UsesSunHttpServer;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
+import org.ssa.ironyard.liquorstore.jsonModel.JsonOrder;
 import org.ssa.ironyard.liquorstore.jsonModel.JsonProduct;
 import org.ssa.ironyard.liquorstore.model.Address;
 import org.ssa.ironyard.liquorstore.model.Address.State;
@@ -334,27 +338,31 @@ public class CustomerController
     //}
     
 //    @RequestMapping(value="/{customerID}/placeOrder", method = RequestMethod.POST)
-//    public ResponseEntity<Map<String,Order>> placeOrder(@PathVariable String customerID,@RequestBody MultiValueMap<String, String> map)
+//    public ResponseEntity<Map<String,Order>> placeOrder(@PathVariable String customerID,@RequestBody Map<String, Object> map)
 //    {
 //        
 //        LOGGER.info("Trying to place a order");
 //        LOGGER.info("multi value map " + map);
 //        
 //        Order ord;
-//        Map<String,Order> addOrderMap = new HashMap<>();
+//        Map<String,Order> addOrderMap = new LinkedHashMap<>();
 //        
 //        Customer cus = new Customer(Integer.parseInt(customerID),null,null,null,null,null,null);
 //        
-//        String month = map.getFirst("orderMonth");
-//        String day = map.getFirst("orderDay");
-//        String year = map.getFirst("orderYear");
+//        String month = (String) map.get("orderMonth");
+//        String day = (String) map.get("orderDay");
+//        String year = (String) map.get("orderYear");
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 //        formatter = formatter.withLocale(Locale.US);
 //        LocalDate date = LocalDate.parse(year + "-" + month + "-" + day);
 //        LocalTime time = LocalTime.of(12, 00);
 //        LocalDateTime ldt = LocalDateTime.of(date, time);
-//       
-//        List<String> products = map.get("products");
+//        
+//        String products = (String) map.get("products");
+//        
+//        LOGGER.info(products);
+//        
+//        return null;
 //        
 //        for (int i = 0; i < products.size(); i++)
 //        {
@@ -369,7 +377,7 @@ public class CustomerController
 //            JsonProduct product;
 //            try
 //            {
-//                product = objectMapper.readValue(products.get(i), JsonProduct.class);
+//                product = objectMapper.readValue(products, JsonProduct.class);
 //                Product p = new Product(product.getid(), null, null, null, null,null);
 //                OrderDetail od = new OrderDetail(p, product.getQty(), product.getPrice());
 //                orderDetailList.add(od);
@@ -394,7 +402,7 @@ public class CustomerController
 //        System.out.println(orderDetailList.get(0).getQty());
 //        System.out.println(orderDetailList.get(0).getUnitPrice());
 //        
-//        BigDecimal total = BigDecimal.valueOf(Double.parseDouble(map.getFirst("total")));
+//        BigDecimal total = BigDecimal.valueOf(Double.parseDouble((String) map.get("total")));
 //        
 //        
 //        
@@ -425,11 +433,103 @@ public class CustomerController
     
     
     @RequestMapping(value="/{customerID}/placeOrder", method = RequestMethod.POST)
-    public ResponseEntity<Map<String,Order>> placeOrder(@PathVariable String customerID,@RequestBody List<JsonProduct> product)
+    public ResponseEntity<Map<String,Order>> placeOrder(@PathVariable String customerID,@RequestBody Map<String,Object> map)
     {
-        System.out.println(product);
+        LOGGER.info("you've made it to place order");
+       Map<String,Order> addOrderMap = new HashMap<>();
         
-        return null;
+        Customer cus = new Customer(Integer.parseInt(customerID),null,null,null,null,null,null);
+        BigDecimal total = getBigDecimal(map.get("total"));
+        
+        LOGGER.info("Total: {}", total);
+            
+        String month = (String) map.get("orderMonth");
+        String day = (String) map.get("orderDay");
+        String year = (String) map.get("orderYear");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        formatter = formatter.withLocale(Locale.US);
+        LocalDate date = LocalDate.parse(year + "-" + month + "-" + day);
+        LocalTime time = LocalTime.of(12, 00);
+        LocalDateTime ldt = LocalDateTime.of(date, time);
+        LOGGER.info("orderMonth: {}" , month);
+        LOGGER.info("orderDay: {}", day);
+        LOGGER.info(" orderyear: {}", year);
+        LOGGER.info("date: {}", ldt);
+        
+        List<OrderDetail> ordDetailList = new ArrayList<>();
+        
+        for(Map<String, Object> product: (List<Map<String,Object>>) map.get("products")){
+            
+            //LOGGER.info("ID: {} QUANTITIY: {} PRICE: {}", product.get("id"), product.get("qty"), product.get("price"));
+            Object obj = product.get("id");
+            
+            Integer id = (Integer) product.get("id");
+            Integer qty = (Integer) product.get("qty");
+            BigDecimal price = getBigDecimal(product.get("price"));
+            LOGGER.info("ID: {} QTY: {} Price: {} ", id,qty,price);
+            
+            Product p = new Product(id,null,null,null,null,null);
+            
+            OrderDetail ordDetail = new OrderDetail(p, qty, price);
+            LOGGER.info("Order Detail: {}",ordDetail);
+            
+            ordDetailList.add(ordDetail);            
+            
+        }
+        
+        LOGGER.info("Order Detail List: {}",ordDetailList);
+        
+        Order ord = new Order(cus, ldt, total, ordDetailList,OrderStatus.PENDING);
+        
+        LOGGER.info("Order from site: {}",ord);
+        LOGGER.info("First Order Detail price from site: {}", ord.getoD().get(0).getUnitPrice());
+        
+        Order addOrder = orderService.addOrder(ord);
+        
+        LOGGER.info("Order from service: {}", addOrder);
+        
+        if(addOrder == null)
+          addOrderMap.put("error", addOrder);
+        else if(addOrder.getCustomer() == null && addOrder.getDate() == null && addOrder.getTotal() == null && addOrder.getoD() != null)
+          addOrderMap.put("outofstock", addOrder);
+        else if(addOrder.getCustomer() == null && addOrder.getDate() != null && addOrder.getTotal() == null && addOrder.getoD() != null)
+          addOrderMap.put("pricechange", addOrder);
+        else
+          addOrderMap.put("success",addOrder);
+      
+        return ResponseEntity.ok().header("Customer", "Place Order").body(addOrderMap);
+    
+
     }
+    
+    
+    public static BigDecimal getBigDecimal(Object value) {
+        BigDecimal result = new BigDecimal(0);
+        if(value != null) {
+            try {
+                if(value instanceof BigDecimal) {
+                    result = (BigDecimal) value;
+                } else if(value instanceof String) {
+                    result = new BigDecimal((String) value);
+                } else if(value instanceof BigInteger) {
+                    result = new BigDecimal((BigInteger) value);
+                } else if(value instanceof Number) {
+                    result = new BigDecimal(((Number) value).doubleValue());
+                } else {
+                    //throw new ClassCastException("Not possible to coerce [" + value + "] from class " + value.getClass() + " into a BigDecimal.");
+                    System.out.println("Not possible to coerce [" + value + "] from class " + value.getClass() + " into a BigDecimal.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Not possible to coerce [" + value + "] from class " + value.getClass() + " into a BigDecimal. " + e);
+            } catch (ClassCastException e) {
+                System.out.println("Not possible to coerce [" + value + "] from class " + value.getClass() + " into a BigDecimal. " + e);
+            } catch (Exception e) {
+                System.out.println("Exception caught. " + e);
+            }           
+        }
+        return result;
+    }
+    
+
     
 }

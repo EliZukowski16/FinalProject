@@ -4,9 +4,12 @@ import java.math.BigDecimal;
 
 public class JsonProduct
 {
+    
     int id;
     int qty;
     BigDecimal price;
+    
+
     
     public JsonProduct(int id, int qty, BigDecimal price)
     {
@@ -15,6 +18,7 @@ public class JsonProduct
         this.price = price;
     }
     public JsonProduct(){}
+    
     public int getid()
     {
         return id;
@@ -39,6 +43,9 @@ public class JsonProduct
     {
         this.price = price;
     }
+
+    
+    
     
     
 }

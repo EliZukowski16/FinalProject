@@ -3,11 +3,13 @@ package org.ssa.ironyard.liquorstore.controller;
 import static org.junit.Assert.*;
 
 import java.awt.PageAttributes.OrientationRequestedType;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +28,7 @@ import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
 import org.ssa.ironyard.liquorstore.dao.DAOCustomer;
 import org.ssa.ironyard.liquorstore.dao.DAOOrder;
 import org.ssa.ironyard.liquorstore.dao.DAOProduct;
+import org.ssa.ironyard.liquorstore.jsonModel.JsonProduct;
 import org.ssa.ironyard.liquorstore.model.Address;
 import org.ssa.ironyard.liquorstore.model.Admin;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
@@ -47,6 +50,10 @@ import org.ssa.ironyard.liquorstore.services.CustomerServiceImpl;
 import org.ssa.ironyard.liquorstore.services.OrdersServiceImpl;
 import org.ssa.ironyard.liquorstore.services.ProductServiceImpl;
 import org.ssa.ironyard.liquorstore.services.SalesServiceImpl;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 
@@ -416,19 +423,19 @@ public class CustomerControllerTest
 //
 //    }
     
-    @Test
+    //@Test
     public void testPlaceOrder()
     {
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        Map<String, Object> map = new HashMap<String, Object>();
                
-        String product = "{ \"id\" : \"1\", \"qty\" : \"1\", \"price\" : \"15.00\"}";
         
-        map.add("orderMonth","12");
-        map.add("orderDay", "15");
-        map.add("orderYear", "2016");
-        map.add("products", product);
-        map.add("total", "15.00");
-        map.add("orderStatus", "pending");
+        
+        map.put("orderMonth","12");
+        map.put("orderDay", "15");
+        map.put("orderYear", "2016");
+        map.put("products", product);
+        map.put("total", "15.00");
+        map.put("orderStatus", "pending");
         
         Order ordN = new Order(ord.getCustomer(),ord.getDate(),ord.getTotal(),ord.getoD(),ord.getOrderStatus());
       
@@ -448,6 +455,26 @@ public class CustomerControllerTest
         assertEquals(ordN.getoD(),ordPrice.getoD());
         assertEquals(ordN.getOrderStatus(),ordPrice.getOrderStatus());
         assertEquals(ordN.getTotal(),ordPrice.getTotal());
+    }
+    
+    @Test
+    public void testObjectMapper()
+    {
+        String productS = "{ \"id\" : \"1\", \"qty\" : \"1\", \"price\" : \"15.00\"}";
+        ObjectMapper om = new ObjectMapper();
+        JsonProduct product = null;
+        
+        try
+        {
+            product = om.readValue(productS, JsonProduct.class);
+        }
+        catch (Exception e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        System.out.println(product);
     }
 
 }
