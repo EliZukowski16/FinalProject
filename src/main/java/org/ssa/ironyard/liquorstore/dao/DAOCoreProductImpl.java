@@ -93,8 +93,7 @@ public class DAOCoreProductImpl extends AbstractDAOCoreProduct implements DAOCor
     {
         CoreProduct coreProduct;
         coreProduct = new CoreProduct(id, copy.getName(), copy.getTags(), copy.getType(), copy.getSubType(),
-                copy.getDescription());
-        coreProduct.setLoaded(true);
+                copy.getDescription(), true);
 
         return coreProduct;
     }
@@ -102,9 +101,11 @@ public class DAOCoreProductImpl extends AbstractDAOCoreProduct implements DAOCor
     @Override
     protected CoreProduct afterUpdate(CoreProduct copy)
     {
-        copy.setLoaded(true);
+        CoreProduct coreProduct;
+        coreProduct = new CoreProduct(copy.getId(), copy.getName(), copy.getTags(), copy.getType(), copy.getSubType(),
+                copy.getDescription(), true);
 
-        return copy;
+        return coreProduct;
     }
 
     @Override

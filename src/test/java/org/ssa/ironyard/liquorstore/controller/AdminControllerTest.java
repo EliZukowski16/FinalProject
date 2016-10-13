@@ -97,10 +97,10 @@ public class AdminControllerTest
        LocalDateTime ldt = LocalDateTime.of(d,t);
        
        Password p = new BCryptSecurePassword().secureHash("password");
-       c = new Customer(1,"username",p,"Michael","Patrick",address,ldt);
-       c.setLoaded(true);
+       c = new Customer(1,"username",p,"Michael","Patrick",address,ldt, true);
+
        ad = new Admin(1,"username",p,"Joe","Patrick",1);
-       c.setLoaded(true);
+
        
        List<Tag> tags = new ArrayList();
        tags.add(new Tag("beer"));

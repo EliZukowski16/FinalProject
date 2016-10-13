@@ -2,18 +2,15 @@ package org.ssa.ironyard.liquorstore.model;
 
 public abstract class AbstractUser extends AbstractDomainObject implements User
 {
-    
-    public Boolean isAdmin;
 
     public AbstractUser(Integer id)
     {
-        super(id);
+        this(id, false);
     }
 
-    @Override
-    public Boolean isAdmin()
+    public AbstractUser(Integer id, Boolean loaded)
     {
-        return this.isAdmin;
+        super(id, loaded);
     }
 
 }

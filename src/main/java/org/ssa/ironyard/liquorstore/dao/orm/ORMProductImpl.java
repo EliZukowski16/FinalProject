@@ -47,9 +47,7 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         Integer inventory = results.getInt(table() + ".inventory");
         BigDecimal price = results.getBigDecimal(table() + ".price");
         CoreProduct coreProduct = this.mapCoreProduct(results);
-        Product product = new Product(id, coreProduct, baseUnit, quantity, inventory, price);
-
-        product.setLoaded(true);
+        Product product = new Product(id, coreProduct, baseUnit, quantity, inventory, price, true);
 
         return product;
 

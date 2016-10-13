@@ -36,8 +36,7 @@ public class DAOAdminImpl extends AbstractDAOAdmin implements DAOAdmin
     @Override
     protected Admin afterInsert(Admin copy, Integer id)
     {
-        Admin admin = new Admin(id, copy.getUsername(), copy.getPassword(), copy.getFirstName(), copy.getLastName(), copy.getRole());
-        admin.setLoaded(true);
+        Admin admin = new Admin(id, copy.getUsername(), copy.getPassword(), copy.getFirstName(), copy.getLastName(), copy.getRole(), true);
         
         return admin;
     }
@@ -45,7 +44,7 @@ public class DAOAdminImpl extends AbstractDAOAdmin implements DAOAdmin
     @Override
     protected Admin afterUpdate(Admin copy)
     {
-        copy.setLoaded(true);
+        Admin admin = new Admin(copy.getId(), copy.getUsername(), copy.getPassword(), copy.getFirstName(), copy.getLastName(), copy.getRole(), true);        
         
         return copy;
     }

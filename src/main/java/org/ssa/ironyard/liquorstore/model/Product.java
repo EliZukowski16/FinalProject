@@ -40,12 +40,7 @@ public class Product extends AbstractDomainObject implements DomainObject
 
     public Product(Integer id, CoreProduct coreProduct, BaseUnit baseUnit, Integer quantity, Integer inventory, BigDecimal price)
     {
-        super(id);
-        this.coreProduct = coreProduct;
-        this.baseUnit = baseUnit;
-        this.quantity = quantity;
-        this.inventory = inventory;
-        this.price = price;
+        this(id, coreProduct, baseUnit, quantity, inventory, price, false);
     }
 
     public Product(CoreProduct coreProduct, BaseUnit baseUnit, Integer quantity, Integer inventory, BigDecimal price)
@@ -53,6 +48,17 @@ public class Product extends AbstractDomainObject implements DomainObject
         this(null, coreProduct, baseUnit, quantity, inventory, price);
     }
     
+    public Product(Integer id, CoreProduct coreProduct, BaseUnit baseUnit, Integer quantity, Integer inventory,
+            BigDecimal price, Boolean loaded)
+    {
+        super(id, false);
+        this.coreProduct = coreProduct;
+        this.baseUnit = baseUnit;
+        this.quantity = quantity;
+        this.inventory = inventory;
+        this.price = price;
+    }
+
     public BaseUnit getBaseUnitType()
     {
         return baseUnit;
@@ -60,15 +66,18 @@ public class Product extends AbstractDomainObject implements DomainObject
 
     public String getBaseUnit()
     {
+        if(this.baseUnit == null)
+            return null;
+        
         return baseUnit.toString();
     }
 
-    public int getQuantity()
+    public Integer getQuantity()
     {
         return quantity;
     }
 
-    public int getInventory()
+    public Integer getInventory()
     {
         return inventory;
     }

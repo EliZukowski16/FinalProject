@@ -8,25 +8,29 @@ public class Admin extends AbstractUser implements User
     private final String lastName;
     private final Integer role;
 
-    public Admin(Integer id, String username, Password password, String firstName, String lastName, Integer role)
+    public Admin(Integer id, String username, Password password, String firstName, String lastName, Integer role, Boolean loaded)
     {
-        super(id);
+        super(id, loaded);
         this.userName = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
-        this.isAdmin = true;
+    }
+    
+    public Admin(Integer id, String username, Password password, String firstName, String lastName, Integer role)
+    {
+        this(id, username, password, firstName, lastName, role, false);
     }
     
     public Admin(String username, Password password, String firstName, String lastName, Integer role)
     {
-        this(null, username, password, firstName, lastName, role);
+        this(null, username, password, firstName, lastName, role, false);
     }
 
     public Admin(String username, Password password)
     {
-        this(null, username, password, null, null, null);
+        this(null, username, password, null, null, null, false);
     }
 
     public String getUsername()
@@ -49,9 +53,14 @@ public class Admin extends AbstractUser implements User
         return lastName;
     }
 
-    public int getRole()
+    public Integer getRole()
     {
         return role;
+    }
+    
+    public Boolean isAdmin()
+    {
+        return true;
     }
 
     @Override
