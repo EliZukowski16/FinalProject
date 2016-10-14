@@ -10,6 +10,8 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
     private final Type type;
     private final String subType;
     private final String description;
+    private final String fullSizeImage;
+    private final String thumbnail;
 
     public enum Type
     {
@@ -43,16 +45,16 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
 
     public CoreProduct(Integer id, String name, List<Tag> tags, Type type, String subType, String description)
     {
-        this(id, name, tags, type, subType, description, false);
+        this(id, name, tags, type, subType, description,null, null, false);
     }
 
     public CoreProduct(String name, List<Tag> tags, Type type, String subType, String description)
     {
-        this(null, name, tags, type, subType, description, false);
+        this(null, name, tags, type, subType, description, null, null, false);
     }
 
-    public CoreProduct(Integer id, String name, List<Tag> tags, Type type, String subType, String description,
-            boolean loaded)
+    public CoreProduct(Integer id, String name, List<Tag> tags, Type type, String subType, String description, String fullSizeImage,
+            String thumbnail, boolean loaded)
     {
         super(id, loaded);
         this.name = name;
@@ -60,6 +62,8 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         this.type = type;
         this.subType = subType;
         this.description = description;
+        this.fullSizeImage = fullSizeImage;
+        this.thumbnail = thumbnail;
     }
 
     public String getName()
@@ -71,11 +75,6 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
     {
         return new ArrayList<>(this.tags);
     }
-
-    // public void setTags(List<Tag> tags)
-    // {
-    // this.tags = tags;
-    // }
 
     public Type getType()
     {
@@ -90,6 +89,16 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
     public String getDescription()
     {
         return description;
+    }
+    
+    public String getFullSizeImage()
+    {
+        return fullSizeImage;
+    }
+    
+    public String getThumbnail()
+    {
+        return thumbnail;
     }
 
     @Override
@@ -244,6 +253,8 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         private Type type;
         private String subType;
         private String description;
+        private String fullSizeImage;
+        private String thumbnail;
 
         public Builder()
         {
@@ -258,6 +269,8 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
             this.type = coreProduct.getType(); // because address is mutable
             this.subType = coreProduct.getSubType();
             this.description = coreProduct.description;
+            this.fullSizeImage = coreProduct.getFullSizeImage();
+            this.thumbnail = coreProduct.getThumbnail();
         }
 
         public Builder id(Integer id)
@@ -313,10 +326,22 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
             this.loaded = loaded;
             return this;
         }
+        
+        public Builder fullSizeImage(String fullSizeImage)
+        {
+            this.fullSizeImage = fullSizeImage;
+            return this;
+        }
+        
+        public Builder thumbnail(String thumbnail)
+        {
+            this.thumbnail = thumbnail;
+            return this;
+        }
 
         public CoreProduct build()
         {
-            return new CoreProduct(this.id, this.name, this.tags, this.type, this.subType, this.description,
+            return new CoreProduct(this.id, this.name, this.tags, this.type, this.subType, this.description, this.fullSizeImage, this.thumbnail,
                     this.loaded);
         }
     }
