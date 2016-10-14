@@ -33,13 +33,16 @@ ON _order.customer_id = customer.id
 INNER JOIN product 
 ON product.id =  order_detail.product_id =   INNER JOIN core_product ON product.core_product_id = core_product.id INNER JOIN order_detail  ON _order.id = order_detail.order_id  WHERE _order.id = ?
 
-(SELECT product.*, core_product.*, sum(order_detail.quantity) as matches
+(SELECT product.id, core_product.id, _order.time_order_placed, sum(order_detail.quantity) as matches
 FROM product
 INNER JOIN core_product
 ON core_product.id = product.core_product_id
 INNER JOIN order_detail
 ON order_detail.product_id = product.id
-WHERE (core_product.type IN ('SPIRITS'))
+INNER JOIN _order
+ON order_detail.order_id = _order.id
+WHERE (core_product.type IN ('SPIRITS')
+AND _order.time_order_placed > DATE_SUB(NOW(), INTERVAL 1 MONTH))
 GROUP BY product.id 
 ORDER BY matches DESC
 LIMIT 5)

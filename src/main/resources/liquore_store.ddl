@@ -38,8 +38,8 @@ name VARCHAR(50) NOT NULL,
 type ENUM('BEER', 'WINE', 'SPIRITS', 'CIDERS'),
 subtype VARCHAR(50) NOT NULL,
 description TEXT(1000) NOT NULL,
-full_size_image VARCHAR(200),
-thumbnail VARCHAR(200))
+full_size_image VARCHAR(200) NOT NULL,
+thumbnail VARCHAR(200) NOT NULL)
 ENGINE = InnoDB;
 
 

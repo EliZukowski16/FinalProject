@@ -59,7 +59,7 @@ public class OrdersServiceImpl implements OrdersService
 
         List<Order> customerOrders = daoOrder.readOrdersByCustomer(customerID);
 
-        customerOrders.sort((o1, o2) -> o1.getTimeOfOrder().compareTo(o2.getTimeOfOrder()));
+        customerOrders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
 
         return customerOrders;
 
@@ -74,7 +74,7 @@ public class OrdersServiceImpl implements OrdersService
 
         List<Order> productOrders = daoOrder.readOrdersByProduct(productID);
 
-        productOrders.sort((o1, o2) -> o1.getTimeOfOrder().compareTo(o2.getTimeOfOrder()));
+        productOrders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
 
         return productOrders;
     }
@@ -88,7 +88,7 @@ public class OrdersServiceImpl implements OrdersService
 
         List<Order> coreProductOrders = daoOrder.readOrdersByCoreProduct(coreProductID);
 
-        coreProductOrders.sort((o1, o2) -> o1.getTimeOfOrder().compareTo(o2.getTimeOfOrder()));
+        coreProductOrders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
 
         return coreProductOrders;
     }
@@ -231,7 +231,7 @@ public class OrdersServiceImpl implements OrdersService
     {
         List<Order> orders = daoOrder.readOrdersInTimeFrame(date1, date2);
 
-        orders.sort((o1, o2) -> o1.getTimeOfOrder().compareTo(o2.getTimeOfOrder()));
+        orders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
 
         return orders;
     }
@@ -241,7 +241,7 @@ public class OrdersServiceImpl implements OrdersService
     {
         List<Order> orders = daoOrder.readOrdersInThePast(date1);
 
-        orders.sort((o1, o2) -> o1.getTimeOfOrder().compareTo(o2.getTimeOfOrder()));
+        orders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
 
         return orders;
     }
@@ -251,7 +251,7 @@ public class OrdersServiceImpl implements OrdersService
     {
         List<Order> orders = daoOrder.readOrdersInTheFuture(date1);
 
-        orders.sort((o1, o2) -> o1.getTimeOfOrder().compareTo(o2.getTimeOfOrder()));
+        orders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
 
         return orders;
 
@@ -262,7 +262,7 @@ public class OrdersServiceImpl implements OrdersService
     {
         List<Order> orders = daoOrder.readMostRecentOrders(numberOfOrders);
         
-        orders.sort((o1,o2) -> o1.getTimeOfOrder().compareTo(o2.getTimeOfOrder()));
+        orders.sort((o1,o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
         
         return orders;
     }
