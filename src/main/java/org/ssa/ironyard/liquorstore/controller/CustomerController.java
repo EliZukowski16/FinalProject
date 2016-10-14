@@ -385,26 +385,6 @@ public class CustomerController
             addOrderMap.put("success",addOrder);
         }
         
-//        if(addOrder == null)
-//        {
-//            LOGGER.info("made it to error: {}",addOrder);
-//            addOrderMap.put("error", addOrder.getId());
-//        } 
-//        else if(addOrder.getCustomer() == null && addOrder.getDate() == null && addOrder.getTotal() == null && addOrder.getoD() != null)
-//        {
-//            LOGGER.info("made it to out of stock: {}",addOrder);
-//            addOrderMap.put("outofstock", addOrder.getId());
-//        } 
-//        else if(addOrder.getCustomer() == null && addOrder.getDate() != null && addOrder.getTotal() == null && addOrder.getoD() != null)
-//        {
-//            LOGGER.info("made it to price change: {}",addOrder);
-//            addOrderMap.put("pricechange", addOrder.getId());
-//        }
-//        else
-//        {
-//            LOGGER.info("made it to success: {}",addOrder);
-//            addOrderMap.put("success",addOrder.getId());
-//        }
           
         LOGGER.info("Final repsonse map: {}",addOrderMap);
         return ResponseEntity.ok().header("Customer", "Place Order").body(addOrderMap);

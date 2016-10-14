@@ -13,7 +13,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
 
     public enum Type
     {
-        BEER("beer"), WINE("wine"), SPIRITS("spirits");
+        BEER("beer"), WINE("wine"), SPIRITS("spirits"),CIDERS("ciders");
 
         private String alcoholType;
 
