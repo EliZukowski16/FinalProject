@@ -138,9 +138,9 @@ DAOCoreProduct daoCP;
             uri2 = "https://lcboapi.com/products?page=" + pg  + "&access_key=MDoxZjA5MTVmMC05MTU4LTExZTYtOWY3Ni02MzM2M2YyNzBlOWU6VldlVkdsZEVGSGZCUzhjYUF0WnN4VDlOOWJhS0FVWGdHekp3";
             result = restTemplate.getForObject(uri2, String.class);
         }
-        while(pg<10);
+        while(jb.getIs_final__page().equals("false"));
        
-        //jb.getIs_final__page().equals("false")
+        
         System.out.println(beers.size());
         System.out.println("done beer");
         
@@ -173,6 +173,11 @@ DAOCoreProduct daoCP;
         
            
            String name = beers.get(i).getName();
+           
+           if(name.length() >= 50)
+           {
+               name = beers.get(i).getName().substring(0, 49);
+           }
            
            String tagsS = beers.get(i).getTags();
            String[] tagArray = tagsS.split("\\s");
