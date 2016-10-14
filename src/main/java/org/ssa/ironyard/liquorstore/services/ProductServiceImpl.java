@@ -100,6 +100,12 @@ public class ProductServiceImpl implements ProductService
     {
         return daoProd.searchProducts(tags, types);
     }
+
+    @Override
+    public List<Product> topSellersForPastMonth()
+    {
+        return daoProd.readTopSellersForPastMonth();
+    }
     
 
     

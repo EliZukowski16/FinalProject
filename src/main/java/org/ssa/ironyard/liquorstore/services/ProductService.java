@@ -18,6 +18,7 @@ public interface ProductService
     List<Product> searchUnitQty(Integer quanity);
     List<Product> searchUnitQty(Product.BaseUnit baseUnit, Integer quanity);
     List<Product> searchProduct(List<Tag> tags,List<Type> type);
+    List<Product> topSellersForPastMonth();
     
     
 }
