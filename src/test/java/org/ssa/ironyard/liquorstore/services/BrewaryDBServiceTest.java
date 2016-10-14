@@ -9,14 +9,14 @@ public class BrewaryDBServiceTest
     
     BrewaryDBService bdbService = new BrewaryDBService();
 
-    @Test
-    public void test() throws IOException 
-    {
-        bdbService.getBeers();;
-        
-       
-        
-        
-    }
+//    @Test
+//    public void test() throws IOException 
+//    {
+//        bdbService.getBeers();;
+//        
+//       
+//        
+//        
+//    }
 
 }

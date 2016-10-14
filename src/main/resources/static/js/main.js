@@ -23,12 +23,6 @@ function configure($stateProvider, $urlRouterProvider) {
       controllerAs: 'OC',
       templateUrl: '/html/customer-orders.html'
     })
-      .state('customerAccount', {
-      url: '/account',
-      controller: 'CustomerAccountController',
-      controllerAs: 'AC',
-      templateUrl: '/html/customer-account.html'
-    })
     
     .state('admin', {
       url: '/TheBeerGuys/admin',
