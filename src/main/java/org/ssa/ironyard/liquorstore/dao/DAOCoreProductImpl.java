@@ -37,6 +37,8 @@ public class DAOCoreProductImpl extends AbstractDAOCoreProduct implements DAOCor
         insertStatement.setString(2, domainToInsert.getType().toString());
         insertStatement.setString(3, domainToInsert.getSubType());
         insertStatement.setString(4, domainToInsert.getDescription());
+        insertStatement.setString(5, domainToInsert.getFullSizeImage());
+        insertStatement.setString(6, domainToInsert.getThumbnail());
     }
     
     
@@ -89,9 +91,7 @@ public class DAOCoreProductImpl extends AbstractDAOCoreProduct implements DAOCor
     @Override
     protected CoreProduct afterInsert(CoreProduct copy, Integer id)
     {
-        CoreProduct coreProduct;
-        coreProduct = new CoreProduct(id, copy.getName(), copy.getTags(), copy.getType(), copy.getSubType(),
-                copy.getDescription(), true);
+        CoreProduct coreProduct = copy.of().id(id).loaded(true).build();
 
         return coreProduct;
     }
@@ -99,9 +99,7 @@ public class DAOCoreProductImpl extends AbstractDAOCoreProduct implements DAOCor
     @Override
     protected CoreProduct afterUpdate(CoreProduct copy)
     {
-        CoreProduct coreProduct;
-        coreProduct = new CoreProduct(copy.getId(), copy.getName(), copy.getTags(), copy.getType(), copy.getSubType(),
-                copy.getDescription(), true);
+        CoreProduct coreProduct = copy.of().loaded(true).build();
 
         return coreProduct;
     }
@@ -120,7 +118,9 @@ public class DAOCoreProductImpl extends AbstractDAOCoreProduct implements DAOCor
                 ps.setString(2, domainToUpdate.getType().toString());
                 ps.setString(3, domainToUpdate.getSubType());
                 ps.setString(4, domainToUpdate.getDescription());
-                ps.setInt(5, domainToUpdate.getId());
+                ps.setString(5, domainToUpdate.getFullSizeImage());
+                ps.setString(6, domainToUpdate.getThumbnail());
+                ps.setInt(7, domainToUpdate.getId());
 
             }
 
