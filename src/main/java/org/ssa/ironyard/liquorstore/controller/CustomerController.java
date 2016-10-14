@@ -426,6 +426,8 @@ public class CustomerController
         
         orderList = orderService.readOrdersByCustomer(cusID);
         
+        LOGGER.info(orderList);
+        
         if(orderList.size() == 0)
             response.put("error", orderList);
         else

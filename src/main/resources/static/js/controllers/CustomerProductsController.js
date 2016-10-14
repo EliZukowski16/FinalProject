@@ -98,7 +98,7 @@ angular
         }).then(function(response) {	
         	
         	ctrl.orderResponse = response.data.success;
-    		console.log(response);
+    		console.log(ctrl.orderResponse);
         })
     	
     };
@@ -106,9 +106,7 @@ angular
     //Redirect after closing receipt
     ctrl.redirect = function(){
     	$location.path("orders");
-    	$('#myModal').modal('hide');
-    	$('body').removeClass('modal-open');
-    	$('.modal-backdrop').remove();
+    	$(".modal-backdrop").hide();
     	
     }
     
