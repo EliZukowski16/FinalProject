@@ -1,12 +1,13 @@
 angular
 	.module("liquorStore")
 	.controller("CustomerProductsController", productCtrl)	
-	productCtrl.$inject=['$http', '$location']
+	productCtrl.$inject=['$http', '$state']
 
-	function productCtrl($http, $location)
+	function productCtrl($http, $state)
 	{
 	
 	var ctrl = this;	
+	ctrl.active = false;
 	ctrl.searchResults = [];
 	ctrl.cart = [];
 	ctrl.keyword = "";
@@ -14,8 +15,7 @@ angular
 	ctrl.selection = [];
     ctrl.orderDetails = [];
     ctrl.orderResponse = [];
-    
-    
+     
 	
 	//Checkbox search
 	ctrl.toggleSelection = function toggleSelection(type){
@@ -51,9 +51,12 @@ angular
     //Add product to cart 
     ctrl.addToCart = function(product)
     {
-   		if(ctrl.cart.indexOf(product) == -1) 
+    	ctrl.active = true;
+    	
+    	if(ctrl.cart.indexOf(product) == -1) 
 			ctrl.cart.push(product);
 	}
+    
     
     //Calculate cart grand total
     ctrl.grandTotal = function()
@@ -80,11 +83,7 @@ angular
     		products.push(tempProduct);
     	}
 
-    	console.log(ctrl.orderDetails);
     	
-
-    	console.log(ctrl.grandTotal());
-    	console.log(products);
     	$http({
         	url: location.pathname +"/placeOrder",
         	method: 'POST',
@@ -97,7 +96,20 @@ angular
         	}
         }).then(function(response) {	
         	
-        	ctrl.orderResponse = response.data.success;
+        	ctrl.orderResponse = response.data;
+        	
+        	if(ctrl.orderResponse.success){
+        		console.log("success");
+        	} else if(ctrl.orderResponse.error){
+        		console.log("error");
+        	} else if(ctrl.orderResponse.outofstock){
+        		console.log("out of stock");
+        		//returns out of stock items
+        	}else if(ctrl.orderResponse.pricechange){
+        		console.log("price change");
+        		//returns price change items
+        	}
+        	
     		console.log(ctrl.orderResponse);
         })
     	
@@ -105,7 +117,7 @@ angular
 
     //Redirect after closing receipt
     ctrl.redirect = function(){
-    	$location.path("orders");
+    	$state.go("customerOrders");
     	$(".modal-backdrop").hide();
     	
     }

@@ -3,6 +3,11 @@ angular
 	.controller("CustomerHomeController", homeCtrl)	
 	homeCtrl.$inject=['$http', '$location']
 
-	function homeCtrl($http, $location){
+	function homeCtrl($http)
+	{
+		var ctrl = this;
+		
 	
-}
+	
+	
+	}
