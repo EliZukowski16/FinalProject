@@ -159,4 +159,11 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
         return null;
     }
 
+    @Override
+    public List<Product> readTopSellersForPastMonth()
+    {
+        return this.springTemplate.query(((ORMProductImpl) this.orm).prepareTopSellersInLastMonth(), this.listExtractor);
+        
+    }
+
 }

@@ -1,7 +1,9 @@
 package org.ssa.ironyard.liquorstore.model;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class CoreProduct extends AbstractDomainObject implements DomainObject
 {
@@ -202,12 +204,18 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
 
         public Tag(String name)
         {
-            this.name = name.toLowerCase();
+            this.name = deAccent(name.toLowerCase());
         }
 
         public String getName()
         {
             return name;
+        }
+        
+        public String deAccent(String str) {
+            String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD); 
+            Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+            return pattern.matcher(nfdNormalizedString).replaceAll("");
         }
 
         @Override

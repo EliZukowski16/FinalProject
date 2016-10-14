@@ -1,6 +1,7 @@
 package org.ssa.ironyard.liquorstore.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
@@ -18,6 +19,7 @@ public interface ProductService
     List<Product> searchUnitQty(Integer quanity);
     List<Product> searchUnitQty(Product.BaseUnit baseUnit, Integer quanity);
     List<Product> searchProduct(List<Tag> tags,List<Type> type);
+    Map<String, List<Product>> topSellersForPastMonth();
     
     
 }

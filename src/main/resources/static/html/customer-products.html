@@ -32,10 +32,10 @@
 		</div>
 	</div>
 
- 
+
  <label class="checkbox-inline" ng-repeat="type in PC.types">
-  <input  type="checkbox" name="selectedTypes[]" value="{{ type }}" 
-  ng-checked="PC.selection.indexOf(type)>-1"  ng-click="PC.toggleSelection(type)" checked> {{ type }}
+  <input type="checkbox" name="selectedTypes[]" value="{{ type }}" 
+  ng-checked="PC.selection.indexOf(type)>-1"  ng-click="PC.toggleSelection(type)" checked="checked" /> {{ type }}
 </label> 
  
  
@@ -49,12 +49,12 @@
 
 
 <div id="products" class="row list-group" ng-repeat="product in PC.searchResults">
-	<div class="item">
+	<div class="item" >
 	
-		<div class="thumbnail">
+		<div class="thumbnail" id="add"  ng-class="{'active': PC.active==true}">
 			<img class="group list-group-image"	src="http://www.adweek.com/agencyspy/files/2011/10/budlight.png" align="left" alt="" />
 			<div class="caption">
-				<button id="add" type="button" ng-click="PC.addToCart(product)"><h3 class="group inner list-group-item-heading">{{product.coreProduct.name }}</h3></button>
+				<h3 id="prodName" class="group inner list-group-item-heading" ng-click="PC.addToCart(product)">{{ product.coreProduct.name }}</h3>
 				<p class="group inner list-group-item-text">{{ product.coreProduct.type }}</p>
 				<p class="group inner list-group-item-text">{{ product.coreProduct.subType }}</p>
 				<p class="group inner list-group-item-text">{{ product.baseUnit }}</p>
@@ -69,31 +69,43 @@
 
 
 <!--  Shopping cart -->
- <!-- ng-init="product.qty='1'" -->
 
 <div class="cart" ng-show="PC.cart.length>0">
 <div class="panel panel-primary">
     <div id="shoppingCart" class="panel-heading">
-        <h3 class="panel-title">Shopping Cart</h3>
+        <h1 class="panel-title" style="text-align: center">Shopping Cart</h1>
     </div>
     
-    <div class="panel-body">    
-    <ul style="list-style:none" id="shoppingCart">
-		<li ng-repeat="product in PC.cart">
-			<span>{{ product.coreProduct.name }}</span>
-			<span>{{ product.price | currency }} x</span>
-			<span><input type="number" min="1" max="10" ng-model="product.qty"></span>
-			<span>{{ product.price * product.qty | currency }}</span>
-		</li>
-		<p>{{PC.qty}}</p>
- 		<li>
-		<form action="action_page.php">Choose a delivery date:
-		<input type="date" name="deliveryDate" id="deliveryDate"></form>		
-		</li> 
-		<li>
-		<span>Total: {{ PC.grandTotal() | currency }}</span>
-		</li>
-	</ul>
+    <div class="panel-body">        
+    
+   <div class="cartContainer">
+  <table class="table table-striped" >
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Unit Price</th>
+        <th>Qty</th>
+        <th>Line Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="product in PC.cart">
+        <td>{{ product.coreProduct.name }}</td>
+        <td>{{ product.price | currency }}</td>
+        <td><input type="number" min="1" max="10" ng-model="product.qty" ng-init="product.qty=1" style="text-align:center"></td>
+        <td>{{ product.price * product.qty | currency }}</td>
+      </tr>
+      <tr style="border-top: solid;">
+      <td><strong>Total</strong></td>
+      <td></td>
+      <td></td>
+      <td>{{ PC.grandTotal() | currency }}</td>
+      </tr>
+    </tbody>
+  </table>
+      <form action="action_page.php" style="text-align: center">Choose a delivery date:
+		<input type="date" name="deliveryDate" id="deliveryDate"></form>
+</div>
     </div>
 </div>
  
@@ -102,38 +114,46 @@
     <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></button>
 
   <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
+  <div class="modal fade" id="myModal" role="dialog" data-backdrop="static">
     <div class="modal-dialog">
     
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" ng-click=PC.redirect()>&times;</button>
-          <h4 class="modal-title">Order Receipt</h4>
+          <h2 class="modal-title">Order Receipt</h2>
         </div>
         <div class="modal-body">
         
-        <div class="orderContainer" style="width:80%; margin-left:2%">
-  <h4>Your order has been submitted!</h4><br>
-  <table class="table table-striped">
+        <div class="receiptContainer" style="margin-left:2%">
+  <h4 style="text-align:center"><span class="glyphicon glyphicon-ok" style="color:green" aria-hidden="true"></span> Your order has been submitted!</h4><br>
+  <table class="table table-striped" >
     <thead>
       <tr>
-        <th>Item</th>
-        <th>Qty</th>
+        <th>Item No.</th>
         <th>Unit Price</th>
+        <th>Qty</th>
+        <th>Line Total</th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="detail in PC.cart">
+      <tr ng-repeat="detail in PC.cart" style="text-align:left">
         <td>{{ detail.id }}</td>
-        <td>{{ detail.qty }}</td>
         <td>{{ detail.price | currency }}</td>
+        <td>{{ detail.qty }}</td>
+        <td>{{ detail.price * detail.qty | currency }}</td>
+      </tr>
+      <tr style="border-top: solid;text-align: left">
+      <td><strong>Grand Total</strong></td>
+      <td></td>
+      <td></td>
+      <td>{{ PC.orderResponse.success.total | currency }}</td>
       </tr>
     </tbody>
   </table>
-      <h5>Order Stauts: {{ PC.orderResponse.orderStatus }}</h5>
-      <h5>Delivery Date: {{ PC.orderResponse.timeOfOrder.dayOfWeek }}, {{ PC.orderResponse.timeOfOrder.month }} {{ PC.orderResponse.timeOfOrder.dayOfMonth }}, {{ PC.orderResponse.timeOfOrder.year }}</h5>
-      <h5>Grand Total: {{ PC.orderResponse.total | currency }}</h5>
+      <h5><strong>Order ID:</strong> {{ PC.orderResponse.success.id }}</h5>
+      <h5><strong>Order Status:</strong> {{ PC.orderResponse.success.orderStatus }}</h5>
+      <h5><strong>Requested Delivery Date:</strong> {{ PC.orderResponse.success.timeOfOrder.dayOfWeek }}, {{ PC.orderResponse.success.timeOfOrder.month }} {{ PC.orderResponse.success.timeOfOrder.dayOfMonth }}, {{ PC.orderResponse.success.timeOfOrder.year }}</h5>
 </div>
           
 

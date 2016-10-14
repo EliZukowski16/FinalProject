@@ -15,4 +15,6 @@ public interface DAOProduct extends DAO<Product>
     public List<Product> readByUnitAndQuantity(Product.BaseUnit baseUnit);
     public List<Product> readByUnitAndQuantity(Integer quantity);
     public List<Product> readByUnitAndQuantity(Product.BaseUnit baseUnit, Integer quantity);
+    
+    public List<Product> readTopSellersForPastMonth();
 }
