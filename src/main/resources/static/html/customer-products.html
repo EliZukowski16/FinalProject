@@ -12,7 +12,7 @@
 <div class="container col-md-2" id="quickLinks">
   <h3>Quick Links</h3>
   <ul class="nav nav-pills nav-stacked" id="links">
-    <li class="active"><a href="#">Add Order</a></li>
+    <li class="active"><a href="">Add Order</a></li>
     <li><a href="#">Beer</a></li>
     <li><a href="#">Wine</a></li>
     <li><a href="#">Liquor</a></li>
@@ -108,11 +108,37 @@
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" ng-click=PC.redirect()>&times;</button>
           <h4 class="modal-title">Order Receipt</h4>
         </div>
         <div class="modal-body">
-          <p>{{ PC.cart }}</p>
+        
+        <div class="orderContainer" style="width:80%; margin-left:2%">
+  <h4>Your order has been submitted!</h4><br>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Unit Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="detail in PC.cart">
+        <td>{{ detail.id }}</td>
+        <td>{{ detail.qty }}</td>
+        <td>{{ detail.price | currency }}</td>
+      </tr>
+    </tbody>
+  </table>
+      <h5>Order Stauts: {{ PC.orderResponse.orderStatus }}</h5>
+      <h5>Delivery Date: {{ PC.orderResponse.timeOfOrder.dayOfWeek }}, {{ PC.orderResponse.timeOfOrder.month }} {{ PC.orderResponse.timeOfOrder.dayOfMonth }}, {{ PC.orderResponse.timeOfOrder.year }}</h5>
+      <h5>Grand Total: {{ PC.orderResponse.total | currency }}</h5>
+</div>
+          
+
+
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" ng-click=PC.redirect()>Close</button>

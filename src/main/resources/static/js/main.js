@@ -30,8 +30,6 @@ function configure($stateProvider, $urlRouterProvider) {
       templateUrl: '/html/customer-account.html'
     })
     
-    
-    
     .state('admin', {
       url: '/TheBeerGuys/admin',
       controller: 'AdminController',

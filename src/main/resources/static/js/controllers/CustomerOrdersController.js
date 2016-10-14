@@ -25,14 +25,5 @@ angular
 		ctrl.getOrders();
 		
 		
-
-
-		
-		
-		
-		
-		
-		
-		
 	}
 	

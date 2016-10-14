@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Product;
@@ -165,6 +166,12 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         
         return productSearch;
 
+    }
+
+    public String prepareProductSearchByCoreProduct()
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

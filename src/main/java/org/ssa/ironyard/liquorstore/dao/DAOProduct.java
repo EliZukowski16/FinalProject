@@ -9,4 +9,10 @@ import org.ssa.ironyard.liquorstore.model.Product;
 public interface DAOProduct extends DAO<Product>
 {
     public List<Product> searchProducts(List<Tag> tags, List<Type> types);
+    public List<Product> readProductsByCoreProduct(Integer coreProductId);
+    public List<Product> readProductsByCoreProducts(List<Integer> coreProductIDs);
+
+    public List<Product> readByUnitAndQuantity(Product.BaseUnit baseUnit);
+    public List<Product> readByUnitAndQuantity(Integer quantity);
+    public List<Product> readByUnitAndQuantity(Product.BaseUnit baseUnit, Integer quantity);
 }

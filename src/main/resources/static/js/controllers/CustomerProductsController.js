@@ -98,7 +98,7 @@ angular
         }).then(function(response) {	
         	
         	ctrl.orderResponse = response.data.success;
-    		console.log(response);
+    		console.log(ctrl.orderResponse);
         })
     	
     };
