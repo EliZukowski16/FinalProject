@@ -1,6 +1,9 @@
 package org.ssa.ironyard.liquorstore.services;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +17,9 @@ import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 @Service
 public class ProductServiceImpl implements ProductService
 {
-    
+
     DAOProduct daoProd;
-    
+
     @Autowired
     public ProductServiceImpl(DAOProduct daoProd)
     {
@@ -50,10 +53,11 @@ public class ProductServiceImpl implements ProductService
     @Transactional
     public Product editProduct(Product product)
     {
-        if(daoProd.read(product.getId()) == null)
+        if (daoProd.read(product.getId()) == null)
             return null;
-        
-        Product prod = new Product(product.getId(),product.getCoreProduct(),product.getBaseUnitType(),product.getQuantity(),product.getInventory(),product.getPrice());
+
+        Product prod = new Product(product.getId(), product.getCoreProduct(), product.getBaseUnitType(),
+                product.getQuantity(), product.getInventory(), product.getPrice());
         return daoProd.update(prod);
     }
 
@@ -61,7 +65,8 @@ public class ProductServiceImpl implements ProductService
     @Transactional
     public Product addProduct(Product product)
     {
-        Product prod = new Product(product.getCoreProduct(),product.getBaseUnitType(),product.getQuantity(),product.getInventory(),product.getPrice());
+        Product prod = new Product(product.getCoreProduct(), product.getBaseUnitType(), product.getQuantity(),
+                product.getInventory(), product.getPrice());
         return daoProd.insert(prod);
     }
 
@@ -69,8 +74,7 @@ public class ProductServiceImpl implements ProductService
     @Transactional
     public boolean deleteProduct(Integer id)
     {
-     
-        
+
         return daoProd.delete(id);
     }
 
@@ -102,12 +106,40 @@ public class ProductServiceImpl implements ProductService
     }
 
     @Override
-    public List<Product> topSellersForPastMonth()
+    public Map<String,List<Product>> topSellersForPastMonth()
     {
-        return daoProd.readTopSellersForPastMonth();
-    }
-    
+        Map<String, List<Product>> topSellersMap = new HashMap<>();
+        
+        List<Product> topBeer = new ArrayList<>();
+        List<Product> topWine = new ArrayList<>();
+        List<Product> topSpirits = new ArrayList<>();
 
-    
+        List<Product> topSellers = daoProd.readTopSellersForPastMonth();
+
+        for (int i = 0; i < topSellers.size(); i++)
+        {
+            switch (topSellers.get(i).getBaseUnit())
+            {
+            case ("beer"):
+            case ("ciders"):
+                topBeer.add(topSellers.get(i));
+                break;
+            case ("wine"):
+                topWine.add(topSellers.get(i));
+                break;
+            case ("spirits"):
+                topSpirits.add(topSellers.get(i));
+                break;
+            default:
+                break;
+            }
+        }
+        
+        topSellersMap.put("beer", topBeer);
+        topSellersMap.put("wine", topWine);
+        topSellersMap.put("spirits", topSpirits);
+
+        return topSellersMap;
+    }
 
 }
