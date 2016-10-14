@@ -458,11 +458,17 @@ public class CustomerController
     }
 
     @RequestMapping(value = "/{customerID}/TopSellers", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, List<Product>>> getTopSellers(@PathVariable String customerID)
+    public ResponseEntity<Map<String, Map<String, List<Product>>>> getTopSellers(@PathVariable String customerID)
     {
+        
+        Map<String, Map<String, List<Product>>> response = new HashMap<>();
         Map<String, List<Product>> topSellers = productService.topSellersForPastMonth();
-
-        return ResponseEntity.ok().header("Customer", "top sellers").body(topSellers);
+        if(topSellers != null)
+            response.put("success", topSellers);
+        else
+            response.put("error", topSellers);
+        
+        return ResponseEntity.ok().header("Customer", "top sellers").body(response);
     }
 
 }
