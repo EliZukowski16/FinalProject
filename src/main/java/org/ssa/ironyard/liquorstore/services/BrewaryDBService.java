@@ -38,15 +38,12 @@ public class BrewaryDBService
         List<CoreProduct> coreProductList = new ArrayList<>();
         int pg = 1;
         
-        String uri2 = "https://lcboapi.com/products?page=" + pg  + "&per_page=200&access_key=MDoxZjA5MTVmMC05MTU4LTExZTYtOWY3Ni02MzM2M2YyNzBlOWU6VldlVkdsZEVGSGZCUzhjYUF0WnN4VDlOOWJhS0FVWGdHekp3";
+        String uri2 = "https://lcboapi.com/products?page=" + pg  + "&access_key=MDoxZjA5MTVmMC05MTU4LTExZTYtOWY3Ni02MzM2M2YyNzBlOWU6VldlVkdsZEVGSGZCUzhjYUF0WnN4VDlOOWJhS0FVWGdHekp3";
        
         String result;
         RestTemplate restTemplate = new RestTemplate();
-        result = restTemplate.getForObject(uri2, String.class)
-        {
-            
-        }
-        
+        result = restTemplate.getForObject(uri2, String.class);
+    
         while(result != null)
         {
             
@@ -86,15 +83,36 @@ public class BrewaryDBService
                     String image_url = array.get(i).get("image_url").asText();
                     String tertiary_category = array.get(i).get("tertiary_category").asText();
                 
-                    JsonBeer jb = new JsonBeer(name,tags,regular_price_in_cents,primary_category,secondary_category,packageP,origin,package_unit_type,
-                            package_unit_volume_in_milliliters,total_package_units,alcohol_content,producer_name,description,
-                            image_thumb_url,image_url,tertiary_category);
+                    JsonBeer jb = new JsonBeer(name,tags,regular_price_in_cents,primary_category,secondary_category,origin,packageP,package_unit_volume_in_milliliters,
+                            package_unit_type,total_package_units,alcohol_content,producer_name,description,image_thumb_url,image_url,tertiary_category);
                 
                     beers.add(jb);
 
                 }
             
                 System.out.println(beers + " list of jsonBeers");
+                
+                String unitSize = "";
+                
+                for (int i = 0; i < beers.size(); i++)
+                {
+                    unitSize += "package: " + beers.get(i).getPackageP() + " package unit type: " + beers.get(i).getPackage_unit_type() + " package unit in ml " + 
+                    beers.get(i).getPackage_unit_volume_in_milliliters() + " total package units: " + beers.get(i).getTotal_package_units() + "\r\n";
+                }
+                
+                System.out.println(unitSize);
+                
+                File fileSize = new File("C:/text/package.txt");
+                
+                if(!fileSize.exists())
+                    fileSize.createNewFile();
+                        
+                FileWriter fwSize = new FileWriter(fileSize.getAbsoluteFile());
+                BufferedWriter bwSize = new BufferedWriter(fwSize);
+                bwSize.write(unitSize);
+                bwSize.close();
+                        
+                System.out.println("done URL");       
                 
                 
             
@@ -115,7 +133,115 @@ public class BrewaryDBService
                 
                     coreProductList.add(coreProduct);
                 
-                    BaseUnit baseUnit = BaseUnit._12OZ_BOTTLE;
+                    BaseUnit baseUnit;
+                    
+                    switch(beers.get(i).getPackage_unit_type())
+                    {
+                        case("bottle"):
+                        {
+                            switch(beers.get(i).getPackage_unit_volume_in_milliliters())
+                            {
+                                case("330"):
+                                case("341"):
+                                case("355"):
+                                {
+                                    baseUnit = BaseUnit._12OZ_BOTTLE;
+                                    break;
+                                }
+                                case("473"):
+                                {
+                                    baseUnit = BaseUnit._16OZ_BOTTLE;
+                                    break;
+                                }
+                                case("500"):
+                                {
+                                    baseUnit = BaseUnit._500ML_BOTTLE;
+                                    break;
+                                }
+                                case("600"):
+                                {
+                                    baseUnit = BaseUnit._600ML_BOTTLE;
+                                    break;
+                                }
+                                case("750"):
+                                {
+                                    baseUnit = BaseUnit._750ML_BOTTLE;
+                                    break;
+                                }
+                                case("1000"):
+                                {
+                                    baseUnit = BaseUnit._1000ML_BOTTLE;
+                                    break;
+                                }
+                                case("1140"):
+                                {
+                                    baseUnit = BaseUnit._1140ML_BOTTLE;
+                                    break;
+                                }case("1500"):
+                                {
+                                    baseUnit = BaseUnit._1500ML_BOTTLE;
+                                    break;
+                                }case("1750"):
+                                {
+                                    baseUnit = BaseUnit._1750ML_BOTTLE;
+                                    break;
+                                }case("2000"):
+                                {
+                                    baseUnit = BaseUnit._2000ML_BOTTLE;
+                                    break;
+                                }
+                                case("3000"):
+                                {
+                                    baseUnit = BaseUnit._3000ML_BOTTLE;
+                                    break;
+                                }
+                                default:
+                                    baseUnit = BaseUnit._NA;
+                                    break;
+                            }
+                        }
+                        break;
+                        
+                        case("can"):
+                        {
+                            switch(beers.get(i).getPackage_unit_volume_in_milliliters())
+                            {
+                             case("330"):
+                             case("341"):
+                             case("355"):
+                             {
+                                 baseUnit = BaseUnit._12OZ_CAN;
+                                 break;
+                             }
+                             case("473"):
+                             {
+                                 baseUnit = BaseUnit._16OZ_CAN;
+                                 break;
+                             }
+                             case("500"):
+                             {
+                                 baseUnit = BaseUnit._500ML_CAN;
+                                 break;
+                             }
+                             default:
+                                 baseUnit = BaseUnit._NA;
+                                 break;
+                            }
+                            
+                        }
+                        break;
+                        
+                        case("bagnbox"):
+                        {
+                            baseUnit = BaseUnit._4000ML_BOX;
+                            break;
+                        }
+                        default:
+                            baseUnit = BaseUnit._NA;
+                            break;
+                    }
+                    
+                    
                     Integer quantity = beers.get(i).getTotal_package_units();
                     Random r = new Random();
                     int Low = 10;
@@ -135,7 +261,7 @@ public class BrewaryDBService
 //                    System.out.println("desc : " + description);
 //                    System.out.println("fullUrl: " + fullUrl);
 //                    System.out.println("thumbUrl: " + thumbUrl);
-//                    System.out.println("baseUnit: " + baseUnit);
+                    System.out.println("baseUnit: " + baseUnit);
 //                    System.out.println("qty: " + quantity);
 //                    System.out.println("inv: " + inventory);
 //                    System.out.println("price: " + price);
@@ -151,7 +277,7 @@ public class BrewaryDBService
                 
                 for (int i = 0; i < beers.size(); i++)
                 {
-                    URLString += beers.get(i).getImage_url() + "/r/n" + beers.get(i).getImage_thumb_url() + "/r/n";
+                    URLString += beers.get(i).getImage_url() + "\r\n" + beers.get(i).getImage_thumb_url() + "\r\n";
                 }
                 
                 File fileURL = new File("C:/text/URL.txt");
