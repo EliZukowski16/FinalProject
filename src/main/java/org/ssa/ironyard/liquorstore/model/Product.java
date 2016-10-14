@@ -17,7 +17,13 @@ public class Product extends AbstractDomainObject implements DomainObject
 
     public enum BaseUnit
     {
-        _12OZ_CAN("12 oz can"), _12OZ_BOTTLE("12 oz bottle"), _750ML_BOTTLE("750 ml bottle");
+        _12OZ_CAN("12 oz can"), _12OZ_BOTTLE("12 oz bottle"),_16OZ_CAN("16 oz can"),_16OZ_BOTTLE("16 oz bottle"),_500ML_CAN("500 mL can"),
+        _500ML_BOTTLE("500 mL bottle"),_600ML_BOTTLE("600 mL bottle"),_1140ML_BOTTLE("40 oz bottle"),
+        
+        _750ML_BOTTLE("750 mL bottle"),_1000ML_BOTTLE("1 L bottle"),_1500ML_BOTTLE("1.5 L bottle"),_1750ML_BOTTLE("1.75 L bottle"),_2000ML_BOTTLE("2 L bottle"),
+        _3000ML_BOTTLE("3 L bottle"),_4000ML_BOX("4000 mL Box"),
+        
+        _NA("na");
 
         private String unit;
 

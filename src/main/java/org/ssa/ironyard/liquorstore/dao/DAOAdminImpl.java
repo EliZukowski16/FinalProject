@@ -46,7 +46,7 @@ public class DAOAdminImpl extends AbstractDAOAdmin implements DAOAdmin
     {
         Admin admin = new Admin(copy.getId(), copy.getUsername(), copy.getPassword(), copy.getFirstName(), copy.getLastName(), copy.getRole(), true);        
         
-        return copy;
+        return admin;
     }
 
     @Override

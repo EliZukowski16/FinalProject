@@ -2,7 +2,7 @@ package org.ssa.ironyard.liquorstore.jsonModel;
 
 import java.math.BigDecimal;
 
-public class jsonBeer
+public class JsonBeer
 {
     String name;
     String tags;
@@ -10,6 +10,7 @@ public class jsonBeer
     String primary_category;
     String secondary_category;
     String orgin;
+    String packageP;
     String package_unit_type;
     String package_unit_volume_in_milliliters;
     int total_package_units;
@@ -19,7 +20,7 @@ public class jsonBeer
     String image_thumb_url;
     String image_url;
     String tertiary_category;
-    public jsonBeer(String name, String tags, int regular_price_in_cents, String primary_category, String secondary_category, String orgin, String package_unit_volume_in_milliliters,
+    public JsonBeer(String name, String tags, int regular_price_in_cents, String primary_category, String secondary_category, String orgin, String packageP,String package_unit_volume_in_milliliters,
             String package_unit_type, int total_package_units, int alcohol_content, String producer_name, String description, String image_thumb_url, String image_url, String tertiary_category)
     {
         super();
@@ -29,6 +30,7 @@ public class jsonBeer
         this.primary_category = primary_category;
         this.secondary_category = secondary_category;
         this.orgin = orgin;
+        this.packageP = packageP;
         this.package_unit_volume_in_milliliters = package_unit_volume_in_milliliters;
         this.package_unit_type = package_unit_type;
         this.total_package_units = total_package_units;
@@ -39,7 +41,7 @@ public class jsonBeer
         this.image_url = image_url;
         this.tertiary_category = tertiary_category;
     }
-    public jsonBeer()
+    public JsonBeer()
     {
         super();
     }
@@ -82,6 +84,17 @@ public class jsonBeer
     public void setSecondary_category(String secondary_category)
     {
         this.secondary_category = secondary_category;
+    }
+    
+    
+    
+    public String getPackageP()
+    {
+        return packageP;
+    }
+    public void setPackageP(String packageP)
+    {
+        this.packageP = packageP;
     }
     public String getOrgin()
     {

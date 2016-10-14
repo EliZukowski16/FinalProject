@@ -15,6 +15,7 @@ import org.ssa.ironyard.liquorstore.dao.orm.ORMProductImpl;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Product;
+import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 
 @Repository
 public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
@@ -41,8 +42,8 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
     protected Product afterInsert(Product copy, Integer id)
     {
         Product product;
-        product = new Product(id, copy.getCoreProduct(), copy.getBaseUnitType(), copy.getQuantity(), copy.getInventory(),
-                copy.getPrice(), true);
+        product = new Product(id, copy.getCoreProduct(), copy.getBaseUnitType(), copy.getQuantity(),
+                copy.getInventory(), copy.getPrice(), true);
 
         return product;
 
@@ -52,8 +53,8 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
     protected Product afterUpdate(Product copy)
     {
         Product product;
-        product = new Product(copy.getId(), copy.getCoreProduct(), copy.getBaseUnitType(), copy.getQuantity(), copy.getInventory(),
-                copy.getPrice(), true);
+        product = new Product(copy.getId(), copy.getCoreProduct(), copy.getBaseUnitType(), copy.getQuantity(),
+                copy.getInventory(), copy.getPrice(), true);
         return product;
     }
 
@@ -112,6 +113,57 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
             }
         }
 
+    }
+
+    @Override
+    public List<Product> readProductsByCoreProduct(Integer coreProductID)
+    {
+        return null;
+    }
+
+    @Override
+    public List<Product> readProductsByCoreProducts(List<Integer> coreProductIDs)
+    {
+        if (coreProductIDs.size() == 0)
+            return new ArrayList<>();
+
+        return this.springTemplate.query(((ORMProductImpl) this.orm).prepareProductSearchByCoreProduct(),
+                (PreparedStatement ps) ->
+                {
+                    for (int i = 0; i < coreProductIDs.size(); i++)
+                    {
+                        ps.setInt(i + 1, coreProductIDs.get(i));
+                    }
+
+                }, this.listExtractor);
+    }
+
+    @Override
+    public List<Product> readByUnitAndQuantity(BaseUnit baseUnit)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Product> readByUnitAndQuantity(Integer quantity)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Product> readByUnitAndQuantity(BaseUnit baseUnit, Integer quantity)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Product> readTopSellersForPastMonth()
+    {
+        return this.springTemplate.query(((ORMProductImpl) this.orm).prepareTopSellersInLastMonth(), this.listExtractor);
+        
     }
 
 }

@@ -23,6 +23,8 @@ public class ORMCoreProductImpl extends AbstractORM<CoreProduct> implements ORM<
         this.fields.add("type");
         this.fields.add("subtype");
         this.fields.add("description");
+        this.fields.add("full_size_image");
+        this.fields.add("thumbnail");
     }
 
     @Override
@@ -40,8 +42,10 @@ public class ORMCoreProductImpl extends AbstractORM<CoreProduct> implements ORM<
         String subType = results.getString(table() + ".subtype");
         String description = results.getString(table() + ".description");
         List<Tag> tags = new ArrayList<>();
+        String fullSizeImage = results.getString(table() + ".full_size_image");
+        String thumbnail = results.getString(table() + ".thumbnail");
         
-        CoreProduct coreProduct = new CoreProduct(id, name, tags, type, subType, description, true);
+        CoreProduct coreProduct = new CoreProduct(id, name, tags, type, subType, description, fullSizeImage, thumbnail, true);
         
         
         return coreProduct;
