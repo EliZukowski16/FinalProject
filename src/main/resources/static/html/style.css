@@ -22,14 +22,18 @@ padding-top: 7px
 
 /*customer-product.html*/
 
+#prodName{cursor: pointer}
 #productTitle{margin-left:16.5%}
-#add{border: none; background: none}
 #shoppingCart li:nth-child(odd){background-color: #D7DBDD}
 #shoppingCart li:nth-child(even) {background-color: #F2F4F4}
+#quickLinks{float: left}
+/* #add.active{background-color:#908585; -webkit-filter: grayscale(100%)} */
 
-#quickLinks{
-float: left
+h5{
+text-align:left;
+margin-left:5%
 }
+
 #products{
 margin-left:18%; 
 width: 40%
@@ -38,8 +42,18 @@ width: 40%
 .cart{
 display: block;
 position:fixed;
-top:30%;
+top:25%;
 left:70%;
 z-index: 2000;
 } 
+
+
+
+
+
+
+
+
+
+
 

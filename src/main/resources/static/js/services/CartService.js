@@ -1,15 +1,51 @@
 /*angular
   .module("liquorStore")
-  .service("CartService", CartService)
+  .factory("CartService", CartService)
   
 CartService.$inject = ['$http']
 function CartService($http) {
 
 
 var service = this;
-var contents = [];
-var searchResults = [];
-var searchTerms = [];
+
+service.keyword = "";
+service.searchResults = [];
+service.searchTerms = [];
+service.selection = [];
+
+
+return {
+
+searchResults : function (key, select){
+	service.keyword = key;
+	service.selection = select;
+	
+	
+var queryParams = {
+				keywords: ctrl.keyword,
+				types: ctrl.selection
+		}
+	
+	$http({
+		url: location.pathname +"/search",
+		method: 'GET',
+		params: queryParams
+	}).then(function(response) {		
+		
+		ctrl.searchResults= response.data.success;
+  		console.log(ctrl.searchResults);
+	})
+	};	
+	
+	
+	
+	
+	
+}
+
+
+
+
 
 
 
@@ -41,7 +77,6 @@ function CartService($http) {
  *
  *app.service = ('CartService', )
 var service = this;
-var contents = [];
 var searchResults = [];
 var searchTerms = [];
 
@@ -63,7 +98,7 @@ this.addToCart = function(evt, productId){
 	});
 	if(match)
 		contents.
-		ShopC.cart = function(){
+		store.cart = function(){
 		return CartService.contents();
 	}
 	
@@ -73,20 +108,20 @@ this.addToCart = function(evt, productId){
 }
 
 function CartController($scope, CartService){
-	var ShopC = $scope.ShopC = { };
+	var store = $scope.store = { };
 	
-	ShopC.results = [];
-	ShopC.query = CartService.currentSearch();
+	store.results = [];
+	store.query = CartService.currentSearch();
 	
 	CartService.search().then(function(response){
-	ShopC.results = response;
+	store.results = response;
 	})
 	
-	ShopC.addToCart = function (evt, productId){
+	store.addToCart = function (evt, productId){
 		CartService.addToCart(evt, productId);
 	}
 	
-	ShopC.cart = function(){
+	store.cart = function(){
 	return CartService.contents();
 	}
 }*/
