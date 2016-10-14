@@ -123,7 +123,7 @@ public class OrdersServiceImpl implements OrdersService
         for (int i = 0; i < odList.size(); i++)
         {
             Product p = daoProduct.read(odList.get(i).getProduct().getId());
-            if (p.getInventory() <= 0)
+            if (p.getInventory() <= 0)//add checking against how many they ordered
             {
                 OrderDetail od = new OrderDetail(p, null, null);
                 outOfStock.add(od);
