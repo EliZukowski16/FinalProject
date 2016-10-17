@@ -5,6 +5,7 @@
 <div class="container col-md-2" id="quickLinks">
   <h3>Quick Links</h3>
   <ul class="nav nav-pills nav-stacked" id="links">
+  	<li class="active"><a href="">Home</a></li>
     <li><a href="#products">Add Order</a></li>
     <li><a href="#orders">My Orders</a></li>
   </ul>
@@ -13,14 +14,14 @@
 
 <!-- Top Sellers -->
 
- <h2 >Top Beers</h2>
+ <h3 >Top Beers</h3>
 <div style="width:12%; margin-left:5%; display:inline-block" class="row list-group" ng-repeat="beers in HC.beers">
 	<div class="item">
 		<div class="thumbnail">
 			<img class="group list-group-image"	ng-src="{{beers.coreProduct.thumbnail}}" />
 			<div class="caption">
-				<h3 id="prodName" class="group inner list-group-item-heading"> {{beers.coreProduct.name}} </h3>
-				<h4 class="group inner list-group-item-text">{{ beers.price | currency }}</h4>
+				<h4 id="prodName" class="group inner list-group-item-heading"> {{beers.coreProduct.name}} </h4>
+				<h5 class="group inner list-group-item-text">{{ beers.price | currency }}</h5>
 				</div>
 				<div class="row"></div>
 			</div>
@@ -28,14 +29,14 @@
 	</div>
 
 <div style="margin-left: 17%">
-<h2 >Top Wines</h2>
+<h3 >Top Wines</h3>
 <div style="width:12%; margin-left:5%; display:inline-block" class="row list-group" ng-repeat="wines in HC.wines">
 	<div class="item">
 		<div class="thumbnail">
 			<img class="group list-group-image"	src="{{wines.coreProduct.thumbnail}}" />
 			<div class="caption">
-				<h3 id="prodName" class="group inner list-group-item-heading"> {{wines.coreProduct.name}} </h3>
-				<h4 class="group inner list-group-item-text">{{ wines.price | currency }}</h4>
+				<h4 id="prodName" class="group inner list-group-item-heading"> {{wines.coreProduct.name}} </h4>
+				<h5 class="group inner list-group-item-text">{{ wines.price | currency }}</h5>
 				</div>
 				<div class="row"></div>
 			</div>
@@ -44,14 +45,14 @@
 	</div>
 	
 <div style="margin-left: 17%">	
-<h2 >Top Spirits</h2>
+<h3 >Top Spirits</h3>
 <div style="width:12%; margin-left:5%; display:inline-block" class="row list-group" ng-repeat="spirits in HC.spirits">
 	<div class="item">
 		<div class="thumbnail">
 			<img class="group list-group-image"	src="{{spirits.coreProduct.thumbnail}}" />
 			<div class="caption">
-				<h3 id="prodName" class="group inner list-group-item-heading"> {{spirits.coreProduct.name}} </h3>
-				<h4 class="group inner list-group-item-text">{{ spirits.price | currency }}</h4>
+				<h4 id="prodName" class="group inner list-group-item-heading"> {{spirits.coreProduct.name}} </h4>
+				<h5 class="group inner list-group-item-text">{{ spirits.price | currency }}</h5>
 				</div>
 				<div class="row"></div>
 			</div>
