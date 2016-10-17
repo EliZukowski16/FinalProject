@@ -320,10 +320,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     
     @Override
     public List<Order> readUnfulfilledOrders()
-    {
-        List<Order> orders = new ArrayList<>();
-        
+    {   
         return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareAllUnfulfilledOrders(), (Object[]) null, this.listExtractor);
     }
-
 }
