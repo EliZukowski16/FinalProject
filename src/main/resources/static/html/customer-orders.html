@@ -1,8 +1,32 @@
-<div class="orderContainer" style="width:80%; margin-left:2%">
+<link rel="stylesheet" type="text/css" href="/html/style.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+<!-- Quick links -->
+
+<div class="container" id="quickLinks" style="float:left; width:15%">
+  <h3>Quick Links</h3>
+  <ul class="nav nav-pills nav-stacked" id="links">
+  	<li class="active"><a href="">My Orders</a></li>
+    <li><a href="#">Home</a></li>
+    <li><a href="#products">Add Order</a></li>
+  </ul>
+</div>
+
+
+
+
+<!-- Order List -->
+
+<div class="orderContainer" style="width:75%; display:inline-block; float:left; top:22%">
   <h2>My Orders</h2><br>
-  <table class="table table-hover table-striped table-bordered">
+  <table class="table table-striped table-bordered">
     <thead>
       <tr>
+      <td style="width: 30px;"></td>
         <th>Order ID</th>
         <th>Total</th>
         <th>Order Status</th>
@@ -11,13 +35,51 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="orders in OC.orders">
+      <tr ng-repeat-start="orders in OC.orders">
+      <td>
+              <button ng-if="orders.expanded" ng-click="orders.expanded = false">-</button>
+              <button ng-if="!orders.expanded" ng-click="orders.expanded = true">+</button>
+            </td>
         <td>{{ orders.id }}</td>
         <td>{{ orders.total | currency }}</td>
         <td>{{ orders.orderStatus }}</td>
         <td>{{ orders.date.dayOfWeek }}, {{ orders.date.month }} {{ orders.date.dayOfMonth }}, {{ orders.date.year }}</td>
         <td>{{ orders.date.hour }}:{{ orders.date.minute }}:{{ orders.date.second }}</td>
       </tr>
+	  <tr ng-if="orders.expanded" ng-repeat-end="">
+            <td colspan="6"><h4  style="margin-left:5%">Order Details</h4>
+            
+            <table style="width:30%; margin-left:8%">
+                <thead>
+      			<tr>
+        			<th>Product ID</th>
+        			<th>Name</th>
+        			<th>Qty</th>
+        			<th>Unit Price</th>
+        			<th>Line Total</th>
+     			 </tr>
+    			</thead>
+    			<tbody>
+            	<tr ng-repeat="detail in orders.oD">
+             	 <td>{{detail.product.id}}</td>
+             	 <td>{{detail.product.coreProduct.name}}</td>
+             	 <td>{{detail.qty}}</td>
+             	 <td>{{detail.unitPrice | currency}}</td>
+             	 <td style="text-align: right">{{detail.unitPrice * detail.qty | currency}}</td>
+            	</tr>
+            	<tr style="border-top: solid 1px">
+            	<td><strong>Grand Total:</strong></td>
+            	<td></td>
+            	<td></td>
+            	<td></td>
+            	<td style="text-align: right">{{ orders.total | currency }}</td>
+            	</tr>
+            	</tbody>            	
+          	</table>
+            
+            </td>
+            </tr>
+   
     </tbody>
   </table>
 </div>
