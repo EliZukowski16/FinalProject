@@ -1,3 +1,4 @@
+
 //package org.ssa.ironyard.liquorstore.services;
 //
 //import java.io.IOException;
@@ -47,10 +48,13 @@
 //        daoCP.clear();
 //        
 //        bdbService.getBeers();
-//        
-//       
-//        
-//        
+
+//    @Test
+//    public void test() throws IOException 
+//    {
+//        bdbService.getBeers();;
+
 //    }
-//
+
 //}
+

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,8 @@ import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 @Service
 public class ProductServiceImpl implements ProductService
 {
+    
+    static Logger LOGGER = LogManager.getLogger(ProductServiceImpl.class);
 
     DAOProduct daoProd;
 
@@ -116,19 +120,28 @@ public class ProductServiceImpl implements ProductService
 
         List<Product> topSellers = daoProd.readTopSellersForPastMonth();
 
+        LOGGER.info("Top Sellers Service : {}", topSellers.size());
+        
         for (int i = 0; i < topSellers.size(); i++)
         {
-            switch (topSellers.get(i).getBaseUnit())
+            LOGGER.info(topSellers.get(i).getBaseUnit());
+            
+            switch (topSellers.get(i).getCoreProduct().getType().toString())
             {
             case ("beer"):
             case ("ciders"):
                 topBeer.add(topSellers.get(i));
+                LOGGER.info("Added to beer list");
                 break;
             case ("wine"):
                 topWine.add(topSellers.get(i));
+            LOGGER.info("Added to wine list");
+
                 break;
             case ("spirits"):
                 topSpirits.add(topSellers.get(i));
+            LOGGER.info("Added to liqor list");
+
                 break;
             default:
                 break;
@@ -139,7 +152,17 @@ public class ProductServiceImpl implements ProductService
         topSellersMap.put("wine", topWine);
         topSellersMap.put("spirits", topSpirits);
 
+        LOGGER.info(topSellersMap);
+        
         return topSellersMap;
+    }
+
+    
+    @Override
+    @Transactional
+    public List<Product> readLowInventory()
+    {
+        return daoProd.readLowInventoryProducts();
     }
 
 }

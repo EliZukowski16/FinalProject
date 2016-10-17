@@ -11,6 +11,8 @@ import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 
+import com.mysql.cj.jdbc.PreparedStatement;
+
 public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 {
     AbstractORM<CoreProduct> coreProductORM;
@@ -51,6 +53,26 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 
         return product;
 
+    }
+
+    // public Product map(ResultSet results, Integer offset) throws SQLException
+    // {
+    // Integer id = results.getInt(offset);
+    // BaseUnit baseUnit = BaseUnit.getInstance(results.getString(++offset));
+    // Integer quantity = results.getInt(++offset);
+    // Integer inventory = results.getInt(++offset);
+    // BigDecimal price = results.getBigDecimal(++offset);
+    // CoreProduct coreProduct = this.mapCoreProduct(results, ++offset);
+    // Product product = new Product(id, coreProduct, baseUnit, quantity,
+    // inventory, price, true);
+    //
+    // return product;
+    // }
+
+    private CoreProduct mapCoreProduct(ResultSet results, Integer integer)
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     private CoreProduct mapCoreProduct(ResultSet results) throws SQLException
@@ -172,23 +194,38 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         return null;
     }
 
-    public String prepareTopSellersInLastMonth()
+    public String prepareTopSpiritSellersInLastMonth()
     {
-        String topSellers = " (SELECT product.*, core_product.*, sum(order_detail.quantity) as matches "
-                + " FROM product " + " INNER JOIN core_product " + " ON core_product.id = product.core_product_id "
-                + " INNER JOIN order_detail " + " ON order_detail.product_id = product.id " + " INNER JOIN _order "
+        String topSellers = " (SELECT " + this.projection() + " , " + coreProductORM.projection()
+                + " , sum(order_detail.quantity) as matches " + " FROM product " + " INNER JOIN core_product "
+                + " ON core_product.id = product.core_product_id " + " INNER JOIN order_detail "
+                + " ON order_detail.product_id = product.id " + " INNER JOIN _order "
                 + " ON order_detail.order_id = _order.id " + " WHERE (core_product.type IN ('SPIRITS') "
                 + " AND _order.time_order_placed >= DATE_SUB(NOW(), INTERVAL 1 MONTH)) " + " GROUP BY product.id "
-                + " ORDER BY matches DESC " + " LIMIT 5) " + " UNION ALL "
-                + " (SELECT product.*, core_product.*, sum(order_detail.quantity) as matches " + " FROM product "
-                + " INNER JOIN core_product " + " ON core_product.id = product.core_product_id "
-                + " INNER JOIN order_detail " + " ON order_detail.product_id = product.id " + " INNER JOIN _order "
+                + " ORDER BY matches DESC " + " LIMIT 5) ";
+
+        return topSellers;
+    }
+
+    public String prepareTopBeerAndCiderSellersInLastMonth()
+    {
+        String topSellers = " (SELECT " + this.projection() + " , " + coreProductORM.projection()
+                + " , sum(order_detail.quantity) as matches " + " FROM product " + " INNER JOIN core_product "
+                + " ON core_product.id = product.core_product_id " + " INNER JOIN order_detail "
+                + " ON order_detail.product_id = product.id " + " INNER JOIN _order "
                 + " ON order_detail.order_id = _order.id " + " WHERE (core_product.type IN ('BEER', 'CIDER') "
                 + " AND _order.time_order_placed >= DATE_SUB(NOW(), INTERVAL 1 MONTH)) " + " GROUP BY product.id "
-                + " ORDER BY matches DESC " + " LIMIT 5) " + " UNION ALL "
-                + " (SELECT product.*, core_product.*, sum(order_detail.quantity) as matches " + " FROM product "
-                + " INNER JOIN core_product " + " ON core_product.id = product.core_product_id "
-                + " INNER JOIN order_detail " + " ON order_detail.product_id = product.id " + " INNER JOIN _order "
+                + " ORDER BY matches DESC " + " LIMIT 5) ";
+
+        return topSellers;
+    }
+
+    public String prepareTopWineSellersInLastMonth()
+    {
+        String topSellers = " (SELECT " + this.projection() + " , " + coreProductORM.projection()
+                + " , sum(order_detail.quantity) as matches " + " FROM product " + " INNER JOIN core_product "
+                + " ON core_product.id = product.core_product_id " + " INNER JOIN order_detail "
+                + " ON order_detail.product_id = product.id " + " INNER JOIN _order "
                 + " ON order_detail.order_id = _order.id " + " WHERE (core_product.type IN ('WINE') "
                 + " AND _order.time_order_placed >= DATE_SUB(NOW(), INTERVAL 1 MONTH)) " + " GROUP BY product.id "
                 + " ORDER BY matches DESC " + " LIMIT 5) ";

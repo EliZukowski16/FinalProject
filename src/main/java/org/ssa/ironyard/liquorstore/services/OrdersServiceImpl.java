@@ -15,6 +15,7 @@ import org.ssa.ironyard.liquorstore.dao.DAOProduct;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
+import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Product;
 
 import com.mysql.cj.api.log.Log;
@@ -123,7 +124,8 @@ public class OrdersServiceImpl implements OrdersService
         for (int i = 0; i < odList.size(); i++)
         {
             Product p = daoProduct.read(odList.get(i).getProduct().getId());
-            if (p.getInventory() <= 0)//add checking against how many they ordered
+            if (p.getInventory() <= 0)// add checking against how many they
+                                      // ordered
             {
                 OrderDetail od = new OrderDetail(p, null, null);
                 outOfStock.add(od);
@@ -261,9 +263,9 @@ public class OrdersServiceImpl implements OrdersService
     public List<Order> searchMostRecent(Integer numberOfOrders)
     {
         List<Order> orders = daoOrder.readMostRecentOrders(numberOfOrders);
-        
-        orders.sort((o1,o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
-        
+
+        orders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
+
         return orders;
     }
 
@@ -279,6 +281,98 @@ public class OrdersServiceImpl implements OrdersService
     {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public List<Order> readUnfulfilledOrders()
+    {
+        List<Order> unfulfilledOrders = new ArrayList<>();
+
+        unfulfilledOrders = daoOrder.readUnfulfilledOrders();
+
+        unfulfilledOrders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
+
+        return unfulfilledOrders;
+    }
+
+    @Override
+    @Transactional
+    public boolean approveOrder(Integer orderID)
+    {
+        if (orderID == null)
+            return false;
+
+        Order order = daoOrder.read(orderID);
+        LOGGER.info("Got order with ID : {}", order.getId());
+
+        if (!order.getOrderStatus().equals(OrderStatus.PENDING) || (order == null))
+            return false;
+
+        for (OrderDetail detail : order.getoD())
+        {
+            LOGGER.info("Product in Order Detail : {}", detail.getProduct().getId());
+
+            Integer updatedInventory = detail.getProduct().getInventory() - detail.getQty();
+
+            LOGGER.info("Updated Inventory : {}", updatedInventory);
+
+            if (daoProduct.update(detail.getProduct().of().inventory(updatedInventory).build()) == null)
+                throw new RuntimeException(
+                        "Product : " + detail.getProduct().getId() + "Inventory could not be updated");
+        }
+
+        if (daoOrder.update(order.of().orderStatus(OrderStatus.APPROVED).build()) == null)
+            throw new RuntimeException("Order : " + order.getId() + " could not be approved");
+
+        return true;
+
+    }
+
+    @Override
+    @Transactional
+    public boolean rejectOrder(Integer orderID)
+    {
+        if (orderID == null)
+            return false;
+
+        Order order = daoOrder.read(orderID);
+
+        if (!order.getOrderStatus().equals(OrderStatus.PENDING) || (order == null))
+            return false;
+
+        if (daoOrder.update(order.of().orderStatus(OrderStatus.REJECTED).build()) == null)
+            throw new RuntimeException("Order : " + order.getId() + " could not be rejected");
+
+        return true;
+
+    }
+
+    @Override
+    @Transactional
+    public Boolean changeOrderStatus(List<Order> ordersForStatusChange)
+    {
+        if (ordersForStatusChange.isEmpty())
+            return false;
+
+        for (Order o : ordersForStatusChange)
+        {
+            switch (o.getOrderStatus())
+            {
+            case APPROVED:
+                if (!approveOrder(o.getId()))
+                    return false;
+                break;
+            case REJECTED:
+                if (!rejectOrder(o.getId()))
+                    return false;
+                break;
+            default:
+                throw new RuntimeException("Order status " + o.getOrderStatus().name() + " not recognized");
+            }
+        }
+        
+        return true;
+        
     }
 
 }

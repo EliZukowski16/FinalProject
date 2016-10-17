@@ -51,6 +51,23 @@ public class ORMCoreProductImpl extends AbstractORM<CoreProduct> implements ORM<
         return coreProduct;
     }
     
+//    public CoreProduct map(ResultSet results, Integer offset) throws SQLException
+//    {
+//        Integer id = results.getInt(offset);
+//        String name = results.getString(++offset);
+//        Type type = Type.getInstance(results.getString(++offset));
+//        String subType = results.getString(++offset);
+//        String description = results.getString(++offset);
+//        List<Tag> tags = new ArrayList<>();
+//        String fullSizeImage = results.getString(++offset);
+//        String thumbnail = results.getString(++offset);
+//        
+//        CoreProduct coreProduct = new CoreProduct(id, name, tags, type, subType, description, fullSizeImage, thumbnail, true);
+//        
+//        
+//        return coreProduct;
+//    }
+    
     public Tag mapTag(ResultSet results) throws SQLException
     {
         return new Tag(results.getString("product_tags.name"));

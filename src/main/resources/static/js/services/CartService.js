@@ -1,6 +1,6 @@
 /*angular
   .module("liquorStore")
-  .factory("CartService", CartService)
+  .service("CartService", CartService)
   
 CartService.$inject = ['$http']
 function CartService($http) {
@@ -39,41 +39,8 @@ var queryParams = {
 	
 	
 	
-	
-	
-}
 
 
-
-
-
-
-
-
-
-
-CartService.$inject = ['$http']
-function CartService($http) {
-
-  return {
-    all: function() {
-      return $http.get("http://localhost:4567/products").then(function(res) {
-        return res.data
-      })
-    },
-    save: function(data) {
-      console.log('should save', data)
-      return Promise.resolve({
-        id: 5
-      })
-    }
-
-
-*/
-
-/**
- * 
- *//*
  *
  *app.service = ('CartService', )
 var service = this;

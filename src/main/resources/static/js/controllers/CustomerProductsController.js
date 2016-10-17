@@ -157,14 +157,13 @@ angular
         	
     		console.log(ctrl.orderResponse);
         })
-    	
     };
 
     //Redirect after closing receipt
     ctrl.redirect = function(){
     	$state.go("customerOrders");
     	$(".modal-backdrop").hide();
-    	
-    }
+    };
+    
     
 }

@@ -458,6 +458,7 @@ public class CustomerController
     }
 
     @RequestMapping(value = "/{customerID}/TopSellers", method = RequestMethod.GET)
+    @ResponseBody
     public ResponseEntity<Map<String, Map<String, List<Product>>>> getTopSellers(@PathVariable String customerID)
     {
         
@@ -466,7 +467,7 @@ public class CustomerController
         if(topSellers != null)
             response.put("success", topSellers);
         else
-            response.put("error", topSellers);
+            response.put("error", new HashMap<>());
         
         return ResponseEntity.ok().header("Customer", "top sellers").body(response);
     }
