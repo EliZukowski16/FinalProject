@@ -6,7 +6,9 @@ angular
 	function orderCtrl($http)
 	{
 		var ctrl = this;
-		var orders = [];
+		ctrl.isCollapsed = true;
+		ctrl.orders = [];	
+		
 		
 		ctrl.getOrders = function()
 		{
