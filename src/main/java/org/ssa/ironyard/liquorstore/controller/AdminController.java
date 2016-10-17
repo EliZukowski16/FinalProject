@@ -28,7 +28,7 @@ import org.ssa.ironyard.liquorstore.services.ProductServiceImpl;
 import org.ssa.ironyard.liquorstore.services.SalesServiceImpl;
 
 @RestController
-@RequestMapping("/TheBeerGuys/admin")
+@RequestMapping("/TheBeerGuys/admin/{adminID}")
 public class AdminController
 {
 

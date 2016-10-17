@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -28,6 +30,8 @@ import org.ssa.ironyard.liquorstore.model.Product;
  */
 public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T>
 {
+    static Logger LOGGER = LogManager.getLogger(AbstractSpringDAO.class);
+    
     protected final ORM<T> orm;
     protected final DataSource dataSource;
     protected final JdbcTemplate springTemplate;
@@ -116,6 +120,8 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
     @Override
     public T update(T domain)
     {
+        
+        
         if (null == domain || null == domain.getId())
             return null;
 

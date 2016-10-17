@@ -303,14 +303,19 @@ public class OrdersServiceImpl implements OrdersService
             return false;
 
         Order order = daoOrder.read(orderID);
+        LOGGER.info("Got order with ID : {}", order.getId());
 
         if (!order.getOrderStatus().equals(OrderStatus.PENDING) || (order == null))
             return false;
 
         for (OrderDetail detail : order.getoD())
         {
+            LOGGER.info("Product in Order Detail : {}", detail.getProduct().getId());
+            
             Integer updatedInventory = detail.getProduct().getInventory() - detail.getQty();
 
+            LOGGER.info("Updated Inventory : {}", updatedInventory);
+            
             if (daoProduct.update(detail.getProduct().of().inventory(updatedInventory).build()) == null)
                 throw new RuntimeException(
                         "Product : " + detail.getProduct().getId() + "Inventory could not be updated");
