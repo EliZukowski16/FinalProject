@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class JsonBeer
 {
+    String id;
     String name;
     String tags;
     int regular_price_in_cents;
@@ -22,10 +23,11 @@ public class JsonBeer
     String tertiary_category;
     int records_per_page;
     String is_final__page;
-    public JsonBeer(String name, String tags, int regular_price_in_cents, String primary_category, String secondary_category, String orgin, String packageP,String package_unit_volume_in_milliliters,
+    public JsonBeer(String id,String name, String tags, int regular_price_in_cents, String primary_category, String secondary_category, String orgin, String packageP,String package_unit_volume_in_milliliters,
             String package_unit_type, int total_package_units, int alcohol_content, String producer_name, String description, String image_thumb_url, String image_url, String tertiary_category,int records_per_page,String is_final_page)
     {
         super();
+        this.id = id;
         this.name = name;
         this.tags = tags;
         this.regular_price_in_cents = regular_price_in_cents;
@@ -48,6 +50,16 @@ public class JsonBeer
     public JsonBeer()
     {
         super();
+    }
+    
+    
+    public String getId()
+    {
+        return id;
+    }
+    public void setId(String id)
+    {
+        this.id = id;
     }
     public String getName()
     {

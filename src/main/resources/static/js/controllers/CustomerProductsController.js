@@ -44,9 +44,54 @@ angular
 	}).then(function(response) {		
 		
 		ctrl.searchResults= response.data.success;
-  		console.log(ctrl.searchResults);
+		
+//  		for(let i = 0;i < ctrl.searchResults.length;i++)
+//  		{
+//  			var p = ctrl.searchResults[i];
+//  			
+//  			var full = new Image();
+//  			var thumb = new Image();
+//  			
+//  			
+//  			
+//  			full.src = "/pictures/products/" + p.coreProduct.fullSizeImage + "/images/thumb.png.png";
+//  			thumb.src = "/pictures/products/" + p.coreProduct.thumbnail + "/images/thumb.png.png";
+//  			
+//  			
+//  			
+//  			if(ctrl.UrlExists(full.src))
+//  			{
+//  				console.log("has an image")
+//  			}
+//  			else
+//  			{
+//  				console.log("no image" + p.coreProduct.fullSizeImage);
+//  				p.coreProduct.fullSizeImage = "noimage";
+//  				
+//  			}
+//  			if(ctrl.UrlExists(thumb.src))
+//  			{
+//  				
+//  			}
+//  			else
+//  			{
+//  				p.coreProduct.thumbnail = "noimage";
+//  			}
+  				
+  			
+  		//}
+  		
+  		
+  		
 	})
 	};
+	
+	ctrl.UrlExists = function(url) {
+			var http = new XMLHttpRequest();
+		    http.open('HEAD', url, false);
+		    http.send();
+		    return http.status!=404;
+		}
 	
     //Add product to cart 
     ctrl.addToCart = function(product)
