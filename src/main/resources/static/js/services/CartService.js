@@ -1,6 +1,6 @@
-/*angular
+angular
   .module("liquorStore")
-  .service("CartService", CartService)
+  .factory("CartService", CartService)
   
 CartService.$inject = ['$http']
 function CartService($http) {
@@ -8,35 +8,60 @@ function CartService($http) {
 
 var service = this;
 
-service.keyword = "";
+service.keyword = {'key': null};
 service.searchResults = [];
-service.searchTerms = [];
 service.selection = [];
+service.cart = [];
+service.types = ['Beer', 'Wine', 'Spirits'];
 
 
 return {
 
 searchResults : function (key, select){
-	service.keyword = key;
-	service.selection = select;
+	service.keyword.key = key;
+	service.selection.select = select;
 	
 	
 var queryParams = {
-				keywords: ctrl.keyword,
-				types: ctrl.selection
-		}
+	keywords: ctrl.keyword,
+	types: ctrl.selection
+}
 	
 	$http({
-		url: location.pathname +"/search",
-		method: 'GET',
-		params: queryParams
-	}).then(function(response) {		
+	method: "POST",
+	url: location.pathname + "/search",
+	dataType: "json",
+	params: queryParams
+	}).success(function(response) {		
 		
 		ctrl.searchResults= response.data.success;
   		console.log(ctrl.searchResults);
-	})
-	};	
+  		
+	}).error(function(response){
 	
+		console.log("http error");
+		})
+	},
+	
+	//Checkbox search
+	toggleSelection : function(type){
+		var index = service.selection.indexOf(type);
+		
+		if(index >-1){
+			service.selection.splice(index, 1);
+		} else {
+			service.selection.push(type);
+		}
+	};
+
+
+/*
+	
+	addToCart : function(product){
+		
+		if(service.cart.indexOf(product) == -1) {
+		service.cart.push(product);
+	}
 	
 	
 
