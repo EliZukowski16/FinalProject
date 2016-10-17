@@ -102,6 +102,18 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 
                 " " + this.coreProductJoin() + " ON " + this.coreProductRelation();
     }
+    
+    private String buildEagerReadLessCustomer()
+    {
+        return " SELECT " + this.projection() + " , "  + coreProductORM.projection()
+        + " , " + productORM.projection() + " , " + " order_detail.* " + " FROM " + this.table() +
+
+        " " + this.orderDetailJoin() + " ON " + this.orderDetailRelation() +
+
+        " " + this.productJoin() + " ON " + this.productRelation() +
+
+        " " + this.coreProductJoin() + " ON " + this.coreProductRelation();
+    }
 
     @Override
     public String prepareRead()
@@ -265,7 +277,7 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 
     public String prepareAllUnfulfilledOrders()
     {
-        String unfulfilled = this.buildEagerRead() + 
+        String unfulfilled = this.buildEagerReadLessCustomer() + 
                 " WHERE " + this.table() + "." + this.getFields().get(2) + " = 'PENDING' ";
         
         return unfulfilled;
