@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
@@ -20,6 +22,8 @@ import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 @Repository
 public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
 {
+    static Logger LOGGER = LogManager.getLogger(DAOProductImpl.class);
+    
     @Autowired
     public DAOProductImpl(DataSource dataSource)
     {
@@ -31,7 +35,7 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
     protected void insertPreparer(PreparedStatement insertStatement, Product domainToInsert) throws SQLException
     {
         insertStatement.setInt(1, domainToInsert.getCoreProduct().getId());
-        insertStatement.setString(2, domainToInsert.getBaseUnit().toString());
+        insertStatement.setString(2, domainToInsert.getBaseUnit());
         insertStatement.setInt(3, domainToInsert.getQuantity());
         insertStatement.setInt(4, domainToInsert.getInventory());
         insertStatement.setBigDecimal(5, domainToInsert.getPrice());
@@ -68,11 +72,22 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
             public void setValues(PreparedStatement ps) throws SQLException
             {
                 ps.setInt(1, domainToUpdate.getCoreProduct().getId());
-                ps.setString(2, domainToUpdate.getBaseUnit().toString());
+                LOGGER.info("Update - Core Product ID: {}", domainToUpdate.getCoreProduct().getId());
+                
+                ps.setString(2, domainToUpdate.getBaseUnit());
+                LOGGER.info("Update - Base Unit: {}", domainToUpdate.getBaseUnit());
+
                 ps.setInt(3, domainToUpdate.getQuantity());
+                LOGGER.info("Update - Quantity: {}", domainToUpdate.getQuantity());
+
                 ps.setInt(4, domainToUpdate.getInventory());
+                LOGGER.info("Update - Inventory: {}", domainToUpdate.getInventory());
+
                 ps.setBigDecimal(5, domainToUpdate.getPrice());
+                LOGGER.info("Update - Price: {}", domainToUpdate.getPrice());
+
                 ps.setInt(6, domainToUpdate.getId());
+                LOGGER.info("Update - Product ID: {}", domainToUpdate.getId());
 
             }
 
