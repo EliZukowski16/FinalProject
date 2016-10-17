@@ -28,5 +28,6 @@ public interface OrdersService
     List<Order> readUnfulfilledOrders();
     boolean approveOrder(Integer orderID);
     boolean rejectOrder(Integer orderID);
+    Boolean changeOrderStatus(List<Order> ordersForStatusChange);
     
 }

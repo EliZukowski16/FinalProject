@@ -20,6 +20,7 @@ public interface ProductService
     List<Product> searchUnitQty(Product.BaseUnit baseUnit, Integer quanity);
     List<Product> searchProduct(List<Tag> tags,List<Type> type);
     Map<String, List<Product>> topSellersForPastMonth();
+    List<Product> readLowInventory();
     
     
 }

@@ -68,3 +68,19 @@ WHERE (core_product.type IN ('WINE'))
 GROUP BY product.id 
 ORDER BY matches DESC
 LIMIT 5)
+
+SELECT product.*,
+CASE _order.order_status
+WHEN 'PENDING' THEN product.inventory - order_detail.quantity
+ELSE product.inventory
+END
+FROM product
+LEFT JOIN core_product
+ON core_product.id = product.core_product_id
+LEFT JOIN order_detail
+ON order_detail.product_id = product.id
+LEFT JOIN _order
+ON _order.id = order_detail.order_id
+GROUP BY product.id
+
+

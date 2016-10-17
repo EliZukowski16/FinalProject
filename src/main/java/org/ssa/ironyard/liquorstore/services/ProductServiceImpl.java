@@ -157,4 +157,12 @@ public class ProductServiceImpl implements ProductService
         return topSellersMap;
     }
 
+    
+    @Override
+    @Transactional
+    public List<Product> readLowInventory()
+    {
+        return daoProd.readLowInventoryProducts();
+    }
+
 }
