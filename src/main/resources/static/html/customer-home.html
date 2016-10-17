@@ -18,7 +18,7 @@
 <div style="width:12%; margin-left:5%; display:inline-block" class="row list-group" ng-repeat="beers in HC.beers">
 	<div class="item">
 		<div class="thumbnail">
-			<img class="group list-group-image"	ng-src="{{beers.coreProduct.thumbnail}}" />
+			<img class="group list-group-image"	src="/pictures/products/{{product.coreProduct.thumbnail}}/images/thumb.png.png" />
 			<div class="caption">
 				<h4 id="prodName" class="group inner list-group-item-heading"> {{beers.coreProduct.name}} </h4>
 				<h5 class="group inner list-group-item-text">{{ beers.price | currency }}</h5>
@@ -30,10 +30,10 @@
 
 <div style="margin-left: 17%">
 <h3 >Top Wines</h3>
-<div style="width:12%; margin-left:5%; display:inline-block" class="row list-group" ng-repeat="wines in HC.wines">
+<div style="width:15%; margin-left:5%; display:inline-block" class="row list-group" ng-repeat="wines in HC.wines">
 	<div class="item">
 		<div class="thumbnail">
-			<img class="group list-group-image"	src="{{wines.coreProduct.thumbnail}}" />
+			<img class="group list-group-image"	src="/pictures/products/{{product.coreProduct.thumbnail}}/images/thumb.png.png" />
 			<div class="caption">
 				<h4 id="prodName" class="group inner list-group-item-heading"> {{wines.coreProduct.name}} </h4>
 				<h5 class="group inner list-group-item-text">{{ wines.price | currency }}</h5>
@@ -46,10 +46,10 @@
 	
 <div style="margin-left: 17%">	
 <h3 >Top Spirits</h3>
-<div style="width:12%; margin-left:5%; display:inline-block" class="row list-group" ng-repeat="spirits in HC.spirits">
+<div style="width:15%; margin-left:5%; display:inline-block" class="row list-group" ng-repeat="spirits in HC.spirits">
 	<div class="item">
 		<div class="thumbnail">
-			<img class="group list-group-image"	src="{{spirits.coreProduct.thumbnail}}" />
+			<img class="group list-group-image"	src="/pictures/products/{{product.coreProduct.thumbnail}}/images/thumb.png.png" />
 			<div class="caption">
 				<h4 id="prodName" class="group inner list-group-item-heading"> {{spirits.coreProduct.name}} </h4>
 				<h5 class="group inner list-group-item-text">{{ spirits.price | currency }}</h5>

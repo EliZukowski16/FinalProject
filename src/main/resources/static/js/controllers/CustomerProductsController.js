@@ -102,6 +102,12 @@ angular
 			ctrl.cart.push(product);
 	}
     
+    //Remove product from cart
+    ctrl.remove = function(product){
+    	var index = ctrl.cart.indexOf(product)
+    	ctrl.cart.splice(index,1);  
+    };
+    
     
     //Calculate cart grand total
     ctrl.grandTotal = function()
@@ -164,6 +170,8 @@ angular
     	$state.go("customerOrders");
     	$(".modal-backdrop").hide();
     };
+    
+    
     
     
 }
