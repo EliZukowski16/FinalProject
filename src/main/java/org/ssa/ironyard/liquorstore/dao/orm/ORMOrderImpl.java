@@ -263,4 +263,12 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
         return readByCoreProductIds;
     }
 
+    public String prepareAllUnfulfilledOrders()
+    {
+        String unfulfilled = this.buildEagerRead() + 
+                " WHERE " + this.table() + "." + this.getFields().get(2) + " = 'UNFULFILLED' ";
+        
+        return unfulfilled;
+    }
+
 }

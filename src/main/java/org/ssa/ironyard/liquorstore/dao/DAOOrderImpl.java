@@ -302,7 +302,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
 
         productIDs.add(productID);
 
-        return readOrdersByCustomers(productIDs);
+        return readOrdersByProducts(productIDs);
     }
 
     @Override
@@ -315,7 +315,15 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
 
         coreProductIDs.add(coreProductID);
 
-        return readOrdersByCustomers(coreProductIDs);
+        return readOrdersByCoreProducts(coreProductIDs);
+    }
+    
+    @Override
+    public List<Order> readUnfulfilledOrders()
+    {
+        List<Order> orders = new ArrayList<>();
+        
+        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareAllUnfulfilledOrders(), (Object[]) null, this.listExtractor);
     }
 
 }
