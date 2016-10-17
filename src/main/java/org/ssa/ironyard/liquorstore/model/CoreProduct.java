@@ -17,7 +17,7 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
 
     public enum Type
     {
-        BEER("beer"), WINE("wine"), SPIRITS("spirits"),CIDERS("ciders");
+        BEER("beer"), WINE("wine"), SPIRITS("spirits"),CIDERS("ciders"),ACCESSORIES("accessories and non-alcohol items"),NON_ALCOHOL("non-alc");
 
         private String alcoholType;
 
@@ -103,6 +103,17 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         return thumbnail;
     }
 
+    
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
     @Override
     public boolean equals(Object obj)
     {
@@ -113,23 +124,14 @@ public class CoreProduct extends AbstractDomainObject implements DomainObject
         if (getClass() != obj.getClass())
             return false;
         CoreProduct other = (CoreProduct) obj;
-        if (this.getId() == null)
+        if (name == null)
         {
-            if (other.getId() != null)
+            if (other.name != null)
                 return false;
         }
-        else if (!this.getId().equals(other.getId()))
+        else if (!name.equals(other.name))
             return false;
         return true;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + this.getId();
-        return result;
     }
 
     @Override

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class JsonBeer
 {
+    String id;
     String name;
     String tags;
     int regular_price_in_cents;
@@ -20,10 +21,13 @@ public class JsonBeer
     String image_thumb_url;
     String image_url;
     String tertiary_category;
-    public JsonBeer(String name, String tags, int regular_price_in_cents, String primary_category, String secondary_category, String orgin, String packageP,String package_unit_volume_in_milliliters,
-            String package_unit_type, int total_package_units, int alcohol_content, String producer_name, String description, String image_thumb_url, String image_url, String tertiary_category)
+    int records_per_page;
+    String is_final__page;
+    public JsonBeer(String id,String name, String tags, int regular_price_in_cents, String primary_category, String secondary_category, String orgin, String packageP,String package_unit_volume_in_milliliters,
+            String package_unit_type, int total_package_units, int alcohol_content, String producer_name, String description, String image_thumb_url, String image_url, String tertiary_category,int records_per_page,String is_final_page)
     {
         super();
+        this.id = id;
         this.name = name;
         this.tags = tags;
         this.regular_price_in_cents = regular_price_in_cents;
@@ -40,10 +44,22 @@ public class JsonBeer
         this.image_thumb_url = image_thumb_url;
         this.image_url = image_url;
         this.tertiary_category = tertiary_category;
+        this.records_per_page = records_per_page;
+        this.is_final__page = is_final_page;
     }
     public JsonBeer()
     {
         super();
+    }
+    
+    
+    public String getId()
+    {
+        return id;
+    }
+    public void setId(String id)
+    {
+        this.id = id;
     }
     public String getName()
     {
@@ -176,6 +192,26 @@ public class JsonBeer
     {
         this.tertiary_category = tertiary_category;
     }
+    public int getRecords_per_page()
+    {
+        return records_per_page;
+    }
+    public void setRecords_per_page(int records_per_page)
+    {
+        this.records_per_page = records_per_page;
+    }
+    public String getIs_final__page()
+    {
+        return is_final__page;
+    }
+    public void setIs_final__page(String is_final__page)
+    {
+        this.is_final__page = is_final__page;
+    }
+    
+    
+    
+    
     
     
 }

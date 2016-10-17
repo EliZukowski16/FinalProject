@@ -311,11 +311,11 @@ public class OrdersServiceImpl implements OrdersService
         for (OrderDetail detail : order.getoD())
         {
             LOGGER.info("Product in Order Detail : {}", detail.getProduct().getId());
-            
+
             Integer updatedInventory = detail.getProduct().getInventory() - detail.getQty();
 
             LOGGER.info("Updated Inventory : {}", updatedInventory);
-            
+
             if (daoProduct.update(detail.getProduct().of().inventory(updatedInventory).build()) == null)
                 throw new RuntimeException(
                         "Product : " + detail.getProduct().getId() + "Inventory could not be updated");
@@ -345,6 +345,34 @@ public class OrdersServiceImpl implements OrdersService
 
         return true;
 
+    }
+
+    @Override
+    @Transactional
+    public Boolean changeOrderStatus(List<Order> ordersForStatusChange)
+    {
+        if (ordersForStatusChange.isEmpty())
+            return false;
+
+        for (Order o : ordersForStatusChange)
+        {
+            switch (o.getOrderStatus())
+            {
+            case APPROVED:
+                if (!approveOrder(o.getId()))
+                    return false;
+                break;
+            case REJECTED:
+                if (!rejectOrder(o.getId()))
+                    return false;
+                break;
+            default:
+                throw new RuntimeException("Order status " + o.getOrderStatus().name() + " not recognized");
+            }
+        }
+        
+        return true;
+        
     }
 
 }

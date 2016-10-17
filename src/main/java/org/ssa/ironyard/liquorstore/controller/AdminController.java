@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,12 +13,14 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
+import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
 import org.ssa.ironyard.liquorstore.services.AnalyticsServiceImpl;
@@ -102,6 +105,26 @@ public class AdminController
 
     }
 
+    @RequestMapping(value = "/customers/{id}/orders", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Map<String, List<Order>>> getCustomerOrders(@PathVariable String id)
+    {
+        Map<String, List<Order>> response = new HashMap<>();
+
+        Integer customerID = Integer.parseInt(id);
+
+        List<Order> orders = new ArrayList<>();
+
+        orders = orderService.readOrdersByCustomer(customerID);
+
+        if (orders.isEmpty())
+            response.put("error", new ArrayList<>());
+        else
+            response.put("success", orders);
+
+        return ResponseEntity.ok().body(response);
+    }
+
     @RequestMapping(value = "/customer/{id}", method = RequestMethod.DELETE)
     public boolean deleteCustomer(@PathVariable String id)
     {
@@ -135,6 +158,22 @@ public class AdminController
         return ResponseEntity.ok().header("The Beer Guys Admin", "Products").body(response);
 
     }
+    
+    @RequestMapping(value = "/products/lowinventory", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Map<String, List<Product>>> getLowInventory()
+    {
+        List<Product> lowInventory = productService.readLowInventory();
+        
+        Map<String, List<Product>> response = new HashMap<>();
+        
+        if(lowInventory.isEmpty())
+            response.put("error", new ArrayList<>());
+        else
+            response.put("success", lowInventory);
+        
+        return ResponseEntity.ok().body(response);
+    }
 
     @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -154,6 +193,13 @@ public class AdminController
         LOGGER.trace("checking for a success", response);
 
         return ResponseEntity.ok().header("Products", "Product Detail").body(response);
+    }
+    
+    @RequestMapping(value = "/products/{id}/orders", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Map<String, List<Order>>> getProductOrders(@PathVariable String id)
+    {
+        return null;
     }
 
     @RequestMapping(value = "/products", method = RequestMethod.POST)
@@ -198,6 +244,26 @@ public class AdminController
             response.put("success", orders);
 
         return ResponseEntity.ok().body(response);
+    }
+
+    @RequestMapping(value = "/orders/pending", method = RequestMethod.POST)
+    public Boolean changeOrderStatus(@RequestBody List<Map<String, Object>> body)
+    {
+        List<Order> ordersForStatusChange = new ArrayList<>();
+
+        for (Map<String, Object> map : body)
+        {
+            for (Entry e : map.entrySet())
+            {
+                Integer orderID = Integer.parseInt((String) e.getKey());
+                OrderStatus status = OrderStatus.getInstance((String) e.getValue());
+
+                ordersForStatusChange.add(new Order.Builder().id(orderID).orderStatus(status).build());
+            }
+        }
+
+        return orderService.changeOrderStatus(ordersForStatusChange);
+
     }
 
     @RequestMapping(value = "/orders/pending/{id}/approve", method = RequestMethod.POST)

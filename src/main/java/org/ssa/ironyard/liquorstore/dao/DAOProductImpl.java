@@ -188,4 +188,11 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
         
     }
 
+    @Override
+    public List<Product> readLowInventoryProducts()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
