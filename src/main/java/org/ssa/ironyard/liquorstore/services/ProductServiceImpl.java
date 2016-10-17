@@ -162,7 +162,13 @@ public class ProductServiceImpl implements ProductService
     @Transactional
     public List<Product> readLowInventory()
     {
-        return daoProd.readLowInventoryProducts();
+        List<Product> lowInventory = new ArrayList<>();
+        
+        lowInventory = daoProd.readLowInventoryProducts();
+        
+        lowInventory.sort((p1, p2) -> p1.getInventory().compareTo(p2.getInventory()));
+        
+        return lowInventory;
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.ssa.ironyard.liquorstore.dao.orm.ORM;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
@@ -11,6 +12,8 @@ import org.ssa.ironyard.liquorstore.model.Product;
 
 public abstract class AbstractDAOProduct extends AbstractSpringDAO<Product> implements DAOProduct
 {
+    
+    protected ResultSetExtractor<List<Product>> lowInventoryExtractor;
 
     protected AbstractDAOProduct(ORM<Product> orm, DataSource dataSource)
     {

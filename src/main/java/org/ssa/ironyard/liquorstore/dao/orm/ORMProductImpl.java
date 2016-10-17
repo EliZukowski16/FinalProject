@@ -11,8 +11,6 @@ import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 
-import com.mysql.cj.jdbc.PreparedStatement;
-
 public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 {
     AbstractORM<CoreProduct> coreProductORM;
@@ -53,6 +51,11 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 
         return product;
 
+    }
+    
+    public Product mapLowInventory(ResultSet results) throws SQLException
+    {
+        return this.map(results).of().inventory(results.getInt("total")).build();
     }
 
     // public Product map(ResultSet results, Integer offset) throws SQLException
@@ -231,6 +234,26 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
                 + " ORDER BY matches DESC " + " LIMIT 5) ";
 
         return topSellers;
+    }
+
+    public String prepareLowInventory()
+    {
+        String lowInventory = " SELECT " + this.projection() + " , " + coreProductORM.projection() +
+                " , CASE _order.order_status " +
+                " WHEN 'PENDING' THEN " + this.table() + "." + this.getFields().get(3) +
+                " - SUM( order_detail.quantity) " +
+                " ELSE " + this.table() + "." + this.getFields().get(3) +
+                " END as total " +
+                " FROM " +
+                this.coreProductJoin() + " ON " + this.coreProductRelation() +
+                " LEFT JOIN order_detail " +
+                " ON order_detail.product_id = " + this.table() + "." + this.getPrimaryKeys().get(0) +
+                " LEFT JOIN _order " +
+                " ON _order.id " +
+                " = order_detail.order_id " +
+                " GROUP BY " + this.table() + "." + this.getPrimaryKeys().get(0);
+       
+        return lowInventory;
     }
 
 }

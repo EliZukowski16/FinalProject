@@ -71,16 +71,17 @@ LIMIT 5)
 
 SELECT product.*,
 CASE _order.order_status
-WHEN 'PENDING' THEN product.inventory - order_detail.quantity
+WHEN 'PENDING' THEN product.inventory - sum(order_detail.quantity)
 ELSE product.inventory
-END
+END as total
 FROM product
-LEFT JOIN core_product
+JOIN core_product
 ON core_product.id = product.core_product_id
 LEFT JOIN order_detail
 ON order_detail.product_id = product.id
 LEFT JOIN _order
 ON _order.id = order_detail.order_id
 GROUP BY product.id
+
 
 

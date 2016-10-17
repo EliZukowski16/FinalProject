@@ -2,6 +2,7 @@ package org.ssa.ironyard.liquorstore.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +24,24 @@ import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
 {
     static Logger LOGGER = LogManager.getLogger(DAOProductImpl.class);
-    
+
     @Autowired
     public DAOProductImpl(DataSource dataSource)
     {
         super(new ORMProductImpl(), dataSource);
         // TODO Auto-generated constructor stub
+
+        this.lowInventoryExtractor = (ResultSet cursor) ->
+        {
+            List<Product> resultList = new ArrayList<>();
+
+            while (cursor.next())
+            {
+                resultList.add(((ORMProductImpl) this.orm).mapLowInventory((cursor)));
+            }
+
+            return resultList;
+        };
     }
 
     @Override
@@ -73,7 +86,7 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
             {
                 ps.setInt(1, domainToUpdate.getCoreProduct().getId());
                 LOGGER.info("Update - Core Product ID: {}", domainToUpdate.getCoreProduct().getId());
-                
+
                 ps.setString(2, domainToUpdate.getBaseUnit());
                 LOGGER.info("Update - Base Unit: {}", domainToUpdate.getBaseUnit());
 
@@ -177,22 +190,26 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
     @Override
     public List<Product> readTopSellersForPastMonth()
     {
-        
+
         List<Product> topSellers = new ArrayList<>();
-        
-        topSellers.addAll( this.springTemplate.query(((ORMProductImpl) this.orm).prepareTopBeerAndCiderSellersInLastMonth(), (Object[]) null, this.listExtractor));
-        topSellers.addAll( this.springTemplate.query(((ORMProductImpl) this.orm).prepareTopWineSellersInLastMonth(), (Object[]) null, this.listExtractor));
-        topSellers.addAll( this.springTemplate.query(((ORMProductImpl) this.orm).prepareTopSpiritSellersInLastMonth(), (Object[]) null, this.listExtractor));
+
+        topSellers.addAll(
+                this.springTemplate.query(((ORMProductImpl) this.orm).prepareTopBeerAndCiderSellersInLastMonth(),
+                        (Object[]) null, this.listExtractor));
+        topSellers.addAll(this.springTemplate.query(((ORMProductImpl) this.orm).prepareTopWineSellersInLastMonth(),
+                (Object[]) null, this.listExtractor));
+        topSellers.addAll(this.springTemplate.query(((ORMProductImpl) this.orm).prepareTopSpiritSellersInLastMonth(),
+                (Object[]) null, this.listExtractor));
 
         return topSellers;
-        
+
     }
 
     @Override
     public List<Product> readLowInventoryProducts()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return this.springTemplate.query(((ORMProductImpl) this.orm).prepareLowInventory(), (Object[]) null,
+                this.lowInventoryExtractor);
     }
 
 }
