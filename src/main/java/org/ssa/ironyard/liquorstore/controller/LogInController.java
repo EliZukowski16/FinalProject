@@ -21,7 +21,7 @@ import org.ssa.ironyard.liquorstore.model.User;
 import org.ssa.ironyard.liquorstore.services.LogInServiceImpl;
 
 @RestController
-@RequestMapping("/TheBeerGuys")
+@RequestMapping("")
 public class LogInController
 {
     
@@ -30,14 +30,14 @@ public class LogInController
     
     static Logger LOGGER = LogManager.getLogger(LogInController.class);
     
-    @RequestMapping("")
+    @RequestMapping("/TheBeerGuys")
     public View home()
     {
         LOGGER.info("we made it home");
         return new InternalResourceView("index.html");
     }
     
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/TheBeerGuys/login", method = RequestMethod.POST)
     public ResponseEntity<Map<String,User>> Authenticate(HttpServletRequest request, HttpSession session)
     {
         LOGGER.info("autehntication");
@@ -69,7 +69,7 @@ public class LogInController
         return ResponseEntity.ok().header("log in", "Check").body(response);
     }
     
-    @RequestMapping(value = "/admin/{adminID}")
+    @RequestMapping(value = "/TheBeerGuys/admin/{adminID}")
     public View admin(@PathVariable int adminID)
     {
         LOGGER.info("Made call to Admin with {}", adminID);
@@ -77,7 +77,7 @@ public class LogInController
         return new InternalResourceView("/admin.html");
     }
     
-    @RequestMapping(value = "/customer/{customerID}")
+    @RequestMapping(value = "/TheBeerGuys/customer/{customerID}")
     public View customer(@PathVariable int customerID)
     {
         LOGGER.info("Made call to Customer with {}", customerID);

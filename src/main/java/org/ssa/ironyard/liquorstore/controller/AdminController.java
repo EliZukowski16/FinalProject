@@ -246,9 +246,10 @@ public class AdminController
         return ResponseEntity.ok().body(response);
     }
 
-    @RequestMapping(value = "/orders/pending", method = RequestMethod.POST)
+    @RequestMapping(value = "/UnfulfilledOrders/pending", method = RequestMethod.POST)
     public Boolean changeOrderStatus(@RequestBody List<Map<String, Object>> body)
     {
+        LOGGER.info("We made it to the pending cont" + body);
         List<Order> ordersForStatusChange = new ArrayList<>();
 
         for (Map<String, Object> map : body)
@@ -257,6 +258,10 @@ public class AdminController
             {
                 Integer orderID = Integer.parseInt((String) e.getKey());
                 OrderStatus status = OrderStatus.getInstance((String) e.getValue());
+                
+                LOGGER.info("order ID: {}", orderID);
+                LOGGER.info("orderStatus: {}", status);
+                
 
                 ordersForStatusChange.add(new Order.Builder().id(orderID).orderStatus(status).build());
             }
@@ -266,7 +271,7 @@ public class AdminController
 
     }
 
-    @RequestMapping(value = "/orders/pending/{id}/approve", method = RequestMethod.POST)
+    @RequestMapping(value = "/UnfulfilledOrders/pending/{id}/approve", method = RequestMethod.POST)
     public Boolean approveOrder(@PathVariable String id)
     {
         Integer orderID = Integer.parseInt(id);
@@ -275,7 +280,7 @@ public class AdminController
 
     }
 
-    @RequestMapping(value = "/orders/pending/{id}/reject", method = RequestMethod.POST)
+    @RequestMapping(value = "/UnfulfilledOrders/pending/{id}/reject", method = RequestMethod.POST)
     public Boolean rejectOrder(@PathVariable String id)
     {
         Integer orderID = Integer.parseInt(id);

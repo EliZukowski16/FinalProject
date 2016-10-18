@@ -6,7 +6,7 @@ configure.$inject = ['$stateProvider', '$urlRouterProvider']
 function configure($stateProvider, $urlRouterProvider) {
   $stateProvider
   .state('customerHome', {
-      url: '/TheBeerGuys',
+      url: '/TopSellers',
       controller: 'CustomerHomeController',
       controllerAs: 'HC',
       templateUrl: '/html/customer-home.html'
@@ -25,7 +25,7 @@ function configure($stateProvider, $urlRouterProvider) {
     })
     
     .state('adminHome', {
-      url: '/TheBeerGuys',
+      url: '/UnfulfilledOrders',
       controller: 'AdminHomeController',
       controllerAs: 'HC',
       templateUrl: '/html/admin-home.html'
@@ -36,14 +36,39 @@ function configure($stateProvider, $urlRouterProvider) {
       controllerAs: 'OC',
       templateUrl: '/html/admin-order.html'
     })
-        .state('adminSearch', {
-      url: '/search',
-      controller: 'AdminSearchController',
+        .state('adminInventory', {
+      url: '/Inventory',
+      controller: 'AdminInventoryController',
       controllerAs: 'SC',
       templateUrl: '/html/admin.html'
     })
+    	.state('adminSalesStats', {
+    		url:'/SalesStats',
+    		controller: 'AdminSalesStatsController',
+    		controllerAs: 'SSC',
+    		templateUrl: '/html/salesstats.html'
+    	})
 
-  $urlRouterProvider.otherwise('/TheBeerGuys')
+  $urlRouterProvider.otherwise(function(){
+	  
+	  console.log(location.pathname)
+	  
+	  var path = location.pathname
+	  
+	  if(path.includes("customer"))
+	  {
+		  return "/TopSellers";
+	  }
+	  else if(path.includes("admin"))
+	  {
+		  return "/UnfulfilledOrders";
+	  }
+	  else
+	  {
+		  return "/error";
+	  }
+	  
+  })
 
   console.log("setting up", $stateProvider)
 }
