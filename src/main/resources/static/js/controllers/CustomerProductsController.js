@@ -1,50 +1,77 @@
 angular
 	.module("liquorStore")
 	.controller("CustomerProductsController", productCtrl)	
-	productCtrl.$inject=['$http', '$state']
+	productCtrl.$inject=['$http', '$state', 'CartService']
 
-	function productCtrl($http, $state)
+	function productCtrl($http, $state, CartService)
 	{
 	
 	var ctrl = this;	
 	ctrl.active = false;
-	ctrl.searchResults = [];
-	ctrl.cart = [];
-	ctrl.keyword = "";
 	ctrl.types = ['Beer', 'Wine', 'Spirits'];
-	ctrl.selection = [];
     ctrl.orderDetails = [];
     ctrl.orderResponse = [];
-     
-	
-	//Checkbox search
-	ctrl.toggleSelection = function toggleSelection(type){
-		var index = ctrl.selection.indexOf(type);
-		
-		if(index >-1){
-			ctrl.selection.splice(index, 1);
-		} else {
-			ctrl.selection.push(type);
-		}
-	};
+    
+    ctrl.month = "";
+    ctrl.day = "";
+    ctrl.year = "";
+    
+    ctrl.searchResults = CartService.getSearchResults;
+    ctrl.keyword = CartService.getKeyword;
+    ctrl.selection = CartService.getSelection;
+    ctrl.cart = CartService.getCart;
+    
+    //Checkbox search
+    ctrl.toggleSelection = function(type){
+    	CartService.toggleSelection(type);
+    }
+    
+    //Submit search to controller
+    ctrl.search = function(){
+    	CartService.search();
+    }   
+    
+    //Add product to cart 
+    ctrl.addToCart = function(product)
+    {
+    	ctrl.active = true;
+    	CartService.addToCart(product);
+	}
+    
+    //Remove product from cart
+    ctrl.remove = function(product){
+    	CartService.remove(product);
+    };
+    
+
+    //Calculate cart grand total
+    ctrl.grandTotal = function()
+    {
+    	var total = 0;
+    	for(var i = 0; i<ctrl.cart.length; i++){
+    		var product = ctrl.cart[i];
+    		total += (product.price * product.qty)
+    	}
+    	return total;
+    };
 	
 	//Send search to controller
-	ctrl.search = function()
-	{	
-		
-		var queryParams = {
-				keywords: ctrl.keyword,
-				types: ctrl.selection
-		}
-	
-	$http({
-		url: location.pathname +"/search",
-		method: 'GET',
-		params: queryParams
-	}).then(function(response) {		
-		
-		ctrl.searchResults= response.data.success;
-		
+//	ctrl.search = function()
+//	{	
+//		
+//		var queryParams = {
+//				keywords: ctrl.keyword,
+//				types: ctrl.selection
+//		}
+//	
+//	$http({
+//		url: location.pathname +"/search",
+//		method: 'GET',
+//		params: queryParams
+//	}).then(function(response) {		
+//		
+//		ctrl.searchResults= response.data.success;
+//		
 //  		for(let i = 0;i < ctrl.searchResults.length;i++)
 //  		{
 //  			var p = ctrl.searchResults[i];
@@ -80,11 +107,12 @@ angular
   				
   			
   		//}
-  		
-  		
-  		
-	})
-	};
+//  		
+//  		
+//  		
+//	})
+//	};
+    
 	
 	ctrl.UrlExists = function(url) {
 			var http = new XMLHttpRequest();
@@ -92,33 +120,6 @@ angular
 		    http.send();
 		    return http.status!=404;
 		}
-	
-    //Add product to cart 
-    ctrl.addToCart = function(product)
-    {
-    	ctrl.active = true;
-    	
-    	if(ctrl.cart.indexOf(product) == -1) 
-			ctrl.cart.push(product);
-	}
-    
-    //Remove product from cart
-    ctrl.remove = function(product){
-    	var index = ctrl.cart.indexOf(product)
-    	ctrl.cart.splice(index,1);  
-    };
-    
-    
-    //Calculate cart grand total
-    ctrl.grandTotal = function()
-    {
-    	var total = 0;
-    	for(var i = 0; i<ctrl.cart.length; i++){
-    		var product = ctrl.cart[i];
-    		total += (product.price * product.qty)
-    	}
-    	return total;
-    };
     
 
     //Submit Order    
@@ -134,19 +135,19 @@ angular
     		products.push(tempProduct);
     	}
 
-    	
+
     	$http({
         	url: location.pathname +"/placeOrder",
         	method: 'POST',
         	data: {
-        		'orderYear': "2016",
-        		'orderMonth': "12",
-        		'orderDay': "15",
+        		'orderYear': ctrl.year,
+        		'orderMonth': ctrl.month,
+        		'orderDay': ctrl.day,
         		'total': ctrl.grandTotal(),
         		'products': products
         	}
         }).then(function(response) {	
-        	
+        	console.log(response);
         	ctrl.orderResponse = response.data;
         	
         	if(ctrl.orderResponse.success){

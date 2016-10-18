@@ -70,7 +70,7 @@
 
 <!--  Shopping cart -->
 
-<div class="cart" ng-show="PC.cart.length>0">
+<div class="cart" ng-show="PC.cart.length">
 <div class="panel panel-primary">
     <div id="shoppingCart" class="panel-heading">
         <h1 class="panel-title" style="text-align: center">Shopping Cart</h1>
@@ -106,8 +106,63 @@
       </tr>
     </tbody>
   </table>
-      <form action="action_page.php" style="text-align: center">Choose a delivery date:
-		<input type="date" name="deliveryDate" id="deliveryDate"></form>
+     <form action="demo_form.asp" style="text-align: center">
+     <label>Choose delivery date: </label>
+		<select name="month" id ="month" ng-model="PC.month" placeholder="MM">
+  			<option value="">MM</option>
+  			 <option value="01">01</option>
+  			 <option value="02">02</option>
+  			 <option value="03">03</option>
+  			 <option value="04">04</option>
+  			 <option value="05">05</option>
+  			 <option value="06">06</option>
+  			 <option value="07">07</option>
+  			 <option value="08">08</option>
+  			 <option value="09">09</option>
+  			 <option value="10">10</option>
+  			 <option value="11">11</option>
+  			 <option value="12">12</option>
+       	</select>
+       	<select name="day" id="day" ng-model = "PC.day" >
+  			 <option value="">DD</option>
+  			 <option value="01">01</option>
+  			 <option value="02">02</option>
+  			 <option value="03">03</option>
+  			 <option value="04">04</option>
+  			 <option value="05">05</option>
+  			 <option value="06">06</option>
+  			 <option value="07">07</option>
+  			 <option value="08">08</option>
+  			 <option value="09">09</option>
+  			 <option value="10">10</option>
+  			 <option value="11">11</option>
+  			 <option value="12">12</option>
+  			 <option value="13">13</option>
+  			 <option value="14">14</option>
+  			 <option value="15">15</option>
+  			 <option value="16">16</option>
+  			 <option value="17">17</option>
+  			 <option value="18">18</option>
+  			 <option value="19">19</option>
+  			 <option value="20">20</option>
+  			 <option value="21">21</option>
+  			 <option value="22">22</option>
+  			 <option value="23">23</option>
+  			 <option value="24">24</option>
+  			 <option value="25">25</option>
+  			 <option value="26">26</option>
+  			 <option value="27">27</option>
+  			 <option value="28">28</option>
+  			 <option value="29">29</option>
+  			 <option value="30">30</option>
+  			 <option value="31">31</option>
+     	</select>
+       	<select name="year" id="year" ng-model = "PC.year">
+  			 <option value="">YYYY</option>
+  			 <option value="2016">2016</option>
+  			 <option value="2017">2017</option>
+       	</select>
+</form>
 </div>
     </div>
 </div>
@@ -156,7 +211,7 @@
   </table>
       <h5><strong>Order ID:</strong> {{ PC.orderResponse.success.id }}</h5>
       <h5><strong>Order Status:</strong> {{ PC.orderResponse.success.orderStatus }}</h5>
-      <h5><strong>Requested Delivery Date:</strong> {{ PC.orderResponse.success.timeOfOrder.dayOfWeek }}, {{ PC.orderResponse.success.timeOfOrder.month }} {{ PC.orderResponse.success.timeOfOrder.dayOfMonth }}, {{ PC.orderResponse.success.timeOfOrder.year }}</h5>
+      <h5><strong>Requested Delivery Date:</strong> {{ PC.orderResponse.success.date.dayOfWeek }}, {{ PC.orderResponse.success.date.month }} {{ PC.orderResponse.success.date.dayOfMonth }}, {{ PC.orderResponse.success.date.year }}</h5>
 </div>
 
         </div>

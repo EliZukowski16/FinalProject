@@ -44,7 +44,7 @@
         <td>{{ orders.total | currency }}</td>
         <td>{{ orders.orderStatus }}</td>
         <td>{{ orders.date.dayOfWeek }}, {{ orders.date.month }} {{ orders.date.dayOfMonth }}, {{ orders.date.year }}</td>
-        <td>{{ orders.date.hour }}:{{ orders.date.minute }}:{{ orders.date.second }}</td>
+        <td>{{ orders.timeOfOrder.hour }}:{{ orders.timeOfOrder.minute }}:{{ orders.timeOfOrder.second }}</td>
       </tr>
 	  <tr ng-if="orders.expanded" ng-repeat-end="">
             <td colspan="6"><h4  style="margin-left:5%">Order Details</h4>
@@ -60,7 +60,7 @@
      			 </tr>
     			</thead>
     			<tbody>
-            	<tr ng-repeat="detail in orders.oD">
+            	<tr ng-repeat="detail in orders.oD" height=30>
              	 <td>{{detail.product.id}}</td>
              	 <td>{{detail.product.coreProduct.name}}</td>
              	 <td>{{detail.qty}}</td>
