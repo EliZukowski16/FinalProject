@@ -21,6 +21,11 @@ padding-top: 7px
 
 body{overflow:scroll}
 
+
+/*customer.html*/
+#customerBody{background: url("/pictures/Beer-Glasses-Print-Theme.jpg") no-repeat right center fixed}
+
+
 /*customer-product.html*/
 
 #prodName{cursor: pointer}
