@@ -86,6 +86,7 @@
         <th>Unit Price</th>
         <th>Qty</th>
         <th>Line Total</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -94,12 +95,14 @@
         <td>{{ product.price | currency }}</td>
         <td><input type="number" min="1" max="10" ng-model="product.qty" ng-init="product.qty=1" style="text-align:center"></td>
         <td>{{ product.price * product.qty | currency }}</td>
+        <td><span class="glyphicon glyphicon-remove" style="cursor:pointer" ng-click="PC.remove(product)"></span></td>
       </tr>
       <tr style="border-top: solid;">
       <td><strong>Total</strong></td>
       <td></td>
       <td></td>
       <td>{{ PC.grandTotal() | currency }}</td>
+       <td></td>
       </tr>
     </tbody>
   </table>

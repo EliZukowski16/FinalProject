@@ -1,4 +1,5 @@
-angular
+
+/*angular
   .module("liquorStore")
   .factory("CartService", CartService)
   
@@ -52,8 +53,8 @@ var queryParams = {
 		} else {
 			service.selection.push(type);
 		}
-	};
-
+	}
+*/
 
 /*
 	

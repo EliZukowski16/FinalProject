@@ -24,11 +24,23 @@ function configure($stateProvider, $urlRouterProvider) {
       templateUrl: '/html/customer-orders.html'
     })
     
-    .state('admin', {
-      url: '/TheBeerGuys/admin',
-      controller: 'AdminController',
-      controllerAs: 'AC',
-      templateUrl: 'admin.html'
+    .state('adminHome', {
+      url: '/TheBeerGuys',
+      controller: 'AdminHomeController',
+      controllerAs: 'HC',
+      templateUrl: '/html/admin-home.html'
+    })
+        .state('adminOrder', {
+      url: '/order',
+      controller: 'AdminOrderController',
+      controllerAs: 'OC',
+      templateUrl: '/html/admin-order.html'
+    })
+        .state('adminSearch', {
+      url: '/search',
+      controller: 'AdminSearchController',
+      controllerAs: 'SC',
+      templateUrl: '/html/admin.html'
     })
 
   $urlRouterProvider.otherwise('/TheBeerGuys')
