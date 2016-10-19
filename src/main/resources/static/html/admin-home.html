@@ -33,27 +33,27 @@
         <th>Delivery Delivery Time</th>
         <th>Day Order Was Placed</th>
         <th>Total</th>
-
+        <th>Order Status</th>
         
       </tr>
     </thead>
     <tbody>
     
-      <tr ng-repeat-start="unOrders in OC.pending">
+      <tr ng-repeat-start="pending in HC.pending">
       	<td>
-              <button ng-if="unOrders.expanded" ng-click="unOrders.expanded = false">-</button>
-              <button ng-if="!unOrders.expanded" ng-click="unOrders.expanded = true">+</button>
+              <button ng-if="pending.expanded" ng-click="pending.expanded = false">-</button>
+              <button ng-if="!pending.expanded" ng-click="pending.expanded = true">+</button>
     	</td>
-        <td>{{ unOrders.customer.id }}</td>
-        <td>{{ unOrders.customer.firstName }}</td>
-        <td>{{ unOrders.customer.lastName }}</td>
-        <td>{{ unOrders.date.dayOfWeek }}, {{ unOrders.date.month }} {{ unOrders.date.dayOfMonth }}, {{ unOrders.date.year }}</td>
-       	<td>{{ unOrders.date.hour }}:{{ unOrders.date.minute }}:{{ unOrders.date.second }}</td>
-        <td>{{ unOrders.timeOfOrder.dayOfWeek }}, {{ unOrders.timeOfOrder.month }} {{ unOrders.timeOfOrder.dayOfMonth }}, {{ unOrders.timeOfOrder.year }}</td>
-       	<td>{{ unOrders.total | currency }}</td>
-       	
+        <td>{{ pending.customer.id }}</td>
+        <td>{{ pending.customer.firstName }}</td>
+        <td>{{ pending.customer.lastName }}</td>
+        <td>{{ pending.date.dayOfWeek }}, {{ pending.date.month }} {{ pending.date.dayOfMonth }}, {{ pending.date.year }}</td>
+       	<td>{{ pending.date.hour }}:{{ pending.date.minute }}:{{ pending.date.second }}</td>
+        <td>{{ pending.timeOfOrder.dayOfWeek }}, {{ pending.timeOfOrder.month }} {{ pending.timeOfOrder.dayOfMonth }}, {{ pending.timeOfOrder.year }}</td>
+       	<td>{{ pending.total | currency }}</td>
+       	<td style="text-align: center">{{ pending.orderStatus }}<br><input type="radio"  name="{{pending.id}}" value="approved" ng-click="HC.checkedRadio(pending,'approved')"> Approve <input type="radio" name="{{pending.id}}" value="rejected" ng-click="HC.checkedRadio(pending,'rejected')" > Reject
       </tr>
-      <tr ng-if="unOrders.expanded" ng-repeat-end="">
+      <tr ng-if="pending.expanded" ng-repeat-end="">
       	<td colspan="6"><h4 >Order Details</h4>
             
             <table style="width:75%" class="table table-striped table-bordered">
@@ -66,10 +66,10 @@
      			 </tr>
     			</thead>
     			<tbody>
-    			<tr><Strong>Delivery Address:</Strong> {{ unOrders.customer.address.street }}, {{ unOrders.customer.address.city }}, {{ unOrders.customer.address.state }}  {{ unOrders.customer.address.zip.zipCode }}</tr>
+    			<tr><Strong>Delivery Address:</Strong> {{ pending.customer.address.street }}, {{ pending.customer.address.city }}, {{ pending.customer.address.state }}  {{ pending.customer.address.zip.zipCode }}</tr>
             	<tr></br></br></tr>
             
-            	<tr ng-repeat="detail in unOrders.oD" height=30px>
+            	<tr ng-repeat="detail in pending.oD" height=30px>
              	 <td>{{detail.product.coreProduct.name}}</td>
              	 <td>{{detail.qty}}</td>
              	 <td>{{detail.unitPrice | currency}}</td>
@@ -79,7 +79,7 @@
             	<td><strong>Grand Total:</strong></td>
             	<td></td>
             	<td></td>
-            	<td>{{ unOrders.total | currency }}</td>
+            	<td>{{ pending.total | currency }}</td>
             	</tr>
     
             	</tbody>          	
