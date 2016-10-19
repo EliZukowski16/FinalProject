@@ -18,6 +18,7 @@ import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
 import org.ssa.ironyard.liquorstore.dao.DAOCustomer;
 import org.ssa.ironyard.liquorstore.dao.DAOOrder;
 import org.ssa.ironyard.liquorstore.dao.DAOProduct;
+import org.ssa.ironyard.liquorstore.dao.DAOSales;
 import org.ssa.ironyard.liquorstore.model.Address;
 import org.ssa.ironyard.liquorstore.model.Address.State;
 import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
@@ -48,6 +49,7 @@ public class ServicesTest
     DAOCustomer daoCustomer;
     DAOOrder daoOrder;
     DAOProduct daoProduct;
+    DAOSales daoSales;
     
     Customer c;
     Admin ad;
@@ -63,7 +65,7 @@ public class ServicesTest
         adminService = new AdminServiceImpl(daoAdmin);
         custService = new CustomerServiceImpl(daoCustomer);
         cpService = new CoreProductServiceImpl(daoCoreProduct);
-        orderService = new OrdersServiceImpl(daoOrder, daoProduct);
+        orderService = new OrdersServiceImpl(daoOrder, daoProduct, daoSales);
         prodService = new ProductServiceImpl(daoProduct);
         
         Address address = new Address();
@@ -106,7 +108,7 @@ public class ServicesTest
         this.cpService = new CoreProductServiceImpl(daoCoreProduct);
         
         daoOrder = EasyMock.niceMock(DAOOrder.class);
-        this.orderService = new OrdersServiceImpl(daoOrder, daoProduct);
+        this.orderService = new OrdersServiceImpl(daoOrder, daoProduct, daoSales);
         
         daoProduct = EasyMock.niceMock(DAOProduct.class);
         this.prodService = new ProductServiceImpl(daoProduct);

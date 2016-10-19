@@ -87,9 +87,10 @@ ENGINE = InnoDB;
 CREATE TABLE sales
 (id INT AUTO_INCREMENT PRIMARY KEY,
 product_id INT(10) NOT NULL,
-year YEAR(4) NOT NULL,
-month ENUM('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'),
-sales DECIMAL(50) NOT NULL)
+number INT(10) NOT NULL,
+total_value DECIMAL(12,2) NOT NULL,
+date_sold DATE NOT NULL,
+aggregate_sales BOOLEAN NOT NULL)
 ENGINE = InnoDB;
 
 

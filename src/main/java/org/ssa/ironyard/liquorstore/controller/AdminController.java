@@ -22,6 +22,7 @@ import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Product;
+import org.ssa.ironyard.liquorstore.model.Sales;
 import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
 import org.ssa.ironyard.liquorstore.services.AnalyticsServiceImpl;
 import org.ssa.ironyard.liquorstore.services.CoreProductServiceImpl;
@@ -287,5 +288,11 @@ public class AdminController
 
         return orderService.rejectOrder(orderID);
     }
-
+    
+    @RequestMapping(value = "/sales/daily", method = RequestMethod.GET)
+    public ResponseEntity<List<Sales>> getAllDailySales()
+    {
+        return null;
+    }
+    
 }
