@@ -8,14 +8,17 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.stereotype.Repository;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMSalesImpl;
 import org.ssa.ironyard.liquorstore.model.Sales;
 import org.ssa.ironyard.liquorstore.model.SalesDaily;
-
+@Repository
 public class DAOSalesImpl extends AbstractDAOSales implements DAOSales
 {
 
+    @Autowired
     protected DAOSalesImpl(DataSource dataSource)
     {
         super(new ORMSalesImpl(), dataSource);

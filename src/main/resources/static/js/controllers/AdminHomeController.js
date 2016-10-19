@@ -40,10 +40,11 @@ angular
 				id : order.id,
 				value : value
 			}
-			
+			console.log(ctrl.status);
 			ctrl.statusPopup.push(ctrl.statPopup)
 
 		}
+		
 		
 		ctrl.submitStatus = function()
 		{
