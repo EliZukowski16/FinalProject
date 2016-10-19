@@ -396,6 +396,7 @@ public class OrdersServiceImpl implements OrdersService
                     .dateSold(LocalDate.now())
                     .numberSold(detail.getQty())
                     .totalValue(detail.getUnitPrice().multiply(BigDecimal.valueOf(detail.getQty())))
+                    .aggregateSales(false)
                     .build();
             
             if(daoSales.insert(sales) == null)
