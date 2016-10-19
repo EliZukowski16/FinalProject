@@ -27,7 +27,7 @@ public interface DAOOrder extends DAO<Order>
     List<Order> readOrdersInThePastByStatus(OrderStatus status, LocalDate start);
     List<Order> readOrdersInTheFutureByStatus(OrderStatus status, LocalDate start);
     List<Order> readOrdersInTimeFrameByStatus(OrderStatus status, LocalDate start, LocalDate end);
-    List<Order> readPendingOrders(Integer numberOfOrders);
+    List<Order> readPendingOrders();
 
     
 

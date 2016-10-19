@@ -1,12 +1,5 @@
 package org.ssa.ironyard.liquorstore.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import org.ssa.ironyard.liquorstore.model.Address.State;
-import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
-import org.ssa.ironyard.liquorstore.model.Customer.Builder;
-
 public class Admin extends AbstractUser implements User
 {
     private final String userName;

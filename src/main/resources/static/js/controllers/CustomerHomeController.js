@@ -11,6 +11,7 @@ angular
 		ctrl.wines = [];
 		ctrl.spirits = [];
 		
+		
 		ctrl.getTop = function()
 		{	
 		

@@ -8,7 +8,9 @@ angular
 		var ctrl = this;
 		ctrl.isCollapsed = true;
 		ctrl.orders = [];	
-		
+	    ctrl.sortType = '';
+	    ctrl.sortReverse = false;
+		ctrl.ordersExpanded = true;
 		
 		ctrl.getOrders = function()
 		{

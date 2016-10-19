@@ -3,6 +3,7 @@ package org.ssa.ironyard.liquorstore.dao;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +54,8 @@ public class DAOSalesImpl extends AbstractDAOSales implements DAOSales
                 }, this.listExtractor);
     }
 
-    private List<Sales> readSalesForLastVariableDays(Integer numberOfDays, List<Integer> productIDs)
+    @Override
+    public List<Sales> readSalesForLastVariableDays(Integer numberOfDays, List<Integer> productIDs)
     {
         return this.springTemplate.query(
                 ((ORMSalesImpl) this.orm).prepareReadSalesForLastVariableDays(productIDs.size()),
@@ -249,6 +251,35 @@ public class DAOSalesImpl extends AbstractDAOSales implements DAOSales
         productIDs.add(productID);
 
         return this.readSalesForPreviousDay(productIDs);
+    }
+
+    @Override
+    public List<Sales> readSalesInDateRange(LocalDate start, LocalDate end)
+    {
+        return this.springTemplate.query(((ORMSalesImpl) this.orm).prepareReadInTimeFrame(), (PreparedStatement ps) ->
+        {
+            if (start == null)
+            {
+                ps.setDate(1, Date.valueOf(LocalDate.now().minusYears(10)));
+                LOGGER.info("PS {}", ps);
+            }
+            else
+            {
+                ps.setDate(1, Date.valueOf(start));
+                LOGGER.info("PS {}", ps);
+            }
+
+            if (end == null)
+            {
+                ps.setDate(2, Date.valueOf(LocalDate.now().plusYears(10)));
+                LOGGER.info("PS {}", ps);
+            }
+            else
+            {
+                ps.setDate(2, Date.valueOf(end));
+                LOGGER.info("PS {}", ps);
+            }
+        }, this.listExtractor);
     }
 
 }

@@ -164,7 +164,7 @@ public class ProductServiceImpl implements ProductService
     {
         List<Product> lowInventory = new ArrayList<>();
         
-        lowInventory = daoProd.readLowInventoryProducts();
+        lowInventory = daoProd.readLowInventoryProducts(50);
         
         lowInventory.sort((p1, p2) -> p1.getInventory().compareTo(p2.getInventory()));
         

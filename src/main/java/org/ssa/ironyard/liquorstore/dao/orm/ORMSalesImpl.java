@@ -5,10 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-import org.ssa.ironyard.liquorstore.model.SalesDaily.Builder;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Sales;
 import org.ssa.ironyard.liquorstore.model.SalesDaily;
+import org.ssa.ironyard.liquorstore.model.SalesDaily.Builder;
 
 public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
 {
@@ -141,6 +141,14 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
         }
 
         return lastVariableDays;
+    }
+
+    public String prepareReadInTimeFrame()
+    {
+        String readInTimeFrame = buildEager() + " WHERE ( " + this.table() + "."
+                + this.getFields().get(3) + " BETWEEN ? AND ? ) ";
+        
+        return readInTimeFrame;
     }
 
 }

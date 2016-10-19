@@ -294,7 +294,7 @@ public class OrdersServiceImpl implements OrdersService
     {
         List<Order> pendingOrders = new ArrayList<>();
 
-        pendingOrders = daoOrder.readPendingOrders(50);
+        pendingOrders = daoOrder.readPendingOrders();
 
         pendingOrders.sort((o1, o2) -> o2.getDate().compareTo(o1.getDate()));
 
