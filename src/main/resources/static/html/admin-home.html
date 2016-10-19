@@ -44,6 +44,17 @@
               <button ng-if="pending.expanded" ng-click="pending.expanded = false">-</button>
               <button ng-if="!pending.expanded" ng-click="pending.expanded = true">+</button>
     	</td>
+
+        <td>{{ unOrders.customer.id }}</td>
+        <td>{{ unOrders.customer.firstName }}</td>
+        <td>{{ unOrders.customer.lastName }}</td>
+        <td>{{ unOrders.date.dayOfWeek }}, {{ unOrders.date.month }} {{ unOrders.date.dayOfMonth }}, {{ unOrders.date.year }}</td>
+       	<td>{{ unOrders.date.hour }}:{{ unOrders.date.minute }}:{{ unOrders.date.second }}</td>
+        <td>{{ unOrders.timeOfOrder.dayOfWeek }}, {{ unOrders.timeOfOrder.month }} {{ unOrders.timeOfOrder.dayOfMonth }}, {{ unOrders.timeOfOrder.year }}</td>
+       	<td>{{ unOrders.total | currency }}</td>
+       	<td style="text-align: center">{{ unOrders.orderStatus }}<br><input type="radio"  name="{{unOrders.id}}" value="approved" ng-click="HC.checkedRadio(unOrders,'approved')"> Approve <input type="radio" name="{{unOrders.id}}" value="rejected" ng-click="HC.checkedRadio(unOrders,'rejected')" > Reject
+      	
+
         <td>{{ pending.customer.id }}</td>
         <td>{{ pending.customer.firstName }}</td>
         <td>{{ pending.customer.lastName }}</td>
@@ -52,6 +63,7 @@
         <td>{{ pending.timeOfOrder.dayOfWeek }}, {{ pending.timeOfOrder.month }} {{ pending.timeOfOrder.dayOfMonth }}, {{ pending.timeOfOrder.year }}</td>
        	<td>{{ pending.total | currency }}</td>
        	<td style="text-align: center">{{ pending.orderStatus }}<br><input type="radio"  name="{{pending.id}}" value="approved" ng-click="HC.checkedRadio(pending,'approved')"> Approve <input type="radio" name="{{pending.id}}" value="rejected" ng-click="HC.checkedRadio(pending,'rejected')" > Reject
+
       </tr>
       <tr ng-if="pending.expanded" ng-repeat-end="">
       	<td colspan="6"><h4 >Order Details</h4>

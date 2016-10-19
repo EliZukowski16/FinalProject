@@ -45,6 +45,8 @@ angular
 				id : order.id,
 				value : value
 			}
+
+			ctrl.statusPopup.push(ctrl.statPopup)
 			
 			
 				
@@ -80,11 +82,10 @@ angular
 
 			console.log(ctrl.status);
 			
-			
-			
-			
+		
 
 		}
+		
 		
 		ctrl.submitStatus = function()
 		{

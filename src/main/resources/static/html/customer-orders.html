@@ -27,15 +27,30 @@
     <thead>
       <tr>
       <td style="width: 30px;"></td>
-        <th>Order ID</th>
-        <th>Total</th>
-        <th>Order Status</th>
-        <th>Delivery Date</th>
-        <th>Delivery Time</th>
+        <th><a href="" ng-click="OC.sortType = 'orderId'; OC.sortReverse = !OC.sortReverse">Order ID
+        <span ng-show="OC.sortType == 'orderId' && !OC.sortReverse" class="fa fa-caret-down"></span>
+        <span ng-show="OC.sortType == 'orderId' && OC.sortReverse" class="fa fa-caret-up"></span>
+        </a></th>
+        <th><a href="" ng-click="OC.sortType = 'total'; OC.sortReverse = !OC.sortReverse">Total
+        <span ng-show="OC.sortType == 'total' && !OC.sortReverse" class="fa fa-caret-down"></span>
+        <span ng-show="OC.sortType == 'total' && OC.sortReverse" class="fa fa-caret-up"></span>
+        </th>
+        <th><a href="" ng-click="OC.sortType = 'orderStatus'; OC.sortReverse = !OC.sortReverse">Order Status
+        <span ng-show="OC.sortType == 'orderStatus' && !OC.sortReverse" class="fa fa-caret-down"></span>
+        <span ng-show="OC.sortType == 'orderStatus' && OC.sortReverse" class="fa fa-caret-up"></span>
+        </th>
+        <th><a href="" ng-click="OC.sortType = 'date'; OC.sortReverse = !OC.sortReverse">Delivery Date
+        <span ng-show="OC.sortType == 'date' && !OC.sortReverse" class="fa fa-caret-down"></span>
+        <span ng-show="OC.sortType == 'date' && OC.sortReverse" class="fa fa-caret-up"></span>
+        </th>
+        <th><a href="" ng-click="OC.sortType = 'time'; OC.sortReverse = !OC.sortReverse">Time of Order Placement
+        <span ng-show="OC.sortType == 'time' && !OC.sortReverse" class="fa fa-caret-down"></span>
+        <span ng-show="OC.sortType == 'time' && OC.sortReverse" class="fa fa-caret-up"></span>
+        </th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat-start="orders in OC.orders">
+      <tr ng-repeat-start="orders in OC.orders | orderBy:OC.sortType:OC.sortReverse">
       <td>
               <button ng-if="orders.expanded" ng-click="orders.expanded = false">-</button>
               <button ng-if="!orders.expanded" ng-click="orders.expanded = true">+</button>

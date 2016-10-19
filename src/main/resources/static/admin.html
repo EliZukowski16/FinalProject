@@ -22,21 +22,28 @@
 </head>
 <body>
 
-<header id="title">The Beer Guys</header>
 
-<nav class="navbar navbar-default" id="nav">
+  <nav class="navbar navbar-inverse" id="nav" style="min-height:60px">
   <div class="container-fluid">
-  <ul class="nav navbar-nav">
+    <div class="navbar-header">
+      <a class="navbar-brand" style="line-height:60px; text-align: center; padding:8px;" href="#"><h2>The Beer Guys</h2></a>
+    </div>
+    <ul class="nav navbar-nav" style="padding:14px">
       <li><a ui-sref="adminHome" ui-sref-active="active">Home</a></li>
       <li><a ui-sref="adminOrder">Unfulfilled Orders</a></li>
       <li><a ui-sref="adminInventorySales">Sales Stats/Inventory</a></li>
       
     </ul>
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right" style="padding:14px">
         <li><a ui-sref="logout" ui-sref-active="active"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
-    </div>
-    </nav>
+  </div>
+</nav>
+
+
+
+
+
 
 <main ui-view></main> 
 
