@@ -258,7 +258,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
         {
             if (start == null)
             {
-                ps.setTimestamp(1, Timestamp.valueOf(LocalDate.MIN.toString() + " 00:00:00"));
+                ps.setTimestamp(1, Timestamp.valueOf(LocalDate.now().minusYears(10).toString() + " 00:00:00"));
                 LOGGER.info("PS {}", ps);
             }
             else
@@ -269,14 +269,12 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
 
             if (end == null)
             {
-                ps.setTimestamp(2, Timestamp.valueOf(LocalDate.now().plusYears(10).toString() + " "
-                        + LocalTime.of(11, 59, 59).truncatedTo(ChronoUnit.SECONDS).toString()));
+                ps.setTimestamp(2, Timestamp.valueOf(LocalDate.now().plusYears(10).toString() + " 11:59:59"));
                 LOGGER.info("PS {}", ps);
             }
             else
             {
-                ps.setTimestamp(2, Timestamp.valueOf(
-                        end.toString() + " " + LocalTime.of(11, 59, 59).truncatedTo(ChronoUnit.SECONDS).toString()));
+                ps.setTimestamp(2, Timestamp.valueOf(end.toString() + " 11:59:59"));
                 LOGGER.info("PS {}", ps);
             }
         }, this.listExtractor);
@@ -315,16 +313,26 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
                 (PreparedStatement ps) ->
                 {
                     if (start == null)
-                        ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(LocalDate.MIN, LocalTime.of(0, 0))));
+                    {
+                        ps.setTimestamp(1, Timestamp.valueOf(LocalDate.now().minusYears(10).toString() + " 00:00:00"));
+                        LOGGER.info("PS {}", ps);
+                    }
                     else
-                        ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(start, LocalTime.of(0, 0))));
+                    {
+                        ps.setTimestamp(1, Timestamp.valueOf(start.toString() + " 00:00:00"));
+                        LOGGER.info("PS {}", ps);
+                    }
 
                     if (end == null)
-                        ps.setTimestamp(2,
-                                Timestamp.valueOf(LocalDateTime.of(LocalDate.MAX, LocalTime.of(11, 59, 59))));
+                    {
+                        ps.setTimestamp(2, Timestamp.valueOf(LocalDate.now().plusYears(10).toString() + " 11:59:59"));
+                        LOGGER.info("PS {}", ps);
+                    }
                     else
-                        ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(end, LocalTime.of(11, 59, 59))));
-
+                    {
+                        ps.setTimestamp(2, Timestamp.valueOf(end.toString() + " 11:59:59"));
+                        LOGGER.info("PS {}", ps);
+                    }
                     ps.setString(3, status.name());
                 }, this.listExtractor);
     }
