@@ -31,7 +31,7 @@ function configure($stateProvider, $urlRouterProvider) {
       templateUrl: '/html/admin-home.html'
     })
         .state('adminOrder', {
-      url: '/order',
+      url: '/order/unfulfilled',
       controller: 'AdminOrderController',
       controllerAs: 'OC',
       templateUrl: '/html/admin-order.html'
@@ -56,7 +56,7 @@ function configure($stateProvider, $urlRouterProvider) {
 	  }
 	  else if(path.includes("admin"))
 	  {
-		  return "/UnfulfilledOrders";
+		  return "/orders/pending";
 	  }
 	  else
 	  {

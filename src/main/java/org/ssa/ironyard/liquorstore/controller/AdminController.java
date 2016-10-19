@@ -1,5 +1,6 @@
 package org.ssa.ironyard.liquorstore.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -287,6 +288,28 @@ public class AdminController
         Integer orderID = Integer.parseInt(id);
 
         return orderService.rejectOrder(orderID);
+    }
+    
+    @RequestMapping(value = "/orders/unfulfilled", method = RequestMethod.GET)
+    public ResponseEntity<Map<String,List<Order>>> getFutureOrders()
+    {
+        LOGGER.info("made it to future orders");
+        Map<String,List<Order>> response = new HashMap<>();
+        List<Order> orderList = new ArrayList<>();
+        
+        LocalDate today = LocalDate.now();   
+        LOGGER.info("Today: {}",today);
+        
+        orderList = orderService.searchFuture(today);
+        
+        LOGGER.info(orderList.size());
+        
+        if(orderList.size() == 0)
+            response.put("error", orderList);
+        else
+            response.put("success", orderList);
+        
+        return ResponseEntity.ok().header("Admin Orders", "Unfulfilled Orders").body(response);
     }
     
     @RequestMapping(value = "/sales/daily", method = RequestMethod.GET)
