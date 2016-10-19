@@ -254,7 +254,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     @Override
     public List<Order> readOrdersInTimeFrame(LocalDate start, LocalDate end)
     {
-        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadInTimeFrame(), (PreparedStatement ps) ->
+        List<Order> orders = this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadInTimeFrame(), (PreparedStatement ps) ->
         {
             if (start == null)
             {
@@ -278,6 +278,9 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
                 LOGGER.info("PS {}", ps);
             }
         }, this.listExtractor);
+        
+        LOGGER.info("Order from dao: {}",orders);
+        return orders;
     }
 
     @Override
