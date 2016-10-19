@@ -76,6 +76,7 @@ public class DAOSalesImpl extends AbstractDAOSales implements DAOSales
         insertStatement.setInt(2, domainToInsert.getNumberSold());
         insertStatement.setBigDecimal(3, domainToInsert.getTotalValue());
         insertStatement.setDate(4, Date.valueOf(((SalesDaily) domainToInsert).getDateSold()));
+        insertStatement.setBoolean(5, domainToInsert.getAggregateSales());
 
     }
 
@@ -104,7 +105,8 @@ public class DAOSalesImpl extends AbstractDAOSales implements DAOSales
                 ps.setInt(2, domainToUpdate.getNumberSold());
                 ps.setBigDecimal(3, domainToUpdate.getTotalValue());
                 ps.setDate(4, Date.valueOf(((SalesDaily) domainToUpdate).getDateSold()));
-                ps.setInt(5, domainToUpdate.getId());
+                ps.setBoolean(5, domainToUpdate.getAggregateSales());
+                ps.setInt(6, domainToUpdate.getId());
 
             }
         };

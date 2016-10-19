@@ -11,19 +11,19 @@ public class SalesMonthly extends AbstractSales implements Sales
     private final Integer weekSold;
 
     public SalesMonthly(Integer id, Product product, Integer numberSold, BigDecimal totalValue, LocalDate dateSold,
-            Boolean loaded)
+            Boolean aggregateSales, Boolean loaded)
     {
-        super(id, product, numberSold, totalValue, loaded);
-        
+        super(id, product, numberSold, totalValue, aggregateSales, loaded);
+
         WeekFields woy = WeekFields.of(Locale.US);
         TemporalField tf = woy.weekOfWeekBasedYear();
         this.weekSold = dateSold.get(tf);
     }
-    
+
     public SalesMonthly(Integer id, Product product, Integer numberSold, BigDecimal totalValue, Integer weekSold,
-            Boolean loaded)
+            Boolean aggregateSales, Boolean loaded)
     {
-        super(id, product, numberSold, totalValue, loaded);
+        super(id, product, numberSold, totalValue, aggregateSales, loaded);
         this.weekSold = weekSold;
     }
 
@@ -61,6 +61,7 @@ public class SalesMonthly extends AbstractSales implements Sales
         return (SalesMonthly) this.of().product(this.getProduct()).build();
     }
 
+    @Override
     public Builder of()
     {
         return new Builder(this);
@@ -80,16 +81,16 @@ public class SalesMonthly extends AbstractSales implements Sales
             super(sales);
             this.weekSold = sales.getWeekSold();
         }
-        
+
         public Builder weekSold(LocalDate dateSold)
         {
             WeekFields woy = WeekFields.of(Locale.US);
             TemporalField tf = woy.weekOfWeekBasedYear();
-            
+
             this.weekSold = dateSold.get(tf);
             return this;
         }
-        
+
         public Builder weekSold(Integer weekSold)
         {
             this.weekSold = weekSold;
@@ -99,7 +100,8 @@ public class SalesMonthly extends AbstractSales implements Sales
         @Override
         public SalesMonthly build()
         {
-            return new SalesMonthly(this.id, this.product, this.numberSold, this.totalValue, this.weekSold, this.loaded);
+            return new SalesMonthly(this.id, this.product, this.numberSold, this.totalValue, this.weekSold,
+                    this.aggregateSales, this.loaded);
         }
     }
 

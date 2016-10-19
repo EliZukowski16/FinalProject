@@ -23,6 +23,7 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
         this.fields.add("number");
         this.fields.add("total_value");
         this.fields.add("date_sold");
+        this.fields.add("aggregate_sales");
 
         productORM = new ORMProductImpl();
     }
@@ -42,9 +43,10 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
         Integer numberSold = results.getInt(this.table() + ".number");
         BigDecimal totalValue = results.getBigDecimal(this.table() + ".unit_price");
         LocalDate dateSold = results.getDate(this.table() + ".date_sold").toLocalDate();
+        Boolean aggregateSales = results.getBoolean(this.table() + ".aggregate_sales");
 
         return ((Builder) new SalesDaily.Builder().id(id).product(product).numberSold(numberSold).totalValue(totalValue))
-                .dateSold(dateSold).loaded(true).build();
+                .dateSold(dateSold).aggregateSales(aggregateSales).loaded(true).build();
     }
 
     private String buildEager()
