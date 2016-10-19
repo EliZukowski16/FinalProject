@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.ssa.ironyard.liquorstore.model.Order;
+import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 
 public interface DAOOrder extends DAO<Order>
 {
@@ -22,7 +23,11 @@ public interface DAOOrder extends DAO<Order>
     public List<Order> readOrdersInThePast(LocalDate end);
     public List<Order> readOrdersInTheFuture(LocalDate start);
     public List<Order> readMostRecentOrders(Integer numberOfOrders);
-    public List<Order> readUnfulfilledOrders(Integer numberOfOrders);
+//    public List<Order> readUnfulfilledOrders(Integer numberOfOrders);
+    List<Order> readOrdersInThePastByStatus(OrderStatus status, LocalDate start);
+    List<Order> readOrdersInTheFutureByStatus(OrderStatus status, LocalDate start);
+    List<Order> readOrdersInTimeFrameByStatus(OrderStatus status, LocalDate start, LocalDate end);
+    List<Order> readPendingOrders(Integer numberOfOrders);
 
     
 

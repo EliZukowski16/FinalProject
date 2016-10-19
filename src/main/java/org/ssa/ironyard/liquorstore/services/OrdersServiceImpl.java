@@ -292,15 +292,15 @@ public class OrdersServiceImpl implements OrdersService
     }
 
     @Override
-    public List<Order> readUnfulfilledOrders()
+    public List<Order> readPendingOrders()
     {
-        List<Order> unfulfilledOrders = new ArrayList<>();
+        List<Order> pendingOrders = new ArrayList<>();
 
-        unfulfilledOrders = daoOrder.readUnfulfilledOrders(50);
+        pendingOrders = daoOrder.readPendingOrders(50);
 
-        unfulfilledOrders.sort((o1, o2) -> o2.getDate().compareTo(o1.getDate()));
+        pendingOrders.sort((o1, o2) -> o2.getDate().compareTo(o1.getDate()));
 
-        return unfulfilledOrders;
+        return pendingOrders;
     }
 
     @Override

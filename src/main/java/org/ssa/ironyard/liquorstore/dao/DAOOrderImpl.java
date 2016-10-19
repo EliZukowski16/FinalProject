@@ -25,6 +25,7 @@ import org.springframework.stereotype.Repository;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMOrderImpl;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
+import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 
 import com.mysql.cj.api.jdbc.Statement;
 
@@ -278,6 +279,39 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     {
         return this.readOrdersInTimeFrame(start, null);
     }
+    
+    @Override
+    public List<Order> readOrdersInThePastByStatus(OrderStatus status, LocalDate end)
+    {
+        return this.readOrdersInTimeFrameByStatus(status, null, end);
+
+    }
+    
+    @Override
+    public List<Order> readOrdersInTheFutureByStatus(OrderStatus status, LocalDate start)
+    {
+        return this.readOrdersInTimeFrameByStatus(status, start, null);
+
+    }
+    
+    @Override
+    public List<Order> readOrdersInTimeFrameByStatus(OrderStatus status, LocalDate start, LocalDate end)
+    {
+        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadInTimeFrameByStatus(), (PreparedStatement ps) ->
+        {
+            if (start == null)
+                ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(LocalDate.MIN, LocalTime.of(0, 0))));
+            else
+                ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(start, LocalTime.of(0, 0))));
+
+            if (end == null)
+                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(LocalDate.MAX, LocalTime.of(11, 59, 59))));
+            else
+                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(end, LocalTime.of(11, 59, 59))));
+            
+            ps.setString(3, status.name());
+        }, this.listExtractor);
+    }
 
     @Override
     public List<Order> readMostRecentOrders(Integer numberOfOrders)
@@ -319,12 +353,12 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     }
 
     @Override
-    public List<Order> readUnfulfilledOrders(Integer numberOfOrders)
+    public List<Order> readPendingOrders(Integer numberOfOrders)
     {
         if (numberOfOrders == null)
             return new ArrayList<>();
 
-        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareAllUnfulfilledOrders(),
+        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareAllPendingOrders(),
                 (PreparedStatement ps) ->
                 {
                     ps.setInt(1, numberOfOrders);
