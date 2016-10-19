@@ -257,14 +257,28 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
         return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadInTimeFrame(), (PreparedStatement ps) ->
         {
             if (start == null)
-                ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(LocalDate.MIN, LocalTime.of(0, 0))));
+            {
+                ps.setTimestamp(1, Timestamp.valueOf(LocalDate.MIN.toString() + " 00:00:00"));
+                LOGGER.info("PS {}", ps);
+            }
             else
-                ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(start, LocalTime.of(0, 0))));
+            {
+                ps.setTimestamp(1, Timestamp.valueOf(start.toString() + " 00:00:00"));
+                LOGGER.info("PS {}", ps);
+            }
 
             if (end == null)
-                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(LocalDate.MAX, LocalTime.of(11, 59, 59))));
+            {
+                ps.setTimestamp(2, Timestamp.valueOf(LocalDate.now().plusYears(10).toString() + " "
+                        + LocalTime.of(11, 59, 59).truncatedTo(ChronoUnit.SECONDS).toString()));
+                LOGGER.info("PS {}", ps);
+            }
             else
-                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(end, LocalTime.of(11, 59, 59))));
+            {
+                ps.setTimestamp(2, Timestamp.valueOf(
+                        end.toString() + " " + LocalTime.of(11, 59, 59).truncatedTo(ChronoUnit.SECONDS).toString()));
+                LOGGER.info("PS {}", ps);
+            }
         }, this.listExtractor);
     }
 
@@ -279,38 +293,40 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     {
         return this.readOrdersInTimeFrame(start, null);
     }
-    
+
     @Override
     public List<Order> readOrdersInThePastByStatus(OrderStatus status, LocalDate end)
     {
         return this.readOrdersInTimeFrameByStatus(status, null, end);
 
     }
-    
+
     @Override
     public List<Order> readOrdersInTheFutureByStatus(OrderStatus status, LocalDate start)
     {
         return this.readOrdersInTimeFrameByStatus(status, start, null);
 
     }
-    
+
     @Override
     public List<Order> readOrdersInTimeFrameByStatus(OrderStatus status, LocalDate start, LocalDate end)
     {
-        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadInTimeFrameByStatus(), (PreparedStatement ps) ->
-        {
-            if (start == null)
-                ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(LocalDate.MIN, LocalTime.of(0, 0))));
-            else
-                ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(start, LocalTime.of(0, 0))));
+        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadInTimeFrameByStatus(),
+                (PreparedStatement ps) ->
+                {
+                    if (start == null)
+                        ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(LocalDate.MIN, LocalTime.of(0, 0))));
+                    else
+                        ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(start, LocalTime.of(0, 0))));
 
-            if (end == null)
-                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(LocalDate.MAX, LocalTime.of(11, 59, 59))));
-            else
-                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(end, LocalTime.of(11, 59, 59))));
-            
-            ps.setString(3, status.name());
-        }, this.listExtractor);
+                    if (end == null)
+                        ps.setTimestamp(2,
+                                Timestamp.valueOf(LocalDateTime.of(LocalDate.MAX, LocalTime.of(11, 59, 59))));
+                    else
+                        ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(end, LocalTime.of(11, 59, 59))));
+
+                    ps.setString(3, status.name());
+                }, this.listExtractor);
     }
 
     @Override
@@ -358,10 +374,9 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
         if (numberOfOrders == null)
             return new ArrayList<>();
 
-        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareAllPendingOrders(),
-                (PreparedStatement ps) ->
-                {
-                    ps.setInt(1, numberOfOrders);
-                }, this.listExtractor);
+        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareAllPendingOrders(), (PreparedStatement ps) ->
+        {
+            ps.setInt(1, numberOfOrders);
+        }, this.listExtractor);
     }
 }
