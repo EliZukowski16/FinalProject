@@ -256,7 +256,7 @@ public class AdminController
 
         for (Map<String, Object> map : body)
         {
-            for (Entry e : map.entrySet())
+            for (Entry<String, Object> e : map.entrySet())
             {
                 Integer orderID = Integer.parseInt((String) e.getKey());
                 OrderStatus status = OrderStatus.getInstance((String) e.getValue());

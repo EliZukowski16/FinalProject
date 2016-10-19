@@ -42,14 +42,21 @@ public class SalesServiceImpl implements SalesService
         return daoSales.insert(sales);
 
     }
-
+    
     @Override
     @Transactional
     public List<Sales> aggregateDailySales()
     {
+        return aggregateDailySales(LocalDate.now().minusDays(1));
+    }
+
+    @Override
+    @Transactional
+    public List<Sales> aggregateDailySales(LocalDate date)
+    {
         Map<Product, Sales> dailyProductSalesMap = new HashMap<>();
 
-        List<Sales> dailyIndividualSales = daoSales.readSalesForPreviousDay();
+        List<Sales> dailyIndividualSales = daoSales.readSalesInDateRange(date, date);
         List<Sales> dailyAggregateSales = new ArrayList<>();
 
         for (Sales s : dailyIndividualSales)
@@ -251,6 +258,90 @@ public class SalesServiceImpl implements SalesService
     public List<Sales> readSalesForYesterday(List<Integer> productIDs)
     {
         return daoSales.readSalesForPreviousDay(productIDs);
+    }
+    
+    @Override
+    public List<Sales> readSalesForLast30Days()
+    {
+        return daoSales.readSalesForLast30Days();
+    }
+    
+    @Override
+    public List<Sales> readSalesForLast30Days(Integer productID)
+    {
+        return daoSales.readSalesForLast30Days(productID);
+    }
+    
+    @Override
+    public List<Sales> readSalesForLast30Days(List<Integer> productIDs)
+    {
+        return daoSales.readSalesForLast30Days(productIDs);
+    }
+    
+    @Override
+    public List<Sales> readSalesForLast90Days()
+    {
+        return daoSales.readSalesForLast90Days();
+    }
+    
+    @Override
+    public List<Sales> readSalesForLast90Days(Integer productID)
+    {
+        return daoSales.readSalesForLast90Days(productID);
+    }
+    
+    @Override
+    public List<Sales> readSalesForLast90Days(List<Integer> productIDs)
+    {
+        return daoSales.readSalesForLast90Days(productIDs);
+    }
+    
+    @Override
+    public List<Sales> readSalesForLast180Days()
+    {
+        return daoSales.readSalesForLast180Days();
+    }
+    
+    @Override
+    public List<Sales> readSalesForLast180days(Integer productID)
+    {
+        return daoSales.readSalesForLast180Days(productID);
+    }
+    
+    @Override
+    public List<Sales> readSalesForLast180Days(List<Integer> productIDs)
+    {
+        return daoSales.readSalesForLast180Days(productIDs);
+    }
+    
+    @Override
+    public List<Sales> readSalesForLastYear()
+    {
+        return daoSales.readSalesForLastYear();
+    }
+    
+    @Override
+    public List<Sales> readSalesForLastYear(Integer productID)
+    {
+        return daoSales.readSalesForLastYear(productID);
+    }
+    
+    @Override
+    public List<Sales> readSalesForLastYear(List<Integer> productIDs)
+    {
+        return daoSales.readSalesForLastYear(productIDs);
+    }
+    
+    @Override
+    public List<Sales> readSalesForPastNumberOfDays(Integer numberOfDays)
+    {
+        return daoSales.readSalesForLastVariableDays(numberOfDays, new ArrayList<>());
+    }
+    
+    @Override
+    public List<Sales> readSalesForPastNumberOfDays(Integer numberOfDays, List<Integer> productIDs)
+    {
+        return daoSales.readSalesForLastVariableDays(numberOfDays, productIDs);
     }
     
     @Override

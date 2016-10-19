@@ -28,4 +28,19 @@ public interface SalesService
     List<Sales> readSalesForYesterday();
     List<Sales> readSalesForYesterday(Integer productID);
     List<Sales> readSalesForYesterday(List<Integer> productIDs);
+    List<Sales> readSalesForLast30Days();
+    List<Sales> readSalesForLast30Days(Integer productID);
+    List<Sales> readSalesForLast30Days(List<Integer> productIDs);
+    List<Sales> readSalesForLast90Days();
+    List<Sales> readSalesForLast90Days(Integer productID);
+    List<Sales> readSalesForLast90Days(List<Integer> productIDs);
+    List<Sales> readSalesForLast180Days();
+    List<Sales> readSalesForLast180days(Integer productID);
+    List<Sales> readSalesForLast180Days(List<Integer> productIDs);
+    List<Sales> readSalesForLastYear();
+    List<Sales> readSalesForLastYear(Integer productID);
+    List<Sales> readSalesForLastYear(List<Integer> productIDs);
+    List<Sales> readSalesForPastNumberOfDays(Integer numberOfDays);
+    List<Sales> readSalesForPastNumberOfDays(Integer numberOfDays, List<Integer> productIDs);
+    List<Sales> aggregateDailySales(LocalDate date);
 }
