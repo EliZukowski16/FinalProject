@@ -2,35 +2,29 @@ package org.ssa.ironyard.liquorstore.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
-import java.util.Locale;
 
 public class SalesWeekly extends AbstractSales implements Sales
 {
-    private final Integer weekSold;
+    private final Integer monthSold;
 
     public SalesWeekly(Integer id, Product product, Integer numberSold, BigDecimal totalValue, LocalDate dateSold,
             Boolean loaded)
     {
         super(id, product, numberSold, totalValue, loaded);
         
-        WeekFields woy = WeekFields.of(Locale.US);
-        TemporalField tf = woy.weekOfWeekBasedYear();
-        this.weekSold = dateSold.get(tf);
+        this.monthSold = dateSold.getMonthValue();
     }
     
-    public SalesWeekly(Integer id, Product product, Integer numberSold, BigDecimal totalValue, Integer weekSold,
+    public SalesWeekly(Integer id, Product product, Integer numberSold, BigDecimal totalValue, Integer monthSold,
             Boolean loaded)
     {
         super(id, product, numberSold, totalValue, loaded);
-        this.weekSold = weekSold;
+        this.monthSold = monthSold;
     }
 
-    public Integer getWeekSold()
+    public Integer getMonthSold()
     {
-        return weekSold;
+        return monthSold;
     }
 
     @Override
@@ -46,12 +40,12 @@ public class SalesWeekly extends AbstractSales implements Sales
         if (getClass() != obj.getClass())
             return false;
         SalesWeekly other = (SalesWeekly) obj;
-        if (weekSold == null)
+        if (monthSold == null)
         {
-            if (other.weekSold != null)
+            if (other.monthSold != null)
                 return false;
         }
-        else if (!weekSold.equals(other.weekSold))
+        else if (!monthSold.equals(other.monthSold))
             return false;
         return true;
     }
@@ -69,7 +63,7 @@ public class SalesWeekly extends AbstractSales implements Sales
 
     public static class Builder extends AbstractSales.Builder implements Sales.Builder
     {
-        private Integer weekSold;
+        private Integer monthSold;
 
         public Builder()
         {
@@ -79,28 +73,25 @@ public class SalesWeekly extends AbstractSales implements Sales
         public Builder(SalesWeekly sales)
         {
             super(sales);
-            this.weekSold = sales.getWeekSold();
+            this.monthSold = sales.getMonthSold();
         }
         
-        public Builder weekSold(LocalDate dateSold)
+        public Builder monthSold(LocalDate dateSold)
         {
-            WeekFields woy = WeekFields.of(Locale.US);
-            TemporalField tf = woy.weekOfWeekBasedYear();
-            
-            this.weekSold = dateSold.get(tf);
+            this.monthSold = dateSold.getMonthValue();
             return this;
         }
         
-        public Builder weekSold(Integer weekSold)
+        public Builder weekSold(Integer monthSold)
         {
-            this.weekSold = weekSold;
+            this.monthSold = monthSold;
             return this;
         }
 
         @Override
         public SalesWeekly build()
         {
-            return new SalesWeekly(this.id, this.product, this.numberSold, this.totalValue, this.weekSold, this.loaded);
+            return new SalesWeekly(this.id, this.product, this.numberSold, this.totalValue, this.monthSold, this.loaded);
         }
     }
 
