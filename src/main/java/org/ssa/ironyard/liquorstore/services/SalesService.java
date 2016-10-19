@@ -20,7 +20,7 @@ public interface SalesService
     List<Sales> aggregateDailySales();
     Sales readSale(Integer id);
     Map<Product, Map<LocalDate, Sales>> createDailySalesMap(List<SalesDaily> dailySales);
-    List<Sales> readAllSales();
+    List<SalesDaily> readAllSales();
     Map<Product, Map<Integer, Sales>> createWeeklySalesMap(List<SalesDaily> dailySales);
     Map<Product, Map<Integer, Sales>> createMonthlySalesMap(List<SalesDaily> dailySales);
     List<Sales> searchProduct(Integer productID);

@@ -2,6 +2,8 @@ package org.ssa.ironyard.liquorstore.dao;
 
 import java.util.List;
 
+import org.ssa.ironyard.liquorstore.model.SalesDaily;
+
 public interface DAO<T>
 {
 

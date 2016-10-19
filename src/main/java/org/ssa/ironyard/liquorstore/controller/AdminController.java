@@ -19,11 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.ssa.ironyard.liquorstore.model.CoreProduct;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Sales;
+import org.ssa.ironyard.liquorstore.model.SalesDaily;
 import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
 import org.ssa.ironyard.liquorstore.services.AnalyticsServiceImpl;
 import org.ssa.ironyard.liquorstore.services.CoreProductServiceImpl;
@@ -312,9 +315,19 @@ public class AdminController
         return ResponseEntity.ok().header("Admin Orders", "Unfulfilled Orders").body(response);
     }
     
-    @RequestMapping(value = "/sales/daily", method = RequestMethod.GET)
+    @RequestMapping(value = "/sales", method = RequestMethod.GET)
     public ResponseEntity<List<Sales>> getAllDailySales()
     {
+        List<SalesDaily> allSales = salesService.readAllSales();
+        
+        Map<String, Object> salesData = new HashMap<>();
+        
+        Map<Type, Object> typeSalesDate = new HashMap<>();
+        
+        Map<Type, Map<CoreProduct, Map<Product, Map<LocalDate, SalesDaily>>>> salesMap = new HashMap<>();
+        
+        Map<Product, Map<LocalDate, Sales>> dailySalesMap = salesService.createDailySalesMap(allSales);
+        
         return null;
     }
     

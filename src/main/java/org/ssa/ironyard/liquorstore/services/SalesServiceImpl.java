@@ -121,7 +121,7 @@ public class SalesServiceImpl implements SalesService
 
     @Override
     @Transactional
-    public List<Sales> readAllSales()
+    public List<SalesDaily> readAllSales()
     {
         return daoSales.readAll();
     }
