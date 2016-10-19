@@ -25,7 +25,7 @@ function configure($stateProvider, $urlRouterProvider) {
     })
     
     .state('adminHome', {
-      url: '/UnfulfilledOrders',
+      url: '/orders/pending',
       controller: 'AdminHomeController',
       controllerAs: 'HC',
       templateUrl: '/html/admin-home.html'
@@ -36,18 +36,13 @@ function configure($stateProvider, $urlRouterProvider) {
       controllerAs: 'OC',
       templateUrl: '/html/admin-order.html'
     })
-        .state('adminInventory', {
+        .state('adminInventorySales', {
       url: '/Inventory',
-      controller: 'AdminInventoryController',
-      controllerAs: 'SC',
-      templateUrl: '/html/admin.html'
+      controller: 'AdminInventorySalesController',
+      controllerAs: 'AIS',
+      templateUrl: '/html/admin-inventory-sales.html'
     })
-    	.state('adminSalesStats', {
-    		url:'/SalesStats',
-    		controller: 'AdminSalesStatsController',
-    		controllerAs: 'SSC',
-    		templateUrl: '/html/salesstats.html'
-    	})
+
 
   $urlRouterProvider.otherwise(function(){
 	  

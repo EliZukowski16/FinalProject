@@ -236,7 +236,7 @@ public class AdminController
     {
         Map<String, List<Order>> response = new HashMap<>();
 
-        List<Order> orders = orderService.readUnfulfilledOrders();
+        List<Order> orders = orderService.readPendingOrders();
 
         if (orders.isEmpty())
             response.put("error", new ArrayList<>());
@@ -246,7 +246,7 @@ public class AdminController
         return ResponseEntity.ok().body(response);
     }
 
-    @RequestMapping(value = "/UnfulfilledOrders/pending", method = RequestMethod.POST)
+    @RequestMapping(value = "/orders/pending", method = RequestMethod.POST)
     public Boolean changeOrderStatus(@RequestBody List<Map<String, Object>> body)
     {
         LOGGER.info("We made it to the pending cont" + body);
@@ -271,7 +271,7 @@ public class AdminController
 
     }
 
-    @RequestMapping(value = "/UnfulfilledOrders/pending/{id}/approve", method = RequestMethod.POST)
+    @RequestMapping(value = "/orders/pending/{id}/approve", method = RequestMethod.POST)
     public Boolean approveOrder(@PathVariable String id)
     {
         Integer orderID = Integer.parseInt(id);
@@ -280,7 +280,7 @@ public class AdminController
 
     }
 
-    @RequestMapping(value = "/UnfulfilledOrders/pending/{id}/reject", method = RequestMethod.POST)
+    @RequestMapping(value = "/orders/pending/{id}/reject", method = RequestMethod.POST)
     public Boolean rejectOrder(@PathVariable String id)
     {
         Integer orderID = Integer.parseInt(id);

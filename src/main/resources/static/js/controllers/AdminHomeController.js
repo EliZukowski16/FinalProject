@@ -49,7 +49,7 @@ angular
 		{
 			console.log(ctrl.status)
 			$http({
-	        	url: location.pathname +"/UnfulfilledOrders/pending",
+	        	url: location.pathname +"/orders/pending",
 	        	method: 'POST',
 	        	data: ctrl.status,
 	        }).then(function(response) {	
