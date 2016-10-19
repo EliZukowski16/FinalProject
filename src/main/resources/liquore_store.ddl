@@ -91,7 +91,7 @@ number INT(10) NOT NULL,
 total_value DECIMAL(12,2) NOT NULL,
 date_sold DATE NOT NULL,
 aggregate_sales BOOLEAN NOT NULL,
-CONSTRAINT product_fk_1 FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE)
+CONSTRAINT product_sales_fk_1 FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 
