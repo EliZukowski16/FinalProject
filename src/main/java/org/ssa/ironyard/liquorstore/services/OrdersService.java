@@ -30,5 +30,11 @@ public interface OrdersService
     boolean rejectOrder(Integer orderID);
     Boolean changeOrderStatus(List<Order> ordersForStatusChange);
     List<Order> readPendingOrders();
+    List<Order> readFutureApprovedOrders(LocalDate start);
+    List<Order> readPastApprovedOrders(LocalDate end);
+    List<Order> readApprovedOrdersInTimeFrame(LocalDate start, LocalDate end);
+    List<Order> readFutureRejectedOrders(LocalDate start);
+    List<Order> readPastRejectedOrders(LocalDate end);
+    List<Order> readRejectedOrdersInTimeFrame(LocalDate start, LocalDate end);
     
 }

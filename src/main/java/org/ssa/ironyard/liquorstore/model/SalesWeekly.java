@@ -8,17 +8,17 @@ public class SalesWeekly extends AbstractSales implements Sales
     private final Integer monthSold;
 
     public SalesWeekly(Integer id, Product product, Integer numberSold, BigDecimal totalValue, LocalDate dateSold,
-            Boolean loaded)
+            Boolean aggregateSales, Boolean loaded)
     {
-        super(id, product, numberSold, totalValue, loaded);
-        
+        super(id, product, numberSold, totalValue, aggregateSales, loaded);
+
         this.monthSold = dateSold.getMonthValue();
     }
-    
+
     public SalesWeekly(Integer id, Product product, Integer numberSold, BigDecimal totalValue, Integer monthSold,
-            Boolean loaded)
+            Boolean aggregateSales, Boolean loaded)
     {
-        super(id, product, numberSold, totalValue, loaded);
+        super(id, product, numberSold, totalValue, aggregateSales, loaded);
         this.monthSold = monthSold;
     }
 
@@ -56,6 +56,7 @@ public class SalesWeekly extends AbstractSales implements Sales
         return (SalesWeekly) this.of().product(this.getProduct()).build();
     }
 
+    @Override
     public Builder of()
     {
         return new Builder(this);
@@ -75,13 +76,13 @@ public class SalesWeekly extends AbstractSales implements Sales
             super(sales);
             this.monthSold = sales.getMonthSold();
         }
-        
+
         public Builder monthSold(LocalDate dateSold)
         {
             this.monthSold = dateSold.getMonthValue();
             return this;
         }
-        
+
         public Builder weekSold(Integer monthSold)
         {
             this.monthSold = monthSold;
@@ -91,7 +92,8 @@ public class SalesWeekly extends AbstractSales implements Sales
         @Override
         public SalesWeekly build()
         {
-            return new SalesWeekly(this.id, this.product, this.numberSold, this.totalValue, this.monthSold, this.loaded);
+            return new SalesWeekly(this.id, this.product, this.numberSold, this.totalValue, this.monthSold,
+                    this.aggregateSales, this.loaded);
         }
     }
 

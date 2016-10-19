@@ -77,7 +77,7 @@ public class SalesServiceImpl implements SalesService
         {
             Sales sales;
 
-            if ((sales = daoSales.insert(e.getValue())) == null)
+            if ((sales = daoSales.insert(e.getValue().of().aggregateSales(true).build())) == null)
                 throw new RuntimeException(
                         "Sales data for product " + e.getKey().getCoreProduct().getName() + " could not be aggregated");
 
@@ -116,7 +116,7 @@ public class SalesServiceImpl implements SalesService
     }
 
     @Override
-    public boolean searchTimeFrame(LocalDate date1, LocalDate date2)
+    public boolean searchTimeFrame(LocalDate start, LocalDate end)
     {
         // TODO Auto-generated method stub
         return false;

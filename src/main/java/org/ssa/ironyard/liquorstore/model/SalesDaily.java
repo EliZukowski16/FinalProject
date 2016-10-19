@@ -8,9 +8,9 @@ public class SalesDaily extends AbstractSales implements Sales
     private final LocalDate dateSold;
 
     public SalesDaily(Integer id, Product product, Integer numberSold, BigDecimal totalValue, LocalDate dateSold,
-            Boolean loaded)
+            Boolean aggregateSales, Boolean loaded)
     {
-        super(id, product, numberSold, totalValue, loaded);
+        super(id, product, numberSold, totalValue, aggregateSales, loaded);
         this.dateSold = dateSold;
     }
 
@@ -47,7 +47,8 @@ public class SalesDaily extends AbstractSales implements Sales
     {
         return (SalesDaily) this.of().product(this.getProduct()).build();
     }
-
+    
+    @Override
     public Builder of()
     {
         return new Builder(this);
@@ -67,7 +68,7 @@ public class SalesDaily extends AbstractSales implements Sales
             super(sales);
             this.dateSold = sales.getDateSold();
         }
-        
+
         public Builder dateSold(LocalDate dateSold)
         {
             this.dateSold = dateSold;
@@ -77,7 +78,8 @@ public class SalesDaily extends AbstractSales implements Sales
         @Override
         public SalesDaily build()
         {
-            return new SalesDaily(this.id, this.product, this.numberSold, this.totalValue, this.dateSold, this.loaded);
+            return new SalesDaily(this.id, this.product, this.numberSold, this.totalValue, this.dateSold,
+                    this.aggregateSales, this.loaded);
         }
     }
 
