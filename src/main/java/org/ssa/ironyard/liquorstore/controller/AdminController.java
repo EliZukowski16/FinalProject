@@ -234,7 +234,7 @@ public class AdminController
 
     @RequestMapping(value = "/orders/pending", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Map<String, List<Order>>> getUnfulfilledOrders()
+    public ResponseEntity<Map<String, List<Order>>> getPendingOrders()
     {
         Map<String, List<Order>> response = new HashMap<>();
 
