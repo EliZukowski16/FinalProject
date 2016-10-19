@@ -278,11 +278,10 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 
     public String prepareAllPendingOrders()
     {
-        String unfulfilled = this.buildEagerRead() + 
-                " WHERE " + this.table() + "." + this.getFields().get(2) + " = 'PENDING' " +
-                " LIMIT ? ";
+        String pending = this.buildEagerRead() + 
+                " WHERE " + this.table() + "." + this.getFields().get(2) + " = 'PENDING' ";
         
-        return unfulfilled;
+        return pending;
     }
 
     public String prepareReadInTimeFrameByStatus()

@@ -53,7 +53,7 @@ public class DAOSalesImpl extends AbstractDAOSales implements DAOSales
                 }, this.listExtractor);
     }
 
-    private List<Sales> readSalesForLastVariableDays(Integer numberOfDays, List<Integer> productIDs)
+    public List<Sales> readSalesForLastVariableDays(Integer numberOfDays, List<Integer> productIDs)
     {
         return this.springTemplate.query(
                 ((ORMSalesImpl) this.orm).prepareReadSalesForLastVariableDays(productIDs.size()),

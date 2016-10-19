@@ -334,6 +334,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
                         LOGGER.info("PS {}", ps);
                     }
                     ps.setString(3, status.name());
+                    LOGGER.info("PS {}", ps);
                 }, this.listExtractor);
     }
 
@@ -377,14 +378,8 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     }
 
     @Override
-    public List<Order> readPendingOrders(Integer numberOfOrders)
+    public List<Order> readPendingOrders()
     {
-        if (numberOfOrders == null)
-            return new ArrayList<>();
-
-        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareAllPendingOrders(), (PreparedStatement ps) ->
-        {
-            ps.setInt(1, numberOfOrders);
-        }, this.listExtractor);
+        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareAllPendingOrders(), (Object[]) null, this.listExtractor);
     }
 }

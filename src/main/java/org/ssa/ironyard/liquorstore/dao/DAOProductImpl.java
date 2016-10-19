@@ -147,9 +147,9 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
     public List<Product> readProductsByCoreProduct(Integer coreProductID)
     {
         List<Integer> coreProductIDs = new ArrayList<>();
-        
+
         coreProductIDs.add(coreProductID);
-        
+
         return this.readProductsByCoreProducts(coreProductIDs);
     }
 
@@ -210,10 +210,12 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
     }
 
     @Override
-    public List<Product> readLowInventoryProducts()
+    public List<Product> readLowInventoryProducts(Integer numberOfProducts)
     {
-        return this.springTemplate.query(((ORMProductImpl) this.orm).prepareLowInventory(), (Object[]) null,
-                this.lowInventoryExtractor);
+        return this.springTemplate.query(((ORMProductImpl) this.orm).prepareLowInventory(), (PreparedStatement ps) ->
+        {
+            ps.setInt(1, numberOfProducts);
+        }, this.lowInventoryExtractor);
     }
 
 }

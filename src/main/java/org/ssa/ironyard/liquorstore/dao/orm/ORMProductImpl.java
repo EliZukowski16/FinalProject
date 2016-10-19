@@ -256,7 +256,8 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
                 " LEFT JOIN _order " +
                 " ON _order.id " +
                 " = order_detail.order_id " +
-                " GROUP BY " + this.table() + "." + this.getPrimaryKeys().get(0);
+                " GROUP BY " + this.table() + "." + this.getPrimaryKeys().get(0) +
+                " LIMIT ? ";
        
         return lowInventory;
     }
