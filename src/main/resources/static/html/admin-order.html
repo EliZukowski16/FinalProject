@@ -1,10 +1,140 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/html/style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+<!-- <script src="/vendors/angular.min.js"></script>
+<script src="/vendors/angular-ui-router.min.js"></script> -->
+   
+    
+<h1 style="text-align:center">Welcome!</h1>
 
-</body>
-</html>
+<!-- Quick links -->
+
+<div class="container col-md-2" id="quickLinks">
+  <h3>Quick Links</h3>
+  <ul class="nav nav-pills nav-stacked" id="links">
+  	<li class="active"><a href="">Home</a></li>
+    <li><a href="#products">Add Order</a></li>
+    <li><a href="#orders">My Orders</a></li>
+  </ul>
+</div>
+
+
+<div class="orderContainer" style="width:75%; display:inline-block; float:left; top:22%">
+  <h2>Orders Pending Approval</h2><br>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+      	<td style="width: 30px;"></td>
+        <th>Customer ID</th>
+        <th>Customer First Name</th>
+        <th>Customer Last Name</th>
+        <th>Delivery Delivery Date</th>
+        <th>Delivery Delivery Time</th>
+        <th>Day Order Was Placed</th>
+        <th>Total</th>
+        <th>Order Status</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    
+      <tr ng-repeat-start="unOrders in HC.pending">
+      	<td>
+              <button ng-if="unOrders.expanded" ng-click="unOrders.expanded = false">-</button>
+              <button ng-if="!unOrders.expanded" ng-click="unOrders.expanded = true">+</button>
+    	</td>
+        <td>{{ unOrders.customer.id }}</td>
+        <td>{{ unOrders.customer.firstName }}</td>
+        <td>{{ unOrders.customer.lastName }}</td>
+        <td>{{ unOrders.date.dayOfWeek }}, {{ unOrders.date.month }} {{ unOrders.date.dayOfMonth }}, {{ unOrders.date.year }}</td>
+       	<td>{{ unOrders.date.hour }}:{{ unOrders.date.minute }}:{{ unOrders.date.second }}</td>
+        <td>{{ unOrders.timeOfOrder.dayOfWeek }}, {{ unOrders.timeOfOrder.month }} {{ unOrders.timeOfOrder.dayOfMonth }}, {{ unOrders.timeOfOrder.year }}</td>
+       	<td>{{ unOrders.total | currency }}</td>
+       	<td style="text-align: center">{{ unOrders.orderStatus }}<br><input type="radio"  name="{{unOrders.id}}" value="approved" ng-click="HC.checkedRadio(unOrders,'approved')"> Approve <input type="radio" name="{{unOrders.id}}" value="rejected" ng-click="HC.checkedRadio(unOrders,'rejected')" > Reject
+      </tr>
+      <tr ng-if="unOrders.expanded" ng-repeat-end="">
+      	<td colspan="6"><h4 >Order Details</h4>
+            
+            <table style="width:75%" class="table table-striped table-bordered">
+                <thead>
+      			<tr>
+        			<th>Products Ordered</th>
+        			<th>Qty</th>
+        			<th>Unit Price</th>
+        			<th>Line Total</th>
+     			 </tr>
+    			</thead>
+    			<tbody>
+    			<tr><Strong>Delivery Address:</Strong> {{ unOrders.customer.address.street }}, {{ unOrders.customer.address.city }}, {{ unOrders.customer.address.state }}  {{ unOrders.customer.address.zip.zipCode }}</tr>
+            	<tr></br></br></tr>
+            
+            	<tr ng-repeat="detail in unOrders.oD" height=30px>
+             	 <td>{{detail.product.coreProduct.name}}</td>
+             	 <td>{{detail.qty}}</td>
+             	 <td>{{detail.unitPrice | currency}}</td>
+             	 <td>{{detail.unitPrice * detail.qty | currency}}</td>
+            	</tr>
+            	<tr style="border-top: solid 1px">
+            	<td><strong>Grand Total:</strong></td>
+            	<td></td>
+            	<td></td>
+            	<td>{{ unOrders.total | currency }}</td>
+            	</tr>
+    
+            	</tbody>          	
+          	</table>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      
+      <div class ="text-center">
+      	<button ng-click="HC.submitStatus()" style="float: right" data-toggle="modal" data-target="#myModal">submit</button>
+      	
+      	<div class="modal fade" id="myModal" role="dialog" data-backdrop="static">
+    		<div class="modal-dialog">
+    
+      		<!-- Modal content-->
+      			<div class="modal-content">
+        			<div class="modal-header">
+          				<button type="button" class="close" ng-click="HC.reload()"></button>
+          				<h2 class="modal-title">Order Responses</h2>
+        			</div>
+        		<div class="modal-body">
+        
+        	<div class="receiptContainer" style="margin-left:2%">
+  			<h4 style="text-align:center"><span class="glyphicon glyphicon-ok" style="color:green" aria-hidden="true"></span> You Have Successfully Answered These Order Requests</h4><br>
+  			<table class="table table-striped" >
+  
+    			<tbody>
+     			 <tr ng-repeat="statusP in HC.statusPopup" style="text-align:left">
+        		<td>Order ID: {{statusP.id}} New Status: {{statusP.value}}</td>
+        		<td>hello</td>
+        		
+        		
+        
+      			</tr>
+      			<tr style="border-top: solid;text-align: left">
+
+      			</tr>
+
+			</div>
+			</table>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" ng-click="HC.reload()">Close</button>
+          
+          
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+</div>
+      </div>
+      
+      
+      </div>
