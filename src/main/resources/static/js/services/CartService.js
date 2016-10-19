@@ -7,7 +7,7 @@ function CartService($http) {
 
 var service = this;
 
-service.keyword = "";
+
 service.selection = [];
 service.searchResults = [];
 
@@ -28,10 +28,10 @@ return {
 	},	
 	
 	//Submit search to controller
-	search : function (){
+	search : function (key){
 	
 		var queryParams = {
-				keywords: service.keyword,
+				keywords: key,
 				types: service.selection
 		}
 
@@ -65,7 +65,6 @@ return {
 	    },
 	    
 	
-		getKeyword: service.keyword,
 	
 		getSelection: service.selection,
 	

@@ -17,7 +17,7 @@ angular
     ctrl.year = "";
     
     ctrl.searchResults = CartService.getSearchResults;
-    ctrl.keyword = CartService.getKeyword;
+    ctrl.keyword = "";
     ctrl.selection = CartService.getSelection;
     ctrl.cart = CartService.getCart;
     
@@ -28,7 +28,7 @@ angular
     
     //Submit search to controller
     ctrl.search = function(){
-    	CartService.search();
+    	CartService.search(ctrl.keyword);
     }   
     
     //Add product to cart 
