@@ -287,9 +287,9 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 
     public String prepareReadInTimeFrameByStatus()
     {
-        String readInTimeFrame = buildEagerRead() + " WHERE ( " + productORM.table() + "."
-                + productORM.getFields().get(1) + " BETWEEN ? AND ? ) AND ( " + this.table() +
-                "." + this.getFields().get(2) + " = ? ";
+        String readInTimeFrame = buildEagerRead() + " WHERE ( " + this.table() + "."
+                + this.getFields().get(1) + " BETWEEN ? AND ? ) AND ( " + this.table() +
+                "." + this.getFields().get(2) + " = ? )";
 
         LOGGER.debug(this.getClass().getSimpleName());
         LOGGER.debug("Read In Time Frame prepared Statement: {}", readInTimeFrame);
