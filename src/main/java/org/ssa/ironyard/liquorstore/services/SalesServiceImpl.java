@@ -83,6 +83,12 @@ public class SalesServiceImpl implements SalesService
 
             dailyAggregateSales.add(sales);
         }
+        
+        for(Sales s : dailyIndividualSales)
+        {
+            if(!daoSales.delete(s.getId()))
+                throw new RuntimeException("Could not delete sales data " + s.getId() + " while aggregating daily sales");
+        }
 
         return dailyAggregateSales;
     }
