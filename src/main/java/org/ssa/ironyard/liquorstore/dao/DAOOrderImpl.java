@@ -254,7 +254,7 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     @Override
     public List<Order> readOrdersInTimeFrame(LocalDate start, LocalDate end)
     {
-        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadInTimeFrame(), (PreparedStatement ps) ->
+        List<Order> orders = this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadInTimeFrame(), (PreparedStatement ps) ->
         {
             if (start == null)
                 ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(LocalDate.MIN, LocalTime.of(0, 0))));
@@ -266,6 +266,9 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
             else
                 ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(end, LocalTime.of(11, 59, 59))));
         }, this.listExtractor);
+        
+        LOGGER.info("Order from dao: {}",orders);
+        return orders;
     }
 
     @Override

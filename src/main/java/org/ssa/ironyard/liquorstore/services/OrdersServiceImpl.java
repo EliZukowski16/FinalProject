@@ -256,6 +256,8 @@ public class OrdersServiceImpl implements OrdersService
     public List<Order> searchFuture(LocalDate date1)
     {
         List<Order> orders = daoOrder.readOrdersInTheFuture(date1);
+        
+        LOGGER.info("orders in service: {}",orders);
 
         orders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
 
