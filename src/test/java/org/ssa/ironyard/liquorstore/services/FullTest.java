@@ -26,6 +26,7 @@ import org.ssa.ironyard.liquorstore.dao.DAOOrder;
 import org.ssa.ironyard.liquorstore.dao.DAOOrderImpl;
 import org.ssa.ironyard.liquorstore.dao.DAOProduct;
 import org.ssa.ironyard.liquorstore.dao.DAOProductImpl;
+import org.ssa.ironyard.liquorstore.dao.DAOSales;
 import org.ssa.ironyard.liquorstore.model.Address;
 import org.ssa.ironyard.liquorstore.model.Address.State;
 import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
@@ -59,6 +60,7 @@ public class FullTest
     DAOCustomer daoCustomer;
     DAOOrder daoOrder;
     DAOProduct daoProduct;
+    DAOSales daoSales;
     
     Customer c;
     Admin ad;
@@ -101,7 +103,7 @@ public class FullTest
         adminService = new AdminServiceImpl(daoAdmin);
         custService = new CustomerServiceImpl(daoCustomer);
         cpService = new CoreProductServiceImpl(daoCoreProduct);
-        orderService = new OrdersServiceImpl(daoOrder, daoProduct);
+        orderService = new OrdersServiceImpl(daoOrder, daoProduct, daoSales);
         prodService = new ProductServiceImpl(daoProduct);
    
         daoAdmin.clear();
