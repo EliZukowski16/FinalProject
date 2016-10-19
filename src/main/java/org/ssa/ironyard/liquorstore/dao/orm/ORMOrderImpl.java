@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
@@ -219,8 +220,8 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 
     public String prepareReadInTimeFrame()
     {
-        String readInTimeFrame = buildEagerRead() + " WHERE " + productORM.table() + "."
-                + productORM.getFields().get(1) + " BETWEEN ? AND ? ";
+        String readInTimeFrame = buildEagerRead() + " WHERE " + this.table() + "."
+                + this.getFields().get(1) + " BETWEEN ? AND ? ";
 
         LOGGER.debug(this.getClass().getSimpleName());
         LOGGER.debug("Read In Time Frame prepared Statement: {}", readInTimeFrame);
@@ -275,13 +276,24 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
         return readByCoreProductIds;
     }
 
-    public String prepareAllUnfulfilledOrders()
+    public String prepareAllPendingOrders()
     {
-        String unfulfilled = this.buildEagerRead() + 
-                " WHERE " + this.table() + "." + this.getFields().get(2) + " = 'PENDING' " +
-                " LIMIT ? ";
+        String pending = this.buildEagerRead() + 
+                " WHERE " + this.table() + "." + this.getFields().get(2) + " = 'PENDING' ";
         
-        return unfulfilled;
+        return pending;
+    }
+
+    public String prepareReadInTimeFrameByStatus()
+    {
+        String readInTimeFrame = buildEagerRead() + " WHERE ( " + this.table() + "."
+                + this.getFields().get(1) + " BETWEEN ? AND ? ) AND ( " + this.table() +
+                "." + this.getFields().get(2) + " = ? )";
+
+        LOGGER.debug(this.getClass().getSimpleName());
+        LOGGER.debug("Read In Time Frame prepared Statement: {}", readInTimeFrame);
+
+        return readInTimeFrame;
     }
 
 }

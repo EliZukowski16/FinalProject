@@ -25,9 +25,16 @@ public interface OrdersService
     List<Order> searchMostRecent(Integer numberOfOrders);
     List<OrderDetail> searchProduct(Product product);
     List<OrderDetail> searchTimeFrameAndProduct(LocalDate date1, LocalDate date2, Product product);
-    List<Order> readUnfulfilledOrders();
+//    List<Order> readUnfulfilledOrders();
     boolean approveOrder(Integer orderID);
     boolean rejectOrder(Integer orderID);
     Boolean changeOrderStatus(List<Order> ordersForStatusChange);
+    List<Order> readPendingOrders();
+    List<Order> readFutureApprovedOrders(LocalDate start);
+    List<Order> readPastApprovedOrders(LocalDate end);
+    List<Order> readApprovedOrdersInTimeFrame(LocalDate start, LocalDate end);
+    List<Order> readFutureRejectedOrders(LocalDate start);
+    List<Order> readPastRejectedOrders(LocalDate end);
+    List<Order> readRejectedOrdersInTimeFrame(LocalDate start, LocalDate end);
     
 }

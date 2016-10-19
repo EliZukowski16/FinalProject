@@ -88,8 +88,10 @@ CREATE TABLE sales
 (id INT AUTO_INCREMENT PRIMARY KEY,
 product_id INT(10) NOT NULL,
 number INT(10) NOT NULL,
-unit_price DECIMAL(12,2) NOT NULL,
-date_sold TIMESTAMP NOT NULL)
+total_value DECIMAL(12,2) NOT NULL,
+date_sold DATE NOT NULL,
+aggregate_sales BOOLEAN NOT NULL,
+CONSTRAINT product_sales_fk_1 FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 

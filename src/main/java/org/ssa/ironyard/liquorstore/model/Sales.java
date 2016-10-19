@@ -12,6 +12,8 @@ public interface Sales extends DomainObject
 
     @Override
     public boolean deeplyEquals(DomainObject obj);
+    
+    public Builder of();
 
     public static interface Builder
     {
@@ -29,6 +31,10 @@ public interface Sales extends DomainObject
 
         public Sales build();
 
+        public Builder aggregateSales(Boolean aggregateSales);
+
     }
+
+    Boolean getAggregateSales();
 
 }

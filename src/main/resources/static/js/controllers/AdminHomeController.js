@@ -30,18 +30,59 @@ angular
 		
 		ctrl.checkedRadio = function(order, value)
 		{
+			
+			
+			
 			ctrl.stat = {
 				[order.id] : value
 			}
 			
-			ctrl.status.push(ctrl.stat);
+			
+			
+			
 			
 			ctrl.statPopup = {
 				id : order.id,
 				value : value
 			}
-			console.log(ctrl.status);
+
 			ctrl.statusPopup.push(ctrl.statPopup)
+			
+			
+				
+			if(ctrl.statusPopup.length == 0)
+			{
+				console.log("pushed")
+				ctrl.statusPopup.push(ctrl.statPopup)
+				ctrl.status.push(ctrl.stat);
+			}
+			else
+			{
+				for (let i = 0; i < ctrl.statusPopup.length; i++) 
+				{
+					
+					
+					console.log(ctrl.statusPopup.length)
+					if(ctrl.statusPopup[i].id == order.id)
+					{
+						ctrl.status.splice(i,1)
+						ctrl.statusPopup.splice(i,1)
+						ctrl.statusPopup.push(ctrl.statPopup)
+						ctrl.status.push(ctrl.stat);
+					}
+					else
+					{
+						ctrl.statusPopup.push(ctrl.statPopup)
+						ctrl.status.push(ctrl.stat);
+					}
+				}
+				
+				
+			}
+
+			console.log(ctrl.status);
+			
+		
 
 		}
 		
@@ -50,7 +91,7 @@ angular
 		{
 			console.log(ctrl.status)
 			$http({
-	        	url: location.pathname +"/UnfulfilledOrders/pending",
+	        	url: location.pathname +"/orders/pending",
 	        	method: 'POST',
 	        	data: ctrl.status,
 	        }).then(function(response) {	

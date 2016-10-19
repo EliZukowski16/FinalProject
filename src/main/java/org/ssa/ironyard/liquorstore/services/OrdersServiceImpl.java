@@ -10,11 +10,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.ssa.ironyard.liquorstore.controller.CustomerController;
 import org.ssa.ironyard.liquorstore.dao.DAOOrder;
 import org.ssa.ironyard.liquorstore.dao.DAOProduct;
 import org.ssa.ironyard.liquorstore.dao.DAOSales;
-import org.ssa.ironyard.liquorstore.model.AbstractSales;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
@@ -23,8 +21,6 @@ import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Sales;
 import org.ssa.ironyard.liquorstore.model.SalesDaily;
 import org.ssa.ironyard.liquorstore.model.SalesDaily.Builder;
-
-import com.mysql.cj.api.log.Log;
 
 @Service
 public class OrdersServiceImpl implements OrdersService
@@ -260,6 +256,8 @@ public class OrdersServiceImpl implements OrdersService
     public List<Order> searchFuture(LocalDate date1)
     {
         List<Order> orders = daoOrder.readOrdersInTheFuture(date1);
+        
+        LOGGER.info("orders in service: {}",orders);
 
         orders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
 
@@ -292,15 +290,75 @@ public class OrdersServiceImpl implements OrdersService
     }
 
     @Override
-    public List<Order> readUnfulfilledOrders()
+    public List<Order> readPendingOrders()
     {
-        List<Order> unfulfilledOrders = new ArrayList<>();
+        List<Order> pendingOrders = new ArrayList<>();
 
-        unfulfilledOrders = daoOrder.readUnfulfilledOrders(50);
+        pendingOrders = daoOrder.readPendingOrders();
 
-        unfulfilledOrders.sort((o1, o2) -> o2.getDate().compareTo(o1.getDate()));
+        pendingOrders.sort((o1, o2) -> o2.getDate().compareTo(o1.getDate()));
 
-        return unfulfilledOrders;
+        return pendingOrders;
+    }
+    
+    @Override
+    public List<Order> readFutureApprovedOrders(LocalDate start)
+    {
+        List<Order> orders = daoOrder.readOrdersInTheFutureByStatus(OrderStatus.APPROVED, start);
+
+        orders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
+
+        return orders;
+    }
+    
+    @Override
+    public List<Order> readPastApprovedOrders(LocalDate end)
+    {
+        List<Order> orders = daoOrder.readOrdersInThePastByStatus(OrderStatus.APPROVED, end);
+
+        orders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
+
+        return orders;
+    }
+    
+    @Override
+    public List<Order> readApprovedOrdersInTimeFrame(LocalDate start, LocalDate end)
+    {
+        List<Order> orders = daoOrder.readOrdersInTimeFrameByStatus(OrderStatus.APPROVED, start, end);
+
+        orders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
+
+        return orders;
+    }
+    
+    @Override
+    public List<Order> readFutureRejectedOrders(LocalDate start)
+    {
+        List<Order> orders = daoOrder.readOrdersInTheFutureByStatus(OrderStatus.REJECTED, start);
+
+        orders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
+
+        return orders;
+    }
+    
+    @Override
+    public List<Order> readPastRejectedOrders(LocalDate end)
+    {
+        List<Order> orders = daoOrder.readOrdersInThePastByStatus(OrderStatus.REJECTED, end);
+
+        orders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
+
+        return orders;
+    }
+    
+    @Override
+    public List<Order> readRejectedOrdersInTimeFrame(LocalDate start, LocalDate end)
+    {
+        List<Order> orders = daoOrder.readOrdersInTimeFrameByStatus(OrderStatus.REJECTED, start, end);
+
+        orders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
+
+        return orders;
     }
 
     @Override
@@ -311,6 +369,7 @@ public class OrdersServiceImpl implements OrdersService
             return false;
 
         Order order = daoOrder.read(orderID);
+        Order updatedOrder;
         LOGGER.info("Got order with ID : {}", order.getId());
 
         if (!order.getOrderStatus().equals(OrderStatus.PENDING) || (order == null))
@@ -329,16 +388,17 @@ public class OrdersServiceImpl implements OrdersService
                         "Product : " + detail.getProduct().getId() + "Inventory could not be updated");
         }
 
-        if ((order = daoOrder.update(order.of().orderStatus(OrderStatus.APPROVED).build())) == null)
+        if ((updatedOrder = daoOrder.update(order.of().orderStatus(OrderStatus.APPROVED).build())) == null)
             throw new RuntimeException("Order : " + order.getId() + " could not be approved");
         
-        for(OrderDetail detail : order.getoD())
+        for(OrderDetail detail : updatedOrder.getoD())
         {
             Sales sales = ((Builder) new SalesDaily.Builder()
                     .product(detail.getProduct()))
                     .dateSold(LocalDate.now())
                     .numberSold(detail.getQty())
                     .totalValue(detail.getUnitPrice().multiply(BigDecimal.valueOf(detail.getQty())))
+                    .aggregateSales(false)
                     .build();
             
             if(daoSales.insert(sales) == null)

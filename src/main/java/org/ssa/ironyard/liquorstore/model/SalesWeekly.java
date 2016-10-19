@@ -2,7 +2,6 @@ package org.ssa.ironyard.liquorstore.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
@@ -12,19 +11,19 @@ public class SalesWeekly extends AbstractSales implements Sales
     private final Integer weekSold;
 
     public SalesWeekly(Integer id, Product product, Integer numberSold, BigDecimal totalValue, LocalDate dateSold,
-            Boolean loaded)
+            Boolean aggregateSales, Boolean loaded)
     {
-        super(id, product, numberSold, totalValue, loaded);
-        
+        super(id, product, numberSold, totalValue, aggregateSales, loaded);
+
         WeekFields woy = WeekFields.of(Locale.US);
         TemporalField tf = woy.weekOfWeekBasedYear();
         this.weekSold = dateSold.get(tf);
     }
-    
+
     public SalesWeekly(Integer id, Product product, Integer numberSold, BigDecimal totalValue, Integer weekSold,
-            Boolean loaded)
+            Boolean aggregateSales, Boolean loaded)
     {
-        super(id, product, numberSold, totalValue, loaded);
+        super(id, product, numberSold, totalValue, aggregateSales, loaded);
         this.weekSold = weekSold;
     }
 
@@ -62,6 +61,7 @@ public class SalesWeekly extends AbstractSales implements Sales
         return (SalesWeekly) this.of().product(this.getProduct()).build();
     }
 
+    @Override
     public Builder of()
     {
         return new Builder(this);
@@ -81,16 +81,16 @@ public class SalesWeekly extends AbstractSales implements Sales
             super(sales);
             this.weekSold = sales.getWeekSold();
         }
-        
+
         public Builder weekSold(LocalDate dateSold)
         {
             WeekFields woy = WeekFields.of(Locale.US);
             TemporalField tf = woy.weekOfWeekBasedYear();
-            
+
             this.weekSold = dateSold.get(tf);
             return this;
         }
-        
+
         public Builder weekSold(Integer weekSold)
         {
             this.weekSold = weekSold;
@@ -100,7 +100,8 @@ public class SalesWeekly extends AbstractSales implements Sales
         @Override
         public SalesWeekly build()
         {
-            return new SalesWeekly(this.id, this.product, this.numberSold, this.totalValue, this.weekSold, this.loaded);
+            return new SalesWeekly(this.id, this.product, this.numberSold, this.totalValue, this.weekSold,
+                    this.aggregateSales, this.loaded);
         }
     }
 

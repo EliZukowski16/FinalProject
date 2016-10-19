@@ -25,6 +25,7 @@ import org.springframework.stereotype.Repository;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMOrderImpl;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
+import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 
 import com.mysql.cj.api.jdbc.Statement;
 
@@ -253,18 +254,33 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     @Override
     public List<Order> readOrdersInTimeFrame(LocalDate start, LocalDate end)
     {
-        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadInTimeFrame(), (PreparedStatement ps) ->
+        List<Order> orders = this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadInTimeFrame(), (PreparedStatement ps) ->
         {
             if (start == null)
-                ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(LocalDate.MIN, LocalTime.of(0, 0))));
+            {
+                ps.setTimestamp(1, Timestamp.valueOf(LocalDate.now().minusYears(10).toString() + " 00:00:00"));
+                LOGGER.info("PS {}", ps);
+            }
             else
-                ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.of(start, LocalTime.of(0, 0))));
+            {
+                ps.setTimestamp(1, Timestamp.valueOf(start.toString() + " 00:00:00"));
+                LOGGER.info("PS {}", ps);
+            }
 
             if (end == null)
-                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(LocalDate.MAX, LocalTime.of(11, 59, 59))));
+            {
+                ps.setTimestamp(2, Timestamp.valueOf(LocalDate.now().plusYears(10).toString() + " 11:59:59"));
+                LOGGER.info("PS {}", ps);
+            }
             else
-                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(end, LocalTime.of(11, 59, 59))));
+            {
+                ps.setTimestamp(2, Timestamp.valueOf(end.toString() + " 11:59:59"));
+                LOGGER.info("PS {}", ps);
+            }
         }, this.listExtractor);
+        
+        LOGGER.info("Order from dao: {}",orders);
+        return orders;
     }
 
     @Override
@@ -277,6 +293,52 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     public List<Order> readOrdersInTheFuture(LocalDate start)
     {
         return this.readOrdersInTimeFrame(start, null);
+    }
+
+    @Override
+    public List<Order> readOrdersInThePastByStatus(OrderStatus status, LocalDate end)
+    {
+        return this.readOrdersInTimeFrameByStatus(status, null, end);
+
+    }
+
+    @Override
+    public List<Order> readOrdersInTheFutureByStatus(OrderStatus status, LocalDate start)
+    {
+        return this.readOrdersInTimeFrameByStatus(status, start, null);
+
+    }
+
+    @Override
+    public List<Order> readOrdersInTimeFrameByStatus(OrderStatus status, LocalDate start, LocalDate end)
+    {
+        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareReadInTimeFrameByStatus(),
+                (PreparedStatement ps) ->
+                {
+                    if (start == null)
+                    {
+                        ps.setTimestamp(1, Timestamp.valueOf(LocalDate.now().minusYears(10).toString() + " 00:00:00"));
+                        LOGGER.info("PS {}", ps);
+                    }
+                    else
+                    {
+                        ps.setTimestamp(1, Timestamp.valueOf(start.toString() + " 00:00:00"));
+                        LOGGER.info("PS {}", ps);
+                    }
+
+                    if (end == null)
+                    {
+                        ps.setTimestamp(2, Timestamp.valueOf(LocalDate.now().plusYears(10).toString() + " 11:59:59"));
+                        LOGGER.info("PS {}", ps);
+                    }
+                    else
+                    {
+                        ps.setTimestamp(2, Timestamp.valueOf(end.toString() + " 11:59:59"));
+                        LOGGER.info("PS {}", ps);
+                    }
+                    ps.setString(3, status.name());
+                    LOGGER.info("PS {}", ps);
+                }, this.listExtractor);
     }
 
     @Override
@@ -319,15 +381,8 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     }
 
     @Override
-    public List<Order> readUnfulfilledOrders(Integer numberOfOrders)
+    public List<Order> readPendingOrders()
     {
-        if (numberOfOrders == null)
-            return new ArrayList<>();
-
-        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareAllUnfulfilledOrders(),
-                (PreparedStatement ps) ->
-                {
-                    ps.setInt(1, numberOfOrders);
-                }, this.listExtractor);
+        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareAllPendingOrders(), (Object[]) null, this.listExtractor);
     }
 }

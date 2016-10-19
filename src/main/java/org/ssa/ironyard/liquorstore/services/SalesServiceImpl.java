@@ -17,6 +17,8 @@ import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Sales;
 import org.ssa.ironyard.liquorstore.model.SalesDaily;
+import org.ssa.ironyard.liquorstore.model.SalesMonthly;
+import org.ssa.ironyard.liquorstore.model.SalesWeekly;
 
 @Service
 public class SalesServiceImpl implements SalesService
@@ -77,11 +79,18 @@ public class SalesServiceImpl implements SalesService
         {
             Sales sales;
 
-            if ((sales = daoSales.insert(e.getValue())) == null)
+            if ((sales = daoSales.insert(e.getValue().of().aggregateSales(true).build())) == null)
                 throw new RuntimeException(
                         "Sales data for product " + e.getKey().getCoreProduct().getName() + " could not be aggregated");
 
             dailyAggregateSales.add(sales);
+        }
+
+        for (Sales s : dailyIndividualSales)
+        {
+            if (!daoSales.delete(s.getId()))
+                throw new RuntimeException(
+                        "Could not delete sales data " + s.getId() + " while aggregating daily sales");
         }
 
         return dailyAggregateSales;
@@ -97,30 +106,170 @@ public class SalesServiceImpl implements SalesService
     @Override
     public Sales readSale(Integer id)
     {
-       if(id == null)
-           return null;
-       
-       return daoSales.read(id);
+        if (id == null)
+            return null;
+
+        return daoSales.read(id);
     }
 
     @Override
+    @Transactional
     public List<Sales> readAllSales()
     {
         return daoSales.readAll();
     }
 
     @Override
-    public boolean searchTimeFrame(LocalDate date1, LocalDate date2)
+    @Transactional
+    public Map<Product, Map<LocalDate, Sales>> createDailySalesMap(List<SalesDaily> dailySales)
     {
-        // TODO Auto-generated method stub
-        return false;
+        Map<Product, Map<LocalDate, Sales>> dailySalesMap = new HashMap<>();
+
+        for (Sales s : dailySales)
+        {
+            if (s.getAggregateSales())
+            {
+                Map<LocalDate, Sales> productSales = new HashMap<>();
+
+                if ((dailySalesMap.containsKey(s.getProduct())))
+                {
+                    productSales = dailySalesMap.get(s.getProduct());
+                }
+
+                productSales.put(((SalesDaily) s).getDateSold(), s);
+                dailySalesMap.put(s.getProduct(), productSales);
+            }
+        }
+
+        return dailySalesMap;
     }
 
     @Override
-    public boolean searchType(Type type)
+    @Transactional
+    public Map<Product, Map<Integer, Sales>> createWeeklySalesMap(List<SalesDaily> dailySales)
+    {
+        Map<Product, Map<Integer, Sales>> weeklySalesMap = new HashMap<>();
+
+        for (Sales s : dailySales)
+        {
+            if (s.getAggregateSales())
+            {
+                Sales sales = ((SalesWeekly.Builder) new SalesWeekly.Builder().id(s.getId()).numberSold(s.getNumberSold())
+                        .product(s.getProduct()).totalValue(s.getTotalValue()).loaded(true).aggregateSales(true))
+                                .weekSold(((SalesDaily) s).getDateSold()).build();
+
+                Map<Integer, Sales> productSales = new HashMap<>();
+
+                if (weeklySalesMap.containsKey((s.getProduct())))
+                {
+                    productSales = weeklySalesMap.get(s.getProduct());
+
+                    Sales weeklySales;
+
+                    if ((weeklySales = productSales.get(((SalesWeekly) sales).getWeekSold())) != null)
+                    {
+                        Integer numberSold = sales.getNumberSold() + weeklySales.getNumberSold();
+                        BigDecimal totalValue = sales.getTotalValue().add(weeklySales.getTotalValue());
+
+                        sales = sales.of().totalValue(totalValue).numberSold(numberSold).build();
+                    }
+                }
+
+                productSales.put(((SalesWeekly) sales).getWeekSold(), sales);
+                weeklySalesMap.put(s.getProduct(), productSales);
+            }
+        }
+        
+        return weeklySalesMap;
+    }
+    
+    @Override
+    public Map<Product, Map<Integer, Sales>> createMonthlySalesMap(List<SalesDaily> dailySales)
+    {
+        Map<Product, Map<Integer, Sales>> monthlySalesMap = new HashMap<>();
+
+        for (Sales s : dailySales)
+        {
+            if (s.getAggregateSales())
+            {
+                Sales sales = ((SalesMonthly.Builder) new SalesMonthly.Builder().id(s.getId()).numberSold(s.getNumberSold())
+                        .product(s.getProduct()).totalValue(s.getTotalValue()).loaded(true).aggregateSales(true))
+                                .monthSold(((SalesDaily) s).getDateSold()).build();
+
+                Map<Integer, Sales> productSales = new HashMap<>();
+
+                if (monthlySalesMap.containsKey((s.getProduct())))
+                {
+                    productSales = monthlySalesMap.get(s.getProduct());
+
+                    Sales monthlySales;
+
+                    if ((monthlySales = productSales.get(((SalesMonthly) sales).getMonthSold())) != null)
+                    {
+                        Integer numberSold = sales.getNumberSold() + monthlySales.getNumberSold();
+                        BigDecimal totalValue = sales.getTotalValue().add(monthlySales.getTotalValue());
+
+                        sales = sales.of().totalValue(totalValue).numberSold(numberSold).build();
+                    }
+                }
+
+                productSales.put(((SalesMonthly) sales).getMonthSold(), sales);
+                monthlySalesMap.put(s.getProduct(), productSales);
+            }
+        }
+        
+        return monthlySalesMap;
+    }
+
+    @Override
+    public List<Sales> searchTimeFrame(LocalDate start, LocalDate end)
     {
         // TODO Auto-generated method stub
-        return false;
+        return null;
+    }
+
+    @Override
+    public List<Sales> searchType(Type type)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public List<Sales> readSalesForYesterday()
+    {
+        return daoSales.readSalesForPreviousDay();
+    }
+    
+    @Override
+    public List<Sales> readSalesForYesterday(Integer productID)
+    {
+        return daoSales.readSalesForPreviousDay(productID);
+    }
+    
+    @Override
+    public List<Sales> readSalesForYesterday(List<Integer> productIDs)
+    {
+        return daoSales.readSalesForPreviousDay(productIDs);
+    }
+    
+    @Override
+    public List<Sales> searchProduct(Integer productID)
+    {
+        if(productID ==  null)
+            return new ArrayList<>();
+        
+        return daoSales.readSalesForProduct(productID);
+    }
+    
+    @Override
+    public List<Sales> searchProduct(List<Integer> productIDs)
+    {
+        if(productIDs.isEmpty())
+            return new ArrayList<>();
+        
+        return daoSales.readSalesForProduct(productIDs);
+        
     }
 
     @Override

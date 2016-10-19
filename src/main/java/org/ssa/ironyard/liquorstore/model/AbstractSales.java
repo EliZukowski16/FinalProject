@@ -7,28 +7,39 @@ public abstract class AbstractSales extends AbstractDomainObject implements Sale
     private final Product product;
     private final Integer numberSold;
     private final BigDecimal totalValue;
+    private final Boolean aggregateSales;
     
-    public AbstractSales(Integer id, Product product, Integer numberSold, BigDecimal totalValue, Boolean loaded)
+    public AbstractSales(Integer id, Product product, Integer numberSold, BigDecimal totalValue, Boolean aggregateSales, Boolean loaded)
     {
         super(id, loaded);
         this.product = product;
         this.numberSold = numberSold;
         this.totalValue = totalValue;
+        this.aggregateSales = aggregateSales;
     }
     
+    @Override
     public Product getProduct()
     {
         return product;
     }
-
+    
+    @Override
     public Integer getNumberSold()
     {
         return numberSold;
     }
 
+    @Override
     public BigDecimal getTotalValue()
     {
         return totalValue;
+    }
+    
+    @Override
+    public Boolean getAggregateSales()
+    {
+        return aggregateSales;
     }
     
     @Override
@@ -62,6 +73,13 @@ public abstract class AbstractSales extends AbstractDomainObject implements Sale
                 return false;
         }
         else if (!totalValue.equals(other.totalValue))
+            return false;
+        if (aggregateSales == null)
+        {
+            if (other.aggregateSales != null)
+                return false;
+        }
+        else if (!aggregateSales.equals(other.aggregateSales))
             return false;
         return true;
     }
@@ -102,6 +120,7 @@ public abstract class AbstractSales extends AbstractDomainObject implements Sale
         protected Product product;
         protected Integer numberSold;
         protected BigDecimal totalValue;
+        protected Boolean aggregateSales;
 
         public Builder()
         {
@@ -115,6 +134,7 @@ public abstract class AbstractSales extends AbstractDomainObject implements Sale
             this.product = sales.getProduct();
             this.numberSold = sales.getNumberSold();
             this.totalValue = sales.getTotalValue();
+            this.aggregateSales = sales.getAggregateSales();
         }
 
         @Override
@@ -156,6 +176,14 @@ public abstract class AbstractSales extends AbstractDomainObject implements Sale
         public Builder totalValue(Double totalValue)
         {
             return this.totalValue(BigDecimal.valueOf(totalValue));
+        }
+        
+        
+        @Override 
+        public Builder aggregateSales(Boolean aggregateSales)
+        {
+            this.aggregateSales = aggregateSales;
+            return this;
         }
 
         @Override

@@ -25,29 +25,24 @@ function configure($stateProvider, $urlRouterProvider) {
     })
     
     .state('adminHome', {
-      url: '/UnfulfilledOrders',
+      url: '/orders/pending',
       controller: 'AdminHomeController',
       controllerAs: 'HC',
       templateUrl: '/html/admin-home.html'
     })
         .state('adminOrder', {
-      url: '/order',
+      url: '/order/unfulfilled',
       controller: 'AdminOrderController',
       controllerAs: 'OC',
       templateUrl: '/html/admin-order.html'
     })
-        .state('adminInventory', {
+        .state('adminInventorySales', {
       url: '/Inventory',
-      controller: 'AdminInventoryController',
-      controllerAs: 'SC',
-      templateUrl: '/html/admin.html'
+      controller: 'AdminInventorySalesController',
+      controllerAs: 'AIS',
+      templateUrl: '/html/admin-inventory-sales.html'
     })
-    	.state('adminSalesStats', {
-    		url:'/SalesStats',
-    		controller: 'AdminSalesStatsController',
-    		controllerAs: 'SSC',
-    		templateUrl: '/html/salesstats.html'
-    	})
+
 
   $urlRouterProvider.otherwise(function(){
 	  
@@ -61,7 +56,7 @@ function configure($stateProvider, $urlRouterProvider) {
 	  }
 	  else if(path.includes("admin"))
 	  {
-		  return "/UnfulfilledOrders";
+		  return "/orders/pending";
 	  }
 	  else
 	  {

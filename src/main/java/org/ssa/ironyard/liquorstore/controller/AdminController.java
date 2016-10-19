@@ -1,5 +1,6 @@
 package org.ssa.ironyard.liquorstore.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Product;
+import org.ssa.ironyard.liquorstore.model.Sales;
 import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
 import org.ssa.ironyard.liquorstore.services.AnalyticsServiceImpl;
 import org.ssa.ironyard.liquorstore.services.CoreProductServiceImpl;
@@ -232,11 +234,11 @@ public class AdminController
 
     @RequestMapping(value = "/orders/pending", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Map<String, List<Order>>> getUnfulfilledOrders()
+    public ResponseEntity<Map<String, List<Order>>> getPendingOrders()
     {
         Map<String, List<Order>> response = new HashMap<>();
 
-        List<Order> orders = orderService.readUnfulfilledOrders();
+        List<Order> orders = orderService.readPendingOrders();
 
         if (orders.isEmpty())
             response.put("error", new ArrayList<>());
@@ -246,7 +248,7 @@ public class AdminController
         return ResponseEntity.ok().body(response);
     }
 
-    @RequestMapping(value = "/UnfulfilledOrders/pending", method = RequestMethod.POST)
+    @RequestMapping(value = "/orders/pending", method = RequestMethod.POST)
     public Boolean changeOrderStatus(@RequestBody List<Map<String, Object>> body)
     {
         LOGGER.info("We made it to the pending cont" + body);
@@ -271,7 +273,7 @@ public class AdminController
 
     }
 
-    @RequestMapping(value = "/UnfulfilledOrders/pending/{id}/approve", method = RequestMethod.POST)
+    @RequestMapping(value = "/orders/pending/{id}/approve", method = RequestMethod.POST)
     public Boolean approveOrder(@PathVariable String id)
     {
         Integer orderID = Integer.parseInt(id);
@@ -280,12 +282,40 @@ public class AdminController
 
     }
 
-    @RequestMapping(value = "/UnfulfilledOrders/pending/{id}/reject", method = RequestMethod.POST)
+    @RequestMapping(value = "/orders/pending/{id}/reject", method = RequestMethod.POST)
     public Boolean rejectOrder(@PathVariable String id)
     {
         Integer orderID = Integer.parseInt(id);
 
         return orderService.rejectOrder(orderID);
     }
-
+    
+    @RequestMapping(value = "/orders/unfulfilled", method = RequestMethod.GET)
+    public ResponseEntity<Map<String,List<Order>>> getFutureOrders()
+    {
+        LOGGER.info("made it to future orders");
+        Map<String,List<Order>> response = new HashMap<>();
+        List<Order> orderList = new ArrayList<>();
+        
+        LocalDate today = LocalDate.now();   
+        LOGGER.info("Today: {}",today);
+        
+        orderList = orderService.readFutureApprovedOrders(today);
+        
+        LOGGER.info(orderList.size());
+        
+        if(orderList.size() == 0)
+            response.put("error", orderList);
+        else
+            response.put("success", orderList);
+        
+        return ResponseEntity.ok().header("Admin Orders", "Unfulfilled Orders").body(response);
+    }
+    
+    @RequestMapping(value = "/sales/daily", method = RequestMethod.GET)
+    public ResponseEntity<List<Sales>> getAllDailySales()
+    {
+        return null;
+    }
+    
 }
