@@ -146,7 +146,11 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
     @Override
     public List<Product> readProductsByCoreProduct(Integer coreProductID)
     {
-        return null;
+        List<Integer> coreProductIDs = new ArrayList<>();
+        
+        coreProductIDs.add(coreProductID);
+        
+        return this.readProductsByCoreProducts(coreProductIDs);
     }
 
     @Override

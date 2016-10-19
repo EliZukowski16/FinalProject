@@ -31,6 +31,11 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 
         this.foreignKeys.put("core_product", "core_product_id");
     }
+    
+    public AbstractORM<CoreProduct> getCoreProductORM()
+    {
+        return coreProductORM;
+    }
 
     @Override
     public String table()
@@ -72,11 +77,11 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
     // return product;
     // }
 
-    private CoreProduct mapCoreProduct(ResultSet results, Integer integer)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+//    private CoreProduct mapCoreProduct(ResultSet results, Integer integer)
+//    {
+//        // TODO Auto-generated method stub
+//        return null;
+//    }
 
     private CoreProduct mapCoreProduct(ResultSet results) throws SQLException
     {

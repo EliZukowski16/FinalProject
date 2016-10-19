@@ -1,5 +1,6 @@
 package org.ssa.ironyard.liquorstore.services;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.ssa.ironyard.liquorstore.controller.CustomerController;
 import org.ssa.ironyard.liquorstore.dao.DAOOrder;
 import org.ssa.ironyard.liquorstore.dao.DAOProduct;
+import org.ssa.ironyard.liquorstore.dao.DAOSales;
+import org.ssa.ironyard.liquorstore.model.AbstractSales;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
 import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Product;
+import org.ssa.ironyard.liquorstore.model.Sales;
+import org.ssa.ironyard.liquorstore.model.SalesDaily;
+import org.ssa.ironyard.liquorstore.model.SalesDaily.Builder;
 
 import com.mysql.cj.api.log.Log;
 
@@ -26,14 +32,16 @@ public class OrdersServiceImpl implements OrdersService
 
     DAOOrder daoOrder;
     DAOProduct daoProduct;
+    DAOSales daoSales;
 
     static Logger LOGGER = LogManager.getLogger(OrdersServiceImpl.class);
 
     @Autowired
-    public OrdersServiceImpl(DAOOrder daoOrder, DAOProduct daoProduct)
+    public OrdersServiceImpl(DAOOrder daoOrder, DAOProduct daoProduct, DAOSales daoSales)
     {
         this.daoOrder = daoOrder;
         this.daoProduct = daoProduct;
+        this.daoSales = daoSales;
     }
 
     @Override
@@ -288,9 +296,9 @@ public class OrdersServiceImpl implements OrdersService
     {
         List<Order> unfulfilledOrders = new ArrayList<>();
 
-        unfulfilledOrders = daoOrder.readUnfulfilledOrders();
+        unfulfilledOrders = daoOrder.readUnfulfilledOrders(50);
 
-        unfulfilledOrders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
+        unfulfilledOrders.sort((o1, o2) -> o2.getDate().compareTo(o1.getDate()));
 
         return unfulfilledOrders;
     }
@@ -321,8 +329,21 @@ public class OrdersServiceImpl implements OrdersService
                         "Product : " + detail.getProduct().getId() + "Inventory could not be updated");
         }
 
-        if (daoOrder.update(order.of().orderStatus(OrderStatus.APPROVED).build()) == null)
+        if ((order = daoOrder.update(order.of().orderStatus(OrderStatus.APPROVED).build())) == null)
             throw new RuntimeException("Order : " + order.getId() + " could not be approved");
+        
+        for(OrderDetail detail : order.getoD())
+        {
+            Sales sales = ((Builder) new SalesDaily.Builder()
+                    .product(detail.getProduct()))
+                    .dateSold(LocalDate.now())
+                    .numberSold(detail.getQty())
+                    .totalValue(detail.getUnitPrice().multiply(BigDecimal.valueOf(detail.getQty())))
+                    .build();
+            
+            if(daoSales.insert(sales) == null)
+                throw new RuntimeException("Sales date for " + sales.getProduct().getCoreProduct().getName() + " could not be entered");
+        }
 
         return true;
 
@@ -360,14 +381,14 @@ public class OrdersServiceImpl implements OrdersService
             {
             case APPROVED:
                 if (!approveOrder(o.getId()))
-                    return false;
+                    throw new RuntimeException("Order " + o.getId() + " could not be approved");
                 break;
             case REJECTED:
                 if (!rejectOrder(o.getId()))
-                    return false;
+                    throw new RuntimeException("Order " + o.getId() + " could not be rejected");
                 break;
             default:
-                throw new RuntimeException("Order status " + o.getOrderStatus().name() + " not recognized");
+                throw new RuntimeException("Order " + o.getId() + " with Order Status " + o.getOrderStatus().name() + " not recognized");
             }
         }
         

@@ -186,9 +186,9 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     @Override
     public List<Order> readOrdersByCustomer(Integer customerID)
     {
-        if(customerID == null)
+        if (customerID == null)
             return new ArrayList<>();
-        
+
         List<Integer> customerIDs = new ArrayList<>();
 
         customerIDs.add(customerID);
@@ -295,9 +295,9 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     @Override
     public List<Order> readOrdersByProduct(Integer productID)
     {
-        if(productID == null)
+        if (productID == null)
             return new ArrayList<>();
-        
+
         List<Integer> productIDs = new ArrayList<>();
 
         productIDs.add(productID);
@@ -308,19 +308,26 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
     @Override
     public List<Order> readOrdersByCoreProduct(Integer coreProductID)
     {
-        if(coreProductID == null)
+        if (coreProductID == null)
             return new ArrayList<>();
-        
+
         List<Integer> coreProductIDs = new ArrayList<>();
 
         coreProductIDs.add(coreProductID);
 
         return readOrdersByCoreProducts(coreProductIDs);
     }
-    
+
     @Override
-    public List<Order> readUnfulfilledOrders()
-    {   
-        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareAllUnfulfilledOrders(), (Object[]) null, this.listExtractor);
+    public List<Order> readUnfulfilledOrders(Integer numberOfOrders)
+    {
+        if (numberOfOrders == null)
+            return new ArrayList<>();
+
+        return this.springTemplate.query(((ORMOrderImpl) this.orm).prepareAllUnfulfilledOrders(),
+                (PreparedStatement ps) ->
+                {
+                    ps.setInt(1, numberOfOrders);
+                }, this.listExtractor);
     }
 }
