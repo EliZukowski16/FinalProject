@@ -300,7 +300,7 @@ public class AdminController
         LocalDate today = LocalDate.now();   
         LOGGER.info("Today: {}",today);
         
-        orderList = orderService.searchFuture(today);
+        orderList = orderService.readFutureApprovedOrders(today);
         
         LOGGER.info(orderList.size());
         
