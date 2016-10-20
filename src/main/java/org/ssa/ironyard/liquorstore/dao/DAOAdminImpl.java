@@ -65,6 +65,7 @@ public class DAOAdminImpl extends AbstractDAOAdmin implements DAOAdmin
                 ps.setString(5, domainToUpdate.getLastName());
                 ps.setInt(6, domainToUpdate.getRole());
                 ps.setInt(7, domainToUpdate.getId());
+                LOGGER.info("DAO ADMIN update : {}", ps);
             }
         };
     }
@@ -74,7 +75,11 @@ public class DAOAdminImpl extends AbstractDAOAdmin implements DAOAdmin
     {
         if (null == username)
             return null;
-        return this.springTemplate.query(((ORMAdminImpl) this.orm).prepareReadByUserName(), (PreparedStatement ps) -> ps.setString(1, username),
+        return this.springTemplate.query(((ORMAdminImpl) this.orm).prepareReadByUserName(), (PreparedStatement ps) -> 
+        {
+            ps.setString(1, username);
+            LOGGER.info("DAO ADMIN read by username: {}", ps);
+        },
                 (ResultSet cursor) ->
                 {
                     if (cursor.next())

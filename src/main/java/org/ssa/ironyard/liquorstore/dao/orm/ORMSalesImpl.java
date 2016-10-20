@@ -42,12 +42,12 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
     @Override
     public Sales map(ResultSet results) throws SQLException
     {
-        Integer id = results.getInt(this.table() + ".id");
+        Integer id = results.getInt(table() + ".id");
         Product product = productORM.map(results);
-        Integer numberSold = results.getInt(this.table() + ".number");
-        BigDecimal totalValue = results.getBigDecimal(this.table() + ".total_value");
-        LocalDate dateSold = results.getDate(this.table() + ".date_sold").toLocalDate();
-        Boolean aggregateSales = results.getBoolean(this.table() + ".aggregate_sales");
+        Integer numberSold = results.getInt(table() + ".number");
+        BigDecimal totalValue = results.getBigDecimal(table() + ".total_value");
+        LocalDate dateSold = results.getDate(table() + ".date_sold").toLocalDate();
+        Boolean aggregateSales = results.getBoolean(table() + ".aggregate_sales");
 
         return ((Builder) new SalesDaily.Builder().id(id).product(product).numberSold(numberSold)
                 .totalValue(totalValue)).dateSold(dateSold).aggregateSales(aggregateSales).loaded(true).build();
@@ -55,15 +55,15 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
 
     private String buildEager()
     {
-        String eager = this.buildEagerSelect() + " FROM " + this.table() + " " + this.buildProductJoin()
-                + this.buildCoreProductJoin();
+        String eager = buildEagerSelect() + " FROM " + table() + " " + buildProductJoin()
+                + buildCoreProductJoin();
 
         return eager;
     }
 
     private String buildEagerSelect()
     {
-        String select = " SELECT " + this.projection() + ", " + productORM.projection() + " , "
+        String select = " SELECT " + projection() + ", " + this.productORM.projection() + " , "
                 + ((ORMProductImpl) this.productORM).getCoreProductORM().projection();
 
         return select;
@@ -71,14 +71,14 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
 
     private String buildProductJoin()
     {
-        String join = " JOIN " + this.productORM.table() + " " + this.buildProductRelation();
+        String join = " JOIN " + this.productORM.table() + " " + buildProductRelation();
         return join;
     }
 
     private String buildProductRelation()
     {
         String relation = " ON " + this.productORM.table() + "." + this.productORM.getPrimaryKeys().get(0) + " = "
-                + this.table() + "." + this.getFields().get(0) + " ";
+                + table() + "." + getFields().get(0) + " ";
 
         return relation;
     }
@@ -86,7 +86,7 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
     private String buildCoreProductJoin()
     {
         String join = " JOIN " + ((ORMProductImpl) this.productORM).getCoreProductORM().table() + " "
-                + this.buildCoreProductRelation();
+                + buildCoreProductRelation();
 
         return join;
     }
@@ -103,7 +103,7 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
     @Override
     public String prepareReadAll()
     {
-        String readAll = this.buildEager();
+        String readAll = buildEager();
 
         return readAll;
     }
@@ -111,7 +111,7 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
     @Override
     public String prepareReadByIds(Integer numberOfIds)
     {
-        String readByIDs = this.buildEager() + " WHERE " + this.table() + "." + this.getPrimaryKeys().get(0) + " IN ( ";
+        String readByIDs = buildEager() + " WHERE " + table() + "." + getPrimaryKeys().get(0) + " IN ( ";
 
         for (int i = 0; i < numberOfIds; i++)
         {
@@ -125,7 +125,7 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
 
     public String prepareReadSalesForProducts(Integer numberOfProducts)
     {
-        String productSales = this.buildEager() + " WHERE " + this.table() + "." + this.getFields().get(0) + " IN ( ";
+        String productSales = buildEager() + " WHERE " + table() + "." + getFields().get(0) + " IN ( ";
         for (int i = 0; i < numberOfProducts; i++)
         {
             productSales = productSales + " ?, ";
@@ -138,12 +138,12 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
 
     public String prepareReadSalesForLastVariableDays(Integer numberOfProducts)
     {
-        String lastVariableDays = this.buildEager() + " WHERE " + this.table() + "." + this.getFields().get(3)
+        String lastVariableDays = buildEager() + " WHERE " + table() + "." + getFields().get(3)
                 + " > DATE_SUB(CURDATE(), INTERVAL ? DAY) ";
 
         if (numberOfProducts > 0)
         {
-            lastVariableDays = lastVariableDays + " AND " + this.table() + "." + this.getFields().get(0) + " IN ( ";
+            lastVariableDays = lastVariableDays + " AND " + table() + "." + getFields().get(0) + " IN ( ";
 
             for (int i = 0; i < numberOfProducts; i++)
             {
@@ -158,7 +158,7 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
 
     public String prepareReadInTimeFrame()
     {
-        String readInTimeFrame = buildEager() + " WHERE ( " + this.table() + "." + this.getFields().get(3)
+        String readInTimeFrame = buildEager() + " WHERE ( " + table() + "." + getFields().get(3)
                 + " BETWEEN ? AND ? ) ";
 
         return readInTimeFrame;
@@ -167,16 +167,16 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
     public String topSellers()
     {
         String topSellersSubQueryAlias = " SS ";
-        String topSellersSubQuery = "( SELECT " + this.table() + "." + this.getFields().get(0) +
-                " FROM " + this.table() + " WHERE " + this.table() + "." +this.getFields().get(3) +
+        String topSellersSubQuery = "( SELECT " + table() + "." + getFields().get(0) +
+                " FROM " + table() + " WHERE " + table() + "." +getFields().get(3) +
                 " > DATE_SUB(NOW(), INTERVAL ? DAY) " +
-                " GROUP BY " + this.table() + "." + this.getFields().get(0) +
-                " ORDER BY SUM( " + this.table() + "." + this.getFields().get(1) + " ) " +
+                " GROUP BY " + table() + "." + getFields().get(0) +
+                " ORDER BY SUM( " + table() + "." + getFields().get(1) + " ) " +
                 " LIMIT ? ) ";
         
         String topSellers = buildEager() + " JOIN " + topSellersSubQuery + " AS " +
-                topSellersSubQueryAlias + " ON " + this.table() + "." + this.getFields().get(0) + " = " +
-                topSellersSubQueryAlias + "." + this.getFields().get(0);
+                topSellersSubQueryAlias + " ON " + table() + "." + getFields().get(0) + " = " +
+                topSellersSubQueryAlias + "." + getFields().get(0);
 
         return topSellers;
     }

@@ -91,8 +91,8 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 
     private String buildEagerRead()
     {
-        return " SELECT " + this.projection() + " , " + customerORM.projection() + " , " + coreProductORM.projection()
-                + " , " + productORM.projection() + " , " + " order_detail.* " + " FROM " + this.table() +
+        return " SELECT " + projection() + " , " + customerORM.projection() + " , " + coreProductORM.projection()
+                + " , " + productORM.projection() + " , " + " order_detail.* " + " FROM " + table() +
 
                 " " + this.customerJoin() + " ON " + this.customerRelation() + " " +
 
@@ -105,8 +105,8 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
     
     private String buildEagerReadLessCustomer()
     {
-        return " SELECT " + this.projection() + " , "  + coreProductORM.projection()
-        + " , " + productORM.projection() + " , " + " order_detail.* " + " FROM " + this.table() +
+        return " SELECT " + projection() + " , "  + coreProductORM.projection()
+        + " , " + productORM.projection() + " , " + " order_detail.* " + " FROM " + table() +
 
         " " + this.orderDetailJoin() + " ON " + this.orderDetailRelation() +
 
@@ -120,7 +120,7 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
     {
         String read = buildEagerRead() +
 
-                " WHERE " + this.table() + "." + this.primaryKeys.get(0) + " = ? ";
+                " WHERE " + table() + "." + this.primaryKeys.get(0) + " = ? ";
 
         LOGGER.trace(this.getClass().getSimpleName());
         LOGGER.trace("Read prepared Statement: {}", read);
@@ -142,7 +142,7 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
     @Override
     public String prepareReadByIds(Integer numberOfIds)
     {
-        String readByIds = buildEagerRead() + " WHERE " + this.table() + "." + this.getPrimaryKeys().get(0) + " IN ( ";
+        String readByIds = buildEagerRead() + " WHERE " + table() + "." + this.getPrimaryKeys().get(0) + " IN ( ";
 
         for (int i = 0; i < numberOfIds; i++)
         {
@@ -164,7 +164,7 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 
     private String customerRelation()
     {
-        return this.table() + "." + this.foreignKeys.get(customerORM.table()) + " = " + customerORM.table() + "."
+        return table() + "." + this.foreignKeys.get(customerORM.table()) + " = " + customerORM.table() + "."
                 + customerORM.getPrimaryKeys().get(0);
     }
 
@@ -196,12 +196,12 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 
     private String orderDetailRelation()
     {
-        return this.table() + "." + this.primaryKeys.get(0) + " = order_detail.order_id ";
+        return table() + "." + this.primaryKeys.get(0) + " = order_detail.order_id ";
     }
 
     public String prepareReadByCustomers(int numberOfIds)
     {
-        String readByCustomerIds = buildEagerRead() + " WHERE " + this.table() + "." + this.getFields().get(0)
+        String readByCustomerIds = buildEagerRead() + " WHERE " + table() + "." + getFields().get(0)
                 + " IN ( ";
 
         for (int i = 0; i < numberOfIds; i++)
@@ -219,8 +219,8 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 
     public String prepareReadInTimeFrame()
     {
-        String readInTimeFrame = buildEagerRead() + " WHERE " + this.table() + "."
-                + this.getFields().get(1) + " BETWEEN ? AND ? ";
+        String readInTimeFrame = buildEagerRead() + " WHERE " + table() + "."
+                + getFields().get(1) + " BETWEEN ? AND ? ";
 
         LOGGER.trace(this.getClass().getSimpleName());
         LOGGER.trace("Read In Time Frame prepared Statement: {}", readInTimeFrame);
@@ -230,7 +230,7 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
 
     public String prepareReadMostRecent()
     {
-        String readMostRecent = buildEagerRead() + " ORDER BY " + this.table() + "." + this.getFields().get(4) + " LIMIT ? ";
+        String readMostRecent = buildEagerRead() + " ORDER BY " + table() + "." + getFields().get(4) + " LIMIT ? ";
 
 
         LOGGER.trace(this.getClass().getSimpleName());
@@ -278,16 +278,16 @@ public class ORMOrderImpl extends AbstractORM<Order> implements ORM<Order>
     public String prepareAllPendingOrders()
     {
         String pending = this.buildEagerRead() + 
-                " WHERE " + this.table() + "." + this.getFields().get(2) + " = 'PENDING' ";
+                " WHERE " + table() + "." + getFields().get(2) + " = 'PENDING' ";
         
         return pending;
     }
 
     public String prepareReadInTimeFrameByStatus()
     {
-        String readInTimeFrame = buildEagerRead() + " WHERE ( " + this.table() + "."
-                + this.getFields().get(1) + " BETWEEN ? AND ? ) AND ( " + this.table() +
-                "." + this.getFields().get(2) + " = ? )";
+        String readInTimeFrame = buildEagerRead() + " WHERE ( " + table() + "."
+                + getFields().get(1) + " BETWEEN ? AND ? ) AND ( " + table() +
+                "." + getFields().get(2) + " = ? )";
 
         LOGGER.trace(this.getClass().getSimpleName());
         LOGGER.trace("Read In Time Frame prepared Statement: {}", readInTimeFrame);

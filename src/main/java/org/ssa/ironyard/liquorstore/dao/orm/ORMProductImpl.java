@@ -60,7 +60,7 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
     
     public Product mapLowInventory(ResultSet results) throws SQLException
     {
-        return this.map(results).of().inventory(results.getInt("total")).build();
+        return map(results).of().inventory(results.getInt("total")).build();
     }
 
     // public Product map(ResultSet results, Integer offset) throws SQLException
@@ -85,14 +85,14 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 
     private CoreProduct mapCoreProduct(ResultSet results) throws SQLException
     {
-        return coreProductORM.map(results);
+        return this.coreProductORM.map(results);
     }
 
     @Override
     public String prepareRead()
     {
-        String read = " SELECT " + this.projection() + " , " + coreProductORM.projection() + " FROM "
-                + this.coreProductJoin() + " ON " + this.coreProductRelation() + " WHERE " + this.table() + "."
+        String read = " SELECT " + projection() + " , " + coreProductORM.projection() + " FROM "
+                + this.coreProductJoin() + " ON " + this.coreProductRelation() + " WHERE " + table() + "."
                 + this.primaryKeys.get(0) + " = ? ";
 
         LOGGER.trace(this.getClass().getSimpleName());
@@ -104,8 +104,8 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
     @Override
     public String prepareReadByIds(Integer numberOfIds)
     {
-        String readByIds = " SELECT " + this.projection() + " , " + coreProductORM.projection() + " FROM "
-                + this.coreProductJoin() + " ON " + this.coreProductRelation() + " WHERE " + this.table() + "."
+        String readByIds = " SELECT " + projection() + " , " + coreProductORM.projection() + " FROM "
+                + this.coreProductJoin() + " ON " + this.coreProductRelation() + " WHERE " + table() + "."
                 + this.primaryKeys.get(0) + " IN ( ";
 
         for (int i = 0; i < numberOfIds; i++)
@@ -125,7 +125,7 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
     @Override
     public String prepareReadAll()
     {
-        String readAll = " SELECT " + this.projection() + " , " + coreProductORM.projection() + " FROM "
+        String readAll = " SELECT " + projection() + " , " + coreProductORM.projection() + " FROM "
                 + this.coreProductJoin() + " ON " + this.coreProductRelation();
 
         LOGGER.trace(this.getClass().getSimpleName());
@@ -136,20 +136,20 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 
     private String coreProductJoin()
     {
-        return this.table() + " JOIN " + coreProductORM.table();
+        return table() + " JOIN " + coreProductORM.table();
     }
 
     private String coreProductRelation()
     {
-        return this.table() + "." + this.foreignKeys.get(coreProductORM.table()) + " = " + coreProductORM.table() + "."
+        return table() + "." + this.foreignKeys.get(coreProductORM.table()) + " = " + coreProductORM.table() + "."
                 + coreProductORM.getPrimaryKeys().get(0);
     }
 
     public String prepareProductSearch(Integer tags, Integer types)
     {
-        String productSearch = " SELECT " + this.projection() + " , " + coreProductORM.projection()
-                + " , count(*) as matches " + " FROM " + this.table() + " INNER JOIN " + coreProductORM.table() + " ON "
-                + coreProductORM.table() + "." + coreProductORM.primaryKeys.get(0) + " = " + this.table() + "."
+        String productSearch = " SELECT " + projection() + " , " + coreProductORM.projection()
+                + " , count(*) as matches " + " FROM " + table() + " INNER JOIN " + coreProductORM.table() + " ON "
+                + coreProductORM.table() + "." + coreProductORM.primaryKeys.get(0) + " = " + table() + "."
                 + this.getForeignKeys().get(coreProductORM.table()) + " INNER JOIN product_tags "
                 + " ON product_tags.core_product_id = " + coreProductORM.table() + "."
                 + coreProductORM.primaryKeys.get(0) + " WHERE ";
@@ -186,7 +186,7 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
             productSearch = productSearch + " ) ) ";
         }
 
-        productSearch = productSearch + " GROUP BY ( " + this.table() + "." + this.primaryKeys.get(0)
+        productSearch = productSearch + " GROUP BY ( " + table() + "." + this.primaryKeys.get(0)
                 + " ) ORDER BY matches DESC ";
 
         LOGGER.trace(this.getClass().getSimpleName());
@@ -204,7 +204,7 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 
     public String prepareTopSpiritSellersInLastMonth()
     {
-        String topSellers = " (SELECT " + this.projection() + " , " + coreProductORM.projection()
+        String topSellers = " (SELECT " + projection() + " , " + coreProductORM.projection()
                 + " , sum(order_detail.quantity) as matches " + " FROM product " + " INNER JOIN core_product "
                 + " ON core_product.id = product.core_product_id " + " INNER JOIN order_detail "
                 + " ON order_detail.product_id = product.id " + " INNER JOIN _order "
@@ -217,7 +217,7 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 
     public String prepareTopBeerAndCiderSellersInLastMonth()
     {
-        String topSellers = " (SELECT " + this.projection() + " , " + coreProductORM.projection()
+        String topSellers = " (SELECT " + projection() + " , " + coreProductORM.projection()
                 + " , sum(order_detail.quantity) as matches " + " FROM product " + " INNER JOIN core_product "
                 + " ON core_product.id = product.core_product_id " + " INNER JOIN order_detail "
                 + " ON order_detail.product_id = product.id " + " INNER JOIN _order "
@@ -230,7 +230,7 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 
     public String prepareTopWineSellersInLastMonth()
     {
-        String topSellers = " (SELECT " + this.projection() + " , " + coreProductORM.projection()
+        String topSellers = " (SELECT " + projection() + " , " + coreProductORM.projection()
                 + " , sum(order_detail.quantity) as matches " + " FROM product " + " INNER JOIN core_product "
                 + " ON core_product.id = product.core_product_id " + " INNER JOIN order_detail "
                 + " ON order_detail.product_id = product.id " + " INNER JOIN _order "
@@ -243,20 +243,20 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 
     public String prepareLowInventory()
     {
-        String lowInventory = " SELECT " + this.projection() + " , " + coreProductORM.projection() +
+        String lowInventory = " SELECT " + projection() + " , " + coreProductORM.projection() +
                 " , CASE _order.order_status " +
-                " WHEN 'PENDING' THEN " + this.table() + "." + this.getFields().get(3) +
+                " WHEN 'PENDING' THEN " + table() + "." + getFields().get(3) +
                 " - SUM( order_detail.quantity) " +
-                " ELSE " + this.table() + "." + this.getFields().get(3) +
+                " ELSE " + table() + "." + getFields().get(3) +
                 " END as total " +
                 " FROM " +
                 this.coreProductJoin() + " ON " + this.coreProductRelation() +
                 " LEFT JOIN order_detail " +
-                " ON order_detail.product_id = " + this.table() + "." + this.getPrimaryKeys().get(0) +
+                " ON order_detail.product_id = " + table() + "." + this.getPrimaryKeys().get(0) +
                 " LEFT JOIN _order " +
                 " ON _order.id " +
                 " = order_detail.order_id " +
-                " GROUP BY " + this.table() + "." + this.getPrimaryKeys().get(0) +
+                " GROUP BY " + table() + "." + this.getPrimaryKeys().get(0) +
                 " LIMIT ? ";
        
         return lowInventory;
