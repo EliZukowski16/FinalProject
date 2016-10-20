@@ -97,8 +97,8 @@ public class ORMCoreProductImpl extends AbstractORM<CoreProduct> implements ORM<
         
         readByIds = readByIds.substring(0, readByIds.length() - 2) + " ) ";
         
-        LOGGER.debug(this.getClass().getSimpleName());
-        LOGGER.debug("Read By IDs prepared Statement: {}", readByIds);
+        LOGGER.trace(this.getClass().getSimpleName());
+        LOGGER.trace("Read By IDs prepared Statement: {}", readByIds);
         
         return readByIds;
     }

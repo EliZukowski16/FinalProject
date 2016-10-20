@@ -95,8 +95,8 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
                 + this.coreProductJoin() + " ON " + this.coreProductRelation() + " WHERE " + this.table() + "."
                 + this.primaryKeys.get(0) + " = ? ";
 
-        LOGGER.debug(this.getClass().getSimpleName());
-        LOGGER.debug("Read prepared Statement: {}", read);
+        LOGGER.trace(this.getClass().getSimpleName());
+        LOGGER.trace("Read prepared Statement: {}", read);
 
         return read;
     }
@@ -115,8 +115,8 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
 
         readByIds = readByIds.substring(0, readByIds.length() - 2) + " ) ";
 
-        LOGGER.debug(this.getClass().getSimpleName());
-        LOGGER.debug("Read By IDs prepared Statement: {}", readByIds);
+        LOGGER.trace(this.getClass().getSimpleName());
+        LOGGER.trace("Read By IDs prepared Statement: {}", readByIds);
 
         return readByIds;
 
@@ -128,8 +128,8 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         String readAll = " SELECT " + this.projection() + " , " + coreProductORM.projection() + " FROM "
                 + this.coreProductJoin() + " ON " + this.coreProductRelation();
 
-        LOGGER.debug(this.getClass().getSimpleName());
-        LOGGER.debug("Read All prepared Statement: {}", readAll);
+        LOGGER.trace(this.getClass().getSimpleName());
+        LOGGER.trace("Read All prepared Statement: {}", readAll);
 
         return readAll;
     }
@@ -189,8 +189,8 @@ public class ORMProductImpl extends AbstractORM<Product> implements ORM<Product>
         productSearch = productSearch + " GROUP BY ( " + this.table() + "." + this.primaryKeys.get(0)
                 + " ) ORDER BY matches DESC ";
 
-        LOGGER.debug(this.getClass().getSimpleName());
-        LOGGER.debug("Product Search prepared statement: {}", productSearch);
+        LOGGER.trace(this.getClass().getSimpleName());
+        LOGGER.trace("Product Search prepared statement: {}", productSearch);
 
         return productSearch;
 

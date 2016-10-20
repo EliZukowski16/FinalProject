@@ -41,8 +41,8 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
         
         projection = projection.substring(0, projection.length() - 2);
         
-        LOGGER.debug(this.getClass().getSimpleName());
-        LOGGER.debug("Projection: {}", projection);
+        LOGGER.trace(this.getClass().getSimpleName());
+        LOGGER.trace("Projection: {}", projection);
         
         return projection;
     }
@@ -78,8 +78,8 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
         
         String update = " UPDATE " + this.table() + fieldNames + " WHERE id = ? ";
         
-        LOGGER.debug(this.getClass().getSimpleName());
-        LOGGER.debug("Update prepared Statement: {}", update);
+        LOGGER.trace(this.getClass().getSimpleName());
+        LOGGER.trace("Update prepared Statement: {}", update);
         
         return update;
     }
@@ -102,8 +102,8 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
         values += " ) ";
         
         String insert = " INSERT INTO " + this.table() + fieldNames + values;
-        LOGGER.debug(this.getClass().getSimpleName());
-        LOGGER.debug("Insert prepared Statement: {}", insert);
+        LOGGER.trace(this.getClass().getSimpleName());
+        LOGGER.trace("Insert prepared Statement: {}", insert);
         
         return insert;
     }
