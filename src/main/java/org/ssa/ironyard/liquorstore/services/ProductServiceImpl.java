@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +20,7 @@ import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 @Service
 public class ProductServiceImpl implements ProductService
 {
-    
+
     static Logger LOGGER = LogManager.getLogger(ProductServiceImpl.class);
 
     DAOProduct daoProd;
@@ -110,10 +111,10 @@ public class ProductServiceImpl implements ProductService
     }
 
     @Override
-    public Map<String,List<Product>> topSellersForPastMonth()
+    public Map<String, List<Product>> topSellersForPastMonth()
     {
         Map<String, List<Product>> topSellersMap = new HashMap<>();
-        
+
         List<Product> topBeer = new ArrayList<>();
         List<Product> topWine = new ArrayList<>();
         List<Product> topSpirits = new ArrayList<>();
@@ -121,11 +122,11 @@ public class ProductServiceImpl implements ProductService
         List<Product> topSellers = daoProd.readTopSellersForPastMonth();
 
         LOGGER.info("Top Sellers Service : {}", topSellers.size());
-        
+
         for (int i = 0; i < topSellers.size(); i++)
         {
             LOGGER.info(topSellers.get(i).getBaseUnit());
-            
+
             switch (topSellers.get(i).getCoreProduct().getType().toString())
             {
             case ("beer"):
@@ -135,40 +136,62 @@ public class ProductServiceImpl implements ProductService
                 break;
             case ("wine"):
                 topWine.add(topSellers.get(i));
-            LOGGER.info("Added to wine list");
+                LOGGER.info("Added to wine list");
 
                 break;
             case ("spirits"):
                 topSpirits.add(topSellers.get(i));
-            LOGGER.info("Added to liqor list");
+                LOGGER.info("Added to liqor list");
 
                 break;
             default:
                 break;
             }
         }
-        
+
         topSellersMap.put("beer", topBeer);
         topSellersMap.put("wine", topWine);
         topSellersMap.put("spirits", topSpirits);
 
         LOGGER.info(topSellersMap);
-        
+
         return topSellersMap;
     }
 
-    
     @Override
     @Transactional
     public List<Product> readLowInventory()
     {
         List<Product> lowInventory = new ArrayList<>();
-        
+
         lowInventory = daoProd.readLowInventoryProducts(50);
-        
+
         lowInventory.sort((p1, p2) -> p1.getInventory().compareTo(p2.getInventory()));
-        
+
         return lowInventory;
+    }
+
+    @Override
+    @Transactional
+    public List<Product> addStock(Map<Integer, Integer> productStockOrders)
+    {
+        List<Product> productsToBeUpdated = daoProd
+                .readByIds(productStockOrders.entrySet().stream().map(p -> p.getKey()).collect(Collectors.toList()));
+        List<Product> products = new ArrayList<>();
+
+        for (Product p : productsToBeUpdated)
+        {
+            Integer updatedStock = p.getInventory() + productStockOrders.get(p);
+            Product updatedProduct;
+
+            if ((updatedProduct = daoProd.update(p.of().inventory(updatedStock).build())) == null)
+                throw new RuntimeException("Could not set product " + p.getId() + " inventory to " + updatedStock);
+
+            products.add(updatedProduct);
+        }
+
+        return products;
+
     }
 
 }

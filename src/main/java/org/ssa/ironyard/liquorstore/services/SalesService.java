@@ -14,7 +14,7 @@ import org.ssa.ironyard.liquorstore.model.salesdata.TypeSalesData;
 public interface SalesService
 {
     boolean editSale(Order order);
-    List<Sales> searchTimeFrame(LocalDate date1, LocalDate date2);
+    List<TypeSalesData> searchTimeFrame(LocalDate date1, LocalDate date2);
     List<Sales> searchType(CoreProduct.Type type);
     boolean searchKeyword(String keyword);
     Sales addSale(Sales sales);
