@@ -71,6 +71,7 @@ angular
 //		}
 		
 		ctrl.sales = [];
+		ctrl.salesStatsData = [];
 	
 		ctrl.getSales = function()
 		{	
@@ -82,12 +83,16 @@ angular
 				method: 'GET',
 		}).then(function(response) {		
 		
-			console.log(response)
+			//console.log(response)
 			ctrl.sales= response.data.success;
-			console.log(ctrl.sales);
+			//console.log(ctrl.sales);
+			
   		
 		})
+
 		};
+		
+		
 	
 		ctrl.getSales();
 		

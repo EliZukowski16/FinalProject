@@ -42,16 +42,15 @@
     </thead>
     <tbody>
     
-      <tr ng-repeat-start="type in AIS.sales">
+      <tr ng-repeat-start="salesD in AIS.salesStatsData">
       	<td>
-              <button ng-if="type.expanded" ng-click="type.expanded = false">-</button>
-              <button ng-if="!type.expanded" ng-click="type.expanded = true">+</button>
+              <button ng-if="salesD.expanded" ng-click="salesD.expanded = false">-</button>
+              <button ng-if="!salesD.expanded" ng-click="salesD.expanded = true">+</button>
     	</td>
-    	<td>{{type.type}}</td>
-        <td>{{ type.ystSales | currency}}</td>
-        <td>{{ type.weekSales | currency}}</td>
-        <td>{{ type.monthSales | currency}}</td>
-        <td>{{ type.yearSales | currency}}</td>
+    	<td>{{salesD.yesterday | currency}}</td>
+        <td>{{ salesD.week | currency}}</td>
+        <td>{{ salesD.month | currency}}</td>
+        <td>{{ salesD.year | currency}}</td>
       </tr>
       <tr ng-if="type.expanded" ng-repeat-end="">
       	<td colspan="6">

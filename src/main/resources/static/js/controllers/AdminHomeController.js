@@ -46,7 +46,7 @@ angular
 				value : value
 			}
 
-			ctrl.statusPopup.push(ctrl.statPopup)
+			
 			
 			
 				
@@ -62,7 +62,7 @@ angular
 				{
 					
 					
-					console.log(ctrl.statusPopup.length)
+					console.log('length' + ctrl.statusPopup.length)
 					if(ctrl.statusPopup[i].id == order.id)
 					{
 						ctrl.status.splice(i,1)
@@ -81,6 +81,7 @@ angular
 			}
 
 			console.log(ctrl.status);
+			console.log(ctrl.statusPopup)
 			
 		
 
