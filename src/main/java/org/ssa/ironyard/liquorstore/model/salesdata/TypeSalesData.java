@@ -3,10 +3,13 @@ package org.ssa.ironyard.liquorstore.model.salesdata;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 
 public class TypeSalesData
@@ -55,6 +58,11 @@ public class TypeSalesData
     public List<CoreProductSalesData> getCoreProductSales()
     {
         return coreProductSales;
+    }
+    
+    public List<SalesData> getSalesData()
+    {
+        return salesData;
     }
 
 }

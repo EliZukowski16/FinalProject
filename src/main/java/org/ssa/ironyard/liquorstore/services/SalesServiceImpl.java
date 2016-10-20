@@ -23,6 +23,7 @@ import org.ssa.ironyard.liquorstore.model.SalesDaily;
 import org.ssa.ironyard.liquorstore.model.SalesMonthly;
 import org.ssa.ironyard.liquorstore.model.SalesWeekly;
 import org.ssa.ironyard.liquorstore.model.salesdata.CoreProductSalesData;
+import org.ssa.ironyard.liquorstore.model.salesdata.ProductSalesData;
 import org.ssa.ironyard.liquorstore.model.salesdata.TypeSalesData;
 
 @Service
@@ -145,10 +146,20 @@ public class SalesServiceImpl implements SalesService
 
             for (CoreProduct c : coreProducts)
             {
-                List<Sales> sales = dailySales.stream().filter(s -> s.getProduct().getCoreProduct().equals(c))
-                        .collect(Collectors.toList());
+                Set<Product> products = dailySales.stream().filter(s -> s.getProduct().getCoreProduct().equals(c)).map(s -> s.getProduct())
+                        .collect(Collectors.toSet());
+                
+                List<ProductSalesData> productSales = new ArrayList<>(); 
+                
+                for(Product p : products)
+                {
+                    List<Sales> sales = dailySales.stream().filter(s -> s.getProduct().equals(p))
+                            .collect(Collectors.toList());
+                    
+                    productSales.add(new ProductSalesData(p, sales));
+                }
 
-                coreProductSales.add(new CoreProductSalesData(c, sales));
+                coreProductSales.add(new CoreProductSalesData(c, productSales));
             }
 
             typeSales.add(new TypeSalesData(t, coreProductSales));
