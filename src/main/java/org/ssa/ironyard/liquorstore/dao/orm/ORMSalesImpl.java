@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Sales;
 import org.ssa.ironyard.liquorstore.model.SalesDaily;
@@ -12,6 +14,8 @@ import org.ssa.ironyard.liquorstore.model.SalesDaily.Builder;
 
 public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
 {
+
+    Logger LOGGER = LogManager.getLogger(ORMSalesImpl.class);
 
     AbstractORM<Product> productORM;
 
@@ -45,13 +49,14 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
         LocalDate dateSold = results.getDate(this.table() + ".date_sold").toLocalDate();
         Boolean aggregateSales = results.getBoolean(this.table() + ".aggregate_sales");
 
-        return ((Builder) new SalesDaily.Builder().id(id).product(product).numberSold(numberSold).totalValue(totalValue))
-                .dateSold(dateSold).aggregateSales(aggregateSales).loaded(true).build();
+        return ((Builder) new SalesDaily.Builder().id(id).product(product).numberSold(numberSold)
+                .totalValue(totalValue)).dateSold(dateSold).aggregateSales(aggregateSales).loaded(true).build();
     }
 
     private String buildEager()
     {
-        String eager = this.buildEagerSelect() + this.buildProductJoin() + this.buildCoreProductJoin();
+        String eager = this.buildEagerSelect() + " FROM " + this.table() + " " + this.buildProductJoin()
+                + this.buildCoreProductJoin();
 
         return eager;
     }
@@ -59,8 +64,7 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
     private String buildEagerSelect()
     {
         String select = " SELECT " + this.projection() + ", " + productORM.projection() + " , "
-                + ((ORMProductImpl) this.productORM).getCoreProductORM().projection() + " FROM " +
-                this.table();
+                + ((ORMProductImpl) this.productORM).getCoreProductORM().projection();
 
         return select;
     }
@@ -95,12 +99,12 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
 
         return relation;
     }
-    
+
     @Override
     public String prepareReadAll()
     {
-        String readAll = this.buildEager();
-        
+        String readAll = this.buildEager() + " FROM " + this.table();
+
         return readAll;
     }
 
@@ -154,10 +158,22 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
 
     public String prepareReadInTimeFrame()
     {
-        String readInTimeFrame = buildEager() + " WHERE ( " + this.table() + "."
-                + this.getFields().get(3) + " BETWEEN ? AND ? ) ";
-        
+        String readInTimeFrame = buildEager() + " WHERE ( " + this.table() + "." + this.getFields().get(3)
+                + " BETWEEN ? AND ? ) ";
+
         return readInTimeFrame;
+    }
+
+    public String topSellers()
+    {
+        String topSellersSubQuery = buildEagerSelect() + " , sum(sales.number) as totalSales FROM " + this.table() + " "
+                + this.buildProductJoin() + this.buildCoreProductJoin() + " WHERE " + this.table() + "."
+                + this.getFields().get(3) + " > DATE_SUB(NOW(), INTERVAL ? DAY) " + " GROUP BY " + this.table() + "."
+                + this.getFields().get(0) + " ORDER BY totalSales " + " LIMIT ? ";
+        
+        String topSellers = buildEager();
+
+        return topSellers;
     }
 
 }

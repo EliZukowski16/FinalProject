@@ -409,5 +409,15 @@ public class AdminController
         return false;
     }
     
+    @RequestMapping(value = "/TopSellers", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, List<TypeSalesData>>> getTopSellers()
+    {
+        Map<String, List<TypeSalesData>> response = new HashMap<>();
+        
+        response.put("test", salesService.readTopSellersForLast30Days(5));
+        
+        return ResponseEntity.ok().body(response);
+    }
+    
 
 }

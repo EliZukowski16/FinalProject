@@ -31,5 +31,6 @@ public interface DAOSales extends DAO<Sales>
     List<Sales> readSalesForProduct(Integer productID);
     List<Sales> readSalesForLastVariableDays(Integer numberOfDays, List<Integer> productIDs);
     List<Sales> readSalesInDateRange(LocalDate start, LocalDate end);
+    List<Sales> readTopSellers(Integer numberOfDays, Integer numberOfProducts);
 
 }

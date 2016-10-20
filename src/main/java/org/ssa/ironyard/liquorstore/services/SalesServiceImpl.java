@@ -217,6 +217,12 @@ public class SalesServiceImpl implements SalesService
     {
         return this.createFormattedSalesData(daoSales.readSalesForLast30Days(productIDs));
     }
+    
+    @Override
+    public List<TypeSalesData> readTopSellersForLast30Days(Integer numberOfProducts)
+    {
+        return this.createFormattedSalesData(daoSales.readTopSellers(30, numberOfProducts));
+    }
 
     @Override
     public List<TypeSalesData> readSalesForLast90Days()

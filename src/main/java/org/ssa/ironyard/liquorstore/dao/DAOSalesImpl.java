@@ -282,4 +282,19 @@ public class DAOSalesImpl extends AbstractDAOSales implements DAOSales
         }, this.listExtractor);
     }
 
+    @Override
+    public List<Sales> readTopSellers(Integer numberOfDays, Integer numberOfProducts)
+    {
+        if(numberOfDays == null || numberOfProducts == null)
+            return new ArrayList<>();
+        
+        return this.springTemplate.query(((ORMSalesImpl)this.orm).topSellers(), (PreparedStatement ps) ->
+        {
+            ps.setInt(1, numberOfDays);
+            ps.setInt(2, numberOfProducts);
+            LOGGER.info("Top Sellers : {}", ps);
+            
+        }, this.listExtractor);
+    }
+
 }

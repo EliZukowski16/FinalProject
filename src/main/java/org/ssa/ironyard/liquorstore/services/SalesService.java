@@ -44,4 +44,5 @@ public interface SalesService
     List<TypeSalesData> readSalesForPastNumberOfDays(Integer numberOfDays);
     List<TypeSalesData> readSalesForPastNumberOfDays(Integer numberOfDays, List<Integer> productIDs);
     List<TypeSalesData> aggregateDailySales(LocalDate date);
+    List<TypeSalesData> readTopSellersForLast30Days(Integer numberOfProducts);
 }
