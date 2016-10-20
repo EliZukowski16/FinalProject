@@ -11,15 +11,17 @@ angular
 	ctrl.types = ['Beer', 'Wine', 'Spirits'];
     ctrl.orderDetails = [];
     ctrl.orderResponse = [];
+    ctrl.orderList = "";
     
     ctrl.month = "";
     ctrl.day = "";
     ctrl.year = "";
     
     ctrl.searchResults = CartService.getSearchResults;
-    ctrl.keyword = CartService.getKeyword;
+    ctrl.keyword = "";
     ctrl.selection = CartService.getSelection;
     ctrl.cart = CartService.getCart;
+    
     
     //Checkbox search
     ctrl.toggleSelection = function(type){
@@ -28,7 +30,7 @@ angular
     
     //Submit search to controller
     ctrl.search = function(){
-    	CartService.search();
+    	CartService.search(ctrl.keyword);
     }   
     
     //Add product to cart 
@@ -171,6 +173,9 @@ angular
     	$state.go("customerOrders");
     	$(".modal-backdrop").hide();
     };
+    
+    
+    
     
     
     
