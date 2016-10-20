@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,6 +29,8 @@ import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Sales;
 import org.ssa.ironyard.liquorstore.model.SalesDaily;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
 import org.ssa.ironyard.liquorstore.services.AnalyticsServiceImpl;
 import org.ssa.ironyard.liquorstore.services.CoreProductServiceImpl;
@@ -164,7 +168,7 @@ public class AdminController
 
     }
     
-    @RequestMapping(value = "/products/lowinventory", method = RequestMethod.GET)
+    @RequestMapping(value = "/inventory/lowInventory", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Map<String, List<Product>>> getLowInventory()
     {
@@ -315,20 +319,64 @@ public class AdminController
         return ResponseEntity.ok().header("Admin Orders", "Unfulfilled Orders").body(response);
     }
     
-    @RequestMapping(value = "/sales", method = RequestMethod.GET)
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, List<Product>>> searchKeywordType(@PathVariable String adminID,HttpServletRequest request)
+    {
+        Map<String, List<Product>> response = new HashMap<>();
+
+        LOGGER.info("Going to the search");
+
+        LOGGER.info(request.getParameterValues("types") + " request types");
+        LOGGER.info(request.getParameter("keywords") + " request keywords");
+
+        String keyword = request.getParameter("keywords");
+        LOGGER.info(keyword + " String keyword");
+        String[] tagArray = keyword.split("\\s");
+        String[] typeArray = request.getParameterValues("types");
+
+        for (int i = 0; i < tagArray.length; i++)
+        {
+            LOGGER.info(tagArray[i] + " String array tags" + i);
+        }
+
+        for (int i = 0; i < typeArray.length; i++)
+        {
+            LOGGER.info(typeArray[i] + " String array type" + i);
+        }
+
+        List<Tag> tags = new ArrayList<>();
+        List<Type> types = new ArrayList<>();
+
+        tags = Stream.of(tagArray).map(Tag::new).collect(Collectors.toList());
+        LOGGER.info("hello");
+        types = Stream.of(typeArray).map(Type::getInstance).collect(Collectors.toList());
+
+        LOGGER.info(tags + "List tags");
+        LOGGER.info(types + "List Tyeps");
+
+        List<Product> products = productService.searchProduct(tags, types);
+
+        LOGGER.info(products + "products");
+
+        if (products.size() == 0)
+        {
+            response.put("error", products);
+        }
+        else
+        {
+            response.put("success", products);
+        }
+
+        return ResponseEntity.ok().header("Products", "Search By Keyword").body(response);
+    }
+    
+    @RequestMapping(value = "/inventory/sales", method = RequestMethod.GET)
     public ResponseEntity<List<Sales>> getAllDailySales()
     {
-        List<SalesDaily> allSales = salesService.readAllSales();
-        
-        Map<String, Object> salesData = new HashMap<>();
-        
-        Map<Type, Object> typeSalesDate = new HashMap<>();
-        
-        Map<Type, Map<CoreProduct, Map<Product, Map<LocalDate, SalesDaily>>>> salesMap = new HashMap<>();
-        
-        Map<Product, Map<LocalDate, Sales>> dailySalesMap = salesService.createDailySalesMap(allSales);
+
         
         return null;
     }
     
+
 }
