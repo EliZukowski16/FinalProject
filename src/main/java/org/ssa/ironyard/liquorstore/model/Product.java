@@ -1,11 +1,6 @@
 package org.ssa.ironyard.liquorstore.model;
 
 import java.math.BigDecimal;
-import java.util.List;
-
-import org.ssa.ironyard.liquorstore.model.CoreProduct.Builder;
-import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
-import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 
 public class Product extends AbstractDomainObject implements DomainObject
 {
@@ -62,7 +57,7 @@ public class Product extends AbstractDomainObject implements DomainObject
     public Product(Integer id, CoreProduct coreProduct, BaseUnit baseUnit, Integer quantity, Integer inventory,
             BigDecimal price, Boolean loaded)
     {
-        super(id, false);
+        super(id, loaded);
         this.coreProduct = coreProduct;
         this.baseUnit = baseUnit;
         this.quantity = quantity;

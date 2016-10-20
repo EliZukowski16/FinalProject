@@ -1,6 +1,5 @@
 package org.ssa.ironyard.liquorstore.controller;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -8,9 +7,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -23,8 +20,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.UsesSunHttpServer;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,12 +27,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
-import org.ssa.ironyard.liquorstore.jsonModel.JsonOrder;
-import org.ssa.ironyard.liquorstore.jsonModel.JsonProduct;
 import org.ssa.ironyard.liquorstore.model.Address;
 import org.ssa.ironyard.liquorstore.model.Address.State;
 import org.ssa.ironyard.liquorstore.model.Address.ZipCode;
-import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Customer;
@@ -46,7 +38,6 @@ import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
 import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Password;
 import org.ssa.ironyard.liquorstore.model.Product;
-import org.ssa.ironyard.liquorstore.model.Product.BaseUnit;
 import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
 import org.ssa.ironyard.liquorstore.services.AnalyticsServiceImpl;
 import org.ssa.ironyard.liquorstore.services.CoreProductServiceImpl;
@@ -55,13 +46,8 @@ import org.ssa.ironyard.liquorstore.services.OrdersServiceImpl;
 import org.ssa.ironyard.liquorstore.services.ProductServiceImpl;
 import org.ssa.ironyard.liquorstore.services.SalesServiceImpl;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mysql.cj.api.log.Log;
-
 @RestController
-@RequestMapping("/TheBeerGuys/customer")
+@RequestMapping("/TheBeerGuys/customer/{customerID}")
 public class CustomerController
 {
 
@@ -95,7 +81,7 @@ public class CustomerController
 
     }
 
-    @RequestMapping(value = "/{customerID}/customers", method = RequestMethod.POST)
+    @RequestMapping(value = "/customers", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Customer>> addCustomer(@PathVariable String CustomerID,
             HttpServletRequest request)
     {
@@ -142,7 +128,7 @@ public class CustomerController
         return ResponseEntity.ok().header("Customer", "Add Customer").body(response);
     }
 
-    @RequestMapping(value = "/{customerID}/customerEdit", method = RequestMethod.PUT)
+    @RequestMapping(value = "/customerEdit", method = RequestMethod.PUT)
     public ResponseEntity<Map<String, Customer>> editCustomer(@PathVariable String id, HttpServletRequest request)
     {
         Map<String, Customer> response = new HashMap<>();
@@ -189,7 +175,7 @@ public class CustomerController
 
     }
 
-    @RequestMapping(value = "/{customerID}/products", method = RequestMethod.GET)
+    @RequestMapping(value = "/products", method = RequestMethod.GET)
     public ResponseEntity<Map<String, List<Product>>> getProducts(@PathVariable String customerID)
     {
         Map<String, List<Product>> response = new HashMap<>();
@@ -212,7 +198,7 @@ public class CustomerController
         return ResponseEntity.ok().header("Products", "Get All Products").body(response);
     }
 
-    @RequestMapping(value = "/{customerID}/search", method = RequestMethod.GET)
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
     public ResponseEntity<Map<String, List<Product>>> searchKeywordType(@PathVariable String customerID,
             HttpServletRequest request)
     {
@@ -264,7 +250,7 @@ public class CustomerController
         return ResponseEntity.ok().header("Products", "Search By Keyword").body(response);
     }
 
-    @RequestMapping(value = "/{customerID}/placeOrder", method = RequestMethod.POST)
+    @RequestMapping(value = "/placeOrder", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Map<String, Order>> placeOrder(@PathVariable String customerID,
             @RequestBody Map<String, Object> map)
@@ -383,7 +369,7 @@ public class CustomerController
 
     }
 
-    @RequestMapping(value = "/{customerID}/Orders", method = RequestMethod.GET)
+    @RequestMapping(value = "/Orders", method = RequestMethod.GET)
     public ResponseEntity<Map<String, List<Order>>> getOrdersByCustomer(@PathVariable String customerID)
     {
         LOGGER.info("You made it to the order by customer controller");
@@ -457,7 +443,7 @@ public class CustomerController
         return result;
     }
 
-    @RequestMapping(value = "/{customerID}/TopSellers", method = RequestMethod.GET)
+    @RequestMapping(value = "/TopSellers", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Map<String, Map<String, List<Product>>>> getTopSellers(@PathVariable String customerID)
     {

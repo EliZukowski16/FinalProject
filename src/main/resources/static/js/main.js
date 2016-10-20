@@ -37,7 +37,7 @@ function configure($stateProvider, $urlRouterProvider) {
       templateUrl: '/html/admin-order.html'
     })
         .state('adminInventorySales', {
-      url: '/Inventory',
+      url: '/inventory/sales',
       controller: 'AdminInventorySalesController',
       controllerAs: 'AIS',
       templateUrl: '/html/admin-inventory-sales.html'

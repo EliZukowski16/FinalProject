@@ -85,22 +85,22 @@ public class DAOProductImpl extends AbstractDAOProduct implements DAOProduct
             public void setValues(PreparedStatement ps) throws SQLException
             {
                 ps.setInt(1, domainToUpdate.getCoreProduct().getId());
-                LOGGER.info("Update - Core Product ID: {}", domainToUpdate.getCoreProduct().getId());
+                LOGGER.trace("Update - Core Product ID: {}", domainToUpdate.getCoreProduct().getId());
 
                 ps.setString(2, domainToUpdate.getBaseUnit());
-                LOGGER.info("Update - Base Unit: {}", domainToUpdate.getBaseUnit());
+                LOGGER.trace("Update - Base Unit: {}", domainToUpdate.getBaseUnit());
 
                 ps.setInt(3, domainToUpdate.getQuantity());
-                LOGGER.info("Update - Quantity: {}", domainToUpdate.getQuantity());
+                LOGGER.trace("Update - Quantity: {}", domainToUpdate.getQuantity());
 
                 ps.setInt(4, domainToUpdate.getInventory());
-                LOGGER.info("Update - Inventory: {}", domainToUpdate.getInventory());
+                LOGGER.trace("Update - Inventory: {}", domainToUpdate.getInventory());
 
                 ps.setBigDecimal(5, domainToUpdate.getPrice());
-                LOGGER.info("Update - Price: {}", domainToUpdate.getPrice());
+                LOGGER.trace("Update - Price: {}", domainToUpdate.getPrice());
 
                 ps.setInt(6, domainToUpdate.getId());
-                LOGGER.info("Update - Product ID: {}", domainToUpdate.getId());
+                LOGGER.trace("Update - Product ID: {}", domainToUpdate.getId());
 
             }
 

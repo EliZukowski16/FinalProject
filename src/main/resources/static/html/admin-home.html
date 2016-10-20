@@ -13,9 +13,9 @@
 <div class="container col-md-2" id="quickLinks">
   <h3>Quick Links</h3>
   <ul class="nav nav-pills nav-stacked" id="links">
-  	<li class="active"><a href="">Home</a></li>
-    <li><a href="#products">Add Order</a></li>
-    <li><a href="#orders">My Orders</a></li>
+  	<li class="active"><a ui-sref="adminHome">Home</a></li>
+    <li><a ui-sref="adminOrder">Unfulfilled Orders</a></li>
+    <li><a ui-sref="adminInventorySales">Sales/Inventory Statistics</a></li>
   </ul>
 </div>
 
@@ -44,17 +44,6 @@
               <button ng-if="pending.expanded" ng-click="pending.expanded = false">-</button>
               <button ng-if="!pending.expanded" ng-click="pending.expanded = true">+</button>
     	</td>
-
-        <td>{{ unOrders.customer.id }}</td>
-        <td>{{ unOrders.customer.firstName }}</td>
-        <td>{{ unOrders.customer.lastName }}</td>
-        <td>{{ unOrders.date.dayOfWeek }}, {{ unOrders.date.month }} {{ unOrders.date.dayOfMonth }}, {{ unOrders.date.year }}</td>
-       	<td>{{ unOrders.date.hour }}:{{ unOrders.date.minute }}:{{ unOrders.date.second }}</td>
-        <td>{{ unOrders.timeOfOrder.dayOfWeek }}, {{ unOrders.timeOfOrder.month }} {{ unOrders.timeOfOrder.dayOfMonth }}, {{ unOrders.timeOfOrder.year }}</td>
-       	<td>{{ unOrders.total | currency }}</td>
-       	<td style="text-align: center">{{ unOrders.orderStatus }}<br><input type="radio"  name="{{unOrders.id}}" value="approved" ng-click="HC.checkedRadio(unOrders,'approved')"> Approve <input type="radio" name="{{unOrders.id}}" value="rejected" ng-click="HC.checkedRadio(unOrders,'rejected')" > Reject
-      	
-
         <td>{{ pending.customer.id }}</td>
         <td>{{ pending.customer.firstName }}</td>
         <td>{{ pending.customer.lastName }}</td>
@@ -122,7 +111,6 @@
     			<tbody>
      			 <tr ng-repeat="statusP in HC.statusPopup" style="text-align:left">
         		<td>Order ID: {{statusP.id}} New Status: {{statusP.value}}</td>
-        		<td>hello</td>
         		
         		
         

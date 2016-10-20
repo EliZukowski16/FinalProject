@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,11 +21,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.ssa.ironyard.liquorstore.model.CoreProduct;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Sales;
+import org.ssa.ironyard.liquorstore.model.SalesDaily;
+import org.ssa.ironyard.liquorstore.model.salesdata.TypeSalesData;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
 import org.ssa.ironyard.liquorstore.services.AnalyticsServiceImpl;
 import org.ssa.ironyard.liquorstore.services.CoreProductServiceImpl;
@@ -160,20 +168,20 @@ public class AdminController
         return ResponseEntity.ok().header("The Beer Guys Admin", "Products").body(response);
 
     }
-    
-    @RequestMapping(value = "/products/lowinventory", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/inventory/lowInventory", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Map<String, List<Product>>> getLowInventory()
     {
         List<Product> lowInventory = productService.readLowInventory();
-        
+
         Map<String, List<Product>> response = new HashMap<>();
-        
-        if(lowInventory.isEmpty())
+
+        if (lowInventory.isEmpty())
             response.put("error", new ArrayList<>());
         else
             response.put("success", lowInventory);
-        
+
         return ResponseEntity.ok().body(response);
     }
 
@@ -196,7 +204,7 @@ public class AdminController
 
         return ResponseEntity.ok().header("Products", "Product Detail").body(response);
     }
-    
+
     @RequestMapping(value = "/products/{id}/orders", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Map<String, List<Order>>> getProductOrders(@PathVariable String id)
@@ -256,14 +264,13 @@ public class AdminController
 
         for (Map<String, Object> map : body)
         {
-            for (Entry e : map.entrySet())
+            for (Entry<String, Object> e : map.entrySet())
             {
                 Integer orderID = Integer.parseInt((String) e.getKey());
                 OrderStatus status = OrderStatus.getInstance((String) e.getValue());
-                
+
                 LOGGER.info("order ID: {}", orderID);
                 LOGGER.info("orderStatus: {}", status);
-                
 
                 ordersForStatusChange.add(new Order.Builder().id(orderID).orderStatus(status).build());
             }
@@ -289,33 +296,133 @@ public class AdminController
 
         return orderService.rejectOrder(orderID);
     }
-    
+
     @RequestMapping(value = "/orders/unfulfilled", method = RequestMethod.GET)
-    public ResponseEntity<Map<String,List<Order>>> getFutureOrders()
+    public ResponseEntity<Map<String, List<Order>>> getFutureOrders()
     {
         LOGGER.info("made it to future orders");
-        Map<String,List<Order>> response = new HashMap<>();
+        Map<String, List<Order>> response = new HashMap<>();
         List<Order> orderList = new ArrayList<>();
-        
-        LocalDate today = LocalDate.now();   
-        LOGGER.info("Today: {}",today);
-        
+
+        LocalDate today = LocalDate.now();
+        LOGGER.info("Today: {}", today);
+
         orderList = orderService.readFutureApprovedOrders(today);
-        
+
         LOGGER.info(orderList.size());
-        
-        if(orderList.size() == 0)
+
+        if (orderList.size() == 0)
             response.put("error", orderList);
         else
             response.put("success", orderList);
-        
+
         return ResponseEntity.ok().header("Admin Orders", "Unfulfilled Orders").body(response);
     }
-    
-    @RequestMapping(value = "/sales/daily", method = RequestMethod.GET)
-    public ResponseEntity<List<Sales>> getAllDailySales()
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, List<Product>>> searchKeywordType(@PathVariable String adminID,
+            HttpServletRequest request)
     {
-        return null;
+        Map<String, List<Product>> response = new HashMap<>();
+
+        LOGGER.info("Going to the search");
+
+        LOGGER.info(request.getParameterValues("types") + " request types");
+        LOGGER.info(request.getParameter("keywords") + " request keywords");
+
+        String keyword = request.getParameter("keywords");
+        LOGGER.info(keyword + " String keyword");
+        String[] tagArray = keyword.split("\\s");
+        String[] typeArray = request.getParameterValues("types");
+
+        for (int i = 0; i < tagArray.length; i++)
+        {
+            LOGGER.info(tagArray[i] + " String array tags" + i);
+        }
+
+        for (int i = 0; i < typeArray.length; i++)
+        {
+            LOGGER.info(typeArray[i] + " String array type" + i);
+        }
+
+        List<Tag> tags = new ArrayList<>();
+        List<Type> types = new ArrayList<>();
+
+        tags = Stream.of(tagArray).map(Tag::new).collect(Collectors.toList());
+        LOGGER.info("hello");
+        types = Stream.of(typeArray).map(Type::getInstance).collect(Collectors.toList());
+
+        LOGGER.info(tags + "List tags");
+        LOGGER.info(types + "List Tyeps");
+
+        List<Product> products = productService.searchProduct(tags, types);
+
+        LOGGER.info(products + "products");
+
+        if (products.size() == 0)
+        {
+            response.put("error", products);
+        }
+        else
+        {
+            response.put("success", products);
+        }
+
+        return ResponseEntity.ok().header("Products", "Search By Keyword").body(response);
     }
-    
+
+    @RequestMapping(value = "/inventory/sales", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, List<TypeSalesData>>> getAllDailySales()
+    {
+        Map<String, List<TypeSalesData>> response = new HashMap<>();
+
+        List<TypeSalesData> salesData = salesService.readAllSales();
+
+        if (!salesData.isEmpty())
+            response.put("success", salesData);
+        else
+            response.put("error", new ArrayList<>());
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @RequestMapping(value = "/inventory", method = RequestMethod.POST)
+    public Boolean addStock(@RequestBody List<Map<Integer, Integer>> body)
+    {
+        Map<Integer, Integer> productStockOrders = new HashMap<>();
+
+        LOGGER.info("We made it to add Inv: {}", body);
+
+        if (body.isEmpty())
+            return false;
+
+        for (Map<Integer, Integer> p : body)
+        {
+            for (Entry<Integer, Integer> e : p.entrySet())
+            {
+                productStockOrders.put(e.getKey(), e.getValue());
+
+            }
+        }
+
+        if (!productService.addStock(productStockOrders).isEmpty())
+            return true;
+        return false;
+    }
+
+    @RequestMapping(value = "/TopSellers", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, List<TypeSalesData>>> getTopSellers()
+    {
+        Map<String, List<TypeSalesData>> response = new HashMap<>();
+
+        List<TypeSalesData> topSellers = salesService.readTopSellersForLast30Days(50);
+
+        if (!topSellers.isEmpty())
+            response.put("success", topSellers);
+        else
+            response.put("error", new ArrayList<>());
+
+        return ResponseEntity.ok().body(response);
+    }
+
 }

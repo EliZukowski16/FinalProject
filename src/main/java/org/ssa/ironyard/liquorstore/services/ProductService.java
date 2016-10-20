@@ -21,6 +21,7 @@ public interface ProductService
     List<Product> searchProduct(List<Tag> tags,List<Type> type);
     Map<String, List<Product>> topSellersForPastMonth();
     List<Product> readLowInventory();
+    List<Product> addStock(Map<Integer, Integer> productStockOrders);
     
     
 }

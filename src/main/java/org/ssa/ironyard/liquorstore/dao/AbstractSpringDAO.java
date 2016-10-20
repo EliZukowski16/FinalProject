@@ -31,7 +31,7 @@ import org.ssa.ironyard.liquorstore.model.Product;
 public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T>
 {
     static Logger LOGGER = LogManager.getLogger(AbstractSpringDAO.class);
-    
+
     protected final ORM<T> orm;
     protected final DataSource dataSource;
     protected final JdbcTemplate springTemplate;
@@ -49,7 +49,7 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
                 return this.orm.map(cursor);
             return null;
         };
-        
+
         this.listExtractor = (ResultSet cursor) ->
         {
             List<T> resultList = new ArrayList<>();
@@ -67,11 +67,14 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
     {
         if (null == id)
             return null;
-        return this.springTemplate.query(this.orm.prepareRead(), (PreparedStatement ps) -> ps.setInt(1, id),
-                this.extractor);
+        return this.springTemplate.query(this.orm.prepareRead(), (PreparedStatement ps) ->
+        {
+            ps.setInt(1, id);
+            LOGGER.trace("DAO Read: {}", ps);
+        }, this.extractor);
 
     }
-    
+
     @Override
     public List<T> readByIds(List<Integer> ids)
     {
@@ -79,17 +82,18 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
 
         if (ids.size() == 0)
             return t;
-        return this.springTemplate.query(this.orm.prepareReadByIds(ids.size()),
-                (PreparedStatement ps) ->
-                {
-                    for (int i = 0; i < ids.size(); i++)
-                    {
-                        ps.setInt(i + 1, ids.get(i));
-                    }
+        return this.springTemplate.query(this.orm.prepareReadByIds(ids.size()), (PreparedStatement ps) ->
+        {
+            for (int i = 0; i < ids.size(); i++)
+            {
+                ps.setInt(i + 1, ids.get(i));
+            }
 
-                }, this.listExtractor);
+            LOGGER.trace("DAO Read: {}", ps);
+
+        }, this.listExtractor);
     }
-    
+
     @Override
     public List<T> readAll()
     {
@@ -107,6 +111,7 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
             PreparedStatement statement = conn.prepareStatement(this.orm.prepareInsert(),
                     Statement.RETURN_GENERATED_KEYS);
             insertPreparer(statement, domain);
+            LOGGER.trace("DAO Insert : {}", statement);
             return statement;
         }, generatedId) == 1)
         {
@@ -120,8 +125,7 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
     @Override
     public T update(T domain)
     {
-        
-        
+
         if (null == domain || null == domain.getId())
             return null;
 

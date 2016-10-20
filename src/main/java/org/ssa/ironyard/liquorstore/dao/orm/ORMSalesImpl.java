@@ -5,13 +5,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-import org.ssa.ironyard.liquorstore.model.SalesDaily.Builder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Sales;
 import org.ssa.ironyard.liquorstore.model.SalesDaily;
+import org.ssa.ironyard.liquorstore.model.SalesDaily.Builder;
 
 public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
 {
+
+    Logger LOGGER = LogManager.getLogger(ORMSalesImpl.class);
 
     AbstractORM<Product> productORM;
 
@@ -38,42 +42,43 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
     @Override
     public Sales map(ResultSet results) throws SQLException
     {
-        Integer id = results.getInt(this.table() + ".id");
+        Integer id = results.getInt(table() + ".id");
         Product product = productORM.map(results);
-        Integer numberSold = results.getInt(this.table() + ".number");
-        BigDecimal totalValue = results.getBigDecimal(this.table() + ".unit_price");
-        LocalDate dateSold = results.getDate(this.table() + ".date_sold").toLocalDate();
-        Boolean aggregateSales = results.getBoolean(this.table() + ".aggregate_sales");
+        Integer numberSold = results.getInt(table() + ".number");
+        BigDecimal totalValue = results.getBigDecimal(table() + ".total_value");
+        LocalDate dateSold = results.getDate(table() + ".date_sold").toLocalDate();
+        Boolean aggregateSales = results.getBoolean(table() + ".aggregate_sales");
 
-        return ((Builder) new SalesDaily.Builder().id(id).product(product).numberSold(numberSold).totalValue(totalValue))
-                .dateSold(dateSold).aggregateSales(aggregateSales).loaded(true).build();
+        return ((Builder) new SalesDaily.Builder().id(id).product(product).numberSold(numberSold)
+                .totalValue(totalValue)).dateSold(dateSold).aggregateSales(aggregateSales).loaded(true).build();
     }
 
     private String buildEager()
     {
-        String eager = this.buildEagerSelect() + this.buildProductJoin() + this.buildCoreProductJoin();
+        String eager = buildEagerSelect() + " FROM " + table() + " " + buildProductJoin()
+                + buildCoreProductJoin();
 
         return eager;
     }
 
     private String buildEagerSelect()
     {
-        String select = " SELECT " + this.projection() + ", " + productORM.projection() + " , "
-                + ((ORMProductImpl) this.productORM).getCoreProductORM().projection() + " ";
+        String select = " SELECT " + projection() + ", " + this.productORM.projection() + " , "
+                + ((ORMProductImpl) this.productORM).getCoreProductORM().projection();
 
         return select;
     }
 
     private String buildProductJoin()
     {
-        String join = " JOIN " + this.productORM.table() + " " + this.buildProductRelation();
+        String join = " JOIN " + this.productORM.table() + " " + buildProductRelation();
         return join;
     }
 
     private String buildProductRelation()
     {
         String relation = " ON " + this.productORM.table() + "." + this.productORM.getPrimaryKeys().get(0) + " = "
-                + this.table() + "." + this.getFields().get(0) + " ";
+                + table() + "." + getFields().get(0) + " ";
 
         return relation;
     }
@@ -81,7 +86,7 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
     private String buildCoreProductJoin()
     {
         String join = " JOIN " + ((ORMProductImpl) this.productORM).getCoreProductORM().table() + " "
-                + this.buildCoreProductRelation();
+                + buildCoreProductRelation();
 
         return join;
     }
@@ -96,9 +101,17 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
     }
 
     @Override
+    public String prepareReadAll()
+    {
+        String readAll = buildEager();
+
+        return readAll;
+    }
+
+    @Override
     public String prepareReadByIds(Integer numberOfIds)
     {
-        String readByIDs = this.buildEager() + " WHERE " + this.table() + "." + this.getPrimaryKeys().get(0) + " IN ( ";
+        String readByIDs = buildEager() + " WHERE " + table() + "." + getPrimaryKeys().get(0) + " IN ( ";
 
         for (int i = 0; i < numberOfIds; i++)
         {
@@ -112,7 +125,7 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
 
     public String prepareReadSalesForProducts(Integer numberOfProducts)
     {
-        String productSales = this.buildEager() + " WHERE " + this.table() + "." + this.getFields().get(0) + " IN ( ";
+        String productSales = buildEager() + " WHERE " + table() + "." + getFields().get(0) + " IN ( ";
         for (int i = 0; i < numberOfProducts; i++)
         {
             productSales = productSales + " ?, ";
@@ -125,12 +138,12 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
 
     public String prepareReadSalesForLastVariableDays(Integer numberOfProducts)
     {
-        String lastVariableDays = this.buildEager() + " WHERE " + this.table() + "." + this.getFields().get(3)
+        String lastVariableDays = buildEager() + " WHERE " + table() + "." + getFields().get(3)
                 + " > DATE_SUB(CURDATE(), INTERVAL ? DAY) ";
 
         if (numberOfProducts > 0)
         {
-            lastVariableDays = lastVariableDays + " AND " + this.table() + "." + this.getFields().get(0) + " IN ( ";
+            lastVariableDays = lastVariableDays + " AND " + table() + "." + getFields().get(0) + " IN ( ";
 
             for (int i = 0; i < numberOfProducts; i++)
             {
@@ -141,6 +154,31 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
         }
 
         return lastVariableDays;
+    }
+
+    public String prepareReadInTimeFrame()
+    {
+        String readInTimeFrame = buildEager() + " WHERE ( " + table() + "." + getFields().get(3)
+                + " BETWEEN ? AND ? ) ";
+
+        return readInTimeFrame;
+    }
+
+    public String topSellers()
+    {
+        String topSellersSubQueryAlias = " SS ";
+        String topSellersSubQuery = "( SELECT " + table() + "." + getFields().get(0) +
+                " FROM " + table() + " WHERE " + table() + "." +getFields().get(3) +
+                " > DATE_SUB(NOW(), INTERVAL ? DAY) " +
+                " GROUP BY " + table() + "." + getFields().get(0) +
+                " ORDER BY SUM( " + table() + "." + getFields().get(1) + " ) " +
+                " LIMIT ? ) ";
+        
+        String topSellers = buildEager() + " JOIN " + topSellersSubQuery + " AS " +
+                topSellersSubQueryAlias + " ON " + table() + "." + getFields().get(0) + " = " +
+                topSellersSubQueryAlias + "." + getFields().get(0);
+
+        return topSellers;
     }
 
 }

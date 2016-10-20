@@ -3,6 +3,7 @@ package org.ssa.ironyard.liquorstore.dao;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class DAOSalesImpl extends AbstractDAOSales implements DAOSales
                 }, this.listExtractor);
     }
 
+    @Override
     public List<Sales> readSalesForLastVariableDays(Integer numberOfDays, List<Integer> productIDs)
     {
         return this.springTemplate.query(
@@ -249,6 +251,50 @@ public class DAOSalesImpl extends AbstractDAOSales implements DAOSales
         productIDs.add(productID);
 
         return this.readSalesForPreviousDay(productIDs);
+    }
+
+    @Override
+    public List<Sales> readSalesInDateRange(LocalDate start, LocalDate end)
+    {
+        return this.springTemplate.query(((ORMSalesImpl) this.orm).prepareReadInTimeFrame(), (PreparedStatement ps) ->
+        {
+            if (start == null)
+            {
+                ps.setDate(1, Date.valueOf(LocalDate.now().minusYears(10)));
+                LOGGER.info("PS {}", ps);
+            }
+            else
+            {
+                ps.setDate(1, Date.valueOf(start));
+                LOGGER.info("PS {}", ps);
+            }
+
+            if (end == null)
+            {
+                ps.setDate(2, Date.valueOf(LocalDate.now().plusYears(10)));
+                LOGGER.info("PS {}", ps);
+            }
+            else
+            {
+                ps.setDate(2, Date.valueOf(end));
+                LOGGER.info("PS {}", ps);
+            }
+        }, this.listExtractor);
+    }
+
+    @Override
+    public List<Sales> readTopSellers(Integer numberOfDays, Integer numberOfProducts)
+    {
+        if(numberOfDays == null || numberOfProducts == null)
+            return new ArrayList<>();
+        
+        return this.springTemplate.query(((ORMSalesImpl)this.orm).topSellers(), (PreparedStatement ps) ->
+        {
+            ps.setInt(1, numberOfDays);
+            ps.setInt(2, numberOfProducts);
+            LOGGER.info("Top Sellers : {}", ps);
+            
+        }, this.listExtractor);
     }
 
 }

@@ -13,9 +13,9 @@
 <div class="container col-md-2" id="quickLinks">
   <h3>Quick Links</h3>
   <ul class="nav nav-pills nav-stacked" id="links">
-  	<li class="active"><a href="">Home</a></li>
-    <li><a href="#products">Add Order</a></li>
-    <li><a href="#orders">My Orders</a></li>
+  	<li><a ui-sref="adminHome">Home</a></li>
+    <li class="active"><a ui-sref="adminOrder">Unfulfilled Orders</a></li>
+    <li><a ui-sref="adminInventorySales">Sales/Inventory Statistics</a></li>
   </ul>
 </div>
 
@@ -33,6 +33,7 @@
         <th>Delivery Delivery Time</th>
         <th>Day Order Was Placed</th>
         <th>Total</th>
+        <th>Status</th>
        
         
       </tr>
@@ -51,6 +52,7 @@
        	<td>{{ unOrders.date.hour }}:{{ unOrders.date.minute }}:{{ unOrders.date.second }}</td>
         <td>{{ unOrders.timeOfOrder.dayOfWeek }}, {{ unOrders.timeOfOrder.month }} {{ unOrders.timeOfOrder.dayOfMonth }}, {{ unOrders.timeOfOrder.year }}</td>
        	<td>{{ unOrders.total | currency }}</td>
+       	<td>{{ unOrders.orderStatus }}
        
       </tr>
       <tr ng-if="unOrders.expanded" ng-repeat-end="">
