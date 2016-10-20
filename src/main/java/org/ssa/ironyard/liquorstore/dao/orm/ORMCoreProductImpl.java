@@ -81,14 +81,14 @@ public class ORMCoreProductImpl extends AbstractORM<CoreProduct> implements ORM<
     
     private String joinProductTags()
     {
-        return " JOIN product_tags ON " + this.table() + "." + this.primaryKeys.get(0) + " = product_tags.core_product_id ";
+        return " JOIN product_tags ON " + table() + "." + this.primaryKeys.get(0) + " = product_tags.core_product_id ";
     }
 
     @Override
     public String prepareReadByIds(Integer numberOfIds)
     {
-        String readByIds = " SELECT " + this.projection() +  " FROM " + this.table()
-                + " WHERE " + this.table() + "." + this.primaryKeys.get(0) + " IN ( ";
+        String readByIds = " SELECT " + projection() +  " FROM " + table()
+                + " WHERE " + table() + "." + this.primaryKeys.get(0) + " IN ( ";
         
         for(int i = 0; i < numberOfIds; i++)
         {
@@ -97,8 +97,8 @@ public class ORMCoreProductImpl extends AbstractORM<CoreProduct> implements ORM<
         
         readByIds = readByIds.substring(0, readByIds.length() - 2) + " ) ";
         
-        LOGGER.debug(this.getClass().getSimpleName());
-        LOGGER.debug("Read By IDs prepared Statement: {}", readByIds);
+        LOGGER.trace(this.getClass().getSimpleName());
+        LOGGER.trace("Read By IDs prepared Statement: {}", readByIds);
         
         return readByIds;
     }

@@ -85,3 +85,24 @@ GROUP BY product.id
 
 
 
+SELECT  sales.id,  sales.product_id,  sales.number,  
+sales.total_value,  sales.date_sold,  sales.aggregate_sales,  
+product.id,  product.core_product_id,  product.base_unit,  
+product.quantity,  product.inventory,  product.price ,  
+core_product.id,  core_product.name,  core_product.type,  
+core_product.subtype,  core_product.description,  
+core_product.full_size_image,  core_product.thumbnail 
+FROM sales  
+JOIN product  
+ON product.id = sales.product_id  
+JOIN core_product  
+ON product.core_product_id = core_product.id  
+JOIN 
+( SELECT sales.product_id
+FROM sales  
+WHERE sales.date_sold > DATE_SUB(NOW(), INTERVAL 30 DAY)  
+GROUP BY sales.product_id 
+ORDER BY sum(sales.number) 
+LIMIT 5 ) as SS
+ON sales.product_id = ss.product_id 
+

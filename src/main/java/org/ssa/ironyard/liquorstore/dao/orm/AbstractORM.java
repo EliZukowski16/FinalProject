@@ -31,18 +31,18 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
         
         for (int i = 0; i < primaryKeys.size(); i++)
         {
-            projection = projection + " " + this.table() + "." + this.primaryKeys.get(i) + ", ";
+            projection = projection + " " + table() + "." + this.primaryKeys.get(i) + ", ";
         }
         
         for(int i = 0; i < fields.size(); i++)
         {
-            projection = projection + " " + this.table() + "." + this.fields.get(i) + ", ";
+            projection = projection + " " + table() + "." + this.fields.get(i) + ", ";
         }
         
         projection = projection.substring(0, projection.length() - 2);
         
-        LOGGER.debug(this.getClass().getSimpleName());
-        LOGGER.debug("Projection: {}", projection);
+        LOGGER.trace(this.getClass().getSimpleName());
+        LOGGER.trace("Projection: {}", projection);
         
         return projection;
     }
@@ -76,10 +76,10 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
         
         fieldNames = fieldNames.substring(0, fieldNames.length() - 2);
         
-        String update = " UPDATE " + this.table() + fieldNames + " WHERE id = ? ";
+        String update = " UPDATE " + table() + fieldNames + " WHERE id = ? ";
         
-        LOGGER.debug(this.getClass().getSimpleName());
-        LOGGER.debug("Update prepared Statement: {}", update);
+        LOGGER.trace(this.getClass().getSimpleName());
+        LOGGER.trace("Update prepared Statement: {}", update);
         
         return update;
     }
@@ -101,9 +101,9 @@ public abstract class AbstractORM<T extends DomainObject> implements ORM<T>
         fieldNames += " ) ";
         values += " ) ";
         
-        String insert = " INSERT INTO " + this.table() + fieldNames + values;
-        LOGGER.debug(this.getClass().getSimpleName());
-        LOGGER.debug("Insert prepared Statement: {}", insert);
+        String insert = " INSERT INTO " + table() + fieldNames + values;
+        LOGGER.trace(this.getClass().getSimpleName());
+        LOGGER.trace("Insert prepared Statement: {}", insert);
         
         return insert;
     }

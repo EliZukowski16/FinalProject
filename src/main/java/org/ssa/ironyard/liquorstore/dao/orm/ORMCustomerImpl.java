@@ -72,8 +72,8 @@ public class ORMCustomerImpl extends AbstractORM<Customer> implements ORM<Custom
     @Override
     public String prepareReadByIds(Integer numberOfIds)
     {
-        String readByIds = " SELECT " +  this.projection() + " FROM " + this.table() 
-                + " WHERE " + this.table() + "." + this.primaryKeys.get(0) + " IN ( ";
+        String readByIds = " SELECT " +  projection() + " FROM " + table() 
+                + " WHERE " + table() + "." + this.primaryKeys.get(0) + " IN ( ";
         
         for(int i = 0; i < numberOfIds; i++)
         {
@@ -82,8 +82,8 @@ public class ORMCustomerImpl extends AbstractORM<Customer> implements ORM<Custom
         
         readByIds = readByIds.substring(0, readByIds.length() - 2) + " ) ";
         
-        LOGGER.debug(this.getClass().getSimpleName());
-        LOGGER.debug("Read By IDs prepared Statement: {}", readByIds);
+        LOGGER.trace(this.getClass().getSimpleName());
+        LOGGER.trace("Read By IDs prepared Statement: {}", readByIds);
         
         return readByIds;
     }
