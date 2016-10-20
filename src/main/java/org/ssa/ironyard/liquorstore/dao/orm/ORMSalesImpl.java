@@ -41,7 +41,7 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
         Integer id = results.getInt(this.table() + ".id");
         Product product = productORM.map(results);
         Integer numberSold = results.getInt(this.table() + ".number");
-        BigDecimal totalValue = results.getBigDecimal(this.table() + ".unit_price");
+        BigDecimal totalValue = results.getBigDecimal(this.table() + ".total_value");
         LocalDate dateSold = results.getDate(this.table() + ".date_sold").toLocalDate();
         Boolean aggregateSales = results.getBoolean(this.table() + ".aggregate_sales");
 
@@ -59,7 +59,8 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
     private String buildEagerSelect()
     {
         String select = " SELECT " + this.projection() + ", " + productORM.projection() + " , "
-                + ((ORMProductImpl) this.productORM).getCoreProductORM().projection() + " ";
+                + ((ORMProductImpl) this.productORM).getCoreProductORM().projection() + " FROM " +
+                this.table();
 
         return select;
     }
@@ -93,6 +94,14 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
                 + ((ORMProductImpl) this.productORM).getCoreProductORM().getPrimaryKeys().get(0) + " ";
 
         return relation;
+    }
+    
+    @Override
+    public String prepareReadAll()
+    {
+        String readAll = this.buildEager();
+        
+        return readAll;
     }
 
     @Override

@@ -57,7 +57,7 @@ public class Product extends AbstractDomainObject implements DomainObject
     public Product(Integer id, CoreProduct coreProduct, BaseUnit baseUnit, Integer quantity, Integer inventory,
             BigDecimal price, Boolean loaded)
     {
-        super(id, false);
+        super(id, loaded);
         this.coreProduct = coreProduct;
         this.baseUnit = baseUnit;
         this.quantity = quantity;
