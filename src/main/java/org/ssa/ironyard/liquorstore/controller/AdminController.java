@@ -403,6 +403,7 @@ public class AdminController
             for(Entry<Integer, Integer> e : p.entrySet())
             {
                 productStockOrders.put(e.getKey(), e.getValue());
+                
             }
         }
         
