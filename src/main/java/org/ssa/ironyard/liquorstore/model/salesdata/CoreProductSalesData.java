@@ -87,6 +87,10 @@ public class CoreProductSalesData
             MonthlySalesData ms = new MonthlySalesData(i, numberSold, totalValue);
             monthlySalesData.add(ms);   
         }
+        
+        dailySalesData.sort((s1,s2) -> s2.getDate().compareTo(s1.getDate()));
+        weeklySalesData.sort((s1,s2) -> s2.getWeek().compareTo(s1.getWeek()));
+        monthlySalesData.sort((s1,s2) -> s2.getMonth().compareTo(s1.getMonth()));
     }
 
      public CoreProduct getCoreProduct()
