@@ -20,14 +20,14 @@ public class ProductSalesData
 
     private final List<DailySalesData> dailySalesData;
     private final List<WeeklySalesData> weeklySalesData;
-    private final List<MonthlySalesData> productMonthlySales;
+    private final List<MonthlySalesData> monthlySalesData;
 
     public ProductSalesData(Product product, List<Sales> sales)
     {
         WeekFields woy = WeekFields.of(Locale.US);
         TemporalField tf = woy.weekOfWeekBasedYear();
         weeklySalesData = new ArrayList<>();
-        productMonthlySales = new ArrayList<>();
+        monthlySalesData = new ArrayList<>();
 
         this.product = product;
 
@@ -59,7 +59,7 @@ public class ProductSalesData
                     .map(s -> s.getTotalValue()).reduce(BigDecimal.ZERO, (s1, s2) -> s1.add(s2));
             
             MonthlySalesData ms = new MonthlySalesData(i, numberSold, totalValue);
-            productMonthlySales.add(ms);   
+            monthlySalesData.add(ms);   
         }
 
     }
@@ -79,9 +79,9 @@ public class ProductSalesData
         return weeklySalesData;
     }
 
-    public List<MonthlySalesData> getProductMonthlySales()
+    public List<MonthlySalesData> getMonthlySalesData()
     {
-        return productMonthlySales;
+        return monthlySalesData;
     }
 
 
