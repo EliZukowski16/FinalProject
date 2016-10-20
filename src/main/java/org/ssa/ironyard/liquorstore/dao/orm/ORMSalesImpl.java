@@ -166,12 +166,17 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
 
     public String topSellers()
     {
-        String topSellersSubQuery = buildEagerSelect() + " , sum(sales.number) as totalSales FROM " + this.table() + " "
-                + this.buildProductJoin() + this.buildCoreProductJoin() + " WHERE " + this.table() + "."
-                + this.getFields().get(3) + " > DATE_SUB(NOW(), INTERVAL ? DAY) " + " GROUP BY " + this.table() + "."
-                + this.getFields().get(0) + " ORDER BY totalSales " + " LIMIT ? ";
+        String topSellersSubQueryAlias = " SS ";
+        String topSellersSubQuery = "( SELECT " + this.table() + "." + this.getFields().get(0) +
+                " FROM " + this.table() + " WHERE " + this.table() + "." +this.getFields().get(3) +
+                " > DATE_SUB(NOW(), INTERVAL ? DAY) " +
+                " GROUP BY " + this.table() + "." + this.getFields().get(0) +
+                " ORDER BY SUM( " + this.table() + "." + this.getFields().get(1) + " ) " +
+                " LIMIT ? ) ";
         
-        String topSellers = buildEager() + "WHERE ";
+        String topSellers = buildEager() + " JOIN " + topSellersSubQuery + " AS " +
+                topSellersSubQueryAlias + " ON " + this.table() + "." + this.getFields().get(0) + " = " +
+                topSellersSubQueryAlias + "." + this.getFields().get(0);
 
         return topSellers;
     }

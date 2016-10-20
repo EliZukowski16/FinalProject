@@ -168,24 +168,22 @@ public class AdminController
         return ResponseEntity.ok().header("The Beer Guys Admin", "Products").body(response);
 
     }
-    
+
     @RequestMapping(value = "/inventory/lowInventory", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Map<String, List<Product>>> getLowInventory()
     {
         List<Product> lowInventory = productService.readLowInventory();
-        
+
         Map<String, List<Product>> response = new HashMap<>();
-        
-        if(lowInventory.isEmpty())
+
+        if (lowInventory.isEmpty())
             response.put("error", new ArrayList<>());
         else
             response.put("success", lowInventory);
-        
+
         return ResponseEntity.ok().body(response);
     }
-    
-    
 
     @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -206,7 +204,7 @@ public class AdminController
 
         return ResponseEntity.ok().header("Products", "Product Detail").body(response);
     }
-    
+
     @RequestMapping(value = "/products/{id}/orders", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Map<String, List<Order>>> getProductOrders(@PathVariable String id)
@@ -270,10 +268,9 @@ public class AdminController
             {
                 Integer orderID = Integer.parseInt((String) e.getKey());
                 OrderStatus status = OrderStatus.getInstance((String) e.getValue());
-                
+
                 LOGGER.info("order ID: {}", orderID);
                 LOGGER.info("orderStatus: {}", status);
-                
 
                 ordersForStatusChange.add(new Order.Builder().id(orderID).orderStatus(status).build());
             }
@@ -299,31 +296,32 @@ public class AdminController
 
         return orderService.rejectOrder(orderID);
     }
-    
+
     @RequestMapping(value = "/orders/unfulfilled", method = RequestMethod.GET)
-    public ResponseEntity<Map<String,List<Order>>> getFutureOrders()
+    public ResponseEntity<Map<String, List<Order>>> getFutureOrders()
     {
         LOGGER.info("made it to future orders");
-        Map<String,List<Order>> response = new HashMap<>();
+        Map<String, List<Order>> response = new HashMap<>();
         List<Order> orderList = new ArrayList<>();
-        
-        LocalDate today = LocalDate.now();   
-        LOGGER.info("Today: {}",today);
-        
+
+        LocalDate today = LocalDate.now();
+        LOGGER.info("Today: {}", today);
+
         orderList = orderService.readFutureApprovedOrders(today);
-        
+
         LOGGER.info(orderList.size());
-        
-        if(orderList.size() == 0)
+
+        if (orderList.size() == 0)
             response.put("error", orderList);
         else
             response.put("success", orderList);
-        
+
         return ResponseEntity.ok().header("Admin Orders", "Unfulfilled Orders").body(response);
     }
-    
+
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, List<Product>>> searchKeywordType(@PathVariable String adminID,HttpServletRequest request)
+    public ResponseEntity<Map<String, List<Product>>> searchKeywordType(@PathVariable String adminID,
+            HttpServletRequest request)
     {
         Map<String, List<Product>> response = new HashMap<>();
 
@@ -372,55 +370,59 @@ public class AdminController
 
         return ResponseEntity.ok().header("Products", "Search By Keyword").body(response);
     }
-    
+
     @RequestMapping(value = "/inventory/sales", method = RequestMethod.GET)
     public ResponseEntity<Map<String, List<TypeSalesData>>> getAllDailySales()
     {
         Map<String, List<TypeSalesData>> response = new HashMap<>();
-        
+
         List<TypeSalesData> salesData = salesService.readAllSales();
-        
-        if(!salesData.isEmpty())
+
+        if (!salesData.isEmpty())
             response.put("success", salesData);
         else
             response.put("error", new ArrayList<>());
-        
+
         return ResponseEntity.ok().body(response);
     }
-    
+
     @RequestMapping(value = "/inventory", method = RequestMethod.POST)
     public Boolean addStock(@RequestBody List<Map<Integer, Integer>> body)
     {
         Map<Integer, Integer> productStockOrders = new HashMap<>();
-        
-        LOGGER.info("We made it to add Inv: {}",body);
-        
-        if(body.isEmpty())
+
+        LOGGER.info("We made it to add Inv: {}", body);
+
+        if (body.isEmpty())
             return false;
-        
-        for(Map<Integer, Integer> p : body)
+
+        for (Map<Integer, Integer> p : body)
         {
-            for(Entry<Integer, Integer> e : p.entrySet())
+            for (Entry<Integer, Integer> e : p.entrySet())
             {
                 productStockOrders.put(e.getKey(), e.getValue());
-                
+
             }
         }
-        
-        if(!productService.addStock(productStockOrders).isEmpty())
+
+        if (!productService.addStock(productStockOrders).isEmpty())
             return true;
         return false;
     }
-    
+
     @RequestMapping(value = "/TopSellers", method = RequestMethod.GET)
     public ResponseEntity<Map<String, List<TypeSalesData>>> getTopSellers()
     {
         Map<String, List<TypeSalesData>> response = new HashMap<>();
-        
-        response.put("test", salesService.readTopSellersForLast30Days(5));
-        
+
+        List<TypeSalesData> topSellers = salesService.readTopSellersForLast30Days(50);
+
+        if (!topSellers.isEmpty())
+            response.put("success", topSellers);
+        else
+            response.put("error", new ArrayList<>());
+
         return ResponseEntity.ok().body(response);
     }
-    
 
 }
