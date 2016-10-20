@@ -291,21 +291,21 @@ public class SalesServiceImpl implements SalesService
     }
 
     @Override
-    public List<Sales> searchProduct(Integer productID)
+    public List<TypeSalesData> searchProduct(Integer productID)
     {
         if (productID == null)
             return new ArrayList<>();
 
-        return daoSales.readSalesForProduct(productID);
+        return this.createFormattedSalesData(daoSales.readSalesForProduct(productID));
     }
 
     @Override
-    public List<Sales> searchProduct(List<Integer> productIDs)
+    public List<TypeSalesData> searchProduct(List<Integer> productIDs)
     {
         if (productIDs.isEmpty())
             return new ArrayList<>();
 
-        return daoSales.readSalesForProduct(productIDs);
+        return this.createFormattedSalesData(daoSales.readSalesForProduct(productIDs));
 
     }
 

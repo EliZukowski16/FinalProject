@@ -175,16 +175,26 @@ public class ProductServiceImpl implements ProductService
     @Transactional
     public List<Product> addStock(Map<Integer, Integer> productStockOrders)
     {
+        List<Integer> productIDs = productStockOrders.entrySet().stream().map(p -> p.getKey()).collect(Collectors.toList());
+        
+        LOGGER.info("Product IDs {}", productIDs);
+        
         List<Product> productsToBeUpdated = daoProd
-                .readByIds(productStockOrders.entrySet().stream().map(p -> p.getKey()).collect(Collectors.toList()));
+                .readByIds(productIDs);
+        
+        LOGGER.info(productsToBeUpdated);
         List<Product> products = new ArrayList<>();
 
         for (Product p : productsToBeUpdated)
         {
-            Integer updatedStock = p.getInventory() + productStockOrders.get(p);
+            Integer updatedStock = p.getInventory() + productStockOrders.get(p.getId());
+            Product productToUpdate = p.of().inventory(updatedStock).build();
             Product updatedProduct;
+            
+            LOGGER.info(productToUpdate.getId());
+            LOGGER.info(productToUpdate.getInventory());
 
-            if ((updatedProduct = daoProd.update(p.of().inventory(updatedStock).build())) == null)
+            if ((updatedProduct = daoProd.update(productToUpdate)) == null)
                 throw new RuntimeException("Could not set product " + p.getId() + " inventory to " + updatedStock);
 
             products.add(updatedProduct);

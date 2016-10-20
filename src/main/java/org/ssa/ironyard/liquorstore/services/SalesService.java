@@ -24,8 +24,8 @@ public interface SalesService
     List<TypeSalesData> readAllSales();
 //    Map<Product, Map<Integer, Sales>> createWeeklySalesMap(List<SalesDaily> dailySales);
 //    Map<Product, Map<Integer, Sales>> createMonthlySalesMap(List<SalesDaily> dailySales);
-    List<Sales> searchProduct(Integer productID);
-    List<Sales> searchProduct(List<Integer> productIDs);
+    List<TypeSalesData> searchProduct(Integer productID);
+    List<TypeSalesData> searchProduct(List<Integer> productIDs);
     List<TypeSalesData> readSalesForYesterday();
     List<TypeSalesData> readSalesForYesterday(Integer productID);
     List<TypeSalesData> readSalesForYesterday(List<Integer> productIDs);
