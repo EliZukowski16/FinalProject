@@ -103,7 +103,7 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
     @Override
     public String prepareReadAll()
     {
-        String readAll = this.buildEager() + " FROM " + this.table();
+        String readAll = this.buildEager();
 
         return readAll;
     }
@@ -171,7 +171,7 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
                 + this.getFields().get(3) + " > DATE_SUB(NOW(), INTERVAL ? DAY) " + " GROUP BY " + this.table() + "."
                 + this.getFields().get(0) + " ORDER BY totalSales " + " LIMIT ? ";
         
-        String topSellers = buildEager();
+        String topSellers = buildEager() + "WHERE ";
 
         return topSellers;
     }
