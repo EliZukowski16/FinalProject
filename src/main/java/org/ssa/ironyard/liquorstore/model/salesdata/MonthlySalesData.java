@@ -1,24 +1,23 @@
 package org.ssa.ironyard.liquorstore.model.salesdata;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
-public class SalesData
+public class MonthlySalesData
 {
-    private final LocalDate date;
+    private final Integer month;
     private final Integer numberSold;
     private final BigDecimal totalValue;
 
-    public SalesData(LocalDate date, Integer numberSold, BigDecimal totalValue)
+    public MonthlySalesData(Integer month, Integer numberSold, BigDecimal totalValue)
     {
-        this.date = date;
+        this.month = month;
         this.numberSold = numberSold;
         this.totalValue = totalValue;
     }
 
-    public LocalDate getDate()
+    public Integer getMonth()
     {
-        return date;
+        return month;
     }
 
     public Integer getNumberSold()
@@ -30,5 +29,4 @@ public class SalesData
     {
         return totalValue;
     }
-
 }
