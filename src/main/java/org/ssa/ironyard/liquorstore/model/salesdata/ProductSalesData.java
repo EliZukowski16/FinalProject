@@ -79,7 +79,7 @@ public class ProductSalesData
         return weeklySalesData;
     }
 
-    public List<MonthlySalesData> getProductMonthlySales()
+    public List<MonthlySalesData> getMonthlySalesData()
     {
         return monthlySalesData;
     }
