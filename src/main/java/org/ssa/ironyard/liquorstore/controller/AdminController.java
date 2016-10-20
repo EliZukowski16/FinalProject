@@ -184,6 +184,8 @@ public class AdminController
         
         return ResponseEntity.ok().body(response);
     }
+    
+    
 
     @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -382,6 +384,37 @@ public class AdminController
             response.put("success", salesData);
         else
             response.put("error", new ArrayList<>());
+        
+        return ResponseEntity.ok().body(response);
+    }
+    
+    @RequestMapping(value = "/inventory", method = RequestMethod.POST)
+    public Boolean addStock(@RequestBody List<Map<Integer, Integer>> body)
+    {
+        Map<Integer, Integer> productStockOrders = new HashMap<>();
+        
+        if(body.isEmpty())
+            return false;
+        
+        for(Map<Integer, Integer> p : body)
+        {
+            for(Entry<Integer, Integer> e : p.entrySet())
+            {
+                productStockOrders.put(e.getKey(), e.getValue());
+            }
+        }
+        
+        if(!productService.addStock(productStockOrders).isEmpty())
+            return true;
+        return false;
+    }
+    
+    @RequestMapping(value = "/TopSellers", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, List<TypeSalesData>>> getTopSellers()
+    {
+        Map<String, List<TypeSalesData>> response = new HashMap<>();
+        
+        response.put("test", salesService.readTopSellersForLast30Days(5));
         
         return ResponseEntity.ok().body(response);
     }
