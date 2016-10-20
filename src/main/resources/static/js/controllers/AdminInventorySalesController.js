@@ -208,7 +208,8 @@ angular
 	    	console.log(ctrl.addInventory)
 	    	console.log(ctrl.addInventoryPop)
 	    	
-	    	console.log(ctrl.status)
+	    	console.log(location.pathname)
+
 			$http({
 	        	url: location.pathname +"/inventory",
 	        	method: 'POST',

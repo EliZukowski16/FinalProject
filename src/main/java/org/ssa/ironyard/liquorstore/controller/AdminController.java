@@ -393,6 +393,8 @@ public class AdminController
     {
         Map<Integer, Integer> productStockOrders = new HashMap<>();
         
+        LOGGER.info("We made it to add Inv: {}",body);
+        
         if(body.isEmpty())
             return false;
         
