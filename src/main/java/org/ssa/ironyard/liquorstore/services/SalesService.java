@@ -9,6 +9,7 @@ import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Sales;
 import org.ssa.ironyard.liquorstore.model.SalesDaily;
+import org.ssa.ironyard.liquorstore.model.salesdata.TypeSalesData;
 
 public interface SalesService
 {
@@ -19,10 +20,10 @@ public interface SalesService
     Sales addSale(Sales sales);
     List<Sales> aggregateDailySales();
     Sales readSale(Integer id);
-    Map<Product, Map<LocalDate, Sales>> createDailySalesMap(List<SalesDaily> dailySales);
-    List<SalesDaily> readAllSales();
-    Map<Product, Map<Integer, Sales>> createWeeklySalesMap(List<SalesDaily> dailySales);
-    Map<Product, Map<Integer, Sales>> createMonthlySalesMap(List<SalesDaily> dailySales);
+//    Map<Product, Map<LocalDate, Sales>> createDailySalesMap(List<SalesDaily> dailySales);
+    List<TypeSalesData> readAllSales();
+//    Map<Product, Map<Integer, Sales>> createWeeklySalesMap(List<SalesDaily> dailySales);
+//    Map<Product, Map<Integer, Sales>> createMonthlySalesMap(List<SalesDaily> dailySales);
     List<Sales> searchProduct(Integer productID);
     List<Sales> searchProduct(List<Integer> productIDs);
     List<Sales> readSalesForYesterday();

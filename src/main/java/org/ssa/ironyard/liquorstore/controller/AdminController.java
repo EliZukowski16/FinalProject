@@ -29,6 +29,7 @@ import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Sales;
 import org.ssa.ironyard.liquorstore.model.SalesDaily;
+import org.ssa.ironyard.liquorstore.model.salesdata.TypeSalesData;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
@@ -371,11 +372,18 @@ public class AdminController
     }
     
     @RequestMapping(value = "/inventory/sales", method = RequestMethod.GET)
-    public ResponseEntity<List<Sales>> getAllDailySales()
+    public ResponseEntity<Map<String, List<TypeSalesData>>> getAllDailySales()
     {
-
+        Map<String, List<TypeSalesData>> response = new HashMap<>();
         
-        return null;
+        List<TypeSalesData> salesData = salesService.readAllSales();
+        
+        if(!salesData.isEmpty())
+            response.put("success", salesData);
+        else
+            response.put("error", new ArrayList<>());
+        
+        return ResponseEntity.ok().body(response);
     }
     
 
