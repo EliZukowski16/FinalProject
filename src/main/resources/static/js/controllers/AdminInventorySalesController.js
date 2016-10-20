@@ -83,9 +83,32 @@ angular
 				method: 'GET',
 		}).then(function(response) {		
 		
-			//console.log(response)
+			console.log(response)
 			ctrl.sales= response.data.success;
-			//console.log(ctrl.sales);
+			console.log(ctrl.sales);
+			
+			for(let i = 0;i < ctrl.sales.length;i++)
+			{
+				var year1 = 0
+				console.log('i ' + i);
+				
+				for(let j = 0; j < ctrl.sales[i].monthlySalesData.length;j++)
+				{
+//					if(ctrl.sales[i].monthlySalesData[j].year)
+//					{
+						console.log('j ' +j);
+						year1 = year1 + ctrl.sales[i].monthlySalesData[j].totalValue
+					//}
+					
+				}
+				
+				
+				
+				
+				ctrl.sales[i].year1 = year1
+				console.log(ctrl.sales[i].year1)
+			}
+			
 			
   		
 		})

@@ -42,17 +42,18 @@
     </thead>
     <tbody>
     
-      <tr ng-repeat-start="salesD in AIS.salesStatsData">
+      <tr ng-repeat-start="sales in AIS.sales">
       	<td>
-              <button ng-if="salesD.expanded" ng-click="salesD.expanded = false">-</button>
-              <button ng-if="!salesD.expanded" ng-click="salesD.expanded = true">+</button>
+              <button ng-if="sales.expanded" ng-click="sales.expanded = false">-</button>
+              <button ng-if="!sales.expanded" ng-click="sales.expanded = true">+</button>
     	</td>
-    	<td>{{salesD.yesterday | currency}}</td>
-        <td>{{ salesD.week | currency}}</td>
-        <td>{{ salesD.month | currency}}</td>
-        <td>{{ salesD.year | currency}}</td>
+    	<td>{{sales.type}}</td>
+    	<td>{{sales.dailySalesData[0].totalValue | currency}}</td>
+        <td>{{ sales.weeklySalesData[0].totalValue | currency}}</td>
+        <td>{{ sales.monthlySalesData[0].totalValue | currency}}</td>
+        <td>{{ sales.year1 | currency}}</td>
       </tr>
-      <tr ng-if="type.expanded" ng-repeat-end="">
+      <tr ng-if="sales.expanded" ng-repeat-end="">
       	<td colspan="6">
       	<div class="coreProductDetail">
       	<h4 >Core Products</h4>
@@ -72,18 +73,18 @@
     			</thead>
     			<tbody>
     			
-               	 <tr ng-repeat-start="coreProduct in type.coreProducts" height=30px>
+               	 <tr ng-repeat-start="coreProductSales in sales.coreProductSales" height=30px>
                	 <td>
-              		<button ng-if="coreProduct.expanded" ng-click="coreProduct.expanded = false">-</button>
-              		<button ng-if="!coreProduct.expanded" ng-click="coreProduct.expanded = true;AIS.hideCPD()">+</button>
+              		<button ng-if="coreProductSales.expanded" ng-click="coreProductSales.expanded = false">-</button>
+              		<button ng-if="!coreProductSales.expanded" ng-click="coreProductSales.expanded = true;AIS.hideCPD()">+</button>
     			</td>
-    			 <td>{{coreProduct.cp}}</td>
-             	 <td>{{coreProduct.ystSales | currency}}</td>
-             	 <td>{{coreProduct.weekSales | currency}}</td>
-             	 <td>{{coreProduct.monthSales | currency}}</td>
+    			 <td>{{coreProductSales.coreProduct.name}}</td>
+             	 <td>{{coreProductSales.dailySalesData[0].totalValue | currency}}</td>
+             	 <td>{{coreProductSales.weeklySalesData[0].totalValue | currency}}</td>
+             	 <td>{{coreProductSales.monthlySalesData[0].totalValue | currency}}</td>
              	 <td>{{coreProduct.yearSales | currency}}</td>
             	</tr>
-            		<tr ng-if="coreProduct.expanded" ng-repeat-end="">
+            		<tr ng-if="coreProductSales.expanded" ng-repeat-end="">
       				<td colspan="6">
       				<div class="productDetail">
       				<h4 >Product</h4>
@@ -93,7 +94,7 @@
                 	<thead>
       				<tr>
       					<td style="width: 30px;"></td> 
-      					<th>Name</th>
+      					<th>Product</th>
         				<th>Yesterday</th>
         				<th>Last 7 Days</th>
         				<th>Last 30 Days</th>
@@ -102,15 +103,15 @@
     				</thead>
     				<tbody>
     			
-               	 	<tr ng-repeat-start="product in coreProduct.products" height=30px>
+               	 	<tr ng-repeat-start="product in coreProductSales.productSales" height=30px>
                	 		<td>
               				<button ng-if="product.expanded" ng-click="product.expanded = false">-</button>
               				<button ng-if="!product.expanded" ng-click="product.expanded = true;AIS.hidePD()">+</button>
     					</td>
-    					<td>{{product.product}}</td>
-             	 		<td>{{product.ystSales | currency}}</td>
-             		 	<td>{{product.weekSales | currency}}</td>
-             	 		<td>{{product.monthSales | currency}}</td>
+    					<td>{{product.product.baseUnit}}, {{product.product.quantity}} pack</td>
+             	 		<td>{{product.dailySalesData[0].totalValue | currency}}</td>
+             		 	<td>{{product.weeklySalesData[0].totalValue | currency}}</td>
+             	 		<td>{{product.monthlySalesData[0].totalValue | currency}}</td>
              	 		<td>{{product.yearSales | currency}}</td>
             		</tr>
             		
