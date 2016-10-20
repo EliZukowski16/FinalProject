@@ -29,6 +29,7 @@ return {
 	
 	//Submit search to controller
 	search : function (key){
+
 		
 		console.log(service.selection)
 		
@@ -39,6 +40,7 @@ return {
 		
 		console.log(service.selection)
 		
+
 		var queryParams = {
 				keywords: key,
 				types: service.selection
@@ -76,6 +78,10 @@ return {
 	    },
 	    
 	
+<<<<<<< HEAD
+		
+=======
+>>>>>>> 91d9518d8f458a7ec12d6b7ad3f3dd3906d79ecf
 	
 		getSelection: service.selection,
 	

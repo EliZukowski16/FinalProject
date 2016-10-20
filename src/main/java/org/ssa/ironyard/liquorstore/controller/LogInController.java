@@ -30,11 +30,13 @@ public class LogInController
     static Logger LOGGER = LogManager.getLogger(LogInController.class);
     
     @RequestMapping("/TheBeerGuys")
-    public View home()
+    public View home(HttpSession session)
     {
         LOGGER.info("we made it home");
+        session.invalidate();
         return new InternalResourceView("index.html");
     }
+    
     
     @RequestMapping(value = "/TheBeerGuys/login", method = RequestMethod.POST)
     public ResponseEntity<Map<String,User>> Authenticate(HttpServletRequest request, HttpSession session)

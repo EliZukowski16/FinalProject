@@ -12,8 +12,8 @@
 <div class="container col-md-2" id="quickLinks">
   <h3>Quick Links</h3>
   <ul class="nav nav-pills nav-stacked" id="links">
-    <li class="active"><a href="">Add Order</a></li>
     <li><a href="#">Home</a></li>
+    <li class="active"><a href="">Add Order</a></li>
     <li><a href="#orders">My Orders</a></li>
   </ul>
 </div>
@@ -23,7 +23,7 @@
 
 <form class="navbar-form"role="search" id="searchBar">
 	<div class="input-group add-on col-md-3">
-		<input class="form-control " placeholder="Search by keyword..."	name="srch-term" id="srch-term" type="text" ng-model="PC.keyword">
+		<input class="form-control " placeholder="Search by keyword..."	name="srch-term" id="srch-term" type="text" ng-model="PC.keyword" autofocus>
 		<div class="input-group-btn">
 			<button class="btn btn-default" type="button" id="search" ng-click = "PC.search()">
 			<i class="glyphicon glyphicon-search"></i>
@@ -36,15 +36,24 @@
   <input type="checkbox" name="selectedTypes[]" value="{{ type }}" 
   ng-checked="PC.selection.indexOf(type)>-1"  ng-click="PC.toggleSelection(type)" /> {{ type }}
 </label> 
- 
- 
 
 </form><br>
 
 
 <!-- Product list -->
 
-<div id="products" class="row list-group" ng-repeat="product in PC.searchResults">
+<div style="padding-bottom:20px">
+  <select ng-model="PC.orderList">
+    <option value = "">Select Order By</option>
+    <option value="coreProduct.name">Name (A-Z)</option>
+    <option value="-coreProduct.name">Name (Z-A)</option>
+    <option value="price">Price (lowest to highest)</option>
+    <option value="-price">Price (highest to lowest)</option>
+  </select><br>
+</div>
+
+
+<div id="products" class="row list-group" ng-repeat="product in PC.searchResults | orderBy: PC.orderList">
 	<div class="item" >
 	
 		<div class="thumbnail" id="add"  ng-class="{'active': PC.active==true}">

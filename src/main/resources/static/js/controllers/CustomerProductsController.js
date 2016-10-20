@@ -11,6 +11,7 @@ angular
 	ctrl.types = ['Beer', 'Wine', 'Spirits'];
     ctrl.orderDetails = [];
     ctrl.orderResponse = [];
+    ctrl.orderList = "";
     
     ctrl.month = "";
     ctrl.day = "";
@@ -20,6 +21,7 @@ angular
     ctrl.keyword = "";
     ctrl.selection = CartService.getSelection;
     ctrl.cart = CartService.getCart;
+    
     
     //Checkbox search
     ctrl.toggleSelection = function(type){
@@ -171,6 +173,9 @@ angular
     	$state.go("customerOrders");
     	$(".modal-backdrop").hide();
     };
+    
+    
+    
     
     
     
