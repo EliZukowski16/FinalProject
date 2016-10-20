@@ -13,11 +13,15 @@
 <div class="container col-md-2" id="quickLinks">
   <h3>Quick Links</h3>
   <ul class="nav nav-pills nav-stacked" id="links">
-  	<li class="active"><a href="">Home</a></li>
-    <li><a href="#products">Add Order</a></li>
-    <li><a href="#orders">My Orders</a></li>
+  	<li><a ui-sref="adminHome">Home</a></li>
+    <li><a ui-sref="adminOrder">Unfulfilled Orders</a></li>
+    <li class="active"><a ui-sref="adminInventorySales">Sales/Inventory Statistics</a></li>
+    <ul style="list-style:none">
+    <li><a ng-click='AIS.showSales()'>Sales Statistics</a></li>
     <li><a ng-click='AIS.showInventory()'>Low Inventory</a></li>
-    <li><a ng-click='AIS.showSearch()'>Search Products</a></li>
+    <li><a ng-click='AIS.showSearch()'>Product Sales Search</a></li>
+    </ul>
+    
   </ul>
 </div>
 
@@ -157,7 +161,7 @@
               <button ng-if="!product.expanded" ng-click="product.expanded = true">+</button>
     	</td>
     	<td><img src = "/pictures/products/{{product.coreProduct.thumbnail}}/images/thumb.png.png" height="100 px" width = "45px"></td>
-        <td>{{ product.coreProduct.name }}</td>
+        <td><Strong>{{ product.coreProduct.name }}</Strong> <br> {{ product.baseUnit }}, {{ product.quantity }} Pack</td>
         <td>{{ product.coreProduct.type }}  {{ product.coreProduct.subType }}</td>
         <td>{{ product.price }}</td>
        	<td>{{ product.inventory }}</td>
@@ -241,7 +245,8 @@
               		<button ng-if="product.expanded" ng-click="product.expanded = false">-</button>
               		<button ng-if="!product.expanded" ng-click="product.expanded = true">+</button>
     			</td>
-    			<td>{{product.coreProduct.name}}</td>
+    			<td><img src = "/pictures/products/{{product.coreProduct.thumbnail}}/images/thumb.png.png" height="100 px" width = "45px"></td>
+        		<td><Strong>{{ product.coreProduct.name }}</Strong> <br> {{ product.baseUnit }}, {{ product.quantity }} Pack</td>
         		<td>{{ product.ystSales | currency}}</td>
         		<td>{{ product.weekSales | currency}}</td>
         		<td>{{ product.monthSales | currency}}</td>

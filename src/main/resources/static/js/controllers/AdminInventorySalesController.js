@@ -100,6 +100,13 @@ angular
 			$('.productDetail').hide()
 		}
 		
+		ctrl.showSales = function()
+		{
+			$('.fullTableContainer').show();
+			$('.searchProductContainer').hide();
+			$('.lowInventoryContainer').hide();
+		}
+		
 		ctrl.lowInv = [];
 		
 		ctrl.showInventory = function()

@@ -29,11 +29,22 @@ return {
 	
 	//Submit search to controller
 	search : function (key){
-	
+		
+		console.log(service.selection)
+		
+		if(service.selection.length == 0)
+		{
+			service.selection = ["BEER","WINE","SPIRITS"]
+		}
+		
+		console.log(service.selection)
+		
 		var queryParams = {
 				keywords: key,
 				types: service.selection
 		}
+		
+		
 
 		$http({
 			url: location.pathname + "/search",
