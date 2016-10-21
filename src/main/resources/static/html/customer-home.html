@@ -1,9 +1,9 @@
-<h1 style="text-align:center">Welcome!</h1>
+<h1 style="text-align:center; color:white">Welcome!</h1>
 
 <!-- Quick links -->
 
 <div class="container col-md-2" id="quickLinksHome" style="width:15%; margin-top:1%">
-  <h3>Quick Links</h3>
+  <h3 style="color:white">Quick Links</h3>
   <ul class="nav nav-pills nav-stacked" id="links">
   	<li class="active"><a href="">Home</a></li>
     <li><a href="#products">Add Order</a></li>
@@ -15,8 +15,7 @@
 <!-- Top Sellers -->
 <div>
 
-
- <h3 >Top Beers</h3>
+ <h3 style="color:white"><strong>Top Beers</strong></h3>
 <div style="width:12%; margin-left:5%; display:inline-block" class="row list-group" ng-repeat="beers in HC.beers">
 	<div class="item">
 		<div class="thumbnail">
@@ -33,7 +32,7 @@
 	</div>
 
 <div style="margin-left: 17%">
-<h3 >Top Wines</h3>
+<h3 style="color:white"><strong>Top Wines</strong></h3>
 <div style="width:15%; margin-left:5%; display:inline-block" class="row list-group" ng-repeat="wines in HC.wines">
 	<div class="item">
 		<div class="thumbnail">
@@ -41,7 +40,7 @@
 			<img class="group list-group-image"	src="/pictures/products/{{wines.coreProduct.thumbnail}}/images/thumb.png.png" />
 
 			<div class="caption">
-				<h4 id="prodName" class="group inner list-group-item-heading"> {{wines.coreProduct.name}} </h4>
+				<h4 id="prodName" class="group inner list-group-item-heading">{{wines.coreProduct.name}} </h4>
 				<h5 class="group inner list-group-item-text">{{ wines.price | currency }}</h5>
 				</div>
 				<div class="row"></div>
@@ -51,7 +50,7 @@
 	</div>
 	
 <div style="margin-left: 17%">	
-<h3 >Top Spirits</h3>
+<h3 style="color:white"><strong>Top Spirits</strong></h3>
 <div style="width:15%; margin-left:5%; display:inline-block" class="row list-group" ng-repeat="spirits in HC.spirits">
 	<div class="item">
 		<div class="thumbnail">
