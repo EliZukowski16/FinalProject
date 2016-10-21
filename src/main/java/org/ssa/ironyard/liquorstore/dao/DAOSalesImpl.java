@@ -21,7 +21,7 @@ public class DAOSalesImpl extends AbstractDAOSales implements DAOSales
 {
 
     @Autowired
-    protected DAOSalesImpl(DataSource dataSource)
+    public DAOSalesImpl(DataSource dataSource)
     {
         super(new ORMSalesImpl(), dataSource);
     }
