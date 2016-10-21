@@ -193,7 +193,7 @@ angular
 		
 			console.log(response)
 			ctrl.lowInv= response.data.success;
-			console.log(ctrl.lowInv);
+		
   		
 		})
 		}
@@ -213,7 +213,7 @@ angular
 		
 		
 		ctrl.active = false;
-		ctrl.types = ['Beer', 'Wine', 'Spirits'];
+		ctrl.types = ['Beer', 'Wine', 'Spirits',"Ciders","Accessories","Non_Alcoholic"];
 	    ctrl.orderDetails = [];
 	    ctrl.orderResponse = [];
 	    
