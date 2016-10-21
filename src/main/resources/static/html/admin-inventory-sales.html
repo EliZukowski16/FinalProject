@@ -37,17 +37,17 @@
     <thead>
       <tr>
       	<td style="width: 30px;"></td>
-      	<th style="width: 250px">Type</th>
-        <th style="width: 200px">Yesterday's (Sales/Count)</th>
-        <th style="width: 200px">Last 7 Day's (Sales/Count)</th>
-        <th style="width: 200px">Last 30 Day's (Sales/Count)</th>
-        <th style="width: 200px">Last Year's (Sales/Count)</th>
+      	<th style="width: 250px"><a href="" ng-click="AIS.sortType = 'type'; AIS.sortReverse = AIS.sortReverse">Type</a></th>
+        <th style="width: 200px"><a href="" ng-click="AIS.sortType = 'yesterdayTotalValue'; AIS.sortReverse = !AIS.sortReverse">Yesterday's (Sales/Count)</a></th>
+        <th style="width: 200px"><a href="" ng-click="AIS.sortType = 'lastWeekTotalValue'; AIS.sortReverse = !AIS.sortReverse">Last 7 Day's (Sales/Count)</a></th>
+        <th style="width: 200px"><a href="" ng-click="AIS.sortType = 'lastMonthTotalValue'; AIS.sortReverse = !AIS.sortReverse">Last 30 Day's (Sales/Count)</a></th>
+        <th style="width: 200px"><a href="" ng-click="AIS.sortType = 'lastYearTotalValue'; AIS.sortReverse = !AIS.sortReverse">Last Year's (Sales/Count)</a></th>
         
       </tr>
     </thead>
     <tbody>
     
-      <tr ng-repeat-start="sales in AIS.sales">
+      <tr ng-repeat-start="sales in AIS.sales | orderBy:AIS.sortType:AIS.sortReverse">
       	<td>
               <button id="maxBut" ng-if="sales.expanded" ng-click="sales.expanded = false">-</button>
               <button id="maxBut" ng-if="!sales.expanded" ng-click="sales.expanded = true">+</button>
@@ -183,8 +183,8 @@
        	<td>#<input id="{{product.product.id}}" type="number" style="width:75px"></td>
       </tr>
       <tr ng-if="product.expanded" ng-repeat-end="">
-      	<td colspan="6"><h4 >Product Sales Details</h4>
-        	<div style="display:inline-block">
+      	<td colspan="6" ><h4 >Product Sales Details</h4>
+        	<div>
         		<span>Yesterday <br> Sales: {{product.yesterdayTotalValue}} <br> Total Sold: {{product.yesterdayNumberSold}} </span>
         		<span>Last 7 Day's <br> Sales: {{product.lastWeekTotalValue}} <br> Total Sold: {{product.lastWeekNumberSold}} </span>
         		<span>Last 30 Day's <br> Sales: {{product.lastMonthTotalValue}} <br> Total Sold: {{product.lastMontNumberSold}} </span>
@@ -311,8 +311,6 @@
 <!-- 	<canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options"  -->
 <!-- 	chart-dataset-override="datasetOverride" chart-click="onClick"></canvas> -->
 	
-	hello
-	{{product.product.coreProduct.name}}
 	</div>
 	
 

@@ -71,6 +71,9 @@ function InvSalesCtrl($http, CartService) {
 
 	ctrl.sales = [];
 	ctrl.salesStatsData = [];
+	
+	ctrl.sortType = '';
+    ctrl.sortReverse = false;
 
 	ctrl.getSales = function() {
 		$('.lowInventoryContainer').hide();
