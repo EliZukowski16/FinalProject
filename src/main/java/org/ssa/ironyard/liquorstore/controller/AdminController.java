@@ -193,7 +193,7 @@ public class AdminController
             for(ProductSalesData s : salesData)
             {
                 if(s.getProduct().equals(p))
-                    productMap.put(p, s);
+                    productMap.put(p, new ProductSalesData(p, s.getRawSales()));
             }
         }
 

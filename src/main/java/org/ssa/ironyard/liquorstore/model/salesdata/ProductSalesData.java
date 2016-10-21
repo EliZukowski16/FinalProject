@@ -21,6 +21,8 @@ public class ProductSalesData
     private final List<DailySalesData> dailySalesData;
     private final List<WeeklySalesData> weeklySalesData;
     private final List<MonthlySalesData> monthlySalesData;
+    
+    private final List<Sales> sales;
 
     public ProductSalesData(Product product, List<Sales> sales)
     {
@@ -65,6 +67,8 @@ public class ProductSalesData
         dailySalesData.sort((s1,s2) -> s2.getDate().compareTo(s1.getDate()));
         weeklySalesData.sort((s1,s2) -> s2.getWeek().compareTo(s1.getWeek()));
         monthlySalesData.sort((s1,s2) -> s2.getMonth().compareTo(s1.getMonth()));
+        
+        this.sales = sales;
 
     }
 
@@ -86,6 +90,11 @@ public class ProductSalesData
     public List<MonthlySalesData> getMonthlySalesData()
     {
         return monthlySalesData;
+    }
+    
+    public List<Sales> getRawSales()
+    {
+        return sales;
     }
 
 
