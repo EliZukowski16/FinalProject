@@ -22,7 +22,7 @@
 <!-- Search features -->
 
 <form class="navbar-form"role="search" id="searchBar">
-	<div class="input-group add-on col-md-3">
+	<div class="input-group add-on col-md-2">
 		<input class="form-control " placeholder="Search by keyword..."	name="srch-term" id="srch-term" type="text" ng-model="PC.keyword" autofocus>
 		<div class="input-group-btn">
 			<button class="btn btn-default" type="button" id="search" ng-click = "PC.search()">
@@ -42,16 +42,18 @@
 
 <!-- Product list -->
 
-<div style="padding-bottom:20px">
-  <select ng-model="PC.orderList">
-    <option value = "">Select Order By</option>
-    <option value="coreProduct.name">Name (A-Z)</option>
-    <option value="-coreProduct.name">Name (Z-A)</option>
-    <option value="price">Price (lowest to highest)</option>
-    <option value="-price">Price (highest to lowest)</option>
-  </select><br>
-</div>
 
+  <form>
+    <div class="form-group" style="width:15%; margin-left:15%">
+      <select class="form-control" id="sel1" ng-model="PC.orderList">
+    	<option value = "">Select Order By</option>
+    	<option value="coreProduct.name">Name (A-Z)</option>
+    	<option value="-coreProduct.name">Name (Z-A)</option>
+    	<option value="price">Price (lowest to highest)</option>
+    	<option value="-price">Price (highest to lowest)</option>
+      </select>
+    </div>
+  </form>
 
 <div id="products" class="row list-group" ng-repeat="product in PC.searchResults | orderBy: PC.orderList">
 	<div class="item" >
