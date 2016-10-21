@@ -198,7 +198,7 @@ angular
 		})
 		}
 		
-		ctrl.types = ['Beer', 'Wine', 'Spirits'];
+		
 		ctrl.selection = CartService.getSelection;
 		ctrl.keyword = CartService.getKeyword;
 		
