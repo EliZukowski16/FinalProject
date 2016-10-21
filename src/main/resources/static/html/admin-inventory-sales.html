@@ -1,31 +1,13 @@
 
-<link rel="stylesheet" type="text/css" href="/html/style.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
-
-<!-- Quick links -->
-
-<div class="container" id="quickLinks" style="float:left; width:15%">
-  <h3>Quick Links</h3>
-  <ul class="nav nav-pills nav-stacked" id="links">
-  	<li class="active"><a href="">Sales Stats/Inventory</a></li>
-    <li><a href="#">Home</a></li>
-    <li><a href="#adminOrders">Unfulfilled Orders</a></li>
-  </ul>
-</div>
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/html/style.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
 <!-- <script src="/vendors/angular.min.js"></script>
 <script src="/vendors/angular-ui-router.min.js"></script> -->
-   
-    
-<h1 style="text-align:center">Welcome!</h1>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+
 
 <!-- Quick links -->
 
@@ -46,16 +28,17 @@
 
 
 <div class="fullTableContainer" style="width:75%; display:inline-block; float:left; top:22%">
-  <h2>Orders Pending Approval</h2><br>
+  <h2>Sales Statistics</h2><br>
   <table class="table table-striped table-bordered">
+  	<span class="typeDiv">
     <thead>
       <tr>
       	<td style="width: 30px;"></td>
-      	<th>Type</th>
-        <th>Yesterday's</th>
-        <th>Last 7 Day's</th>
-        <th>Last 30 Day's</th>
-        <th>Last Year's</th>
+      	<th style="width: 250px">Type</th>
+        <th style="width: 200px">Yesterday's (Sales/Count)</th>
+        <th style="width: 200px">Last 7 Day's (Sales/Count)</th>
+        <th style="width: 200px">Last 30 Day's (Sales/Count)</th>
+        <th style="width: 200px">Last Year's (Sales/Count)</th>
         
       </tr>
     </thead>
@@ -66,28 +49,29 @@
               <button ng-if="sales.expanded" ng-click="sales.expanded = false">-</button>
               <button ng-if="!sales.expanded" ng-click="sales.expanded = true">+</button>
     	</td>
-    	<td>{{sales.type}}</td>
-    	<td>{{sales.dailySalesData[0].totalValue | currency}}</td>
-        <td>{{ sales.weeklySalesData[0].totalValue | currency}}</td>
-        <td>{{ sales.monthlySalesData[0].totalValue | currency}}</td>
-        <td>{{ sales.year1 | currency}}</td>
+    	<td><Strong>{{sales.type}}</Strong></td>
+    	<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{sales.dailySalesData[0].totalValue | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.dailySalesData[0].numberSold}}</td>
+        <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.weeklySalesData[0].totalValue | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.weeklySalesData[0].numberSold}}</td>
+        <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.monthlySalesData[0].totalValue | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.monthlySalesData[0].numberSold}}</td>
+        <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px">{{ sales.typeYear1 | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.typeCountSold}}</td>
       </tr>
+      </span>
       <tr ng-if="sales.expanded" ng-repeat-end="">
       	<td colspan="6">
-      	<div class="coreProductDetail">
-      	<h4 >Core Products</h4>
-      	<p> extra details</p>
+      	<div class="typeDetail">
+      		<span>Number Of Core Products:  {{sales.cpCount}}</span>
+      		
       	</div>
             
-            <table style="width:100%" class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered">
                 <thead>
       			<tr>
-      				<td style="width: 30px;"></td>
-      				<th>Name</th>
-        			<th>Yesterday</th>
-        			<th>Last 7 Days</th>
-        			<th>Last 30 Days</th>
-        			<th>Last Year</th>
+      				<td style="width: 25px;"></td>
+      				<th style="width: 250px">Core Products</th>
+        			<th style="width: 200px">Yesterday's (Sales/Count)</th>
+        			<th style="width: 200px">Last 7 Days (Sales/Count)</th>
+        			<th style="width: 200px">Last 30 Days (Sales/Count)</th>
+        			<th style="width: 200px">Last Year (Sales/Count)</th>
      			 </tr>
     			</thead>
     			<tbody>
@@ -98,26 +82,28 @@
               		<button ng-if="!coreProductSales.expanded" ng-click="coreProductSales.expanded = true;AIS.hideCPD()">+</button>
     			</td>
     			 <td>{{coreProductSales.coreProduct.name}}</td>
-             	 <td>{{coreProductSales.dailySalesData[0].totalValue | currency}}</td>
-             	 <td>{{coreProductSales.weeklySalesData[0].totalValue | currency}}</td>
-             	 <td>{{coreProductSales.monthlySalesData[0].totalValue | currency}}</td>
-             	 <td>{{coreProduct.yearSales | currency}}</td>
+             	 <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.dailySalesData[0].totalValue | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.dailySalesData[0].numberSold}}</span></td>
+             	 <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.weeklySalesData[0].totalValue | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;   <img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.weeklySalesData[0].numberSold}}</td>
+             	 <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.monthlySalesData[0].totalValue | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;   <img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.monthlySalesData[0].numberSold}}</td>
+             	 <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.cpYear1 | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;    <img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.cpCountSold}}</td>
             	</tr>
             		<tr ng-if="coreProductSales.expanded" ng-repeat-end="">
       				<td colspan="6">
-      				<div class="productDetail">
-      				<h4 >Product</h4>
+      				<div class="coreProductDetail" style="display:inline-block">
+      					<img src = "/pictures/products/{{coreProductSales.coreProduct.thumbnail}}/images/thumb.png.png" height="200 px" width = "90px">
+      					<span>{{coreProductSales.coreProduct.type}}  {{coreProductSales.coreProduct.subType}}</span>
+      					<span>Number Of Products: {{coreProductSales.pCount}}</span>
       				</div>
             
             		<table style="width:100%" class="table table-striped table-bordered">
                 	<thead>
       				<tr>
-      					<td style="width: 30px;"></td> 
-      					<th>Product</th>
-        				<th>Yesterday</th>
-        				<th>Last 7 Days</th>
-        				<th>Last 30 Days</th>
-        				<th>Last Year</th>
+      					<td style="width: 20px;"></td> 
+      					<th style="width: 250px">Product</th>
+        				<th style="width: 200px">Yesterday (Sales/Count)</th>
+        				<th style="width: 200px">Last 7 Days (Sales/Count)</th>
+        				<th style="width: 200px">Last 30 Days (Sales/Count)</th>
+        				<th style="width: 200px">Last Year (Sales/Count)</th>
      				 </tr>
     				</thead>
     				<tbody>
@@ -128,16 +114,17 @@
               				<button ng-if="!product.expanded" ng-click="product.expanded = true;AIS.hidePD()">+</button>
     					</td>
     					<td>{{product.product.baseUnit}}, {{product.product.quantity}} pack</td>
-             	 		<td>{{product.dailySalesData[0].totalValue | currency}}</td>
-             		 	<td>{{product.weeklySalesData[0].totalValue | currency}}</td>
-             	 		<td>{{product.monthlySalesData[0].totalValue | currency}}</td>
-             	 		<td>{{product.yearSales | currency}}</td>
+             	 		<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.dailySalesData[0].totalValue | currency}}   &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{product.dailySalesData[0].numberSold}}</td>
+             		 	<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.weeklySalesData[0].totalValue | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{product.weeklySalesData[0].numberSold}}</td>
+             	 		<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px">{{product.monthlySalesData[0].totalValue | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{product.monthlySalesData[0].numberSold}}</td>
+             	 		<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.pYear1 | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{product.pCountSold}}</td>
             		</tr>
             		
             		<tr ng-if="product.expanded" ng-repeat-end="">
       					<td colspan="6"><h4 >Details</h4>
-            
-            				Well this is fun
+            				<div>
+            					<span>Price: {{product.product.price}}  Inventory: {{product.product.inventory}}</span>
+            				</div>
       					</td>
       				</tr>
             	
@@ -161,13 +148,13 @@
 	
 		<h2>Top 50 Low Inventory</h2><br>
 		<button class="submitInventory btn btn-success btn-lg" ng-click="AIS.addInv()" data-toggle="modal" data-target="#myModal">Submit <br> Inventory</button>
-  <table class="table table-striped table-bordered">
-    <thead>
-      <tr>
-      	<td style="width: 30px;"></td>
-        <th></th>
-        <th>Name</th>
-        <th>Type/SubType</th>
+  		<table class="table table-striped table-bordered">
+    		<thead>
+      		<tr>
+      			<td style="width: 30px;"></td>
+        		<th></th>
+        		<th>Name</th>
+        		<th>Type/SubType</th>
         <th>Price</th>
         <th>Current Inventory(Including Pending)</th>
         <th>Order More Inventory
@@ -190,34 +177,13 @@
       </tr>
       <tr ng-if="product.expanded" ng-repeat-end="">
       	<td colspan="6"><h4 >Product Sales Details</h4>
+        	<div style="display:inline-block">
+        		<span>Yesterday <br> Sales: {{product.dailySalesData[0].totalValue}} <br> Total Sold: {{product.dailySalesData[0].numberSold}} </span>
+        		<span>Last 7 Day's <br> Sales: {{product.weeklySalesData[0].totalValue}} <br> Total Sold: {{product.weeklySalesData[0].numberSold}} </span>
+        		<span>Last 30 Day's <br> Sales: {{product.monthlySalesData[0].totalValue}} <br> Total Sold: {{product.monthlySalesData[0].numberSold}} </span>
+        		<span>Last Year <br> Sales: {{product.pYear1}} <br> Total Sold: {{product.pCountSold}} </span>
+        	</div>
             
-            <table style="width:75%" class="table table-striped table-bordered">
-                <thead>
-      			<tr>
-        			<th>Products Ordered</th>
-        			<th>Qty</th>
-        			<th>Unit Price</th>
-        			<th>Line Total</th>
-     			 </tr>
-    			</thead>
-    			<tbody>
-    			
-            
-            	<tr ng-repeat="detail in pending.oD" height=30px>
-             	 <td>{{detail.product.coreProduct.name}}</td>
-             	 <td>{{detail.qty}}</td>
-             	 <td>{{detail.unitPrice | currency}}</td>
-             	 <td>{{detail.unitPrice * detail.qty | currency}}</td>
-            	</tr>
-            	<tr style="border-top: solid 1px">
-            	<td><strong>Grand Total:</strong></td>
-            	<td></td>
-            	<td></td>
-            	<td>{{ pending.total | currency }}</td>
-            	</tr>
-    
-            	</tbody>          	
-          	</table>
       </td>
       </tr>
       </tbody>
@@ -252,13 +218,19 @@
 
       			</tr>
 
-			</div>
+			
 			</table>
+			</div>
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" ng-click="AIS.reload()">Close</button>
       
+		</div>
+		   </div>
+		  </div>
+		</div>
+	  </div>
 		</div>
 	
 	<div class="searchProductContainer" style="width:75%; display:inline-block; float:left; top:22%">
@@ -298,7 +270,7 @@
     		</thead>
     		<tbody>
     
-      		<tr ng-repeat-start="product in AIS.searchResults">
+      		<tr ng-repeat-start="product in AIS.searchResults.coreProductSales.productSales">
       			<td>
               		<button ng-if="product.expanded" ng-click="product.expanded = false">-</button>
               		<button ng-if="!product.expanded" ng-click="product.expanded = true">+</button>
@@ -311,7 +283,7 @@
         		<td>{{ product.yearSales | currency}}</td>
       		</tr>
       		<tr ng-if="product.expanded" ng-repeat-end="">
-      			<td colspan="6">
+      			<td colspan="6"></td>
       				<div class="coreProductDetail">
       				<h4 >Core Products</h4>
       				<p> extra details</p>
@@ -331,13 +303,14 @@
     				<tbody>
     			
                	 		<tr ng-repeat="product in AIS.searchResults" height=30px>
-    			 			<td>{{coreProduct.cp}}</td>
-             	 			<td>{{coreProduct.ystSales | currency}}</td>
-             	 			<td>{{coreProduct.weekSales | currency}}</td>
-             	 			<td>{{coreProduct.monthSales | currency}}</td>
-             	 			<td>{{coreProduct.yearSales | currency}}</td>
+    			 			<td>{{product.cp}}</td>
+             	 			<td>{{product.ystSales | currency}}</td>
+             	 			<td>{{product.weekSales | currency}}</td>
+             	 			<td>{{product.monthSales | currency}}</td>
+             	 			<td>{{product.yearSales | currency}}</td>
             			</tr>
             		</tbody>
             	</table>
 	</div>
->>>>>>> 91d9518d8f458a7ec12d6b7ad3f3dd3906d79ecf
+	
+

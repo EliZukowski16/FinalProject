@@ -168,7 +168,7 @@ public class AdminControllerTest
         EasyMock.expect(prodService.readProduct(prod.getId())).andReturn(prod);
         EasyMock.replay(prodService);
         
-        ResponseEntity<Map<String,Product>> customerMap = this.adminController.getProdcut(prod.getId().toString());
+        ResponseEntity<Map<String,Product>> customerMap = this.adminController.getProduct(prod.getId().toString());
         
         Product p = customerMap.getBody().get("success");
         

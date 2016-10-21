@@ -81,55 +81,91 @@ angular
 			$http({
 				url: location.pathname +"/inventory/sales",
 				method: 'GET',
-		}).then(function(response) {		
+			}).then(function(response) {		
 		
-			console.log(response)
-			ctrl.sales= response.data.success;
-			console.log(ctrl.sales);
+				console.log(response)
+				ctrl.sales= response.data.success;
+				console.log(ctrl.sales);
 			
-			for(let i = 0;i < ctrl.sales.length;i++)
-			{
-				var year1 = 0
-				console.log('i ' + i);
-				
-				for(let j = 0; j < ctrl.sales[i].monthlySalesData.length;j++)
-				{
-//					if(ctrl.sales[i].monthlySalesData[j].year)
-//					{
-						console.log('j ' +j);
-						year1 = year1 + ctrl.sales[i].monthlySalesData[j].totalValue
-					//}
-					
-				}
-				
-				
-				
-				
-				ctrl.sales[i].year1 = year1
-				console.log(ctrl.sales[i].year1)
-			}
-			
-			
-  		
-		})
+				ctrl.getYearSales();
+
+			})
 
 		};
 		
 		
-	
+		
 		ctrl.getSales();
 		
+		ctrl.getYearSales = function()//getting the first year sales
+		{
+			for(let i = 0;i < ctrl.sales.length;i++)
+			{
+				var typeYear1 = 0;
+				var cpYear1 = 0;
+				var pYear1 = 0;
+				
+				var typeCountSold = 0;
+				var cpCountSold = 0;
+				var pCountSold = 0;
+				
+				var cpCount = 0;
+				var pCount = 0;
+
+				for(let j = 0; j < ctrl.sales[i].monthlySalesData.length;j++)//type 1 year sales
+				{
+					//if(ctrl.sales[i].monthlySalesData[j].year)
+					//{
+						typeYear1 = typeYear1 + ctrl.sales[i].monthlySalesData[j].totalValue
+						typeCountSold = typeCountSold + ctrl.sales[i].monthlySalesData[j].numberSold;
+						
+						cpCount = ctrl.sales[i].coreProductSales.length;
+						ctrl.sales[i].cpCount = cpCount;
+					//}	
+				}
+				for(let k = 0; k < ctrl.sales[i].coreProductSales.length;k++)//core product 1 year sales
+				{
+					for(let s = 0; s < ctrl.sales[i].coreProductSales[k].monthlySalesData.length;s++)
+					{
+						cpYear1 = cpYear1 + ctrl.sales[i].coreProductSales[k].monthlySalesData[s].totalValue;
+						ctrl.sales[i].coreProductSales[k].cpYear1 = cpYear1;
+						cpCountSold = cpCountSold + ctrl.sales[i].coreProductSales[k].monthlySalesData[s].numberSold;
+						ctrl.sales[i].coreProductSales[k].cpCountSold = cpCountSold
+						
+						pCount = ctrl.sales[i].coreProductSales[k].productSales.length;
+						ctrl.sales[i].coreProductSales[k].pCount = pCount;
+					}
+					for(let q = 0;q <ctrl.sales[i].coreProductSales[k].productSales.length;q++)//product 1 year sales
+					{
+						for(let a = 0;a < ctrl.sales[i].coreProductSales[k].productSales[q].monthlySalesData.length;a++)
+						{
+							pYear1 = pYear1 + ctrl.sales[i].coreProductSales[k].productSales[q].monthlySalesData[a].totalValue;
+							ctrl.sales[i].coreProductSales[k].productSales[q].pYear1 = pYear1;
+							pCountSold = pCountSold + ctrl.sales[i].coreProductSales[k].productSales[q].monthlySalesData[a].numberSold;
+							ctrl.sales[i].coreProductSales[k].productSales[q].pCountSold = pCountSold;
+							
+							
+							
+							
+						}
+					}
+				}
+				ctrl.sales[i].typeYear1 = typeYear1;
+				ctrl.sales[i].typeCountSold = typeCountSold
+			}
+		}
 		
 		ctrl.hideCPD = function()
 		{
 			console.log("hiding CP")
-			$('.coreProductDetail').hide()
+			$('.typeDetail').hide()
+			$('.typeDiv').hide()
 		}
 		
 		ctrl.hidePD = function()
 		{
 			console.log("hiding P")
-			$('.productDetail').hide()
+			$('.coreProductproductDetail').hide()
 		}
 		
 		ctrl.showSales = function()
@@ -171,6 +207,8 @@ angular
 			$('.fullTableContainer').hide();
 			$('.lowInventoryContainer').hide();
 			$('.searchProductContainer').show();
+			
+			
 		}
 		
 		
@@ -193,6 +231,15 @@ angular
 	    //Submit search to controller
 	    ctrl.search = function(){
 	    	CartService.search(ctrl.keyword);
+	    	console.log('search Results' + ctrl.searchResults)
+	    	
+	    	for(let i = 0; i < ctrl.searchResults.length;i++)
+	    	{
+	    		var coreProductSales = ctrl.searchResults[i].coreProductSales
+	    		console.log('core Product Sales' + coreProductSales)
+	    		
+	    		
+	    	}
 	    
 	    }   
 	    

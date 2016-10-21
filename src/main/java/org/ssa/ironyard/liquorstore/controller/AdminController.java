@@ -171,23 +171,34 @@ public class AdminController
 
     @RequestMapping(value = "/inventory/lowInventory", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Map<String, List<Product>>> getLowInventory()
+    public ResponseEntity<Map<String, List<TypeSalesData>>> getLowInventory()
     {
+        
         List<Product> lowInventory = productService.readLowInventory();
+        
+        List<Integer> productListId = new ArrayList<>();
+        
+        for (int i = 0; i < lowInventory.size(); i++)
+        {
+            productListId.add(lowInventory.get(i).getId());
+        }
+        List<TypeSalesData> salesData = salesService.readSalesForLastYear(productListId);
+        
+        LOGGER.info("low Inventory sales data: {}", salesData);
 
-        Map<String, List<Product>> response = new HashMap<>();
+        Map<String, List<TypeSalesData>> response = new HashMap<>();
 
         if (lowInventory.isEmpty())
             response.put("error", new ArrayList<>());
         else
-            response.put("success", lowInventory);
+            response.put("success", salesData);
 
         return ResponseEntity.ok().body(response);
     }
 
     @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Map<String, Product>> getProdcut(@PathVariable String id)
+    public ResponseEntity<Map<String, Product>> getProduct(@PathVariable String id)
     {
         Map<String, Product> response = new HashMap<>();
         LOGGER.info("getting one product");
@@ -320,10 +331,10 @@ public class AdminController
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, List<Product>>> searchKeywordType(@PathVariable String adminID,
+    public ResponseEntity<Map<String, List<TypeSalesData>>> searchKeywordType(@PathVariable String adminID,
             HttpServletRequest request)
     {
-        Map<String, List<Product>> response = new HashMap<>();
+        Map<String, List<TypeSalesData>> response = new HashMap<>();
 
         LOGGER.info("Going to the search");
 
@@ -358,17 +369,30 @@ public class AdminController
         List<Product> products = productService.searchProduct(tags, types);
 
         LOGGER.info(products + "products");
+        
+        List<Integer> productListId = new ArrayList<>();
+        
+        for (int i = 0; i < products.size(); i++)
+        {
+            productListId.add(products.get(i).getId());
+        }
+        
+        List<TypeSalesData> salesData = salesService.readSalesForLastYear(productListId);
+        
+        
+        
+        LOGGER.info("Sales Data for Search: {}" , salesData);
 
         if (products.size() == 0)
         {
-            response.put("error", products);
+            response.put("error", salesData);
         }
         else
         {
-            response.put("success", products);
+            response.put("success", salesData);
         }
 
-        return ResponseEntity.ok().header("Products", "Search By Keyword").body(response);
+        return ResponseEntity.ok().header("Products Sales Data", "Search By Keyword").body(response);
     }
 
     @RequestMapping(value = "/inventory/sales", method = RequestMethod.GET)

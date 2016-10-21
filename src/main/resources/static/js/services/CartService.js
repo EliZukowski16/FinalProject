@@ -31,7 +31,7 @@ return {
 	search : function (key){
 
 		
-		console.log(service.selection)
+		
 		
 		if(service.selection.length == 0)
 		{
@@ -39,6 +39,7 @@ return {
 		}
 		
 		console.log(service.selection)
+		console.log(key)
 		
 
 		var queryParams = {
@@ -58,6 +59,8 @@ return {
 			var tempArray = [];
 			tempArray = response.data.success;
 			angular.copy(tempArray, service.searchResults);
+			
+			console.log(service.searchResults)
 
 		})
 		},
@@ -78,10 +81,8 @@ return {
 	    },
 	    
 	
-<<<<<<< HEAD
-		
-=======
->>>>>>> 91d9518d8f458a7ec12d6b7ad3f3dd3906d79ecf
+
+
 	
 		getSelection: service.selection,
 	
