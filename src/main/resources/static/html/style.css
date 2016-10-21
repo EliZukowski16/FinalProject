@@ -13,19 +13,13 @@ padding-top: 7px
 
 
 /*customer.html*/
-#customerBody{background: url("/pictures/Beer-Wallpaper.jpg") no-repeat center bottom fixed}
-
-
-/* /pictures/Beer-Glasses-Print-Theme.jpg */
-
+#customerBody, #adminBody{background: url("/pictures/Beer-Wallpaper.jpg") no-repeat center bottom fixed}
 
 
 /*customer-product.html*/
 
 #prodName{cursor: pointer}
 #productTitle{margin-left:15%; color:white}
-#shoppingCart li:nth-child(odd){background-color: #D7DBDD}
-#shoppingCart li:nth-child(even) {background-color: #F2F4F4}
 #quickLinksProducts{float: left; margin-top:1%; width:15%}
 /* #add.active{background-color:#908585; -webkit-filter: grayscale(100%)} */
 
@@ -44,7 +38,7 @@ display: block;
 position:fixed;
 top:25%;
 left:70%;
-margin-right:5px;
+margin-right:10px;
 z-index: 2000;
 } 
 
@@ -87,4 +81,11 @@ z-index: 2000;
 	right: 35px;
 	
 }
+
+
+
+/*customer-orders.html*/
+
+#orders tr:nth-child(odd){background-color: #D7DBDD}
+#orders tr:nth-child(even) {background-color: #F2F4F4}
 
