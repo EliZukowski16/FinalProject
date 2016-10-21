@@ -21,17 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.ssa.ironyard.liquorstore.model.CoreProduct;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Product;
-import org.ssa.ironyard.liquorstore.model.Sales;
-import org.ssa.ironyard.liquorstore.model.SalesDaily;
-import org.ssa.ironyard.liquorstore.model.salesdata.TypeSalesData;
-import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
-import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
+import org.ssa.ironyard.liquorstore.model.salesdata.ProductSalesData;
+import org.ssa.ironyard.liquorstore.model.salesdata.ProductSalesData;
 import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
 import org.ssa.ironyard.liquorstore.services.AnalyticsServiceImpl;
 import org.ssa.ironyard.liquorstore.services.CoreProductServiceImpl;
@@ -372,11 +369,11 @@ public class AdminController
     }
 
     @RequestMapping(value = "/inventory/sales", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, List<TypeSalesData>>> getAllDailySales()
+    public ResponseEntity<Map<String, List<ProductSalesData>>> getAllDailySales()
     {
-        Map<String, List<TypeSalesData>> response = new HashMap<>();
+        Map<String, List<ProductSalesData>> response = new HashMap<>();
 
-        List<TypeSalesData> salesData = salesService.readAllSales();
+        List<ProductSalesData> salesData = salesService.readAllSales();
 
         if (!salesData.isEmpty())
             response.put("success", salesData);
@@ -411,11 +408,11 @@ public class AdminController
     }
 
     @RequestMapping(value = "/TopSellers", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, List<TypeSalesData>>> getTopSellers()
+    public ResponseEntity<Map<String, List<ProductSalesData>>> getTopSellers()
     {
-        Map<String, List<TypeSalesData>> response = new HashMap<>();
+        Map<String, List<ProductSalesData>> response = new HashMap<>();
 
-        List<TypeSalesData> topSellers = salesService.readTopSellersForLast30Days(50);
+        List<ProductSalesData> topSellers = salesService.readTopSellersForLast30Days(50);
 
         if (!topSellers.isEmpty())
             response.put("success", topSellers);

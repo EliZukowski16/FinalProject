@@ -51,14 +51,14 @@ public class SalesServiceImpl implements SalesService
 
     @Override
     @Transactional
-    public List<TypeSalesData> aggregateDailySales()
+    public List<ProductSalesData> aggregateDailySales()
     {
         return aggregateDailySales(LocalDate.now().minusDays(1));
     }
 
     @Override
     @Transactional
-    public List<TypeSalesData> aggregateDailySales(LocalDate date)
+    public List<ProductSalesData> aggregateDailySales(LocalDate date)
     {
         Map<Product, Sales> dailyProductSalesMap = new HashMap<>();
 
@@ -127,14 +127,16 @@ public class SalesServiceImpl implements SalesService
 
     @Override
     @Transactional
-    public List<TypeSalesData> readAllSales()
+    public List<ProductSalesData> readAllSales()
     {
         return createFormattedSalesData(daoSales.readAll());
     }
 
-    private List<TypeSalesData> createFormattedSalesData(List<Sales> dailySales)
+    private List<ProductSalesData> createFormattedSalesData(List<Sales> dailySales)
     {
         List<TypeSalesData> typeSales = new ArrayList<>();
+        List<CoreProductSalesData> allCoreProductSales = new ArrayList<>();
+        List<ProductSalesData> allProductSales = new ArrayList<>();
 
         for (Type t : Type.values())
         {
@@ -158,18 +160,22 @@ public class SalesServiceImpl implements SalesService
                     
                     productSales.add(new ProductSalesData(p, sales));
                 }
+                
+                allProductSales.addAll(productSales);
 
                 coreProductSales.add(new CoreProductSalesData(c, productSales));
             }
+            
+            allCoreProductSales.addAll(coreProductSales);
 
             typeSales.add(new TypeSalesData(t, coreProductSales));
         }
 
-        return typeSales;
+        return allProductSales;
     }
 
     @Override
-    public List<TypeSalesData> searchTimeFrame(LocalDate start, LocalDate end)
+    public List<ProductSalesData> searchTimeFrame(LocalDate start, LocalDate end)
     {
         return this.createFormattedSalesData(daoSales.readSalesInDateRange(start, end));
     }
@@ -183,115 +189,115 @@ public class SalesServiceImpl implements SalesService
     }
 
     @Override
-    public List<TypeSalesData> readSalesForYesterday()
+    public List<ProductSalesData> readSalesForYesterday()
     {
         return this.createFormattedSalesData(daoSales.readSalesForPreviousDay());
     }
 
     @Override
-    public List<TypeSalesData> readSalesForYesterday(Integer productID)
+    public List<ProductSalesData> readSalesForYesterday(Integer productID)
     {
         return this.createFormattedSalesData(daoSales.readSalesForPreviousDay(productID));
     }
 
     @Override
-    public List<TypeSalesData> readSalesForYesterday(List<Integer> productIDs)
+    public List<ProductSalesData> readSalesForYesterday(List<Integer> productIDs)
     {
         return this.createFormattedSalesData(daoSales.readSalesForPreviousDay(productIDs));
     }
 
     @Override
-    public List<TypeSalesData> readSalesForLast30Days()
+    public List<ProductSalesData> readSalesForLast30Days()
     {
         return this.createFormattedSalesData(daoSales.readSalesForLast30Days());
     }
 
     @Override
-    public List<TypeSalesData> readSalesForLast30Days(Integer productID)
+    public List<ProductSalesData> readSalesForLast30Days(Integer productID)
     {
         return this.createFormattedSalesData(daoSales.readSalesForLast30Days(productID));
     }
 
     @Override
-    public List<TypeSalesData> readSalesForLast30Days(List<Integer> productIDs)
+    public List<ProductSalesData> readSalesForLast30Days(List<Integer> productIDs)
     {
         return this.createFormattedSalesData(daoSales.readSalesForLast30Days(productIDs));
     }
     
     @Override
-    public List<TypeSalesData> readTopSellersForLast30Days(Integer numberOfProducts)
+    public List<ProductSalesData> readTopSellersForLast30Days(Integer numberOfProducts)
     {
         return this.createFormattedSalesData(daoSales.readTopSellers(30, numberOfProducts));
     }
 
     @Override
-    public List<TypeSalesData> readSalesForLast90Days()
+    public List<ProductSalesData> readSalesForLast90Days()
     {
         return this.createFormattedSalesData(daoSales.readSalesForLast90Days());
     }
 
     @Override
-    public List<TypeSalesData> readSalesForLast90Days(Integer productID)
+    public List<ProductSalesData> readSalesForLast90Days(Integer productID)
     {
         return this.createFormattedSalesData(daoSales.readSalesForLast90Days(productID));
     }
 
     @Override
-    public List<TypeSalesData> readSalesForLast90Days(List<Integer> productIDs)
+    public List<ProductSalesData> readSalesForLast90Days(List<Integer> productIDs)
     {
         return this.createFormattedSalesData(daoSales.readSalesForLast90Days(productIDs));
     }
 
     @Override
-    public List<TypeSalesData> readSalesForLast180Days()
+    public List<ProductSalesData> readSalesForLast180Days()
     {
         return this.createFormattedSalesData(daoSales.readSalesForLast180Days());
     }
 
     @Override
-    public List<TypeSalesData> readSalesForLast180days(Integer productID)
+    public List<ProductSalesData> readSalesForLast180days(Integer productID)
     {
         return this.createFormattedSalesData(daoSales.readSalesForLast180Days(productID));
     }
 
     @Override
-    public List<TypeSalesData> readSalesForLast180Days(List<Integer> productIDs)
+    public List<ProductSalesData> readSalesForLast180Days(List<Integer> productIDs)
     {
         return this.createFormattedSalesData(daoSales.readSalesForLast180Days(productIDs));
     }
 
     @Override
-    public List<TypeSalesData> readSalesForLastYear()
+    public List<ProductSalesData> readSalesForLastYear()
     {
         return this.createFormattedSalesData(daoSales.readSalesForLastYear());
     }
 
     @Override
-    public List<TypeSalesData> readSalesForLastYear(Integer productID)
+    public List<ProductSalesData> readSalesForLastYear(Integer productID)
     {
         return this.createFormattedSalesData(daoSales.readSalesForLastYear(productID));
     }
 
     @Override
-    public List<TypeSalesData> readSalesForLastYear(List<Integer> productIDs)
+    public List<ProductSalesData> readSalesForLastYear(List<Integer> productIDs)
     {
         return this.createFormattedSalesData(daoSales.readSalesForLastYear(productIDs));
     }
 
     @Override
-    public List<TypeSalesData> readSalesForPastNumberOfDays(Integer numberOfDays)
+    public List<ProductSalesData> readSalesForPastNumberOfDays(Integer numberOfDays)
     {
         return this.createFormattedSalesData(daoSales.readSalesForLastVariableDays(numberOfDays, new ArrayList<>()));
     }
 
     @Override
-    public List<TypeSalesData> readSalesForPastNumberOfDays(Integer numberOfDays, List<Integer> productIDs)
+    public List<ProductSalesData> readSalesForPastNumberOfDays(Integer numberOfDays, List<Integer> productIDs)
     {
         return this.createFormattedSalesData(daoSales.readSalesForLastVariableDays(numberOfDays, productIDs));
     }
 
     @Override
-    public List<TypeSalesData> searchProduct(Integer productID)
+    public List<ProductSalesData> searchProduct(Integer productID)
     {
         if (productID == null)
             return new ArrayList<>();
@@ -300,7 +306,7 @@ public class SalesServiceImpl implements SalesService
     }
 
     @Override
-    public List<TypeSalesData> searchProduct(List<Integer> productIDs)
+    public List<ProductSalesData> searchProduct(List<Integer> productIDs)
     {
         if (productIDs.isEmpty())
             return new ArrayList<>();
