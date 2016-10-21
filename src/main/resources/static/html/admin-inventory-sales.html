@@ -3,10 +3,13 @@
 <link rel="stylesheet" type="text/css" href="/html/style.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-<!-- <script src="/vendors/angular.min.js"></script>
-<script src="/vendors/angular-ui-router.min.js"></script> -->
 
 
+
+	<script src="/vendors/chartsD/dist/Chart.min.js"></script>
+	
+	<script src="/vendors/chartsD/Angdist/angular-chart.js"></script>
+	
 
 
 <!-- Quick links -->
@@ -29,7 +32,7 @@
 
 <div class="fullTableContainer" style="width:75%; display:inline-block; float:left; top:22%">
   <h2>Sales Statistics</h2><br>
-  <table class="table table-striped table-bordered">
+  <table class="table table-striped table-bordered" id="sales1">
   	<span class="typeDiv">
     <thead>
       <tr>
@@ -46,8 +49,8 @@
     
       <tr ng-repeat-start="sales in AIS.sales">
       	<td>
-              <button ng-if="sales.expanded" ng-click="sales.expanded = false">-</button>
-              <button ng-if="!sales.expanded" ng-click="sales.expanded = true">+</button>
+              <button id="maxBut" ng-if="sales.expanded" ng-click="sales.expanded = false">-</button>
+              <button id="maxBut" ng-if="!sales.expanded" ng-click="sales.expanded = true">+</button>
     	</td>
     	<td><Strong>{{sales.type}}</Strong></td>
     	<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{sales.dailySalesData[0].totalValue | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.dailySalesData[0].numberSold}}</td>
@@ -59,11 +62,15 @@
       <tr ng-if="sales.expanded" ng-repeat-end="">
       	<td colspan="6">
       	<div class="typeDetail">
+      		<br>
+      		<br>
       		<span>Number Of Core Products:  {{sales.cpCount}}</span>
+      		<br>
+      		<br>
       		
       	</div>
             
-            <table class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered" id="sales2">
                 <thead>
       			<tr>
       				<td style="width: 25px;"></td>
@@ -78,8 +85,8 @@
     			
                	 <tr ng-repeat-start="coreProductSales in sales.coreProductSales" height=30px>
                	 <td>
-              		<button ng-if="coreProductSales.expanded" ng-click="coreProductSales.expanded = false">-</button>
-              		<button ng-if="!coreProductSales.expanded" ng-click="coreProductSales.expanded = true;AIS.hideCPD()">+</button>
+              		<button id="maxBut" ng-if="coreProductSales.expanded" ng-click="coreProductSales.expanded = false">-</button>
+              		<button id="maxBut" ng-if="!coreProductSales.expanded" ng-click="coreProductSales.expanded = true;AIS.hideCPD()">+</button>
     			</td>
     			 <td>{{coreProductSales.coreProduct.name}}</td>
              	 <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.dailySalesData[0].totalValue | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.dailySalesData[0].numberSold}}</span></td>
@@ -95,7 +102,7 @@
       					<span>Number Of Products: {{coreProductSales.pCount}}</span>
       				</div>
             
-            		<table style="width:100%" class="table table-striped table-bordered">
+            		<table style="width:100%" class="table table-striped table-bordered" id="sales3">
                 	<thead>
       				<tr>
       					<td style="width: 20px;"></td> 
@@ -148,7 +155,7 @@
 	
 		<h2>Top 50 Low Inventory</h2><br>
 		<button class="submitInventory btn btn-success btn-lg" ng-click="AIS.addInv()" data-toggle="modal" data-target="#myModal">Submit <br> Inventory</button>
-  		<table class="table table-striped table-bordered">
+  		<table class="table table-striped table-bordered" id="sales2">
     		<thead>
       		<tr>
       			<td style="width: 30px;"></td>
@@ -165,8 +172,8 @@
     
       <tr ng-repeat-start="product in AIS.lowInv">
       	<td>
-              <button ng-if="product.expanded" ng-click="product.expanded = false">-</button>
-              <button ng-if="!product.expanded" ng-click="product.expanded = true">+</button>
+              <button id="maxBut" ng-if="product.expanded" ng-click="product.expanded = false">-</button>
+              <button id="maxBut" ng-if="!product.expanded" ng-click="product.expanded = true">+</button>
     	</td>
     	<td><img src = "/pictures/products/{{product.product.coreProduct.thumbnail}}/images/thumb.png.png" height="100 px" width = "45px"></td>
         <td><Strong>{{ product.product.coreProduct.name }}</Strong> <br> {{ product.product.baseUnit }}, {{ product.product.quantity }} Pack</td>
@@ -256,10 +263,11 @@
 		</form><br>
 		
 		
-  		<table class="table table-striped table-bordered">
+  		<table class="table table-striped table-bordered" id="sales2">
     		<thead>
       		<tr>
       			<td style="width: 30px;"></td>
+      			<th></th>
       			<th>Name</th>
         		<th>Yesterday's</th>
         		<th>Last 7 Day's</th>
@@ -270,51 +278,39 @@
     		</thead>
     		<tbody>
     
-      		<tr ng-repeat-start="product in AIS.searchResults.coreProductSales.productSales">
+      		<tr ng-repeat-start="product in AIS.searchResults">
       			<td>
-              		<button ng-if="product.expanded" ng-click="product.expanded = false">-</button>
-              		<button ng-if="!product.expanded" ng-click="product.expanded = true">+</button>
+              		<button id="maxBut" ng-if="product.expanded" ng-click="product.expanded = false">-</button>
+              		<button id="maxBut" ng-if="!product.expanded" ng-click="product.expanded = true">+</button>
     			</td>
-    			<td><img src = "/pictures/products/{{product.coreProduct.thumbnail}}/images/thumb.png.png" height="100 px" width = "45px"></td>
-        		<td><Strong>{{ product.coreProduct.name }}</Strong> <br> {{ product.baseUnit }}, {{ product.quantity }} Pack</td>
-        		<td>{{ product.ystSales | currency}}</td>
-        		<td>{{ product.weekSales | currency}}</td>
-        		<td>{{ product.monthSales | currency}}</td>
+    			<td><img src = "/pictures/products/{{product.product.coreProduct.thumbnail}}/images/thumb.png.png" height="100 px" width = "45px"></td>
+        		<td><Strong>{{ product.product.coreProduct.name }}</Strong> <br> {{ product.product.baseUnit }}, {{ product.product.quantity }} Pack</td>
+        		<td>{{ product.dailySalesData[0].totalValue | currency}}</td>
+        		<td>{{ product.weeklySalesData[0].totalValue | currency}}</td>
+        		<td>{{ product.monthlySalesData[0].totalValue | currency}}</td>
         		<td>{{ product.yearSales | currency}}</td>
       		</tr>
       		<tr ng-if="product.expanded" ng-repeat-end="">
-      			<td colspan="6"></td>
+      			<td colspan="6">
       				<div class="coreProductDetail">
-      				<h4 >Core Products</h4>
-      				<p> extra details</p>
+      					<h4 >Product Details</h4>
+      					<span>Price: {{product.product.price}}  Inventory: {{product.product.inventory}}</span>
       				</div>
             
-            	<table style="width:100%" class="table table-striped table-bordered">
-                	<thead>
-      					<tr>
-      						<td style="width: 30px;"></td>
-      						<th>Name</th>
-        					<th>Yesterday</th>
-        					<th>Last 7 Days</th>
-        					<th>Last 30 Days</th>
-        					<th>Last Year</th>
-     			 		</tr>
-    				</thead>
-    				<tbody>
-    			
-               	 		<tr ng-repeat="product in AIS.searchResults" height=30px>
-    			 			<td>{{product.cp}}</td>
-             	 			<td>{{product.ystSales | currency}}</td>
-             	 			<td>{{product.weekSales | currency}}</td>
-             	 			<td>{{product.monthSales | currency}}</td>
-             	 			<td>{{product.yearSales | currency}}</td>
-            			</tr>
-            		</tbody>
+            	
+            	</td>
+            	</tr>
+            	</tbody>
             	</table>
+            	
 	</div>
 	
 	<div>
-	<canvas id="myChart" class=""></canvas>
+<!-- 	<canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options"  -->
+<!-- 	chart-dataset-override="datasetOverride" chart-click="onClick"></canvas> -->
+	
+	hello
+	{{product.product.coreProduct.name}}
 	</div>
 	
 

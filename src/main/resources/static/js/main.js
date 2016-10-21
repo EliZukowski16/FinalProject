@@ -42,7 +42,7 @@ function configure($stateProvider, $urlRouterProvider) {
       controllerAs: 'AIS',
       templateUrl: '/html/admin-inventory-sales.html'
     })
-
+    
 
   $urlRouterProvider.otherwise(function(){
 	  

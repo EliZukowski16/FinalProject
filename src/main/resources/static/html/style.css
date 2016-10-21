@@ -89,3 +89,14 @@ z-index: 2000;
 #orders tr:nth-child(odd){background-color: #D7DBDD}
 #orders tr:nth-child(even) {background-color: #F2F4F4}
 
+#maxBut {color:black}
+
+#sales1 tr:nth-child(odd){background-color: #000000; color: white ; border-color: black}
+#sales1 tr:nth-child(even) {background-color: #000000 ; color:white; border-color: black}
+
+#sales2 tr:nth-child(odd){background-color: #D7DBDD; color: black}
+#sales2 tr:nth-child(even) {background-color: #F2F4F4; color:black}
+
+#sales3 tr:nth-child(odd){background-color: #FFFFFF ; color: black}
+#sales3 tr:nth-child(even) {background-color: #FFFFFF; color: black}
+

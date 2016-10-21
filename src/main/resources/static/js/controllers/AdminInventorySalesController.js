@@ -231,7 +231,7 @@ angular
 	    //Submit search to controller
 	    ctrl.search = function(){
 	    	CartService.search(ctrl.keyword);
-	    	console.log('search Results' + ctrl.searchResults)
+	    	console.log(ctrl.searchResults)
 	    	
 	    	for(let i = 0; i < ctrl.searchResults.length;i++)
 	    	{
@@ -302,6 +302,10 @@ angular
 	    {
 	    	location.reload()
 	    }
+	    
+	   
+
+	
 	    
 
 	    
