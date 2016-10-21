@@ -22,7 +22,7 @@ padding-top: 7px
 #productTitle{margin-left:16.5%}
 #shoppingCart li:nth-child(odd){background-color: #D7DBDD}
 #shoppingCart li:nth-child(even) {background-color: #F2F4F4}
-#quickLinks{float: left}
+#quickLinksProducts{float: left; margin-top:1%; width:15%}
 /* #add.active{background-color:#908585; -webkit-filter: grayscale(100%)} */
 
 h5{

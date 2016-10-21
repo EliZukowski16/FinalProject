@@ -77,11 +77,7 @@ return {
 	    	service.cart.splice(index,1);  
 	    },
 	    
-	
-<<<<<<< HEAD
-		
-=======
->>>>>>> 91d9518d8f458a7ec12d6b7ad3f3dd3906d79ecf
+
 	
 		getSelection: service.selection,
 	
