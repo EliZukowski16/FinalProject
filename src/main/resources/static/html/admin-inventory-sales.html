@@ -178,10 +178,10 @@
       <tr ng-if="product.expanded" ng-repeat-end="">
       	<td colspan="6"><h4 >Product Sales Details</h4>
         	<div style="display:inline-block">
-        		<span>Yesterday <br> Sales: {{product.dailySalesData[0].totalValue}} <br> Total Sold: {{product.dailySalesData[0].numberSold}} </span>
-        		<span>Last 7 Day's <br> Sales: {{product.weeklySalesData[0].totalValue}} <br> Total Sold: {{product.weeklySalesData[0].numberSold}} </span>
-        		<span>Last 30 Day's <br> Sales: {{product.monthlySalesData[0].totalValue}} <br> Total Sold: {{product.monthlySalesData[0].numberSold}} </span>
-        		<span>Last Year <br> Sales: {{product.pYear1}} <br> Total Sold: {{product.pCountSold}} </span>
+        		<span>Yesterday <br> Sales: {{product.yesterdayTotalValue}} <br> Total Sold: {{product.yesterdayNumberSold}} </span>
+        		<span>Last 7 Day's <br> Sales: {{product.lastWeekTotalValue}} <br> Total Sold: {{product.lastWeekNumberSold}} </span>
+        		<span>Last 30 Day's <br> Sales: {{product.lastMonthTotalValue}} <br> Total Sold: {{product.lastMontNumberSold}} </span>
+        		<span>Last Year <br> Sales: {{product.lastYearTotalValue}} <br> Total Sold: {{product.lastYearNumberSold}} </span>
         	</div>
             
       </td>

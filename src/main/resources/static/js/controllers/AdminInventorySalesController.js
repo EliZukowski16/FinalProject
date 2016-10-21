@@ -291,10 +291,79 @@ function InvSalesCtrl($http, CartService) {
 
 			console.log(response)
 
-			ctrl.lowInv= response.data.success;
-		
-  		
+			ctrl.lowInv = response.data.success;
+
+
+			console.log(ctrl.lowInv)
+			console.log(ctrl.lowInv)
+
+			ctrl.lowInvSales();
+
+
 		})
+	}
+
+	ctrl.lowInvSales = function() {
+
+		var today = new Date();
+		today.setHours(0, 0, 0, 0);
+
+		var yesterday = new Date(today.getFullYear(), today.getMonth(), (today.getDate() - 1));
+
+		var lastWeek = new Date(today.getFullYear(), today.getMonth(), (today.getDate() - 8));
+
+		var lastMonth = new Date(today.getFullYear(), today.getMonth(), (today.getDate() - 30));
+
+		var lastYear = new Date(today.getFullYear(), today.getMonth(), (today.getDate() - 365));
+
+		console.log(ctrl.lowInv)
+		for (let i = 0; i < ctrl.lowInv.length; i++) {
+			var product = ctrl.lowInv[i];
+
+			product.yesterdayNumberSold = 0;
+			product.yesterdayTotalValue = 0;
+
+			product.lastWeekNumberSold = 0;
+			product.lastWeekTotalValue = 0;
+
+			product.lastMonthNumberSold = 0;
+			product.lastMonthTotalValue = 0;
+
+			product.lastYearNumberSold = 0;
+			product.lastYearTotalValue = 0;
+
+			for (let j = 0; j < product.dailySalesData.length; j++) {
+				let salesData = product.dailySalesData[j];
+
+				let year = salesData.date.year;
+				let month = salesData.date.monthValue - 1;
+				let day = salesData.date.dayOfMonth;
+				let salesDate = ctrl.convertDate(year, month, day)
+
+
+				if (salesDate.getTime() == yesterday.getTime()) {
+					product.yesterdayNumberSold = product.yesterdayNumberSold + salesData.numberSold;
+					product.yesterdayTotalValue = product.yesterdayTotalValue + salesData.totalValue;
+				}
+
+				if (salesDate <= yesterday && salesDate >= lastWeek) {
+					product.lastWeekNumberSold = product.lastWeekNumberSold + salesData.numberSold;
+					product.lastWeekTotalValue = product.lastWeekTotalValue + salesData.totalValue;
+				}
+
+				if (salesDate <= yesterday && salesDate >= lastMonth) {
+					product.lastMonthNumberSold = product.lastMonthNumberSold + salesData.numberSold;
+					product.lastMonthTotalValue = product.lastMonthTotalValue + salesData.totalValue;
+				}
+
+				if (salesDate <= yesterday && salesDate >= lastYear) {
+
+					product.lastYearNumberSold = product.lastYearNumberSold + salesData.numberSold;
+					product.lastYearTotalValue = product.lastYearTotalValue + salesData.totalValue;
+				}
+			}
+		}
+
 	}
 
 	ctrl.types = [ 'Beer', 'Wine', 'Spirits' ];
@@ -337,114 +406,108 @@ function InvSalesCtrl($http, CartService) {
 
 
 		}
-		
-		
+
+
 		ctrl.selection = CartService.getSelection;
 		ctrl.keyword = CartService.getKeyword;
-		
-		ctrl.showSearch = function()
-		{
+
+		ctrl.showSearch = function() {
 			$('.fullTableContainer').hide();
 			$('.lowInventoryContainer').hide();
 			$('.searchProductContainer').show();
-			
-			
+
+
 		}
-		
-		
+
+
 		ctrl.active = false;
-		ctrl.types = ['Beer', 'Wine', 'Spirits',"Ciders","Accessories","Non_Alcoholic"];
-	    ctrl.orderDetails = [];
-	    ctrl.orderResponse = [];
-	    
-	   
-	    
-	    ctrl.searchResults = CartService.getSearchResults;
-	    ctrl.keyword = "";
-	    ctrl.selection = CartService.getSelection;
-	    
-	    //Checkbox search
-	    ctrl.toggleSelection = function(type){
-	    	CartService.toggleSelection(type);
-	    }
-	    
-	    //Submit search to controller
-	    ctrl.search = function(){
-	    	CartService.search(ctrl.keyword);
-	    	console.log('search Results' + ctrl.searchResults)
-	    	
-	    	for(let i = 0; i < ctrl.searchResults.length;i++)
-	    	{
-	    		var coreProductSales = ctrl.searchResults[i].coreProductSales
-	    		console.log('core Product Sales' + coreProductSales)
-	    		
-	    		
-	    	}
-	    
-	    }   
-	    
-	    ctrl.addInventory = [];
-	    ctrl.addInventoryPop = [];
-	    
-	    
-	    ctrl.addInv = function(id) {
-	    
-	    	console.log(ctrl.lowInv)
-	    	
-	    	for(let i = 0;i < ctrl.lowInv.length;i++)
-	    	{
-	    		var id = ctrl.lowInv[i].id;
-	    		var value = angular.element('#' + id).val()
-	    		
-	    		if(value == "")
-	    		{
-	    			
-	    		}
-	    		else
-	    		{
-	    			ctrl.addI = {
-	    					[id] : value
-	    			}
-	    			
-	    			ctrl.addIPop = {
-	    					id : id,
-	    					name : ctrl.lowInv[i].coreProduct.name,
-	    					baseUnit : ctrl.lowInv[i].baseUnit,
-	    					qty : ctrl.lowInv[i].quantity,
-	    					value : value
-	    			}
-	    			
-	    			ctrl.addInventory.push(ctrl.addI);
-	    			ctrl.addInventoryPop.push(ctrl.addIPop);
-	    			
-	    		}
-	    	}
-	    	
-	    	console.log(ctrl.addInventory)
-	    	console.log(ctrl.addInventoryPop)
-	    	
-	    	console.log(location.pathname)
+		ctrl.types = [ 'Beer', 'Wine', 'Spirits', "Ciders", "Accessories", "Non_Alcoholic" ];
+		ctrl.orderDetails = [];
+		ctrl.orderResponse = [];
+
+
+
+		ctrl.searchResults = CartService.getSearchResults;
+		ctrl.keyword = "";
+		ctrl.selection = CartService.getSelection;
+
+		//Checkbox search
+		ctrl.toggleSelection = function(type) {
+			CartService.toggleSelection(type);
+		}
+
+		//Submit search to controller
+		ctrl.search = function() {
+			CartService.search(ctrl.keyword);
+			console.log('search Results' + ctrl.searchResults)
+
+			for (let i = 0; i < ctrl.searchResults.length; i++) {
+				var coreProductSales = ctrl.searchResults[i].coreProductSales
+				console.log('core Product Sales' + coreProductSales)
+
+
+			}
+
+		}
+
+		ctrl.addInventory = [];
+		ctrl.addInventoryPop = [];
+
+
+		ctrl.addInv = function(id) {
+
+			console.log(ctrl.lowInv)
+
+			for (let i = 0; i < ctrl.lowInv.length; i++) {
+				var id = ctrl.lowInv[i].id;
+				var value = angular.element('#' + id).val()
+
+				if (value == "") {
+
+				} else {
+					ctrl.addI = {
+						[id] : value
+					}
+
+					ctrl.addIPop = {
+						id : id,
+						name : ctrl.lowInv[i].coreProduct.name,
+						baseUnit : ctrl.lowInv[i].baseUnit,
+						qty : ctrl.lowInv[i].quantity,
+						value : value
+					}
+
+					ctrl.addInventory.push(ctrl.addI);
+					ctrl.addInventoryPop.push(ctrl.addIPop);
+
+				}
+			}
+
+			console.log(ctrl.addInventory)
+			console.log(ctrl.addInventoryPop)
+
+			console.log(location.pathname)
 
 			$http({
-	        	url: location.pathname +"/inventory",
-	        	method: 'POST',
-	        	data: ctrl.addInventory,
-	        }).then(function(response) {	
-	        	console.log('it worked' + response.data)
-	        	
-	        })
-	    	
-	    	
-	    	
-	    }
-	    
-	    ctrl.reload = function()
-	    {
-	    	location.reload()
-	    }
-	    
+				url : location.pathname + "/inventory",
+				method : 'POST',
+				data : ctrl.addInventory,
+			}).then(function(response) {
+				console.log('it worked' + response.data)
 
-	    
-	    
-		
+			})
+
+
+
+		}
+
+		ctrl.reload = function() {
+			location.reload()
+		}
+
+
+
+
+
 	}
+}
