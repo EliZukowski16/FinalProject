@@ -168,7 +168,7 @@ public class AdminController
 
     @RequestMapping(value = "/inventory/lowInventory", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Map<String, List<TypeSalesData>>> getLowInventory()
+    public ResponseEntity<Map<String, List<ProductSalesData>>> getLowInventory()
     {
         
         List<Product> lowInventory = productService.readLowInventory();
@@ -179,11 +179,11 @@ public class AdminController
         {
             productListId.add(lowInventory.get(i).getId());
         }
-        List<TypeSalesData> salesData = salesService.readSalesForLastYear(productListId);
+        List<ProductSalesData> salesData = salesService.searchProduct(productListId);
         
         LOGGER.info("low Inventory sales data: {}", salesData);
 
-        Map<String, List<TypeSalesData>> response = new HashMap<>();
+        Map<String, List<ProductSalesData>> response = new HashMap<>();
 
         if (lowInventory.isEmpty())
             response.put("error", new ArrayList<>());
@@ -328,10 +328,10 @@ public class AdminController
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, List<TypeSalesData>>> searchKeywordType(@PathVariable String adminID,
+    public ResponseEntity<Map<String, List<ProductSalesData>>> searchKeywordType(@PathVariable String adminID,
             HttpServletRequest request)
     {
-        Map<String, List<TypeSalesData>> response = new HashMap<>();
+        Map<String, List<ProductSalesData>> response = new HashMap<>();
 
         LOGGER.info("Going to the search");
 
@@ -374,7 +374,7 @@ public class AdminController
             productListId.add(products.get(i).getId());
         }
         
-        List<TypeSalesData> salesData = salesService.readSalesForLastYear(productListId);
+        List<ProductSalesData> salesData = salesService.searchProduct(productListId);
         
         
         
