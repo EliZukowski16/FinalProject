@@ -8,7 +8,7 @@ angular
 	
 	var ctrl = this;	
 	ctrl.active = false;
-	ctrl.types = ['Beer', 'Wine', 'Spirits'];
+	ctrl.types = ['Beer', 'Wine', 'Spirits', 'Ciders', 'Accessories', 'Non-Alcohol'];
     ctrl.orderDetails = [];
     ctrl.orderResponse = [];
     ctrl.orderList = "";

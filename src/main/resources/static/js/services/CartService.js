@@ -35,7 +35,7 @@ return {
 		
 		if(service.selection.length == 0)
 		{
-			service.selection = ["BEER","WINE","SPIRITS"]
+			service.selection = ["BEER","WINE","SPIRITS", "CIDERS","ACCESSORIES","NON_ALCHOHOL"]
 		}
 		
 		console.log(service.selection)

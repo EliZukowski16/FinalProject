@@ -10,7 +10,7 @@
 <!-- Quick links -->
 
 <div class="container col-md-2" id="quickLinksProducts">
-  <h3>Quick Links</h3>
+  <h3 style="color:white">Quick Links</h3>
   <ul class="nav nav-pills nav-stacked" id="links">
     <li><a href="#">Home</a></li>
     <li class="active"><a href="">Add Order</a></li>
@@ -32,7 +32,7 @@
 	</div>
 
 
- <label class="checkbox-inline" ng-repeat="type in PC.types">
+ <label style="color:white" class="checkbox-inline" ng-repeat="type in PC.types">
   <input type="checkbox" name="selectedTypes[]" value="{{ type }}" 
   ng-checked="PC.selection.indexOf(type)>-1"  ng-click="PC.toggleSelection(type)" /> {{ type }}
 </label> 
