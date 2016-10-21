@@ -80,8 +80,11 @@ return {
 	    	service.cart.splice(index,1);  
 	    },
 	    
+<<<<<<< HEAD
 	
 
+=======
+>>>>>>> 7f8be91f9e7979be3d08b9cc3a352a58e09f3e8b
 
 	
 		getSelection: service.selection,
