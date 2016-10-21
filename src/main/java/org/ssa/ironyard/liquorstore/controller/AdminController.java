@@ -169,8 +169,10 @@ public class AdminController
 
     @RequestMapping(value = "/inventory/lowInventory", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Map<String, List<ProductSalesData>>> getLowInventory()
+    public ResponseEntity<Map<String, Map<Product, ProductSalesData>>> getLowInventory()
     {
+        
+        Map<Product, ProductSalesData> productMap = new HashMap<>();
         
         List<Product> lowInventory = productService.readLowInventory();
         
@@ -183,11 +185,22 @@ public class AdminController
         List<ProductSalesData> salesData = salesService.searchProduct(productListId);
         
         LOGGER.info("low Inventory sales data: {}", salesData);
+        
+        for(Product p : lowInventory)
+        {
+            productMap.put(p, new ProductSalesData(p, new ArrayList<>()));
+            
+            for(ProductSalesData s : salesData)
+            {
+                if(s.getProduct().equals(p))
+                    productMap.put(p, s);
+            }
+        }
 
-        Map<String, List<ProductSalesData>> response = new HashMap<>();
+        Map<String, Map<Product, ProductSalesData>> response = new HashMap<>();
 
         if (lowInventory.isEmpty())
-            response.put("error", new ArrayList<>());
+            response.put("error", new HashMap<>());
         else
             response.put("success", salesData);
 
