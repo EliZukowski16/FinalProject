@@ -28,6 +28,7 @@ import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.salesdata.ProductSalesData;
+import org.ssa.ironyard.liquorstore.model.salesdata.TypeSalesData;
 import org.ssa.ironyard.liquorstore.model.salesdata.ProductSalesData;
 import org.ssa.ironyard.liquorstore.services.AdminServiceImpl;
 import org.ssa.ironyard.liquorstore.services.AnalyticsServiceImpl;
@@ -393,11 +394,11 @@ public class AdminController
     }
 
     @RequestMapping(value = "/inventory/sales", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, List<ProductSalesData>>> getAllDailySales()
+    public ResponseEntity<Map<String, List<TypeSalesData>>> getAllDailySales()
     {
-        Map<String, List<ProductSalesData>> response = new HashMap<>();
+        Map<String, List<TypeSalesData>> response = new HashMap<>();
 
-        List<ProductSalesData> salesData = salesService.readAllSales();
+        List<TypeSalesData> salesData = salesService.readAllSales();
 
         if (!salesData.isEmpty())
             response.put("success", salesData);
@@ -432,11 +433,11 @@ public class AdminController
     }
 
     @RequestMapping(value = "/TopSellers", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, List<ProductSalesData>>> getTopSellers()
+    public ResponseEntity<Map<String, List<TypeSalesData>>> getTopSellers()
     {
-        Map<String, List<ProductSalesData>> response = new HashMap<>();
+        Map<String, List<TypeSalesData>> response = new HashMap<>();
 
-        List<ProductSalesData> topSellers = salesService.readTopSellersForLast30Days(50);
+        List<TypeSalesData> topSellers = salesService.readTopSellersForLast30Days(50);
 
         if (!topSellers.isEmpty())
             response.put("success", topSellers);
