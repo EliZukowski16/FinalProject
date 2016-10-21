@@ -10,7 +10,7 @@ var service = this;
 
 service.selection = [];
 service.searchResults = [];
-
+service.productsIds = [];
 service.cart = [];
 
 
@@ -73,6 +73,7 @@ return {
 			if(service.cart.indexOf(product) == -1){
 				var tempCart = [];
 				service.cart.push(product);
+				//service.productIds.push(product.id);
 			}
 		},
 		
@@ -83,7 +84,7 @@ return {
 	    },
 	    
 
-
+	    getProductIds: service.productsIds,
 	
 		getSelection: service.selection,
 	

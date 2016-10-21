@@ -45,9 +45,9 @@
 
   <form>
     <div class="form-group" style="width:15%; margin-left:15%">
-      <select class="form-control" id="sel1" ng-model="PC.orderList">
+      <select class="form-control" id="sel1" ng-model="PC.orderList" style="color:white;background-color:#4286f4">
     	<option value = "">Select Order By</option>
-    	<option value="coreProduct.name">Name (A-Z)</option>
+    	<option value="coreProduct.name" >Name (A-Z)</option>
     	<option value="-coreProduct.name">Name (Z-A)</option>
     	<option value="price">Price (lowest to highest)</option>
     	<option value="-price">Price (highest to lowest)</option>
@@ -55,7 +55,7 @@
     </div>
   </form>
 
-<div id="products" class="row list-group" ng-repeat="product in PC.searchResults | orderBy: PC.orderList">
+<div id="products" class="row list-group" ng-repeat="product in PC.searchResults | orderBy: PC.orderList" ng-if="PC.cart.indexOf(id) == -1">
 	<div class="item" >
 	
 		<div class="thumbnail" id="add"  ng-class="{'active': PC.active==true}">
@@ -64,9 +64,7 @@
 				<h3 id="prodName" class="group inner list-group-item-heading" ng-click="PC.addToCart(product)">{{ product.coreProduct.name }}<span class="tooltiptext">Add to cart</span></h3>
 				<p class="group inner list-group-item-text">{{ product.coreProduct.type }}</p>
 				<p class="group inner list-group-item-text">{{ product.coreProduct.subType }}</p>
-				<p class="group inner list-group-item-text">{{ product.baseUnit }}</p>
-				<p class="group inner list-group-item-text">{{ product.quantity }}</p>
-				<p class="group inner list-group-item-text">{{ product.coreProduct.description }}</p>
+				<p class="group inner list-group-item-text">{{ product.quantity }}ct. {{ product.baseUnit }}</p>
 				<h4 class="group inner list-group-item-text">{{ product.price | currency}}</h4>
 				</div>
 				<div class="row"></div>
