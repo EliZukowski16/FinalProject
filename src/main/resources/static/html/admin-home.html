@@ -6,7 +6,6 @@
 <script src="/vendors/angular-ui-router.min.js"></script> -->
    
     
-<h1 style="text-align:center">Welcome!</h1>
 
 <!-- Quick links -->
 
@@ -55,7 +54,7 @@
 
       </tr>
       <tr ng-if="pending.expanded" ng-repeat-end="">
-      	<td colspan="6"><h4 >Order Details</h4>
+      	<td colspan="9"><h4 >Order Details</h4>
             
             <table style="width:75%" class="table table-striped table-bordered">
                 <thead>
@@ -91,7 +90,7 @@
       </table>
       
       <div class ="text-center">
-      	<button ng-click="HC.submitStatus()" style="float: right" data-toggle="modal" data-target="#myModal">submit</button>
+      	<button ng-click="HC.submitStatus()" class = "btn btn-success" style="float: right" data-toggle="modal" data-target="#myModal">Submit</button>
       	
       	<div class="modal fade" id="myModal" role="dialog" data-backdrop="static">
     		<div class="modal-dialog">
