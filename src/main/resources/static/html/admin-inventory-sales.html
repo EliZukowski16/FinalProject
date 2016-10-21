@@ -50,10 +50,10 @@
               <button ng-if="!sales.expanded" ng-click="sales.expanded = true">+</button>
     	</td>
     	<td><Strong>{{sales.type}}</Strong></td>
-    	<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{sales.dailySalesData[0].totalValue | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.dailySalesData[0].numberSold}}</td>
-        <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.weeklySalesData[0].totalValue | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.weeklySalesData[0].numberSold}}</td>
-        <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.monthlySalesData[0].totalValue | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.monthlySalesData[0].numberSold}}</td>
-        <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px">{{ sales.typeYear1 | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.typeCountSold}}</td>
+    	<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{sales.yesterdayTotalValue | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.yesterdayNumberSold}}</td>
+        <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.lastWeekTotalValue | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.lastWeekNumberSold}}</td>
+        <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.lastMonthTotalValue | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.lastMonthNumberSold}}</td>
+        <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px">{{ sales.lastYearTotalValue | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.lastYearNumberSold}}</td>
       </tr>
       </span>
       <tr ng-if="sales.expanded" ng-repeat-end="">
@@ -82,10 +82,10 @@
               		<button ng-if="!coreProductSales.expanded" ng-click="coreProductSales.expanded = true;AIS.hideCPD()">+</button>
     			</td>
     			 <td>{{coreProductSales.coreProduct.name}}</td>
-             	 <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.dailySalesData[0].totalValue | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.dailySalesData[0].numberSold}}</span></td>
-             	 <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.weeklySalesData[0].totalValue | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;   <img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.weeklySalesData[0].numberSold}}</td>
-             	 <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.monthlySalesData[0].totalValue | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;   <img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.monthlySalesData[0].numberSold}}</td>
-             	 <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.cpYear1 | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;    <img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.cpCountSold}}</td>
+             	 <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.yesterdayTotalValue | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.yesterdayNumberSold}}</span></td>
+             	 <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.lastWeekTotalValue | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;   <img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.lastWeekNumberSold}}</td>
+             	 <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.lastMonthTotalValue | currency}} &emsp;&emsp;&emsp;&emsp;&emsp;   <img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.lastMonthNumberSold}}</td>
+             	 <td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.lastYearTotalValue| currency}} &emsp;&emsp;&emsp;&emsp;&emsp;    <img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.lastYearNumberSold}}</td>
             	</tr>
             		<tr ng-if="coreProductSales.expanded" ng-repeat-end="">
       				<td colspan="6">
@@ -114,10 +114,10 @@
               				<button ng-if="!product.expanded" ng-click="product.expanded = true;AIS.hidePD()">+</button>
     					</td>
     					<td>{{product.product.baseUnit}}, {{product.product.quantity}} pack</td>
-             	 		<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.dailySalesData[0].totalValue | currency}}   &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{product.dailySalesData[0].numberSold}}</td>
-             		 	<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.weeklySalesData[0].totalValue | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{product.weeklySalesData[0].numberSold}}</td>
-             	 		<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px">{{product.monthlySalesData[0].totalValue | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{product.monthlySalesData[0].numberSold}}</td>
-             	 		<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.pYear1 | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{product.pCountSold}}</td>
+             	 		<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.yesterdayTotalValue | currency}}   &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{product.yesterdayNumberSold}}</td>
+             		 	<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.lastWeekTotalValue | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{product.lastWeekNumberSold}}</td>
+             	 		<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.lastMonthTotalValue | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{product.lastMonthNumberSold}}</td>
+             	 		<td>&emsp;<img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.lastYearTotalValue | currency}}  &emsp;&emsp;&emsp;&emsp;&emsp;  <img src="/pictures/count.png.png" height="15px" width="15px"> {{product.lastYearNumberSold}}</td>
             		</tr>
             		
             		<tr ng-if="product.expanded" ng-repeat-end="">
