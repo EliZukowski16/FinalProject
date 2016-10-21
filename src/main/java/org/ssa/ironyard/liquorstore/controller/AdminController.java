@@ -186,7 +186,7 @@ public class AdminController
 
         Map<String, List<ProductSalesData>> response = new HashMap<>();
 
-        if (lowInventory.isEmpty())
+        if (salesData.isEmpty())
             response.put("error", new ArrayList<>());
         else
             response.put("success", salesData);
