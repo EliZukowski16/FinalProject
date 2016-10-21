@@ -12,6 +12,7 @@ angular
     ctrl.orderDetails = [];
     ctrl.orderResponse = [];
     ctrl.orderList = "";
+    ctrl.inCart = CartService.getProductIds;
     
     ctrl.month = "";
     ctrl.day = "";
@@ -38,6 +39,7 @@ angular
     {
     	ctrl.active = true;
     	CartService.addToCart(product);
+    	console.log(ctrl.cart);
 	}
     
     //Remove product from cart
