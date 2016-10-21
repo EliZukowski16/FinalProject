@@ -394,7 +394,7 @@ public class AdminController
         
         LOGGER.info("Sales Data for Search: {}" , salesData);
 
-        if (products.size() == 0)
+        if (salesData.size() == 0)
         {
             response.put("error", salesData);
         }

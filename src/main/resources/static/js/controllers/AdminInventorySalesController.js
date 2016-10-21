@@ -193,12 +193,12 @@ angular
 		
 			console.log(response)
 			ctrl.lowInv= response.data.success;
-			console.log(ctrl.lowInv);
+		
   		
 		})
 		}
 		
-		ctrl.types = ['Beer', 'Wine', 'Spirits'];
+		
 		ctrl.selection = CartService.getSelection;
 		ctrl.keyword = CartService.getKeyword;
 		
@@ -213,7 +213,7 @@ angular
 		
 		
 		ctrl.active = false;
-		ctrl.types = ['Beer', 'Wine', 'Spirits'];
+		ctrl.types = ['Beer', 'Wine', 'Spirits',"Ciders","Accessories","Non_Alcoholic"];
 	    ctrl.orderDetails = [];
 	    ctrl.orderResponse = [];
 	    

@@ -6,7 +6,7 @@
 <!-- <script src="/vendors/angular.min.js"></script>
 <script src="/vendors/angular-ui-router.min.js"></script> -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+
 
 
 <!-- Quick links -->
@@ -168,12 +168,12 @@
               <button ng-if="product.expanded" ng-click="product.expanded = false">-</button>
               <button ng-if="!product.expanded" ng-click="product.expanded = true">+</button>
     	</td>
-    	<td><img src = "/pictures/products/{{product.coreProduct.thumbnail}}/images/thumb.png.png" height="100 px" width = "45px"></td>
-        <td><Strong>{{ product.coreProduct.name }}</Strong> <br> {{ product.baseUnit }}, {{ product.quantity }} Pack</td>
-        <td>{{ product.coreProduct.type }}  {{ product.coreProduct.subType }}</td>
-        <td>{{ product.price }}</td>
-       	<td>{{ product.inventory }}</td>
-       	<td>#<input id="{{product.id}}" type="number" style="width:75px"></td>
+    	<td><img src = "/pictures/products/{{product.product.coreProduct.thumbnail}}/images/thumb.png.png" height="100 px" width = "45px"></td>
+        <td><Strong>{{ product.product.coreProduct.name }}</Strong> <br> {{ product.product.baseUnit }}, {{ product.product.quantity }} Pack</td>
+        <td>{{ product.product.coreProduct.type }}  {{ product.product.coreProduct.subType }}</td>
+        <td>{{ product.product.price }}</td>
+       	<td>{{ product.product.inventory }}</td>
+       	<td>#<input id="{{product.product.id}}" type="number" style="width:75px"></td>
       </tr>
       <tr ng-if="product.expanded" ng-repeat-end="">
       	<td colspan="6"><h4 >Product Sales Details</h4>
@@ -311,6 +311,10 @@
             			</tr>
             		</tbody>
             	</table>
+	</div>
+	
+	<div>
+	<canvas id="myChart" class=""></canvas>
 	</div>
 	
 
