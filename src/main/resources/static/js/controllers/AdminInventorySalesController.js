@@ -290,9 +290,10 @@ function InvSalesCtrl($http, CartService) {
 		}).then(function(response) {
 
 			console.log(response)
-			ctrl.lowInv = response.data.success;
-			console.log(ctrl.lowInv);
 
+			ctrl.lowInv= response.data.success;
+		
+  		
 		})
 	}
 
@@ -336,66 +337,114 @@ function InvSalesCtrl($http, CartService) {
 
 
 		}
-
-	}
-
-	ctrl.addInventory = [];
-	ctrl.addInventoryPop = [];
-
-
-	ctrl.addInv = function(id) {
-
-		console.log(ctrl.lowInv)
-
-		for (let i = 0; i < ctrl.lowInv.length; i++) {
-			var id = ctrl.lowInv[i].id;
-			var value = angular.element('#' + id).val()
-
-			if (value == "") {
-
-			} else {
-				ctrl.addI = {
-					[id] : value
-				}
-
-				ctrl.addIPop = {
-					id : id,
-					name : ctrl.lowInv[i].coreProduct.name,
-					baseUnit : ctrl.lowInv[i].baseUnit,
-					qty : ctrl.lowInv[i].quantity,
-					value : value
-				}
-
-				ctrl.addInventory.push(ctrl.addI);
-				ctrl.addInventoryPop.push(ctrl.addIPop);
-
-			}
+		
+		
+		ctrl.selection = CartService.getSelection;
+		ctrl.keyword = CartService.getKeyword;
+		
+		ctrl.showSearch = function()
+		{
+			$('.fullTableContainer').hide();
+			$('.lowInventoryContainer').hide();
+			$('.searchProductContainer').show();
+			
+			
 		}
+		
+		
+		ctrl.active = false;
+		ctrl.types = ['Beer', 'Wine', 'Spirits',"Ciders","Accessories","Non_Alcoholic"];
+	    ctrl.orderDetails = [];
+	    ctrl.orderResponse = [];
+	    
+	   
+	    
+	    ctrl.searchResults = CartService.getSearchResults;
+	    ctrl.keyword = "";
+	    ctrl.selection = CartService.getSelection;
+	    
+	    //Checkbox search
+	    ctrl.toggleSelection = function(type){
+	    	CartService.toggleSelection(type);
+	    }
+	    
+	    //Submit search to controller
+	    ctrl.search = function(){
+	    	CartService.search(ctrl.keyword);
+	    	console.log('search Results' + ctrl.searchResults)
+	    	
+	    	for(let i = 0; i < ctrl.searchResults.length;i++)
+	    	{
+	    		var coreProductSales = ctrl.searchResults[i].coreProductSales
+	    		console.log('core Product Sales' + coreProductSales)
+	    		
+	    		
+	    	}
+	    
+	    }   
+	    
+	    ctrl.addInventory = [];
+	    ctrl.addInventoryPop = [];
+	    
+	    
+	    ctrl.addInv = function(id) {
+	    
+	    	console.log(ctrl.lowInv)
+	    	
+	    	for(let i = 0;i < ctrl.lowInv.length;i++)
+	    	{
+	    		var id = ctrl.lowInv[i].id;
+	    		var value = angular.element('#' + id).val()
+	    		
+	    		if(value == "")
+	    		{
+	    			
+	    		}
+	    		else
+	    		{
+	    			ctrl.addI = {
+	    					[id] : value
+	    			}
+	    			
+	    			ctrl.addIPop = {
+	    					id : id,
+	    					name : ctrl.lowInv[i].coreProduct.name,
+	    					baseUnit : ctrl.lowInv[i].baseUnit,
+	    					qty : ctrl.lowInv[i].quantity,
+	    					value : value
+	    			}
+	    			
+	    			ctrl.addInventory.push(ctrl.addI);
+	    			ctrl.addInventoryPop.push(ctrl.addIPop);
+	    			
+	    		}
+	    	}
+	    	
+	    	console.log(ctrl.addInventory)
+	    	console.log(ctrl.addInventoryPop)
+	    	
+	    	console.log(location.pathname)
 
-		console.log(ctrl.addInventory)
-		console.log(ctrl.addInventoryPop)
+			$http({
+	        	url: location.pathname +"/inventory",
+	        	method: 'POST',
+	        	data: ctrl.addInventory,
+	        }).then(function(response) {	
+	        	console.log('it worked' + response.data)
+	        	
+	        })
+	    	
+	    	
+	    	
+	    }
+	    
+	    ctrl.reload = function()
+	    {
+	    	location.reload()
+	    }
+	    
 
-		console.log(location.pathname)
-
-		$http({
-			url : location.pathname + "/inventory",
-			method : 'POST',
-			data : ctrl.addInventory,
-		}).then(function(response) {
-			console.log('it worked' + response.data)
-
-		})
-
-
-
+	    
+	    
+		
 	}
-
-	ctrl.reload = function() {
-		location.reload()
-	}
-
-
-
-
-
-}
