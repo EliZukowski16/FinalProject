@@ -202,7 +202,7 @@ public class AdminController
         if (lowInventory.isEmpty())
             response.put("error", new HashMap<>());
         else
-            response.put("success", salesData);
+            response.put("success", productMap);
 
         return ResponseEntity.ok().body(response);
     }
