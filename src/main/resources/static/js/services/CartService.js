@@ -50,7 +50,7 @@ return {
 		
 		
 
-		$http({
+		return $http({
 			url: location.pathname + "/search",
 			method: 'GET',
 			params: queryParams
@@ -62,6 +62,7 @@ return {
 			angular.copy(tempArray, service.searchResults);
 			
 			console.log(service.searchResults)
+
 
 		})
 		},

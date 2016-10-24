@@ -394,7 +394,7 @@ function InvSalesCtrl($http, CartService) {
 
 		var lastYear = new Date(today.getFullYear(), today.getMonth(), (today.getDate() - 365));
 
-		console.log(ctrl.searchResults)
+		console.log("Search results " + ctrl.searchResults)
 		for (let i = 0; i < ctrl.searchResults.length; i++) {
 			var product = ctrl.searchResults[i];
 
@@ -475,8 +475,10 @@ function InvSalesCtrl($http, CartService) {
 	    ctrl.search = function(){
 	    	
 	    	CartService.search(ctrl.keyword)
-	    	
-	    	ctrl.searchSales();
+	    		.then(function() {
+	    			ctrl.searchSales();
+	    	})
+	    
 	    	
 	    	
 	    	console.log(ctrl.searchResults)
