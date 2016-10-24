@@ -13,6 +13,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -21,7 +22,6 @@ import org.junit.Test;
 import org.ssa.ironyard.liquorstore.controller.AdminController;
 import org.ssa.ironyard.liquorstore.controller.CustomerController;
 import org.ssa.ironyard.liquorstore.controller.LogInController;
-import org.ssa.ironyard.liquorstore.crypto.BCryptSecurePassword;
 import org.ssa.ironyard.liquorstore.dao.AbstractSpringDAO;
 import org.ssa.ironyard.liquorstore.dao.DAOAdmin;
 import org.ssa.ironyard.liquorstore.dao.DAOAdminImpl;
@@ -39,7 +39,6 @@ import org.ssa.ironyard.liquorstore.model.Admin;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
-import org.ssa.ironyard.liquorstore.model.Password;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
 import org.ssa.ironyard.liquorstore.model.Order.OrderStatus;
 import org.ssa.ironyard.liquorstore.model.Product;
@@ -88,8 +87,10 @@ public class MockDataLoaderTest
     static CustomerController customerController;
     static LogInController logInController;
 
+    static List<String> popular;
+
     @BeforeClass
-    public static void setupBeforeClass()
+    public static void setupBeforeClass() throws IOException
     {
         MysqlDataSource mysqlDdataSource = new MysqlDataSource();
         mysqlDdataSource.setURL(URL);
@@ -124,54 +125,49 @@ public class MockDataLoaderTest
 
         logInController = new LogInController();
 
-//        BufferedReader reader = null;
-//
-//        try
-//        {
-//
-//            reader = Files.newBufferedReader(Paths.get("./src/test/resources/popular.txt"), Charset.defaultCharset());
-//
-//            String line = null;
-//
-//            while (null != (line = reader.readLine()))
-//            {
-//                String[] adminData = line.split(",");
-//                String username = adminData[0];
-//                Password password = new BCryptSecurePassword().secureHash(adminData[1]);
-//                String firstName = adminData[2];
-//                String lastName = adminData[3];
-//                Integer role = Integer.parseInt(adminData[4]);
-//
-//                testAdmin = new Admin(username, password, firstName, lastName, role);
-//
-//                rawAdmins.add(testAdmin);
-//
-//                Admin adminFromDB = adminDAO.insert(testAdmin);
-//
-//                adminsInDB.add(adminFromDB);
-//            }
-//        }
-//        catch (IOException iex)
-//        {
-//            System.err.println(iex.getStackTrace());
-//            throw iex;
-//        }
-//        finally
-//        {
-//            if (reader != null)
-//                reader.close();
-//        }
+        popular = new ArrayList<>();
+
+        BufferedReader reader = null;
+
+        try
+        {
+
+            reader = Files.newBufferedReader(Paths.get("./src/test/resources/popular.txt"), Charset.defaultCharset());
+
+            String line = null;
+
+            while (null != (line = reader.readLine()))
+            {
+                popular.add(line);
+            }
+        }
+        catch (IOException iex)
+        {
+            System.err.println(iex.getStackTrace());
+            throw iex;
+        }
+        finally
+        {
+            if (reader != null)
+                reader.close();
+        }
 
     }
 
-    // @Test
+//     @Test
     public void testFillHistoricalData()
     {
         List<Customer> customersInDB = customerDAO.readAll();
 
         List<Product> productsInDB = productDAO.readAll();
-        
-//        List<Product> popularProducts = productsInDB.stream().filter(p -> p.getCoreProduct().getName().)
+
+        List<Product> popularProducts = new ArrayList<>();
+
+        for (String s : popular)
+        {
+            popularProducts.addAll(productsInDB.stream().filter(p -> p.getCoreProduct().getName().startsWith(s))
+                    .collect(Collectors.toList()));
+        }
 
         for (int i = 0; i < 2000; i++)
         {
@@ -196,15 +192,16 @@ public class MockDataLoaderTest
 
             for (int j = (int) (Math.random() * 3); j < 3; j++)
             {
-                Integer productIndex = (int) (Math.random() * productsInDB.size());
+                Integer productIndex = (int) (Math.random() * popularProducts.size());
 
-                while (productsInOrder.contains(productsInDB.get(productIndex))
-                        || productsInDB.get(productIndex).getInventory() <= 0)
+                while (productsInOrder.contains(popularProducts.get(productIndex))
+                        || popularProducts.get(productIndex).getInventory() <= 0)
                 {
-                    productIndex = (int) (Math.random() * productsInDB.size());
+                    productIndex = (int) (Math.random() * popularProducts.size());
                 }
 
-                Product productToAddToOrder = productsInDB.get(productIndex);
+                Product productToAddToOrder = popularProducts.get(productIndex);
+                productsInOrder.add(productToAddToOrder);
 
                 Integer productQuantityToOrder = ((int) (Math.random() * 3)) + 1;
                 orderDetails.add(

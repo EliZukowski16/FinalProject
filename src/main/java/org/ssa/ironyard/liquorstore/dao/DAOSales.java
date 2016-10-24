@@ -3,6 +3,9 @@ package org.ssa.ironyard.liquorstore.dao;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
+import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Sales;
 
 public interface DAOSales extends DAO<Sales>
@@ -32,5 +35,6 @@ public interface DAOSales extends DAO<Sales>
     List<Sales> readSalesForLastVariableDays(Integer numberOfDays, List<Integer> productIDs);
     List<Sales> readSalesInDateRange(LocalDate start, LocalDate end);
     List<Sales> readTopSellers(Integer numberOfDays, Integer numberOfProducts);
+    List<Sales> searchProducts(List<Tag> tags, List<Type> types);
 
 }

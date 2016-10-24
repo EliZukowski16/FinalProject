@@ -10,11 +10,14 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.ssa.ironyard.liquorstore.dao.DAOSales;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
 import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Product;
@@ -30,6 +33,8 @@ import org.ssa.ironyard.liquorstore.model.salesdata.TypeSalesData;
 public class SalesServiceImpl implements SalesService
 {
 
+    static Logger LOGGER = LogManager.getLogger(SalesServiceImpl.class);
+    
     DAOSales daoSales;
 
     @Autowired
@@ -352,9 +357,24 @@ public class SalesServiceImpl implements SalesService
     {
         if (productIDs.isEmpty())
             return new ArrayList<>();
+            
+        LOGGER.info("Product IDs: {}", productIDs);
+        
+        List<Sales> sales = daoSales.readSalesForProduct(productIDs);
+        
+        LOGGER.info("Sales : {}", sales);
+        
+        return this.createProductFormattedSalesData(sales);
 
-        return this.createProductFormattedSalesData(daoSales.readSalesForProduct(productIDs));
-
+    }
+    
+    @Override
+    public List<ProductSalesData> searchProduct(List<Tag> tags, List<Type> types)
+    {
+        List<Tag> cleanedTags = tags.stream().filter(t -> !t.equals(null)).collect(Collectors.toList());
+        List<Type> cleanedTypes = types.stream().filter(t -> !t.equals(null)).collect(Collectors.toList());
+        
+        return createProductFormattedSalesData(daoSales.searchProducts(cleanedTags, cleanedTypes));
     }
 
     @Override
