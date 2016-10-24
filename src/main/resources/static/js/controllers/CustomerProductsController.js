@@ -7,7 +7,6 @@ angular
 	{
 	
 	var ctrl = this;	
-	ctrl.active = false;
 	ctrl.types = ['Beer', 'Wine', 'Spirits', 'Ciders', 'Accessories', 'Non-Alcohol'];
     ctrl.orderDetails = [];
     ctrl.orderResponse = [];
@@ -36,7 +35,6 @@ angular
     //Add product to cart 
     ctrl.addToCart = function(product)
     {
-    	ctrl.active = true;
     	CartService.addToCart(product);
     	console.log(ctrl.cart);
 	}
@@ -45,6 +43,11 @@ angular
     ctrl.remove = function(product){
     	CartService.remove(product);
     };
+    
+    //Clear cart
+    ctrl.clearCart = function(){
+    	ctrl.cart = [];
+    }
     
 
     //Calculate cart grand total
@@ -166,6 +169,7 @@ angular
         	}
         	
     		console.log(ctrl.orderResponse);
+
         })
     };
 

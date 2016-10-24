@@ -27,7 +27,7 @@ angular
 		};
 		
 		ctrl.getOrders();
-		
+	
 		
 	}
 	
