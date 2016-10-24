@@ -381,18 +381,16 @@ public class AdminController
         LOGGER.info(tags + "List tags");
         LOGGER.info(types + "List Tyeps");
 
-        List<Product> products = productService.searchProduct(tags, types);
-
-        LOGGER.info(products + "products");
+        List<ProductSalesData> salesData = ((SalesServiceImpl) salesService).searchProduct(tags, types);
         
-        List<Integer> productListId = new ArrayList<>();
-        
-        for (int i = 0; i < products.size(); i++)
-        {
-            productListId.add(products.get(i).getId());
-        }
-        
-        List<ProductSalesData> salesData = salesService.searchProduct(productListId);
+//        List<Integer> productListId = new ArrayList<>();
+//        
+//        for (int i = 0; i < products.size(); i++)
+//        {
+//            productListId.add(products.get(i).getId());
+//        }
+//        
+//        List<ProductSalesData> salesData = salesService.searchProduct(productListId);
         
         
         

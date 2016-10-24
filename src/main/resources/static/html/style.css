@@ -94,6 +94,9 @@ z-index: 2000;
 #sales2 tr:nth-child(odd){background-color: #D7DBDD; color: black}
 #sales2 tr:nth-child(even) {background-color: #F2F4F4; color:black}
 
+.sales2 tr:nth-child(odd){background-color: #D7DBDD; color: black}
+.sales2 tr:nth-child(even) {background-color: #F2F4F4; color:black}
+
 #sales3 tr:nth-child(odd){background-color: #FFFFFF ; color: black}
 #sales3 tr:nth-child(even) {background-color: #FFFFFF; color: black}
 

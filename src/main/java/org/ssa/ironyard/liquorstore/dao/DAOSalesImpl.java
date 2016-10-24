@@ -1,5 +1,6 @@
 package org.ssa.ironyard.liquorstore.dao;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -12,9 +13,13 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
+import org.ssa.ironyard.liquorstore.dao.orm.ORMProductImpl;
 import org.ssa.ironyard.liquorstore.dao.orm.ORMSalesImpl;
+import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Sales;
 import org.ssa.ironyard.liquorstore.model.SalesDaily;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 
 @Repository
 public class DAOSalesImpl extends AbstractDAOSales implements DAOSales
@@ -297,6 +302,41 @@ public class DAOSalesImpl extends AbstractDAOSales implements DAOSales
             LOGGER.info("Top Sellers : {}", ps);
             
         }, this.listExtractor);
+    }
+    
+    @Override
+    public List<Sales> searchProducts(List<Tag> tags, List<Type> types)
+    {
+
+        if (tags.size() == 0 && types.size() == 0)
+            return new ArrayList<>();
+        return this.springTemplate.query((Connection conn) ->
+        {
+            PreparedStatement statement = conn
+                    .prepareStatement(((ORMSalesImpl) this.orm).prepareProductSearch(tags.size(), types.size()));
+            productSearchPreparer(statement, tags, types);
+            return statement;
+
+        }, this.listExtractor);
+
+    }
+
+    private void productSearchPreparer(PreparedStatement searchStatement, List<Tag> tags, List<Type> types)
+            throws SQLException
+    {
+        for (int i = 1; i <= tags.size(); i++)
+        {
+            searchStatement.setString(i, tags.get(i - 1).getName() + "%");
+        }
+
+        if (types.size() != Type.values().length)
+        {
+            for (int i = tags.size() + 1; i <= types.size() + tags.size(); i++)
+            {
+                searchStatement.setString(i, types.get(i - tags.size() - 1).toString());
+            }
+        }
+
     }
 
 }

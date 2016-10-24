@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Tag;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Product;
 import org.ssa.ironyard.liquorstore.model.Sales;
@@ -46,4 +48,5 @@ public interface SalesService
     List<TypeSalesData> readSalesForPastNumberOfDays(Integer numberOfDays, List<Integer> productIDs);
     List<TypeSalesData> aggregateDailySales(LocalDate date);
     List<TypeSalesData> readTopSellersForLast30Days(Integer numberOfProducts);
+    List<ProductSalesData> searchProduct(List<Tag> tags, List<Type> types);
 }
