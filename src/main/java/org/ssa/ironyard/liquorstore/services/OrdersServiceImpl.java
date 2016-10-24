@@ -256,8 +256,8 @@ public class OrdersServiceImpl implements OrdersService
     public List<Order> searchFuture(LocalDate date1)
     {
         List<Order> orders = daoOrder.readOrdersInTheFuture(date1);
-        
-        LOGGER.info("orders in service: {}",orders);
+
+        LOGGER.info("orders in service: {}", orders);
 
         orders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
 
@@ -300,7 +300,7 @@ public class OrdersServiceImpl implements OrdersService
 
         return pendingOrders;
     }
-    
+
     @Override
     public List<Order> readFutureApprovedOrders(LocalDate start)
     {
@@ -310,7 +310,7 @@ public class OrdersServiceImpl implements OrdersService
 
         return orders;
     }
-    
+
     @Override
     public List<Order> readPastApprovedOrders(LocalDate end)
     {
@@ -320,7 +320,7 @@ public class OrdersServiceImpl implements OrdersService
 
         return orders;
     }
-    
+
     @Override
     public List<Order> readApprovedOrdersInTimeFrame(LocalDate start, LocalDate end)
     {
@@ -330,7 +330,7 @@ public class OrdersServiceImpl implements OrdersService
 
         return orders;
     }
-    
+
     @Override
     public List<Order> readFutureRejectedOrders(LocalDate start)
     {
@@ -340,7 +340,7 @@ public class OrdersServiceImpl implements OrdersService
 
         return orders;
     }
-    
+
     @Override
     public List<Order> readPastRejectedOrders(LocalDate end)
     {
@@ -350,7 +350,7 @@ public class OrdersServiceImpl implements OrdersService
 
         return orders;
     }
-    
+
     @Override
     public List<Order> readRejectedOrdersInTimeFrame(LocalDate start, LocalDate end)
     {
@@ -359,6 +359,50 @@ public class OrdersServiceImpl implements OrdersService
         orders.sort((o1, o2) -> o2.getTimeOfOrder().compareTo(o1.getTimeOfOrder()));
 
         return orders;
+    }
+
+    public Boolean testApproveOrder(Integer orderID, LocalDate date)
+    {
+        if (orderID == null)
+            return false;
+
+        Order order = daoOrder.read(orderID);
+        Order updatedOrder;
+        LOGGER.info("Got order with ID : {}", order.getId());
+
+        if (!order.getOrderStatus().equals(OrderStatus.PENDING) || (order == null))
+            return false;
+
+        for (OrderDetail detail : order.getoD())
+        {
+            LOGGER.info("Product in Order Detail : {}", detail.getProduct().getId());
+
+            Integer updatedInventory = detail.getProduct().getInventory() - detail.getQty();
+
+            LOGGER.info("Updated Inventory : {}", updatedInventory);
+
+            if (daoProduct.update(detail.getProduct().of().inventory(updatedInventory).build()) == null)
+                throw new RuntimeException(
+                        "Product : " + detail.getProduct().getId() + "Inventory could not be updated");
+        }
+
+        if ((updatedOrder = daoOrder.update(order.of().orderStatus(OrderStatus.APPROVED).build())) == null)
+            throw new RuntimeException("Order : " + order.getId() + " could not be approved");
+
+        for (OrderDetail detail : updatedOrder.getoD())
+        {
+            Sales sales = ((Builder) new SalesDaily.Builder().product(detail.getProduct())).dateSold(date)
+                    .numberSold(detail.getQty())
+                    .totalValue(detail.getUnitPrice().multiply(BigDecimal.valueOf(detail.getQty())))
+                    .aggregateSales(false).build();
+
+            if (daoSales.insert(sales) == null)
+                throw new RuntimeException(
+                        "Sales date for " + sales.getProduct().getCoreProduct().getName() + " could not be entered");
+        }
+
+        return true;
+
     }
 
     @Override
@@ -390,19 +434,17 @@ public class OrdersServiceImpl implements OrdersService
 
         if ((updatedOrder = daoOrder.update(order.of().orderStatus(OrderStatus.APPROVED).build())) == null)
             throw new RuntimeException("Order : " + order.getId() + " could not be approved");
-        
-        for(OrderDetail detail : updatedOrder.getoD())
+
+        for (OrderDetail detail : updatedOrder.getoD())
         {
-            Sales sales = ((Builder) new SalesDaily.Builder()
-                    .product(detail.getProduct()))
-                    .dateSold(LocalDate.now())
+            Sales sales = ((Builder) new SalesDaily.Builder().product(detail.getProduct())).dateSold(LocalDate.now())
                     .numberSold(detail.getQty())
                     .totalValue(detail.getUnitPrice().multiply(BigDecimal.valueOf(detail.getQty())))
-                    .aggregateSales(false)
-                    .build();
-            
-            if(daoSales.insert(sales) == null)
-                throw new RuntimeException("Sales date for " + sales.getProduct().getCoreProduct().getName() + " could not be entered");
+                    .aggregateSales(false).build();
+
+            if (daoSales.insert(sales) == null)
+                throw new RuntimeException(
+                        "Sales date for " + sales.getProduct().getCoreProduct().getName() + " could not be entered");
         }
 
         return true;
@@ -448,12 +490,13 @@ public class OrdersServiceImpl implements OrdersService
                     throw new RuntimeException("Order " + o.getId() + " could not be rejected");
                 break;
             default:
-                throw new RuntimeException("Order " + o.getId() + " with Order Status " + o.getOrderStatus().name() + " not recognized");
+                throw new RuntimeException(
+                        "Order " + o.getId() + " with Order Status " + o.getOrderStatus().name() + " not recognized");
             }
         }
-        
+
         return true;
-        
+
     }
 
 }
