@@ -141,6 +141,25 @@ public abstract class AbstractSpringDAO<T extends DomainObject> implements DAO<T
             return false;
         return 1 == this.springTemplate.update(this.orm.prepareDelete(), (PreparedStatement ps) -> ps.setInt(1, id));
     }
+    
+    protected static Integer nullInts(ResultSet results, String string)
+    {
+        int i;
+        try
+        {
+            i = results.getInt(string);
+            if(i == 0)
+                return results.wasNull()?null:0;
+            return i;
+        }
+        catch (SQLException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return 0;
+        }
+        
+    }
 
     @Override
     public void clear()
