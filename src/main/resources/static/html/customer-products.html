@@ -43,7 +43,8 @@
 <!-- Product list -->
 
 
-  <form>
+
+  <form ng-show="PC.searchResults.length">
     <div class="form-group" style="width:15%; margin-left:15%">
       <select class="form-control" id="sel1" ng-model="PC.orderList" style="color:white;background-color:#4286f4">
     	<option value = "">Select Order By</option>
@@ -55,10 +56,10 @@
     </div>
   </form>
 
+
 <div class="row list-group" ng-repeat="product in PC.searchResults | orderBy: PC.orderList" ng-if="PC.cart.indexOf(product) == -1" style="margin-left:18%; width: 35%; margin-bottom:0">
 	
 	<div class="item" >
-	
 		<div class="thumbnail" id="add">
 			<img height="225px" width="115px" class="group list-group-image"	src="/pictures/products/{{product.coreProduct.thumbnail}}/images/thumb.png.png" align="left" alt="" />
 			<div class="caption">
@@ -72,6 +73,9 @@
 			</div>
 		</div>
 	</div>
+	
+<div style="color:white" ng-show="!PC.searchResults.length">No results found. Try another search.</div>	
+
 
 
 <!--  Shopping cart -->
