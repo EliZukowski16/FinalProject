@@ -9,8 +9,8 @@ var service = this;
 
 
 service.selection = [];
+service.keyword = "";
 service.searchResults = [];
-service.productsIds = [];
 service.cart = [];
 
 
@@ -29,9 +29,8 @@ return {
 	
 	//Submit search to controller
 	search : function (key){
-
 		
-		
+		service.keyword = key;
 		
 		if(service.selection.length == 0)
 		{
@@ -40,12 +39,12 @@ return {
 
 		}
 		
-		console.log(service.selection)
-		console.log(key)
+		console.log(service.selection);
+		console.log(service.keyword);
 		
 
 		var queryParams = {
-				keywords: key,
+				keywords: service.keyword,
 				types: service.selection
 		}
 		
@@ -73,7 +72,6 @@ return {
 			if(service.cart.indexOf(product) == -1){
 				var tempCart = [];
 				service.cart.push(product);
-				//service.productIds.push(product.id);
 			}
 		},
 		
@@ -83,8 +81,7 @@ return {
 	    	service.cart.splice(index,1);  
 	    },
 	    
-
-	    getProductIds: service.productsIds,
+	    getKeyword: service.keyword,
 	
 		getSelection: service.selection,
 	

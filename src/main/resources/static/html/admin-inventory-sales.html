@@ -6,9 +6,9 @@
 
 
 
-	<script src="/vendors/chartsD/dist/Chart.min.js"></script>
+<!-- 	<script src="/vendors/chartsD/dist/Chart.min.js"></script>
 	
-	<script src="/vendors/chartsD/Angdist/angular-chart.js"></script>
+	<script src="/vendors/chartsD/Angdist/angular-chart.js"></script> -->
 	
 
 
@@ -37,7 +37,7 @@
     <thead>
       <tr>
       	<td style="width: 30px;"></td>
-      	<th style="width: 250px"><a href="" ng-click="AIS.sortType = 'type'; AIS.sortReverse = AIS.sortReverse">Type</a></th>
+      	<th style="width: 250px"><a href="" ng-click="AIS.sortType = 'type'; AIS.sortReverse = !AIS.sortReverse">Type</a></th>
         <th style="width: 200px">Yesterday's 
         (<a href="" ng-click="AIS.sortType = 'yesterdayTotalValue'; AIS.sortReverse = !AIS.sortReverse">Sales</a>
         /<a href="" ng-click="AIS.sortType = 'yesterdayNumberSold'; AIS.sortReverse = !AIS.sortReverse">Count</a>)
@@ -68,21 +68,21 @@
     	<td><Strong>{{sales.type}}</Strong></td>
     	<td>
     	<div style="width:160px">
-    		<span style="width:80px"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{sales.yesterdayTotalValue | currency}}</span>
-    		<span style="width:80px"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.yesterdayNumberSold}}</span>
+    		<span style="width:80px; text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{sales.yesterdayTotalValue | currency}}</span>
+    		<span style="width:80px; text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.yesterdayNumberSold}}</span>
     	</div>
     	</td>
         <td>
-        	<span style="width: 80px"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.lastWeekTotalValue | currency}}</span>
-        	<span style="width: 80px"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.lastWeekNumberSold}}</span>
+        	<span style="width: 80px; text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.lastWeekTotalValue | currency}}</span>
+        	<span style="width: 80px; text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.lastWeekNumberSold}}</span>
         </td>
         <td>
-        	<span style="width: 80px"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.lastMonthTotalValue | currency}}</span>
-        	<span style="width: 80px"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.lastMonthNumberSold}}</span>
+        	<span style="width: 80px; text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.lastMonthTotalValue | currency}}</span>
+        	<span style="width: 80px; text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.lastMonthNumberSold}}</span>
         </td>
         <td>
-        	<span style="width: 80px"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.lastYearTotalValue | currency}}</span>
-        	<span style="width: 80px"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.lastYearNumberSold}}</span>
+        	<span style="width: 80px; text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.lastYearTotalValue | currency}}</span>
+        	<span style="width: 80px; text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.lastYearNumberSold}}</span>
         </td>
       </tr>
       </span>
@@ -129,20 +129,20 @@
     			</td>
     			 <td>{{coreProductSales.coreProduct.name}}</td>
              	 <td>
-             	 	<span><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.yesterdayTotalValue | currency}}</span>
-             	 	<span><img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.yesterdayNumberSold}}</span>
+             	 	<span style="width:80px;text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.yesterdayTotalValue | currency}}</span>
+             	 	<span style="width:80px;text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.yesterdayNumberSold}}</span>
              	 </td>
              	 <td>
-             	 	<span><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.lastWeekTotalValue | currency}}</span>
-             	 	<span><img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.lastWeekNumberSold}}</span>
+             	 	<span style="width:80px;text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.lastWeekTotalValue | currency}}</span>
+             	 	<span style="width:80px;text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.lastWeekNumberSold}}</span>
              	 </td>
              	 <td>
-            	 	<span><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.lastMonthTotalValue | currency}}</span>
-            	 	<span><img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.lastMonthNumberSold}}</span>
+            	 	<span style="width:80px;text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.lastMonthTotalValue | currency}}</span>
+            	 	<span style="width:80px;text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.lastMonthNumberSold}}</span>
             	 </td>
              	 <td>
-             	 	<span><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.lastYearTotalValue| currency}}</span>
-             	 	<span><img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.lastYearNumberSold}}</span>
+             	 	<span style="width:80px;text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{coreProductSales.lastYearTotalValue| currency}}</span>
+             	 	<span style="width:80px;text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px">  {{coreProductSales.lastYearNumberSold}}</span>
              	 </td>
             	</tr>
             		<tr ng-if="coreProductSales.expanded" ng-repeat-end="">
@@ -197,20 +197,20 @@
     					</td>
     					<td>{{product.product.baseUnit}}, {{product.product.quantity}} pack</td>
              	 		<td>
-             	 			<span><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.yesterdayTotalValue | currency}}</span>
-             	 			<span><img src="/pictures/count.png.png" height="15px" width="15px"> {{product.yesterdayNumberSold}}</span>
+             	 			<span style="width:80px;text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.yesterdayTotalValue | currency}}</span>
+             	 			<span style="width:80px;text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{product.yesterdayNumberSold}}</span>
              	 		</td>
              		 	<td>
-             		 		<span><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.lastWeekTotalValue | currency}}</span>
-             		 		<span><img src="/pictures/count.png.png" height="15px" width="15px"> {{product.lastWeekNumberSold}}</span>
+             		 		<span style="width:80px;text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.lastWeekTotalValue | currency}}</span>
+             		 		<span style="width:80px;text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{product.lastWeekNumberSold}}</span>
              		 	</td>
              	 		<td>
-             	 			<span><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.lastMonthTotalValue | currency}}</span>
-             	 			<span><img src="/pictures/count.png.png" height="15px" width="15px"> {{product.lastMonthNumberSold}}</span>
+             	 			<span style="width:80px;text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.lastMonthTotalValue | currency}}</span>
+             	 			<span style="width:80px;text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{product.lastMonthNumberSold}}</span>
              	 		</td>
              	 		<td>
-             	 			<span><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.lastYearTotalValue | currency}}</span>
-             	 			<span><img src="/pictures/count.png.png" height="15px" width="15px"> {{product.lastYearNumberSold}}</span>
+             	 			<span style="width:80px;text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{product.lastYearTotalValue | currency}}</span>
+             	 			<span style="width:80px;text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{product.lastYearNumberSold}}</span>
              	 		</td>
             		</tr>
             		

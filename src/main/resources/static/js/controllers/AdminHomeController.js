@@ -94,6 +94,20 @@ angular
 		ctrl.submitStatus = function()
 		{
 			console.log(ctrl.status)
+			console.log(ctrl.statusPopup)
+			
+			for (let i = 0; i < ctrl.statusPopup.length; i++) 
+			{
+				if(ctrl.statusPopup[i].value == "pending")
+				{
+					ctrl.statusPopup.splice(i,1);
+					ctrl.status.splice(i,1);
+				}
+			}
+			
+			console.log(ctrl.status)
+			console.log(ctrl.statusPopup)
+			
 			$http({
 	        	url: location.pathname +"/orders/pending",
 	        	method: 'POST',
