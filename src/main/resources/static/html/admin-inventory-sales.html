@@ -15,15 +15,18 @@
 <!-- Quick links -->
 
 <div class="container col-md-2" id="quickLinks">
-  <h3 class="headerWhite">Quick Links</h3>
+  <h3 style="font-size:2em" class="headerWhite">Quick Links</h3>
   <ul class="nav nav-pills nav-stacked" id="links">
-  	<li><a ui-sref="adminHome">Home</a></li>
-    <li><a ui-sref="adminOrder">Unfulfilled Orders</a></li>
-    <li class="active"><a ui-sref="adminInventorySales">Sales/Inventory Statistics</a></li>
+  	<li style="font-size:1.5em"><a ui-sref="adminHome">Home</a></li>
+    <li style="font-size:1.5em"><a ui-sref="adminOrder">Unfulfilled Orders</a></li>
+    <li style="font-size:1.5em" class="active"><a ui-sref="adminInventorySales">Sales/Inventory Statistics</a></li>
+    <br>
     <ul style="list-style:none">
-    <li><a ng-click='AIS.showSales()'>Sales Statistics</a></li>
-    <li><a ng-click='AIS.showInventory()'>Low Inventory</a></li>
-    <li><a ng-click='AIS.showSearch()'>Product Sales Search</a></li>
+    <li style="font-size:1em;text-align:center" id="SSTab" class="activeSubList subList"><a ng-click='AIS.showSales()'>Sales Statistics</a></li>
+    <li><br></li>
+    <li style="font-size:1em;text-align:center" id="LITab" class="subList"><a ng-click='AIS.showInventory()'>Low Inventory</a></li>
+    <li><br></li>
+    <li style="font-size:1em;text-align:center"id="PSTab" class="subList"><a ng-click='AIS.showSearch()'>Product Sales Search</a></li>
     </ul>
     
   </ul>
@@ -101,7 +104,7 @@
                 <thead>
       			<tr>
       				<td style="width: 25px;"></td>
-      				<th style="width: 250px"><a href="" ng-click="AIS.sortCP = 'coreProduct.name'; AIS.sortReverseCP = AIS.sortReverseCP">Core Products</a></th>
+      				<th style="width: 250px"><a href="" ng-click="AIS.sortCP = 'coreProduct.name'; AIS.sortReverseCP = !AIS.sortReverseCP">Core Products</a></th>
         			<th style="width: 200px">Yesterday's
         			(<a href="" ng-click="AIS.sortCP = 'yesterdayTotalValue'; AIS.sortReverseCP = !AIS.sortReverseCP">Sales</a>
         			/<a href="" ng-click="AIS.sortCP = 'yesterdayNumberSold'; AIS.sortReverseCP = !AIS.sortReverseCP">Count</a>)
@@ -166,8 +169,8 @@
       					&emsp;
       					<small>
       					Soft By:
-      						<a href="" ng-click="AIS.sortP = 'product.baseUnit'; AIS.sortReverseP = AIS.sortReverseP">Base Unit</a>
-      						<a href="" ng-click="AIS.sortP = 'product.quantity'; AIS.sortReverseP = AIS.sortReverseP">Quantity</a>
+      						<a href="" ng-click="AIS.sortP = 'product.baseUnit'; AIS.sortReverseP = !AIS.sortReverseP">Base Unit</a>
+      						<a href="" ng-click="AIS.sortP = 'product.quantity'; AIS.sortReverseP = !AIS.sortReverseP">Quantity</a>
       					</small>
       					</th>
         				<th style="width: 200px">Yesterday
@@ -257,13 +260,13 @@
       			<td style="width: 30px;"></td>
         		<th></th>
         		<th>
-        		<a href="" ng-click="AIS.sortIP = 'product.coreProduct.name'; AIS.sortReverseIP = AIS.sortReverseIP">Name </a>
+        		<a href="" ng-click="AIS.sortIP = 'product.coreProduct.name'; AIS.sortReverseIP = !AIS.sortReverseIP">Name </a>
         		&emsp;
         		&emsp;
         		<small>
         		Sort By:
-        		<a href="" ng-click="AIS.sortIP = 'product.baseUnit'; AIS.sortReverseIP = AIS.sortReverseIP">Base Unit</a>
-        		<a href="" ng-click="AIS.sortIP = 'product.baseUnit'; AIS.sortReverseIP = AIS.sortReverseIP">Quantity</a>
+        		<a href="" ng-click="AIS.sortIP = 'product.baseUnit'; AIS.sortReverseIP = !AIS.sortReverseIP">Base Unit</a>
+        		<a href="" ng-click="AIS.sortIP = 'product.quantity'; AIS.sortReverseIP = !AIS.sortReverseIP">Quantity</a>
         		</small>
         		</th>
         		<th>
@@ -271,12 +274,12 @@
         		&emsp;&emsp;
         		<small>
         		Sort By:
-        		<a href="" ng-click="AIS.sortIP = 'product.coreProduct.type'; AIS.sortReverseIP = AIS.sortReverseIP">Type</a>
-        		<a href="" ng-click="AIS.sortIP = 'product.coreProduct.subType'; AIS.sortReverseIP = AIS.sortReverseIP">Sub Type</a>
+        		<a href="" ng-click="AIS.sortIP = 'product.coreProduct.type'; AIS.sortReverseIP = !AIS.sortReverseIP">Type</a>
+        		<a href="" ng-click="AIS.sortIP = 'product.coreProduct.subType'; AIS.sortReverseIP = !AIS.sortReverseIP">Sub Type</a>
         		</small>
         		</th>
-        <th><a href="" ng-click="AIS.sortIP = 'product.price'; AIS.sortReverseIP = AIS.sortReverseIP">Price</a></th>
-        <th><a href="" ng-click="AIS.sortIP = 'product.iventory'; AIS.sortReverseIP = AIS.sortReverseIP">Current Inventory(Including Pending)</a></th>
+        <th><a href="" ng-click="AIS.sortIP = 'product.price'; AIS.sortReverseIP = !AIS.sortReverseIP">Price</a></th>
+        <th><a href="" ng-click="AIS.sortIP = 'product.iventory'; AIS.sortReverseIP = !AIS.sortReverseIP">Current Inventory(Including Pending)</a></th>
         <th>Order More Inventory</th>
         
       </tr>
@@ -296,7 +299,7 @@
        	<td>#<input id="{{product.product.id}}" type="number" style="width:75px"></td>
       </tr>
       <tr ng-if="product.expanded" ng-repeat-end="">
-      	<td colspan="6" ><h4 >Product Sales Details</h4>
+      	<td colspan="7" ><h4 >Product Sales Details</h4>
       		<br>
         	<table style="float:">
         	<thead>
@@ -414,18 +417,18 @@
       			<td style="width: 30px;"></td>
       			<th></th>
       			<th>
-      			<a href="" ng-click="AIS.sortSP = 'product.coreProduct.name'; AIS.sortReverseSP = AIS.sortReverseSP">Name</a>
+      			<a href="" ng-click="AIS.sortSP = 'product.coreProduct.name'; AIS.sortReverseSP = !AIS.sortReverseSP">Name</a>
       			&emsp;&emsp;
       			<small>
       			Sort By:
-      			<a href="" ng-click="AIS.sortSP = 'product.baseUnit'; AIS.sortReverseSP = AIS.sortReverseSP">Base Unit</a>
-      			<a href="" ng-click="AIS.sortSP = 'product.quantity'; AIS.sortReverseSP = AIS.sortReverseSP">Quantity</a>
+      			<a href="" ng-click="AIS.sortSP = 'product.baseUnit'; AIS.sortReverseSP = !AIS.sortReverseSP">Base Unit</a>
+      			<a href="" ng-click="AIS.sortSP = 'product.quantity'; AIS.sortReverseSP = !AIS.sortReverseSP">Quantity</a>
       			</small>
       			</th>
-        		<th><a href="" ng-click="AIS.sortSP = 'yesterdayTotalValue'; AIS.sortReverseSP = AIS.sortReverseSP">Yesterday's</a></th>
-        		<th><a href="" ng-click="AIS.sortSP = 'lastWeekTotalValue'; AIS.sortReverseSP = AIS.sortReverseSP">Last 7 Day's</a></th>
-        		<th><a href="" ng-click="AIS.sortSP = 'lastMonthTotalValue'; AIS.sortReverseSP = AIS.sortReverseSP">Last 30 Day's</a></th>
-        		<th><a href="" ng-click="AIS.sortSP = 'lastYearTotalValue'; AIS.sortReverseSP = AIS.sortReverseSP">Last Year's</a></th>
+        		<th><a href="" ng-click="AIS.sortSP = 'yesterdayTotalValue'; AIS.sortReverseSP = !AIS.sortReverseSP">Yesterday's</a></th>
+        		<th><a href="" ng-click="AIS.sortSP = 'lastWeekTotalValue'; AIS.sortReverseSP = !AIS.sortReverseSP">Last 7 Day's</a></th>
+        		<th><a href="" ng-click="AIS.sortSP = 'lastMonthTotalValue'; AIS.sortReverseSP = !AIS.sortReverseSP">Last 30 Day's</a></th>
+        		<th><a href="" ng-click="AIS.sortSP = 'lastYearTotalValue'; AIS.sortReverseSP = !AIS.sortReverseSP">Last Year's</a></th>
         
       		</tr>
     		</thead>
@@ -444,7 +447,7 @@
         		<td>Total Value Sold: {{ product.lastYearTotalValue | currency}} <br><br><br> Total Count Sold: {{product.lastYearNumberSold}}</td>
       		</tr>
       		<tr ng-if="product.expanded" ng-repeat-end="">
-      			<td colspan="6">
+      			<td colspan="7">
       				<div style="height:80px" class="coreProductDetail">
       					<h4 >Product Details</h4>
       					<br>
