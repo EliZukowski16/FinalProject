@@ -7,7 +7,7 @@ angular
 	{
 	
 	var ctrl = this;	
-	ctrl.types = ['Beer', 'Wine', 'Spirits', 'Ciders', 'Accessories', 'Non-Alcohol'];
+	ctrl.types = ['Beer', 'Wine', 'Spirits', 'Ciders'];
     ctrl.orderDetails = [];
     ctrl.orderResponse = [];
     ctrl.orderList = "";
@@ -20,7 +20,6 @@ angular
     ctrl.keyword = CartService.getKeyword;
     ctrl.selection = CartService.getSelection;
     ctrl.cart = CartService.getCart;
-    ctrl.searchReturn = CartService.getSearchReturn;
     
     
     //Checkbox search
