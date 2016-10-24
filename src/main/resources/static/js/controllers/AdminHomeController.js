@@ -68,17 +68,21 @@ angular
 					console.log('length' + ctrl.statusPopup.length)
 					if(ctrl.statusPopup[i].id == order.id)
 					{
+						console.log('contains')
 						ctrl.status.splice(i,1)
 						ctrl.statusPopup.splice(i,1)
 						ctrl.statusPopup.push(ctrl.statPopup)
 						ctrl.status.push(ctrl.stat);
 					}
-					else
-					{
-						ctrl.statusPopup.push(ctrl.statPopup)
-						ctrl.status.push(ctrl.stat);
-					}
 				}
+					
+				if
+				{
+					console.log('does not contrain')
+					ctrl.statusPopup.push(ctrl.statPopup)
+					ctrl.status.push(ctrl.stat);
+				}
+				
 				
 				
 			}
