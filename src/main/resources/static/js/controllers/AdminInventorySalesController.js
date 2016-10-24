@@ -473,7 +473,7 @@ function InvSalesCtrl($http, CartService) {
 
 		ctrl.active = false;
 
-		ctrl.types = ['Beer', 'Wine', 'Spirits',"Ciders","Accessories","Non_Alcoholic"];
+		ctrl.types = ['Beer', 'Wine', 'Spirits',"Ciders"];
 	    ctrl.orderDetails = [];
 	    ctrl.orderResponse = [];
 	    
