@@ -10,11 +10,11 @@
 <!-- Quick links -->
 
 <div class="container col-md-2" id="quickLinks">
-  <h3 class="headerWhite">Quick Links</h3>
+  <h3 style="font-size:2em"class="headerWhite">Quick Links</h3>
   <ul class="nav nav-pills nav-stacked" id="links">
-  	<li><a ui-sref="adminHome">Home</a></li>
-    <li class="active"><a ui-sref="adminOrder">Unfulfilled Orders</a></li>
-    <li><a ui-sref="adminInventorySales">Sales/Inventory Statistics</a></li>
+  	<li style="font-size:1.5em"><a ui-sref="adminHome">Home</a></li>
+    <li  style="font-size:1.5em" class="active"><a ui-sref="adminOrder">Unfulfilled Orders</a></li>
+    <li style="font-size:1.5em"><a ui-sref="adminInventorySales">Sales/Inventory Statistics</a></li>
   </ul>
 </div>
 
@@ -25,14 +25,14 @@
     <thead>
       <tr>
       	<td style="width: 30px;"></td>
-        <th><a href="" ng-click="OC.sortO = 'customer.id'; OC.sortReverseO = OC.sortReverseO">Customer ID</a></th>
-        <th><a href="" ng-click="OC.sortO = 'customer.firstName'; OC.sortReverseO = OC.sortReverseO">Customer First Name</a></th>
-        <th><a href="" ng-click="OC.sortO = 'customer.lastName'; OC.sortReverseO = OC.sortReverseO">Customer Last Name</a></th>
-        <th><a href="" ng-click="OC.sortO = 'date.month'; OC.sortReverseO = OC.sortReverseO">Delivery Date</a></th>
-        <th><a href="" ng-click="OC.sortO = 'date.hour'; OC.sortReverseO = OC.sortReverseO">Delivery Time</a></th>
-        <th><a href="" ng-click="OC.sortO = 'timeOfOrder.month'; OC.sortReverseO = OC.sortReverseO">Day Order Was Placed</a></th>
-        <th><a href="" ng-click="OC.sortO = 'total'; OC.sortReverseO = OC.sortReverseO">Total</a></th>
-        <th><a href="" ng-click="OC.sortO = 'orderStatus'; OC.sortReverseO = OC.sortReverseO">Status</a></th>
+        <th><a href="" ng-click="OC.sortO = 'customer.id'; OC.sortReverseO = !OC.sortReverseO">Customer ID</a></th>
+        <th><a href="" ng-click="OC.sortO = 'customer.firstName'; OC.sortReverseO = !OC.sortReverseO">Customer First Name</a></th>
+        <th><a href="" ng-click="OC.sortO = 'customer.lastName'; OC.sortReverseO = !OC.sortReverseO">Customer Last Name</a></th>
+        <th><a href="" ng-click="OC.sortO = 'date.month'; OC.sortReverseO = !OC.sortReverseO">Delivery Date</a></th>
+        <th><a href="" ng-click="OC.sortO = 'date.hour'; OC.sortReverseO = !OC.sortReverseO">Delivery Time</a></th>
+        <th><a href="" ng-click="OC.sortO = 'timeOfOrder.month'; OC.sortReverseO = !OC.sortReverseO">Day Order Was Placed</a></th>
+        <th><a href="" ng-click="OC.sortO = 'total'; OC.sortReverseO = !OC.sortReverseO">Total</a></th>
+        <th><a href="" ng-click="OC.sortO = 'orderStatus'; OC.sortReverseO = !OC.sortReverseO">Status</a></th>
        
         
       </tr>
