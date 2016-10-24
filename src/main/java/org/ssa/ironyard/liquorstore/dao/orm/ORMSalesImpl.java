@@ -139,7 +139,7 @@ public class ORMSalesImpl extends AbstractORM<Sales> implements ORM<Sales>
     public String prepareReadSalesForLastVariableDays(Integer numberOfProducts)
     {
         String lastVariableDays = buildEager() + " WHERE " + table() + "." + getFields().get(3)
-                + " > DATE_SUB(CURDATE(), INTERVAL ? DAY) ";
+                + " < DATE_SUB(CURDATE(), INTERVAL 1 DAY) AND " +  table() + "." + getFields().get(3) + " > DATE_SUB(CURDATE(), INTERVAL ? DAY) ";
 
         if (numberOfProducts > 0)
         {

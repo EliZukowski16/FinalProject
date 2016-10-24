@@ -415,7 +415,7 @@ public class AdminController
     {
         Map<String, List<TypeSalesData>> response = new HashMap<>();
 
-        List<TypeSalesData> salesData = salesService.readAllSales();
+        List<TypeSalesData> salesData = salesService.readSalesForLastYear();
 
         if (!salesData.isEmpty())
             response.put("success", salesData);
