@@ -380,6 +380,69 @@ function InvSalesCtrl($http, CartService) {
 		}
 
 	}
+	
+	ctrl.searchSales = function() {
+
+		var today = new Date();
+		today.setHours(0, 0, 0, 0);
+
+		var yesterday = new Date(today.getFullYear(), today.getMonth(), (today.getDate() - 1));
+
+		var lastWeek = new Date(today.getFullYear(), today.getMonth(), (today.getDate() - 8));
+
+		var lastMonth = new Date(today.getFullYear(), today.getMonth(), (today.getDate() - 30));
+
+		var lastYear = new Date(today.getFullYear(), today.getMonth(), (today.getDate() - 365));
+
+		console.log(ctrl.searchResults)
+		for (let i = 0; i < ctrl.searchResults.length; i++) {
+			var product = ctrl.searchResults[i];
+
+			product.yesterdayNumberSold = 0;
+			product.yesterdayTotalValue = 0;
+
+			product.lastWeekNumberSold = 0;
+			product.lastWeekTotalValue = 0;
+
+			product.lastMonthNumberSold = 0;
+			product.lastMonthTotalValue = 0;
+
+			product.lastYearNumberSold = 0;
+			product.lastYearTotalValue = 0;
+
+			for (let j = 0; j < product.dailySalesData.length; j++) {
+				let salesData = product.dailySalesData[j];
+
+				let year = salesData.date.year;
+				let month = salesData.date.monthValue - 1;
+				let day = salesData.date.dayOfMonth;
+				let salesDate = ctrl.convertDate(year, month, day)
+
+
+				if (salesDate.getTime() == yesterday.getTime()) {
+					product.yesterdayNumberSold = product.yesterdayNumberSold + salesData.numberSold;
+					product.yesterdayTotalValue = product.yesterdayTotalValue + salesData.totalValue;
+				}
+
+				if (salesDate <= yesterday && salesDate >= lastWeek) {
+					product.lastWeekNumberSold = product.lastWeekNumberSold + salesData.numberSold;
+					product.lastWeekTotalValue = product.lastWeekTotalValue + salesData.totalValue;
+				}
+
+				if (salesDate <= yesterday && salesDate >= lastMonth) {
+					product.lastMonthNumberSold = product.lastMonthNumberSold + salesData.numberSold;
+					product.lastMonthTotalValue = product.lastMonthTotalValue + salesData.totalValue;
+				}
+
+				if (salesDate <= yesterday && salesDate >= lastYear) {
+
+					product.lastYearNumberSold = product.lastYearNumberSold + salesData.numberSold;
+					product.lastYearTotalValue = product.lastYearTotalValue + salesData.totalValue;
+				}
+			}
+		}
+
+	}
 
 
 	ctrl.showSearch = function() {
@@ -410,16 +473,16 @@ function InvSalesCtrl($http, CartService) {
 	    
 	    //Submit search to controller
 	    ctrl.search = function(){
-	    	CartService.search(ctrl.keyword);
+	    	
+	    	CartService.search(ctrl.keyword)
+	    	
+	    	ctrl.searchSales();
+	    	
+	    	
 	    	console.log(ctrl.searchResults)
 	    	
-	    	for(let i = 0; i < ctrl.searchResults.length;i++)
-	    	{
-	    		var coreProductSales = ctrl.searchResults[i].coreProductSales
-	    		console.log('core Product Sales' + coreProductSales)
-	    		
-	    		
-	    	}
+	    	
+	    	
 	    
 	    }   
 	    
