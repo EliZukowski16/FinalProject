@@ -101,6 +101,8 @@ angular
 			console.log(ctrl.status)
 			console.log(ctrl.statusPopup)
 			
+			
+			
 			for (let i = 0; i < ctrl.statusPopup.length; i++) 
 			{
 				if(ctrl.statusPopup[i].value == "pending")
@@ -109,6 +111,16 @@ angular
 					ctrl.status.splice(i,1);
 				}
 			}
+			
+			if(ctrl.status.length == 0)
+			{
+				$('#successAddPendO').addClass('hide');
+				$('#failedAddPendO').removeClass('hide');
+			}
+			else
+			{
+				
+			
 			
 			console.log(ctrl.status)
 			console.log(ctrl.statusPopup)
@@ -121,6 +133,7 @@ angular
 	        	console.log('it worked' + response.data)
 	        	
 	        })
+			}
 
 		}
 		

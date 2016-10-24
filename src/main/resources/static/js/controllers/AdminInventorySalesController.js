@@ -320,9 +320,9 @@ function InvSalesCtrl($http, CartService) {
 
 
 			console.log(ctrl.lowInv)
-			console.log(ctrl.lowInv)
+			
 
-			ctrl.lowInvSales();
+		
 
 
 		})
@@ -513,6 +513,8 @@ function InvSalesCtrl($http, CartService) {
 	    
 	    	console.log(ctrl.lowInv)
 	    	
+	    	ctrl.bol = false;
+	    	
 	    	for(let i = 0;i < ctrl.lowInv.length;i++)
 	    	{
 	    		var id = ctrl.lowInv[i].product.id;
@@ -524,6 +526,7 @@ function InvSalesCtrl($http, CartService) {
 	    		}
 	    		else
 	    		{
+	    			ctrl.bol = true
 	    			ctrl.addI = {
 	    					[id] : value
 	    			}
@@ -540,7 +543,18 @@ function InvSalesCtrl($http, CartService) {
 	    			ctrl.addInventoryPop.push(ctrl.addIPop);
 	    			
 	    		}
+	    		console.log(ctrl.bol)
+	    		
 	    	}
+	    	
+	    	if(ctrl.bol == false)
+    		{
+	    		console.log('made it in')
+    			$('#successAddI').addClass('hide');
+    			$('#failedAddI').removeClass('hide');
+    		}
+	    	else
+	    	{
 	    	
 	    	console.log(ctrl.addInventory)
 	    	console.log(ctrl.addInventoryPop)
@@ -555,6 +569,7 @@ function InvSalesCtrl($http, CartService) {
 	        	console.log('it worked' + response.data)
 	        	
 	        })
+	    	}
 	    	
 	    	
 	    	

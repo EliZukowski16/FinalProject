@@ -109,8 +109,31 @@
         			</div>
         		<div class="modal-body">
         
-        	<div class="receiptContainer" style="margin-left:2%">
+        	<div id="successAddPendO" class="receiptContainer" style="margin-left:2%">
   			<h4 style="text-align:center"><span class="glyphicon glyphicon-ok" style="color:green" aria-hidden="true"></span> You Have Successfully Answered These Order Requests</h4><br>
+  			<table class="table table-striped" >
+  
+    			<tbody>
+     			 <tr ng-repeat="statusP in HC.statusPopup" style="text-align:left">
+        		<td>
+        		<Strong>Order ID:</Strong> {{statusP.id}} &emsp;
+        		<Strong>New Status:</Strong> {{statusP.value}}
+        		</td>
+        		
+        		
+        
+      			</tr>
+      			<tr style="border-top: solid;text-align: left">
+
+      			</tr>
+
+			</div>
+			</table>
+
+        </div>
+        
+        <div id="failedAddPendO" class="receiptContainer hide" style="margin-left:2%">
+  			<h4 style="text-align:center"><span class="glyphicon glyphicon-remove" style="color:red" aria-hidden="true"></span> You Have Not Changed Any Order Statuses</h4><br>
   			<table class="table table-striped" >
   
     			<tbody>

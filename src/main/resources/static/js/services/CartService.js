@@ -73,6 +73,7 @@ return {
 			if(service.searchResults.length > 0){
 				console.log("hello")
 				$('#searchResult').removeClass('hide');
+				$('#noResults').addClass('hide');
 			}
 
 		})
