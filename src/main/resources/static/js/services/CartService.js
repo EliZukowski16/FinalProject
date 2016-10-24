@@ -12,6 +12,7 @@ service.selection = [];
 service.keyword = "";
 service.searchResults = [];
 service.cart = [];
+service.noResults = null;
 
 
 return {
@@ -31,6 +32,7 @@ return {
 	search : function (key){
 		
 		service.keyword = key;
+		service.noResults = false;
 		
 		if(service.selection.length == 0)
 		{
@@ -62,7 +64,16 @@ return {
 			angular.copy(tempArray, service.searchResults);
 			
 			console.log(service.searchResults)
-
+			
+			
+            if(service.searchResults.length === 0){
+            	service.noResults = true;
+            }
+            else{
+            	service.noResults = false;
+            }
+            console.log(service.noResults);
+			
 
 		})
 		},
@@ -88,7 +99,9 @@ return {
 	
 		getSearchResults: service.searchResults,
 		
-		getCart: service.cart
+		getCart: service.cart,
+		
+		getSearchReturn: service.noResults
 		  
 	}
 }
