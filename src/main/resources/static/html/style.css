@@ -104,3 +104,5 @@ z-index: 2000;
 #sales3 tr:nth-child(odd){background-color: #FFFFFF ; color: black}
 #sales3 tr:nth-child(even) {background-color: #FFFFFF; color: black}
 
+.headerWhite{color:white}
+
