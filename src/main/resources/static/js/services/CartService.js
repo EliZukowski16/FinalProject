@@ -65,8 +65,15 @@ return {
 			
 			
             if(service.searchResults.length == 0){
+            	
             	$('#noResults').removeClass('hide');
+            	$('#searchResult').addClass('hide');
+            	
             }
+			if(service.searchResults.length > 0){
+				console.log("hello")
+				$('#searchResult').removeClass('hide');
+			}
 
 		})
 		},
