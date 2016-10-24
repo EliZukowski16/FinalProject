@@ -21,7 +21,6 @@ padding-top: 7px
 #productTitle{margin-left:15%; color:white}
 #quickLinksProducts{float: left; margin-top:1%; width:15%}
 option{background-color:white; color:black}
-/* #add.active{background-color:#908585; -webkit-filter: grayscale(100%)} */
 
 h5{
 text-align:left;
@@ -100,3 +99,6 @@ z-index: 2000;
 
 .headerWhite{color:white}
 
+.activeSubList{background-color : #bdcbf5; }
+
+.subList{cursor: pointer;border-radius: 25px;}

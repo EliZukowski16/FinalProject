@@ -287,6 +287,10 @@ function InvSalesCtrl($http, CartService) {
 		$('.fullTableContainer').show();
 		$('.searchProductContainer').hide();
 		$('.lowInventoryContainer').hide();
+		
+		$('#SSTab').addClass("activeSubList");
+		$('#PSTab').removeClass("activeSubList");
+		$('#LITab').removeClass("activeSubList");
 	}
 
 	ctrl.lowInv = [];
@@ -296,6 +300,12 @@ function InvSalesCtrl($http, CartService) {
 		$('.fullTableContainer').hide();
 		$('.searchProductContainer').hide();
 		$('.lowInventoryContainer').show();
+		
+		$('#LITab').addClass("activeSubList");
+		$('#SSTab').removeClass("activeSubList");
+		$('#PSTab').removeClass("activeSubList");
+		
+		
 
 		console.log(location.pathname + "/inventory/lowInventory")
 
@@ -446,9 +456,16 @@ function InvSalesCtrl($http, CartService) {
 
 
 	ctrl.showSearch = function() {
+		
 		$('.fullTableContainer').hide();
 		$('.lowInventoryContainer').hide();
 		$('.searchProductContainer').show();
+		
+		$('#PSTab').addClass("activeSubList");
+		$('#SSTab').removeClass("activeSubList");
+		$('#LITab').removeClass("activeSubList");
+		
+		console.log('hello')
 
 
 	}
