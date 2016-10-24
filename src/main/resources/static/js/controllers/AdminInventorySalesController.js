@@ -515,7 +515,7 @@ function InvSalesCtrl($http, CartService) {
 	    	
 	    	for(let i = 0;i < ctrl.lowInv.length;i++)
 	    	{
-	    		var id = ctrl.lowInv[i].id;
+	    		var id = ctrl.lowInv[i].product.id;
 	    		var value = angular.element('#' + id).val()
 	    		
 	    		if(value == "")
@@ -529,10 +529,10 @@ function InvSalesCtrl($http, CartService) {
 	    			}
 	    			
 	    			ctrl.addIPop = {
-	    					id : id,
-	    					name : ctrl.lowInv[i].coreProduct.name,
-	    					baseUnit : ctrl.lowInv[i].baseUnit,
-	    					qty : ctrl.lowInv[i].quantity,
+	    					id : product.id,
+	    					name : ctrl.lowInv[i].product.coreProduct.name,
+	    					baseUnit : ctrl.lowInv[i].product.baseUnit,
+	    					qty : ctrl.lowInv[i].product.quantity,
 	    					value : value
 	    			}
 	    			
