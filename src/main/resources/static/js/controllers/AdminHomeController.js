@@ -8,6 +8,9 @@ angular
 		var ctrl = this;
 		ctrl.pending = [];
 		
+		ctrl.sortOrderP = '';
+	    ctrl.sortReverseOP = false;
+		
 		
 		ctrl.getPending = function()
 		{	

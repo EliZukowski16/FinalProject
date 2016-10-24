@@ -62,7 +62,7 @@
     			<tbody>
             	<tr ng-repeat="detail in orders.oD" height=30>
              	 <td>{{detail.product.id}}</td>
-             	 <td>{{detail.product.coreProduct.name}}</td>
+             	 <td>{{detail.product.coreProduct.name}} {{detail.product.quantiy}} Pack {{detail.product.baseUnit}}</td>
              	 <td>{{detail.qty}}</td>
              	 <td>{{detail.unitPrice | currency}}</td>
              	 <td style="text-align: right">{{detail.unitPrice * detail.qty | currency}}</td>

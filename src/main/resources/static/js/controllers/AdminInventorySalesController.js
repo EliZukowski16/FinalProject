@@ -71,6 +71,21 @@ function InvSalesCtrl($http, CartService) {
 
 	ctrl.sales = [];
 	ctrl.salesStatsData = [];
+	
+	ctrl.sortType = '';
+    ctrl.sortReverse = false;
+    
+    ctrl.sortCP = '';
+    ctrl.sortReverseCP = false;
+    
+    ctrl.sortP = '';
+    ctrl.sortReverseP = false;
+    
+    ctrl.sortIP = '';
+    ctrl.sortReverseIP = false;
+    
+    ctrl.sortSP = '';
+    ctrl.sortReverseSP = false;
 
 	ctrl.getSales = function() {
 		$('.lowInventoryContainer').hide();

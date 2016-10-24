@@ -7,7 +7,9 @@ angular
 	{
 		var ctrl = this;
 		ctrl.unOrders = [];
-	
+		
+		ctrl.sortO = '';
+		ctrl.sortReverseO = false;
 	
 		ctrl.getUnOrders = function()
 		{	
