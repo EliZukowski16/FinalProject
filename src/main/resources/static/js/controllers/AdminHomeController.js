@@ -51,7 +51,7 @@ angular
 
 			
 			
-			
+			ctrl.bol = false
 				
 			if(ctrl.statusPopup.length == 0)
 			{
@@ -63,20 +63,20 @@ angular
 			{
 				for (let i = 0; i < ctrl.statusPopup.length; i++) 
 				{
-					
-					
 					console.log('length' + ctrl.statusPopup.length)
 					if(ctrl.statusPopup[i].id == order.id)
 					{
+						ctrl.bol = true;
 						console.log('contains')
 						ctrl.status.splice(i,1)
 						ctrl.statusPopup.splice(i,1)
 						ctrl.statusPopup.push(ctrl.statPopup)
 						ctrl.status.push(ctrl.stat);
 					}
+
 				}
 					
-				if
+				if(ctrl.bol = falseS)
 				{
 					console.log('does not contrain')
 					ctrl.statusPopup.push(ctrl.statPopup)

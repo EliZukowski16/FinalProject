@@ -1,7 +1,7 @@
 angular
 	.module("liquorStore")
 	.controller("AdminInventorySalesController", InvSalesCtrl)
-homeCtrl.$inject = [ '$http', 'CartService' ]
+InvSalesCtrl.$inject = [ '$http', 'CartService' ]
 
 function InvSalesCtrl($http, CartService) {
 	var ctrl = this;
