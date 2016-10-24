@@ -12,14 +12,13 @@ angular
     ctrl.orderDetails = [];
     ctrl.orderResponse = [];
     ctrl.orderList = "";
-    ctrl.inCart = CartService.getProductIds;
     
     ctrl.month = "";
     ctrl.day = "";
     ctrl.year = "";
     
     ctrl.searchResults = CartService.getSearchResults;
-    ctrl.keyword = "";
+    ctrl.keyword = CartService.getKeyword;
     ctrl.selection = CartService.getSelection;
     ctrl.cart = CartService.getCart;
     
@@ -30,7 +29,7 @@ angular
     }
     
     //Submit search to controller
-    ctrl.search = function(){
+    ctrl.search = function(key){
     	CartService.search(ctrl.keyword);
     }   
     
