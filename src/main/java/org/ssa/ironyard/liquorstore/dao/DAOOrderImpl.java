@@ -150,6 +150,22 @@ public class DAOOrderImpl extends AbstractDAOOrder implements DAOOrder
 
         return null;
     }
+    
+    public Order insert(Order domain, LocalDateTime orderDate)
+    {
+        if (domain == null)
+            return domain;
+
+//        domain = domain.of().timeOfOrder((LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))).build();
+        Order order;
+
+        if ((order = super.insert(domain)) != null)
+        {
+            return this.insertDetail(order);
+        }
+
+        return null;
+    }
 
     @Override
     protected Order afterInsert(Order copy, Integer id)
