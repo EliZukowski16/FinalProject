@@ -1,7 +1,7 @@
 angular
 	.module("liquorStore")
 	.controller("AdminOrderController", orderCtrl)	
-	homeCtrl.$inject=['$http']
+	orderCtrl.$inject=['$http']
 
 	function orderCtrl($http)
 	{

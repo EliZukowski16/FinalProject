@@ -1,29 +1,22 @@
 //package org.ssa.ironyard.liquorstore.services;
-//package org.ssa.ironyard.liquorstore.services;
 //
 //
+//
+//import java.awt.image.BufferedImage;
+//import java.io.File;
 //import java.io.IOException;
-//import java.util.ArrayList;
+//import java.net.URL;
 //import java.util.List;
 //
+//import javax.activation.MimetypesFileTypeMap;
+//import javax.imageio.ImageIO;
+//
 //import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.jdbc.core.JdbcTemplate;
-//import org.springframework.web.client.RestTemplate;
 //import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
 //import org.ssa.ironyard.liquorstore.dao.DAOProduct;
-//import org.ssa.ironyard.liquorstore.jsonModel.JsonBeer;
 //import org.ssa.ironyard.liquorstore.model.CoreProduct;
-//import org.ssa.ironyard.liquorstore.model.Product;
 //
-//import com.fasterxml.jackson.core.JsonParseException;
-//import com.fasterxml.jackson.databind.JsonMappingException;
-//import com.fasterxml.jackson.databind.JsonNode;
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.mysql.cj.jdbc.PreparedStatement;
-//
-//import javax.sql.DataSource;
-//
-//public class changePictures
+//public class ChangePictures
 //{
 //
 //  
@@ -31,7 +24,7 @@
 //  DAOCoreProduct daoCP;
 //      
 //      @Autowired
-//      public changePictures(DAOProduct daoProd, DAOCoreProduct daoCP)
+//      public ChangePictures(DAOProduct daoProd, DAOCoreProduct daoCP)
 //      {
 //          this.daoProd = daoProd;
 //          this.daoCP = daoCP;
@@ -151,6 +144,73 @@
 //                  }
 //              }
 //          }
+//          
+//      }
+//      
+//      public void changePicture()
+//      {
+//          List<CoreProduct> listProd = daoCP.readAll();
+//          
+//          for (int i = 0; i < 200; i++)
+//        {
+//            
+//          CoreProduct cp = listProd.get(i);
+//          String idThumb = cp.getThumbnail();
+//          
+//          System.out.println(cp.getName());
+//          System.out.println(cp.getId());
+//          
+//          String thumbSrc = "C:/Users/admin/workspace/FinalProject/src/main/resources/static/pictures/products/" + idThumb + "/images/thumb.png.png";
+          //String fullSrc = "/pictures/products/" + idThumb + "/images/full.jpeg.jpeg";
+          
+    
+          
+          
+//          try {
+//              URL url = new URL(fullSrc);
+//              img = ImageIO.read(url);
+//          } catch (IOException e) {
+//              System.out.println("fail");
+//          }
+          
+//          File f = new File(thumbSrc);
+//    
+//          boolean test = f.exists();
+          
+//          File ff = new File (fullSrc);
+//          boolean testF = ff.exists();
+          
+//          System.out.println(test);
+         // System.out.println(testF);
+          
+//          CoreProduct cpUT = new CoreProduct(cp.getId(),cp.getName(),cp.getTags(),cp.getType(),cp.getSubType(),
+//                  cp.getDescription(),cp.getFullSizeImage(),"noimage",false);
+//          
+//          CoreProduct cpUB = new CoreProduct(cp.getId(),cp.getName(),cp.getTags(),cp.getType(),cp.getSubType(),
+//                  cp.getDescription(),"noimage","noimage",false);
+//          
+//          CoreProduct cpUF = new CoreProduct(cp.getId(),cp.getName(),cp.getTags(),cp.getType(),cp.getSubType(),
+//                  cp.getDescription(),"noimage",cp.getThumbnail(),false);
+//          
+//          if(test == false && testF == false)
+//          {
+//             daoCP.update(cpUB);
+//          }
+//          else if(test == false && testF == true)
+//          {
+//              daoCP.update(cpUT);
+//          }
+//          else if(test == true && testF == false)
+//          {
+//              daoCP.update(cpUF);
+//          }
+          
+//          
+//        }
+//          
+//          
+//
+//          
 //          
 //      }
 //}

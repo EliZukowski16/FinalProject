@@ -58,6 +58,7 @@
 
 
 <div class="row list-group" ng-repeat="product in PC.searchResults | orderBy: PC.orderList" ng-if="PC.cart.indexOf(product) == -1" style="margin-left:18%; width: 35%; margin-bottom:0">
+	
 	<div class="item" >
 		<div class="thumbnail" id="add">
 			<img height="225px" width="115px" class="group list-group-image"	src="/pictures/products/{{product.coreProduct.thumbnail}}/images/thumb.png.png" align="left" alt="" />
