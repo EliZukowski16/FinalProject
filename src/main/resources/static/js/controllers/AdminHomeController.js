@@ -72,11 +72,12 @@ angular
 						ctrl.statusPopup.splice(i,1)
 						ctrl.statusPopup.push(ctrl.statPopup)
 						ctrl.status.push(ctrl.stat);
+						break;
 					}
 
 				}
 					
-				if(ctrl.bol = falseS)
+				if(ctrl.bol == false)
 				{
 					console.log('does not contrain')
 					ctrl.statusPopup.push(ctrl.statPopup)
