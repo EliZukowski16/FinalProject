@@ -67,6 +67,8 @@ public class DAOSalesImpl extends AbstractDAOSales implements DAOSales
                         for (int i = 0; i < productIDs.size(); i++)
                             ps.setInt(i + 2, productIDs.get(i));
                     }
+                    
+                    LOGGER.info("Sales read : {}", ps);
 
                 }, this.listExtractor);
     }
