@@ -411,8 +411,10 @@
 
 		</form><br>
 		
+		<div style="color:white" class="hide" id="noResults">No results found. Try another search.</div>
 		
-  		<table class="table table-striped table-bordered" id="sales2">
+		<div id="searchResult" class="sales2 hide">
+  		<table class="table table-striped table-bordered" >
     		<thead>
       		<tr>
       			<td style="width: 30px;"></td>
@@ -434,7 +436,7 @@
       		</tr>
     		</thead>
     		<tbody>
-    
+    		
       		<tr ng-repeat-start="product in AIS.searchResults | orderBy:AIS.sortSP:AIS.sortReverseSP">
       			<td>
               		<button id="maxBut" ng-if="product.expanded" ng-click="product.expanded = false">-</button>
@@ -467,6 +469,7 @@
             	</tr>
             	</tbody>
             	</table>
+            	</div>
             	
 	</div>
 	

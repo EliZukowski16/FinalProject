@@ -25,7 +25,7 @@
 	<div class="input-group add-on col-md-2">
 		<input class="form-control " placeholder="Search by keyword..."	name="srch-term" id="srch-term" type="text" ng-model="PC.keyword" autofocus>
 		<div class="input-group-btn">
-			<button class="btn btn-default" type="button" id="search" ng-click = "PC.search()">
+			<button class="btn btn-default" type="button" id="search" ng-disabled= "!PC.keyword" ng-click = "PC.search()">
 			<i class="glyphicon glyphicon-search"></i>
 			</button>
 		</div>
