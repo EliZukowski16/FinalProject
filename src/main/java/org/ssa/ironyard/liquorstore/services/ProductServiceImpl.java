@@ -107,7 +107,10 @@ public class ProductServiceImpl implements ProductService
     @Override
     public List<Product> searchProduct(List<Tag> tags, List<Type> types)
     {
-        return daoProd.searchProducts(tags, types);
+        List<Tag> cleanedTags = tags.stream().filter(t -> !t.equals(null)).collect(Collectors.toList());
+        List<Type> cleanedTypes = types.stream().filter(t -> !t.equals(null)).collect(Collectors.toList());
+        
+        return daoProd.searchProducts(cleanedTags, cleanedTypes);
     }
 
     @Override
