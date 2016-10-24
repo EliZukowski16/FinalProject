@@ -151,8 +151,11 @@
 //      {
 //          List<CoreProduct> listProd = daoCP.readAll();
 //          
-//          for (int i = 0; i < 200; i++)
-//        {
+//          int num = 0;
+//          int numf = 0;
+//          
+//          for (int i = 0; i < listProd.size(); i++)
+//          {
 //            
 //          CoreProduct cp = listProd.get(i);
 //          String idThumb = cp.getThumbnail();
@@ -161,10 +164,10 @@
 //          System.out.println(cp.getId());
 //          
 //          String thumbSrc = "C:/Users/admin/workspace/FinalProject/src/main/resources/static/pictures/products/" + idThumb + "/images/thumb.png.png";
-          //String fullSrc = "/pictures/products/" + idThumb + "/images/full.jpeg.jpeg";
-          
-    
-          
+//          String fullSrc = "C:/Users/admin/workspace/FinalProject/src/main/resources/static/pictures/products/" + idThumb + "/images/full.jpeg.jpeg";
+//          
+//    
+//          
           
 //          try {
 //              URL url = new URL(fullSrc);
@@ -172,17 +175,19 @@
 //          } catch (IOException e) {
 //              System.out.println("fail");
 //          }
-          
+//          
 //          File f = new File(thumbSrc);
 //    
 //          boolean test = f.exists();
-          
+//          
+//    
+//          
 //          File ff = new File (fullSrc);
 //          boolean testF = ff.exists();
-          
-//          System.out.println(test);
-         // System.out.println(testF);
-          
+//          
+//              System.out.println(test);
+//              System.out.println(testF);
+//          
 //          CoreProduct cpUT = new CoreProduct(cp.getId(),cp.getName(),cp.getTags(),cp.getType(),cp.getSubType(),
 //                  cp.getDescription(),cp.getFullSizeImage(),"noimage",false);
 //          
@@ -195,21 +200,26 @@
 //          if(test == false && testF == false)
 //          {
 //             daoCP.update(cpUB);
+//             num++;
+//             numf++;
 //          }
 //          else if(test == false && testF == true)
 //          {
 //              daoCP.update(cpUT);
+//              numf++;
 //          }
 //          else if(test == true && testF == false)
 //          {
 //              daoCP.update(cpUF);
+//              num++;
 //          }
-          
+//          
 //          
 //        }
 //          
 //          
-//
+//          System.out.println(num);
+//          System.out.println(numf);
 //          
 //          
 //      }
