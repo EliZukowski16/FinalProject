@@ -56,6 +56,9 @@
     </div>
   </form>
 
+<div style="color:white" class="hide" id="noResults">No results found. Try another search.</div>	
+
+
 
 <div class="row list-group" ng-repeat="product in PC.searchResults | orderBy: PC.orderList" ng-if="PC.cart.indexOf(product) == -1" style="margin-left:18%; width: 35%; margin-bottom:0">
 	
@@ -74,7 +77,6 @@
 		</div>
 	</div>
 	
-<div style="color:white" ng-show="!PC.searchResults.length">No results found. Try another search.</div>	
 
 
 

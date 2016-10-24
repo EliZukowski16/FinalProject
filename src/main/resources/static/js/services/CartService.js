@@ -12,8 +12,6 @@ service.selection = [];
 service.keyword = "";
 service.searchResults = [];
 service.cart = [];
-service.noResults = null;
-
 
 return {
 
@@ -37,7 +35,7 @@ return {
 		if(service.selection.length == 0)
 		{
 
-			service.selection = ["BEER","WINE","SPIRITS","CIDERS","ACCESSORIES","NON_ALCOHOL"]
+			service.selection = ["BEER","WINE","SPIRITS","CIDERS"]
 
 		}
 		
@@ -66,14 +64,9 @@ return {
 			console.log(service.searchResults)
 			
 			
-            if(service.searchResults.length === 0){
-            	service.noResults = true;
+            if(service.searchResults.length == 0){
+            	$('#noResults').removeClass('hide');
             }
-            else{
-            	service.noResults = false;
-            }
-            console.log(service.noResults);
-			
 
 		})
 		},

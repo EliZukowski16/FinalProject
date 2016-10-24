@@ -20,7 +20,6 @@ angular
     ctrl.keyword = CartService.getKeyword;
     ctrl.selection = CartService.getSelection;
     ctrl.cart = CartService.getCart;
-    ctrl.searchReturn = CartService.getSearchReturn;
     
     
     //Checkbox search
