@@ -22,12 +22,24 @@ angular
 				ctrl.load=false;
 				ctrl.orders= response.data.success;
 		  		console.log(ctrl.orders);
+				ctrl.convertDates();
+
 			})
 			
 		};
 		
 		ctrl.getOrders();
+		
+		ctrl.convertDates = function() {
+			for (let i = 0; i < ctrl.orders.length; i++) {
+
+
+				ctrl.orders[i].deliveryDate = new Date(ctrl.orders[i].date.year, ctrl.orders[i].date.monthValue - 1, ctrl.orders[i].date.dayOfMonth);
+				ctrl.orders[i].orderDate = new Date(ctrl.orders[i].timeOfOrder.year, ctrl.orders[i].timeOfOrder.monthValue - 1, ctrl.orders[i].timeOfOrder.dayOfMonth, ctrl.orders[i].timeOfOrder.hour, ctrl.orders[i].timeOfOrder.minute, ctrl.orders[i].timeOfOrder.second)
+			}
 	
 		
 	}
-	
+
+
+}
