@@ -30,8 +30,8 @@
         <th style="border-bottom: solid 2px"><a href="" ng-click="OC.sortType = 'id'; OC.sortReverse = !OC.sortReverse">Order ID</a></th>
         <th style="border-bottom: solid 2px"><a href="" ng-click="OC.sortType = 'total'; OC.sortReverse = !OC.sortReverse">Total</a></th>
         <th style="border-bottom: solid 2px"><a href="" ng-click="OC.sortType = 'orderStatus'; OC.sortReverse = !OC.sortReverse">Order Status</a></th>
-        <th style="border-bottom: solid 2px"><a href="" ng-click="OC.sortType = 'date.monthValue'; OC.sortReverse = !OC.sortReverse">Delivery Date</a></th>
-        <th style="border-bottom: solid 2px"><a href="" ng-click="OC.sortType = 'timeOfOrder.hour'; OC.sortReverse = !OC.sortReverse">Time of Order Placement</a></th>
+        <th style="border-bottom: solid 2px"><a href="" ng-click="OC.sortType = 'deliveryDate'; OC.sortReverse = !OC.sortReverse">Delivery Date</a></th>
+        <th style="border-bottom: solid 2px"><a href="" ng-click="OC.sortType = 'orderDate'; OC.sortReverse = !OC.sortReverse">Time of Order Placement</a></th>
       </tr>
     </thead>
     <tbody>
@@ -43,8 +43,10 @@
         <td>{{ orders.id }}</td>
         <td>{{ orders.total | currency }}</td>
         <td>{{ orders.orderStatus }}</td>
-        <td>{{ orders.date.monthValue}}/{{ orders.date.dayOfMonth }}/{{ orders.date.year }}</td>
-        <td>{{ orders.timeOfOrder.hour }}:{{ orders.timeOfOrder.minute }}:{{ orders.timeOfOrder.second }}</td>
+        <td>{{ orders.deliveryDate | date : 'MMMM dd, yyyy'}}</td>
+<!--         <td>{{ orders.date.monthValue}}/{{ orders.date.dayOfMonth }}/{{ orders.date.year }}</td> -->
+        <td>{{orders.orderDate | date : 'hh:mm:ss a - MMMM dd, yyyy' }}</td>
+<!--         <td>{{ orders.timeOfOrder.hour }}:{{ orders.timeOfOrder.minute }}:{{ orders.timeOfOrder.second }}</td> -->
       </tr>
 	  <tr ng-if="orders.expanded" ng-repeat-end="">
             <td colspan="6"><h4  style="margin-left:1%">Order Details</h4>
