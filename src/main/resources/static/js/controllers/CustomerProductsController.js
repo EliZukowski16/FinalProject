@@ -1,9 +1,9 @@
 angular
 	.module("liquorStore")
 	.controller("CustomerProductsController", productCtrl)	
-	productCtrl.$inject=['$http', '$state', 'CartService']
+	productCtrl.$inject=['$http', '$state', 'CartService', '$location']
 
-	function productCtrl($http, $state, CartService)
+	function productCtrl($http, $state, CartService, $location)
 	{
 	
 	var ctrl = this;	
@@ -113,10 +113,7 @@ angular
   				
   			
   		//}
-//  		
-//  		
-//  		
-//	})
+// 	})
 //	};
     
 	
@@ -131,6 +128,8 @@ angular
     //Submit Order    
     ctrl.submitOrder = function()
     {
+    
+    	
     	var products = [];
     	for(var i = 0; i<ctrl.cart.length; i++){
     		var tempProduct = {
@@ -169,7 +168,7 @@ angular
         	}
         	
     		console.log(ctrl.orderResponse);
-
+        
         })
     };
 
@@ -180,7 +179,10 @@ angular
     };
     
     
-    
+    //Refresh page to start new search and order
+    ctrl.clearAll = function(){
+    	location.reload();
+    }
     
     
     

@@ -180,7 +180,8 @@
 </div>
  
 <div class="text-center">
-    <button type="button" class="btn btn-danger btn-lg" ng-click="PC.submitOrder()" data-toggle="modal" data-target="#myModal">Checkout 
+<button type="button" ng-click="PC.clearAll()" class = "btn btn-danger btn-lg">Start New Order</button>
+    <button type="button" class="btn btn-success btn-lg" ng-click="PC.submitOrder()" data-toggle="modal" data-target="#myModal" ng-disabled="!(PC.month && PC.day && PC.year)">Checkout 
     <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></button>
 
   <!-- Modal -->
