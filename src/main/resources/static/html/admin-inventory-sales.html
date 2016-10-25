@@ -33,7 +33,7 @@
 </div>
 
 
-<div class="fullTableContainer" style="width:75%; display:inline-block; float:left; top:22%">
+<div class="fullTableContainer" style="width:80%; display:inline-block; float:left; top:22%">
   <h2 class="headerWhite">Sales Statistics</h2><br>
   <table class="table table-striped table-bordered" id="sales1">
   	<span class="typeDiv">
@@ -41,19 +41,19 @@
       <tr>
       	<td style="width: 30px;"></td>
       	<th style="width: 250px"><a href="" ng-click="AIS.sortType = 'type'; AIS.sortReverse = !AIS.sortReverse">Type</a></th>
-        <th style="width: 200px">Yesterday's 
+        <th style="width: 300px">Yesterday's 
         (<a href="" ng-click="AIS.sortType = 'yesterdayTotalValue'; AIS.sortReverse = !AIS.sortReverse">Sales</a>
         /<a href="" ng-click="AIS.sortType = 'yesterdayNumberSold'; AIS.sortReverse = !AIS.sortReverse">Count</a>)
         </th>
-        <th style="width: 200px">Last 7 Day's
+        <th style="width: 300px">Last 7 Day's
         (<a href="" ng-click="AIS.sortType = 'lastWeekTotalValue'; AIS.sortReverse = !AIS.sortReverse">Sales</a>
         /<a href="" ng-click="AIS.sortType = 'lastWeekNumberSold'; AIS.sortReverse = !AIS.sortReverse">Count</a>)
         </th>
-        <th style="width: 200px">Last 30 Day's 
+        <th style="width: 300px">Last 30 Day's 
         (<a href="" ng-click="AIS.sortType = 'lastMonthTotalValue'; AIS.sortReverse = !AIS.sortReverse">Sales</a>
         /<a href="" ng-click="AIS.sortType = 'lastMonthNumberSold'; AIS.sortReverse = !AIS.sortReverse">Count</a>)
         </th>
-        <th style="width: 200px">Last Year's
+        <th style="width: 300px">Last Year's
         (<a href="" ng-click="AIS.sortType = 'lastYearTotalValue'; AIS.sortReverse = !AIS.sortReverse">Sales</a>
         /<a href="" ng-click="AIS.sortType = 'lastYearNumberSold'; AIS.sortReverse = !AIS.sortReverse">Count</a>)
         </th>
@@ -70,22 +70,22 @@
     	</td>
     	<td><Strong>{{sales.type}}</Strong></td>
     	<td>
-    	<div style="width:160px">
-    		<span style="width:80px; text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{sales.yesterdayTotalValue | currency}}</span>
-    		<span style="width:80px; text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.yesterdayNumberSold}}</span>
+    	<div style="width:300px">
+    		<span style="width:150px; text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{sales.yesterdayTotalValue | currency}}</span>
+    		<span style="width:100px; text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.yesterdayNumberSold}}</span>
     	</div>
     	</td>
         <td>
-        	<span style="width: 80px; text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.lastWeekTotalValue | currency}}</span>
-        	<span style="width: 80px; text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.lastWeekNumberSold}}</span>
+        	<span style="width: 150px; text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.lastWeekTotalValue | currency}}</span>
+        	<span style="width: 100px; text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.lastWeekNumberSold}}</span>
         </td>
         <td>
-        	<span style="width: 80px; text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.lastMonthTotalValue | currency}}</span>
-        	<span style="width: 80px; text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.lastMonthNumberSold}}</span>
+        	<span style="width: 150px; text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.lastMonthTotalValue | currency}}</span>
+        	<span style="width: 100px; text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.lastMonthNumberSold}}</span>
         </td>
         <td>
-        	<span style="width: 80px; text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.lastYearTotalValue | currency}}</span>
-        	<span style="width: 80px; text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.lastYearNumberSold}}</span>
+        	<span style="width: 150px; text-align: left; display: table-cell"><img src="/pictures/green_dollar.png.png" height="15px" width="15px"> {{ sales.lastYearTotalValue | currency}}</span>
+        	<span style="width: 100px; text-align: right; display: table-cell"><img src="/pictures/count.png.png" height="15px" width="15px"> {{sales.lastYearNumberSold}}</span>
         </td>
       </tr>
       </span>
