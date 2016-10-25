@@ -14,12 +14,12 @@ angular
 		
 		ctrl.getOrders = function()
 		{
-	    	
+	    	ctrl.load=true;
 			$http({
 				url: location.pathname +"/Orders",
 				method: 'GET',
 			}).then(function(response) {		
-				
+				ctrl.load=false;
 				ctrl.orders= response.data.success;
 		  		console.log(ctrl.orders);
 			})
