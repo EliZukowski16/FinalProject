@@ -29,7 +29,6 @@
         <th><a href="" ng-click="OC.sortO = 'customer.firstName'; OC.sortReverseO = !OC.sortReverseO">Customer First Name</a></th>
         <th><a href="" ng-click="OC.sortO = 'customer.lastName'; OC.sortReverseO = !OC.sortReverseO">Customer Last Name</a></th>
         <th><a href="" ng-click="OC.sortO = 'date.month'; OC.sortReverseO = !OC.sortReverseO">Delivery Date</a></th>
-        <th><a href="" ng-click="OC.sortO = 'date.hour'; OC.sortReverseO = !OC.sortReverseO">Delivery Time</a></th>
         <th><a href="" ng-click="OC.sortO = 'timeOfOrder.month'; OC.sortReverseO = !OC.sortReverseO">Day Order Was Placed</a></th>
         <th><a href="" ng-click="OC.sortO = 'total'; OC.sortReverseO = !OC.sortReverseO">Total</a></th>
         <th><a href="" ng-click="OC.sortO = 'orderStatus'; OC.sortReverseO = !OC.sortReverseO">Status</a></th>
@@ -48,7 +47,6 @@
         <td>{{ unOrders.customer.firstName }}</td>
         <td>{{ unOrders.customer.lastName }}</td>
         <td>{{ unOrders.date.dayOfWeek }}, {{ unOrders.date.month }} {{ unOrders.date.dayOfMonth }}, {{ unOrders.date.year }}</td>
-       	<td>{{ unOrders.date.hour }}:{{ unOrders.date.minute }}:{{ unOrders.date.second }}</td>
         <td>{{ unOrders.timeOfOrder.dayOfWeek }}, {{ unOrders.timeOfOrder.month }} {{ unOrders.timeOfOrder.dayOfMonth }}, {{ unOrders.timeOfOrder.year }}</td>
        	<td>{{ unOrders.total | currency }}</td>
        	<td>{{ unOrders.orderStatus }}
