@@ -394,7 +394,7 @@ public class AdminController
         
         
         
-        LOGGER.info("Sales Data for Search: {}" , salesData);
+        LOGGER.trace("Sales Data for Search: {}" , salesData);
 
         if (salesData.size() == 0)
         {
