@@ -28,8 +28,8 @@
         <th><a href="" ng-click="HC.sortOrderP = 'customer.id'; HC.sortReverseOP = !HC.sortReverseOP">Customer ID</a></th>
         <th><a href="" ng-click="HC.sortOrderP = 'customer.firstName'; HC.sortReverseOP = !HC.sortReverseOP">Customer First Name</a></th>
         <th><a href="" ng-click="HC.sortOrderP = 'customer.lastName'; HC.sortReverseOP = !HC.sortReverseOP">Customer Last Name</a></th>
-        <th><a href="" ng-click="HC.sortOrderP = 'date.month'; HC.sortReverseOP = !HC.sortReverseOP">Delivery Delivery Date</a></th>
-        <th><a href="" ng-click="HC.sortOrderP = 'timeOfOrder.month'; HC.sortReverseOP = !HC.sortReverseOP">Day Order Was Placed</a></th>
+        <th><a href="" ng-click="HC.sortOrderP = 'deliveryDate'; HC.sortReverseOP = !HC.sortReverseOP">Delivery Delivery Date</a></th>
+        <th><a href="" ng-click="HC.sortOrderP = 'orderDate'; HC.sortReverseOP = !HC.sortReverseOP">Day Order Was Placed</a></th>
         <th><a href="" ng-click="HC.sortOrderP = 'total'; HC.sortReverseOP = !HC.sortReverseOP">Total</a></th>
         <th>Order Status</th>
         
@@ -45,8 +45,10 @@
         <td>{{ pending.customer.id }}</td>
         <td>{{ pending.customer.firstName }}</td>
         <td>{{ pending.customer.lastName }}</td>
-        <td>{{ pending.date.dayOfWeek }}, {{ pending.date.month }} {{ pending.date.dayOfMonth }}, {{ pending.date.year }}</td>
-        <td>{{ pending.timeOfOrder.dayOfWeek }}, {{ pending.timeOfOrder.month }} {{ pending.timeOfOrder.dayOfMonth }}, {{ pending.timeOfOrder.year }}</td>
+        <td>{{pending.deliveryDate | date : 'MMMM dd, yyyy'}}</td>
+<!--         <td>{{ pending.date.dayOfWeek }}, {{ pending.date.month }} {{ pending.date.dayOfMonth }}, {{ pending.date.year }}</td> -->
+        <td>{{pending.orderDate | date : 'hh:mm:ss a - MMMM dd, yyyy'}}</td>
+<!--         <td>{{ pending.timeOfOrder.dayOfWeek }}, {{ pending.timeOfOrder.month }} {{ pending.timeOfOrder.dayOfMonth }}, {{ pending.timeOfOrder.year }}</td> -->
        	<td>{{ pending.total | currency }}</td>
        	<td style="text-align: center">{{ pending.orderStatus }}<br>
        		<input type="radio"  name="{{pending.id}}" value="approved" ng-click="HC.checkedRadio(pending,'approved')"> Approve 
