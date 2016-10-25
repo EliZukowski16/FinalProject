@@ -86,16 +86,20 @@ function InvSalesCtrl($http, CartService) {
     
     ctrl.sortSP = '';
     ctrl.sortReverseSP = false;
+    
+   
 
 	ctrl.getSales = function() {
 		$('.lowInventoryContainer').hide();
 		$('.searchProductContainer').hide();
 
+		ctrl.load=true;
+		
 		$http({
 			url : location.pathname + "/inventory/sales",
 			method : 'GET',
 		}).then(function(response) {
-
+			ctrl.load=false;
 			console.log(response)
 			ctrl.sales = response.data.success;
 
