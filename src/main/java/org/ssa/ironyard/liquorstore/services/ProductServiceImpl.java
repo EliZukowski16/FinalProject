@@ -109,8 +109,11 @@ public class ProductServiceImpl implements ProductService
     {
         List<Tag> cleanedTags = tags.stream().filter(t -> !t.equals(null)).collect(Collectors.toList());
         List<Type> cleanedTypes = types.stream().filter(t -> !t.equals(null)).collect(Collectors.toList());
-        
-        return daoProd.searchProducts(cleanedTags, cleanedTypes);
+
+        List<Product> rawProducts = daoProd.searchProducts(cleanedTags, cleanedTypes);
+        List<Product> limitedProducts = rawProducts.stream().limit(500).collect(Collectors.toList());
+
+        return limitedProducts;
     }
 
     @Override
@@ -178,13 +181,13 @@ public class ProductServiceImpl implements ProductService
     @Transactional
     public List<Product> addStock(Map<Integer, Integer> productStockOrders)
     {
-        List<Integer> productIDs = productStockOrders.entrySet().stream().map(p -> p.getKey()).collect(Collectors.toList());
-        
+        List<Integer> productIDs = productStockOrders.entrySet().stream().map(p -> p.getKey())
+                .collect(Collectors.toList());
+
         LOGGER.info("Product IDs {}", productIDs);
-        
-        List<Product> productsToBeUpdated = daoProd
-                .readByIds(productIDs);
-        
+
+        List<Product> productsToBeUpdated = daoProd.readByIds(productIDs);
+
         LOGGER.info(productsToBeUpdated);
         List<Product> products = new ArrayList<>();
 
@@ -193,7 +196,7 @@ public class ProductServiceImpl implements ProductService
             Integer updatedStock = p.getInventory() + productStockOrders.get(p.getId());
             Product productToUpdate = p.of().inventory(updatedStock).build();
             Product updatedProduct;
-            
+
             LOGGER.info(productToUpdate.getId());
             LOGGER.info(productToUpdate.getInventory());
 

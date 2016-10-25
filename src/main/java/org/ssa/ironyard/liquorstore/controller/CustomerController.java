@@ -236,7 +236,7 @@ public class CustomerController
 
         List<Product> products = productService.searchProduct(tags, types);
 
-        LOGGER.info(products + "products");
+        LOGGER.trace(products + "products");
 
         if (products.size() == 0)
         {
