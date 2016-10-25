@@ -392,7 +392,7 @@ public class AdminController
 //        
 //        List<ProductSalesData> salesData = salesService.searchProduct(productListId);
         
-        
+        LOGGER.info(salesData.size());
         
         LOGGER.info("Sales Data for Search: {}" , salesData);
 

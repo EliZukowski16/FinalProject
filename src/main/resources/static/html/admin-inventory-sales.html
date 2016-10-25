@@ -294,7 +294,7 @@
     	<td><img src = "/pictures/products/{{product.product.coreProduct.thumbnail}}/images/thumb.png.png" height="100 px" width = "45px"></td>
         <td><Strong>{{ product.product.coreProduct.name }}</Strong> <br> {{ product.product.baseUnit }}, {{ product.product.quantity }} Pack</td>
         <td>{{ product.product.coreProduct.type }}  {{ product.product.coreProduct.subType }}</td>
-        <td>{{ product.product.price }}</td>
+        <td>{{ product.product.price | currency}}</td>
        	<td>{{ product.product.inventory }}</td>
        	<td>#<input id="{{product.product.id}}" type="number" style="width:75px"></td>
       </tr>
@@ -315,20 +315,20 @@
         	</thead>
         	<tbody>
         	<tr>
-        		<td>Sales: {{product.yesterdayTotalValue}}</td>
+        		<td>Sales: {{product.yesterdayTotalValue | currency}}</td>
         		<td></td>
-        		<td>Sales: {{product.lastWeekTotalValue}}</td>
+        		<td>Sales: {{product.lastWeekTotalValue | currency}}</td>
         		<td></td>
-        		<td>Sales: {{product.lastMonthTotalValue}}</td>
+        		<td>Sales: {{product.lastMonthTotalValue | currency}}</td>
         		<td></td>
-        		<td>Sales: {{product.lastYearTotalValue}}</td>
+        		<td>Sales: {{product.lastYearTotalValue | currency}}</td>
         	<tr>
         	<tr>
         		<td>Count Sold: {{product.yesterdayNumberSold}}</td>
         		<td></td>
         		<td>Count Sold: {{product.lastWeekNumberSold}}</td>
         		<td></td>
-        		<td>Count Sold: {{product.lastMontNumberSold}}</td>
+        		<td>Count Sold: {{product.lastMonthNumberSold}}</td>
         		<td></td>
         		<td>Count Sold: {{product.lastYearNumberSold}}</td>
         	</tr>
@@ -416,7 +416,7 @@
 			<div class="input-group add-on col-md-3">
 				<input class="form-control " placeholder="Search by keyword..."	name="srch-term" id="srch-term" type="text" ng-model="AIS.keyword">
 				<div class="input-group-btn">
-					<button class="btn btn-default" type="button" id="search" ng-click = "AIS.search()">
+					<button class="btn btn-default" type="button" id="search" ng-disabled= "!AIS.keyword" ng-click = "AIS.search()">
 					<i class="glyphicon glyphicon-search"></i>
 					</button>
 				</div>

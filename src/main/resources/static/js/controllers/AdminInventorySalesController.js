@@ -321,7 +321,7 @@ function InvSalesCtrl($http, CartService) {
 
 			console.log(ctrl.lowInv)
 			
-
+			ctrl.lowInvSales()
 		
 
 

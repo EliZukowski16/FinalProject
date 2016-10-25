@@ -349,7 +349,11 @@ public class SalesServiceImpl implements SalesService
         if (productID == null)
             return new ArrayList<>();
 
-        return this.createProductFormattedSalesData(daoSales.readSalesForProduct(productID));
+        List<ProductSalesData> productList = this.createProductFormattedSalesData(daoSales.readSalesForProduct(productID));
+        
+        
+        
+        return productList;
     }
 
     @Override
@@ -374,7 +378,16 @@ public class SalesServiceImpl implements SalesService
         List<Tag> cleanedTags = tags.stream().filter(t -> !t.equals(null)).collect(Collectors.toList());
         List<Type> cleanedTypes = types.stream().filter(t -> !t.equals(null)).collect(Collectors.toList());
         
-        return createProductFormattedSalesData(daoSales.searchProducts(cleanedTags, cleanedTypes));
+        
+        
+        List<ProductSalesData> productSales = createProductFormattedSalesData(daoSales.searchProducts(cleanedTags, cleanedTypes));
+        
+        if(productSales.size() > 500)
+        {
+            productSales =  productSales.subList(0, 500);
+        }
+        
+        return productSales;
     }
 
     @Override
