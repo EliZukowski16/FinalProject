@@ -2,64 +2,73 @@
 <html ng-app="liquorStore">
 <head>
 <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>The Beer Guys</title>
-	
-	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
- 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  	 
-   	 <script src="/vendors/angular.min.js"></script>
-   	 <script src="/vendors/angular-ui-router.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Beer Guys</title>
+
+<!-- 	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  -->
+<!--  	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+
+<script src="/vendors/angular.min.js"></script>
+<script src="/vendors/angular-ui-router.min.js"></script>
 <!--    	 <script src="/charts/Chart.js"></script> -->
 <!-- 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script> -->
 <!--    	 <script src="https://cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script> -->
-	
+
 <!-- 	<script src="/vendors/chartsD/Angdist/highcharts.js"></script> -->
 <!-- 	<script src="/vendors/chartsD/Angdist/highcharts-ng.js"></script> -->
-	
+
 
 <!-- 	<script src="/vendors/chartsD/dist/Chart.min.js"></script>	 -->
 <!-- 	<script src="/vendors/chartsD/Angdist/angular-chart.js"></script>  -->
-	
-   	 
-   	 <link rel="stylesheet" type="text/css" href="/html/style.css">
-     	
-	<script src="/js/main.js"></script> 
-	<script src="/js/services/CartService.js"></script>
-	 <script src="/js/controllers/AdminHomeController.js"></script>
-	 <script src="/js/controllers/AdminOrderController.js"></script>
-	 <script src="/js/controllers/AdminInventorySalesController.js"></script>
-	 <!-- <script src="/js/controllers/lineChart.js"></script>  -->
 
-	 
-    
+
+<script src="/vendors/jquery-1.12.4.min.js"></script>
+
+<link rel="stylesheet" href="/vendors/bootstrap.min.css" media="screen"
+    title="no title">
+
+<link rel="stylesheet" type="text/css" href="/html/style.css">
+
+<script src="/js/main.js"></script>
+<script src="/js/services/CartService.js"></script>
+<script src="/js/controllers/AdminHomeController.js"></script>
+<script src="/js/controllers/AdminOrderController.js"></script>
+<script src="/js/controllers/AdminInventorySalesController.js"></script>
+<!-- <script src="/js/controllers/lineChart.js"></script>  -->
+
+
+
 </head>
 <body id="adminBody">
 
 
-  <nav class="navbar navbar-inverse" id="nav" style="min-height:60px">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" style="line-height:60px; text-align: center; padding:8px;" href="#"><h2>The Beer Guys</h2></a>
-    </div>
-    <ul class="nav navbar-nav" style="padding:14px">
-      <li><a ui-sref="adminHome" ui-sref-active="active">Home</a></li>
-      <li><a ui-sref="adminOrder">Unfulfilled Orders</a></li>
-      <li><a ui-sref="adminInventorySales">Sales Stats/Inventory</a></li>
-      
-    </ul>
-     <ul class="nav navbar-nav navbar-right" style="padding:14px">
-        <li><a href="/TheBeerGuys"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
-      </ul>
-  </div>
-</nav>
+    <nav class="navbar navbar-inverse" id="nav" style="min-height: 60px">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand"
+                    style="line-height: 60px; text-align: center; padding: 8px;"
+                    href="#"><h2>The Beer Guys</h2></a>
+            </div>
+            <ul class="nav navbar-nav" style="padding: 14px">
+                <li><a ui-sref="adminHome" ui-sref-active="active">Home</a></li>
+                <li><a ui-sref="adminOrder">Unfulfilled Orders</a></li>
+                <li><a ui-sref="adminInventorySales">Sales
+                        Stats/Inventory</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right" style="padding: 14px">
+                <li><a href="/TheBeerGuys"><span
+                        class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+            </ul>
+        </div>
+    </nav>
 
 
 
 
 
 
-<main ui-view></main> 
+    <main ui-view></main>
 
 </body>
 </html>

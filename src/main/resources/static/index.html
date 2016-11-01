@@ -2,52 +2,69 @@
 <html>
 <head>
 <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>The Beer Guys</title>
-	
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-     <link rel="stylesheet" type="text/css" href="html/style.css">
-     
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Beer Guys</title>
+
+
+
+<link rel="stylesheet" href="/vendors/bootstrap.min.css" media="screen"
+    title="no title">
+<!--      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+<link rel="stylesheet" type="text/css" href="html/style.css">
+
 </head>
 
-<body id="loginPage" style="overflow:hidden">
- 	 
-    
-    <nav class="navbar navbar-inverse" id="nav" style="min-height:80px">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" style="line-height:60px; text-align: center; padding:8px;" href="#"><h2>The Beer Guys</h2></a>
-    </div>
-  </div>
-</nav>
+<body id="loginPage" style="overflow: hidden">
 
-<div>
- <img class=img2 src="/pictures/glass_burned.png" style="height:91%; position:fixed; top: 10%; left: 35%;"> 
 
-<form class="form-horizontal" id="login" style="position:relative; z-index:50; margin-top:15%">
-         <div class="form-group">
-      <label class="control-label col-sm-5" for="username">Username:</label>
-      <div class="col-sm-2">
-        <input type="text" class="form-control" id="username" placeholder="Enter username">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-5" for="pwd">Password:</label>
-      <div class="col-sm-2">
-        <input type="password" class="form-control" id="pwd" placeholder="Enter password">
-      </div>
-    </div>
-    <div style="color:black;margin-left:39%; position:relative; z-index:50"  class="hidden" id="error"><strong>Invalid username/password combination. Try again.</strong></div><br>
-        <div class="form-group">
-      <div class="col-sm-offset-5 col-sm-2">
-        <button type="button" class="btn btn-success btn-lg" id="submit" style="margin-left:28%">Login</button>
-      </div>
-    </div>
-    </form>
-    
+    <nav class="navbar navbar-inverse" id="nav" style="min-height: 80px">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand"
+                    style="line-height: 60px; text-align: center; padding: 8px;"
+                    href="#"><h2>The Beer Guys</h2></a>
+            </div>
+        </div>
+    </nav>
+
+    <div>
+        <img class=img2 src="/pictures/glass_burned.png"
+            style="height: 91%; position: fixed; top: 10%; left: 35%;">
+
+        <form class="form-horizontal" id="login"
+            style="position: relative; z-index: 50; margin-top: 15%">
+            <div class="form-group">
+                <label class="control-label col-sm-5" for="username">Username:</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="username"
+                        placeholder="Enter username">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-5" for="pwd">Password:</label>
+                <div class="col-sm-2">
+                    <input type="password" class="form-control" id="pwd"
+                        placeholder="Enter password">
+                </div>
+            </div>
+            <div
+                style="color: black; margin-left: 39%; position: relative; z-index: 50"
+                class="hidden" id="error">
+                <strong>Invalid username/password combination. Try
+                    again.</strong>
+            </div>
+            <br>
+            <div class="form-group">
+                <div class="col-sm-offset-5 col-sm-2">
+                    <button type="button" class="btn btn-success btn-lg"
+                        id="submit" style="margin-left: 28%">Login</button>
+                </div>
+            </div>
+        </form>
+
     </div>
 
-<!-- <div class="container">
+    <!-- <div class="container">
 <div class="jumbotron text-center">
     <h1>Welcome</h1>
     <p>Sign in to get started</p>
@@ -88,9 +105,12 @@
 </div>
 </div> -->
 
- 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
- 	 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-	 <script type="text/javascript">
+
+<script type="text/javascript" src="/vendors/jquery-1.12.4.min.js"></script>
+<!--     <script -->
+<!--         src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+    <script type="text/javascript">
 	 
 	        $(document).ready(function () {
 	        	$('#submit').click(login);

@@ -1,107 +1,163 @@
 /* index.html */
-
-.form-inline{
-margin-left: 70%; 
-padding-top: 7px
+.form-inline {
+	margin-left: 70%;
+	padding-top: 7px
 }
 
+#loginPage {
+	background:
+		url("https://static1.squarespace.com/static/5328b10be4b0702adacef32f/56340e79e4b09d923a5f44c7/56340e79e4b09d923a5f44d3/1446252186228/bigstock-Coffee-Shop-Blur-Background-Wi-86599157.jpg?format=2500w")
+		no-repeat center center fixed
+}
 
- #loginPage{
-	 background: url("https://static1.squarespace.com/static/5328b10be4b0702adacef32f/56340e79e4b09d923a5f44c7/56340e79e4b09d923a5f44d3/1446252186228/bigstock-Coffee-Shop-Blur-Background-Wi-86599157.jpg?format=2500w") no-repeat center center fixed
-}  
-
-.hide{visibility:hidden}
+.hide {
+	visibility: hidden
+}
 
 /*customer.html*/
-#customerBody, #adminBody{background: url("/pictures/Beer-Wallpaper.jpg") no-repeat center bottom fixed}
-
-
-/*customer-product.html*/
-
-#productTitle{margin-left:15%; color:white}
-#quickLinksProducts{float: left; margin-top:1%; width:15%}
-option{background-color:white; color:black}
-
-h5{
-text-align:left;
-margin-left:5%
+#customerBody, #adminBody {
+	background: url("/pictures/Beer-Wallpaper.jpg") no-repeat center bottom
+		fixed
 }
 
-.cart{
-display: block;
-position:fixed;
-top:25%;
-left:70%;
-margin-right:5%;
-z-index: 2000;
-} 
+/*customer-product.html*/
+#productTitle {
+	margin-left: 15%;
+	color: white
+}
+
+#quickLinksProducts {
+	float: left;
+	margin-top: 1%;
+	width: 15%
+}
+
+option {
+	background-color: white;
+	color: black
+}
+
+h5 {
+	text-align: left;
+	margin-left: 5%
+}
+
+.cart {
+	display: block;
+	position: fixed;
+	top: 25%;
+	left: 70%;
+	margin-right: 5%;
+	z-index: 2000;
+}
 
 .modal-open {
-    overflow: scroll;
+	overflow: scroll;
 }
 
 .list-group-item-heading {
-    position: relative;
-    display: inline-block;
+	position: relative;
+	display: inline-block;
 }
 
 .list-group-item-heading .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    top: -5px;
-    left: 110%;
+	visibility: hidden;
+	width: 120px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	top: -5px;
+	left: 110%;
 }
 
 .list-group-item-heading .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 100%;
-    margin-top: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent black transparent transparent;
-}
-.list-group-item-heading:hover .tooltiptext {
-    visibility: visible;
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: 100%;
+	margin-top: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent black transparent transparent;
 }
 
-.submitInventory{
+.list-group-item-heading:hover .tooltiptext {
+	visibility: visible;
+}
+
+.submitInventory {
 	position: fixed;
 	right: 35px;
-	
 }
 
-
-
 /*customer-orders.html*/
+#orders tr:nth-child(odd) {
+	background-color: #D7DBDD
+}
 
-#orders tr:nth-child(odd){background-color: #D7DBDD}
-#orders tr:nth-child(even) {background-color: #F2F4F4}
+#orders tr:nth-child(even) {
+	background-color: #F2F4F4
+}
 
-#maxBut {color:black}
+#maxBut {
+	color: black
+}
 
-#sales1 tr:nth-child(odd){background-color: #000000; color: white ; border-color: black}
-#sales1 tr:nth-child(even) {background-color: #000000 ; color:white; border-color: black}
+#sales1 tr:nth-child(odd) {
+	background-color: #000000;
+	color: white;
+	border-color: black
+}
 
-#sales2 tr:nth-child(odd){background-color: #D7DBDD; color: black}
-#sales2 tr:nth-child(even) {background-color: #F2F4F4; color:black}
+#sales1 tr:nth-child(even) {
+	background-color: #000000;
+	color: white;
+	border-color: black
+}
 
-.sales2 tr:nth-child(odd){background-color: #D7DBDD; color: black}
-.sales2 tr:nth-child(even) {background-color: #F2F4F4; color:black}
+#sales2 tr:nth-child(odd) {
+	background-color: #D7DBDD;
+	color: black
+}
 
-#sales3 tr:nth-child(odd){background-color: #FFFFFF ; color: black}
-#sales3 tr:nth-child(even) {background-color: #FFFFFF; color: black}
+#sales2 tr:nth-child(even) {
+	background-color: #F2F4F4;
+	color: black
+}
 
-.headerWhite{color:white}
+.sales2 tr:nth-child(odd) {
+	background-color: #D7DBDD;
+	color: black
+}
 
-.activeSubList{background-color : #bdcbf5; }
+.sales2 tr:nth-child(even) {
+	background-color: #F2F4F4;
+	color: black
+}
 
-.subList{cursor: pointer;border-radius: 25px;}
+#sales3 tr:nth-child(odd) {
+	background-color: #FFFFFF;
+	color: black
+}
+
+#sales3 tr:nth-child(even) {
+	background-color: #FFFFFF;
+	color: black
+}
+
+.headerWhite {
+	color: white
+}
+
+.activeSubList {
+	background-color: #bdcbf5;
+}
+
+.subList {
+	cursor: pointer;
+	border-radius: 25px;
+}
