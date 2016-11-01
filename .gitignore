@@ -7,7 +7,7 @@
 
 target/
 bin/
-pictures/
+products/
 
 pom.xml.tag
 pom.xml.releaseBackup
