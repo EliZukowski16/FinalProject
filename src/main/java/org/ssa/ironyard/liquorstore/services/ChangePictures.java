@@ -6,15 +6,22 @@
 //import java.io.File;
 //import java.io.IOException;
 //import java.net.URL;
+//import java.util.ArrayList;
 //import java.util.List;
 //
-//import javax.activation.MimetypesFileTypeMap;
 //import javax.imageio.ImageIO;
 //
 //import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.web.client.RestTemplate;
 //import org.ssa.ironyard.liquorstore.dao.DAOCoreProduct;
 //import org.ssa.ironyard.liquorstore.dao.DAOProduct;
+//import org.ssa.ironyard.liquorstore.jsonModel.JsonBeer;
 //import org.ssa.ironyard.liquorstore.model.CoreProduct;
+//
+//import com.fasterxml.jackson.core.JsonParseException;
+//import com.fasterxml.jackson.databind.JsonMappingException;
+//import com.fasterxml.jackson.databind.JsonNode;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 //
 //public class ChangePictures
 //{
@@ -163,15 +170,15 @@
 //          System.out.println(cp.getName());
 //          System.out.println(cp.getId());
 //          
-//          String thumbSrc = "C:/Users/admin/workspace/FinalProject/src/main/resources/static/pictures/products/" + idThumb + "/images/thumb.png.png";
-//          String fullSrc = "C:/Users/admin/workspace/FinalProject/src/main/resources/static/pictures/products/" + idThumb + "/images/full.jpeg.jpeg";
+//          String thumbSrc = "C:/Users/admin/workspace/LiquorStore/src/main/resources/static/pictures/products/" + idThumb + "/images/thumb.png.png";
+//          String fullSrc = "C:/Users/admin/workspace/LiquorStore/src/main/resources/static/pictures/products/" + idThumb + "/images/full.jpeg.jpeg";
 //          
 //    
 //          
 //          
 //          try {
 //              URL url = new URL(fullSrc);
-//              img = ImageIO.read(url);
+//              BufferedImage img = ImageIO.read(url);
 //          } catch (IOException e) {
 //              System.out.println("fail");
 //          }

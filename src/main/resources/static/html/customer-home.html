@@ -23,8 +23,8 @@
                 <div class="thumbnail">
 
                     <img class="group list-group-image"
-                        src="/pictures/products/{{beers.coreProduct.thumbnail}}/images/thumb.png.png" />
-
+                        ng-src="/pictures/products/{{beers.coreProduct.thumbnail}}/images/thumb.png.png"
+                        onerror="if(this.src != '/pictures/products/noimage/images/thumb.png.png') this.src='/pictures/products/noimage/images/thumb.png.png'" />
                     <div class="caption">
                         <h4 id="prodName"
                             class="group inner list-group-item-heading">
@@ -46,7 +46,8 @@
                 <div class="thumbnail">
 
                     <img class="group list-group-image"
-                        src="/pictures/products/{{wines.coreProduct.thumbnail}}/images/thumb.png.png" />
+                        ng-src="/pictures/products/{{wines.coreProduct.thumbnail}}/images/thumb.png.png"
+                        onerror="if(this.src != '/pictures/products/noimage/images/thumb.png.png') this.src='/pictures/products/noimage/images/thumb.png.png'" />
 
                     <div class="caption">
                         <h4 id="prodName"
@@ -68,7 +69,8 @@
             <div class="item">
                 <div class="thumbnail">
                     <img class="group list-group-image"
-                        src="/pictures/products/{{spirits.coreProduct.thumbnail}}/images/thumb.png.png" />
+                        ng-src="/pictures/products/{{spirits.coreProduct.thumbnail}}/images/thumb.png.png"
+                        onerror="if(this.src != '/pictures/products/noimage/images/thumb.png.png') this.src='/pictures/products/noimage/images/thumb.png.png'" />
                     <div class="caption">
                         <h4 id="prodName"
                             class="group inner list-group-item-heading">

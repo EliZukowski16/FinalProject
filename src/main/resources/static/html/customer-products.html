@@ -1,12 +1,16 @@
-<link rel="stylesheet" type="text/css" href="/html/style.css">
-<link rel="stylesheet"
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script
-    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="/html/style.css"> -->
+<!-- <link rel="stylesheet" -->
+<!--     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+<!-- <script -->
+<!--     src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 
-
-
+<!-- 
+<script type="text/javascript" src="/vendors/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/vendors/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/html/style.css">
+<link rel="stylesheet" href="/vendors/bootstrap.min.css">
+-->
 <h2 id="productTitle">Browse Our Products</h2>
 
 <!-- Quick links -->
@@ -78,7 +82,8 @@
     <div class="item">
         <div class="thumbnail" id="add">
             <img height="225px" width="115px" class="group list-group-image"
-                src="/pictures/products/{{product.coreProduct.thumbnail}}/images/thumb.png.png"
+                ng-src="/pictures/products/{{product.coreProduct.thumbnail}}/images/thumb.png.png"
+                onerror="if(this.src != '/pictures/products/noimage/images/thumb.png.png' ) this.src = '/pictures/products/noimage/images/thumb.png.png'"
                 align="left" alt="" />
             <div class="caption">
                 <h4 style="cursor: pointer"

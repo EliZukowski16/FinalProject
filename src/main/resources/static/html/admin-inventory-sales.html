@@ -1,12 +1,18 @@
 
-<link rel="stylesheet"
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/html/style.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script
-    src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- <link rel="stylesheet" -->
+<!--     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+<!-- <script -->
+<!--     src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 
 
+<!-- 
+<script type="text/javascript" src="/vendors/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/vendors/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/html/style.css">
+<link rel="stylesheet" href="/vendors/bootstrap.min.css">
+-->
 
 <!-- 	<script src="/vendors/chartsD/dist/Chart.min.js"></script>
 	
@@ -228,7 +234,8 @@
                                 <div class="coreProductDetail"
                                     style="display: inline-block">
                                     <img
-                                        src="/pictures/products/{{coreProductSales.coreProduct.thumbnail}}/images/thumb.png.png"
+                                        ng-src="/pictures/products/{{coreProductSales.coreProduct.thumbnail}}/images/thumb.png.png"
+                                        onerror="if(this.src != '/pictures/products/noimage/images/thumb.png.png') this.src='/pictures/products/noimage/images/thumb.png.png'"
                                         height="200 px" width="90px"> <span>
                                         <span><Strong>Type:</Strong>
                                             {{coreProductSales.coreProduct.type}}
@@ -432,8 +439,9 @@
                         ng-click="product.expanded = true">+</button>
                 </td>
                 <td><img
-                    src="/pictures/products/{{product.product.coreProduct.thumbnail}}/images/thumb.png.png"
-                    height="100 px" width="45px"></td>
+                    ng-src="/pictures/products/{{product.product.coreProduct.thumbnail}}/images/thumb.png.png"
+                    onerror="if(this.src != '/pictures/products/noimage/images/thumb.png.png') this.src='/pictures/products/noimage/images/thumb.png.png'"
+                    height="100 px" width="45px" /></td>
                 <td><Strong>{{ product.product.coreProduct.name }}</Strong>
                     <br> {{ product.product.baseUnit }}, {{
                     product.product.quantity }} Pack</td>
@@ -661,31 +669,28 @@
                             ng-click="product.expanded = true">+</button>
                     </td>
                     <td><img
-                        src="/pictures/products/{{product.product.coreProduct.thumbnail}}/images/thumb.png.png"
-                        height="100 px" width="45px"></td>
+                        ng-src="/pictures/products/{{product.product.coreProduct.thumbnail}}/images/thumb.png.png"
+                        onerror="if(this.src != '/pictures/products/noimage/images/thumb.png.png') this.src='/pictures/products/noimage/images/thumb.png.png'"
+                        height="100 px" width="45px" /></td>
                     <td><Strong>{{
                             product.product.coreProduct.name }}</Strong> <br> {{
                         product.product.baseUnit }}, {{ product.product.quantity
                         }} Pack</td>
                     <td>Total Value Sold: {{ product.yesterdayTotalValue |
-                        currency}} <br>
-                    <br>
-                    <br> Total Count Sold: {{product.yesterdayNumberSold}}
+                        currency}} <br> <br> <br> Total Count
+                        Sold: {{product.yesterdayNumberSold}}
                     </td>
                     <td>Total Value Sold: {{ product.lastWeekTotalValue |
-                        currency}} <br>
-                    <br>
-                    <br> Total Count Sold: {{product.lastWeekNumberSold}}
+                        currency}} <br> <br> <br> Total Count
+                        Sold: {{product.lastWeekNumberSold}}
                     </td>
                     <td>Total Value Sold: {{ product.lastMonthTotalValue |
-                        currency}} <br>
-                    <br>
-                    <br> Total Count Sold: {{product.lastMonthNumberSold}}
+                        currency}} <br> <br> <br> Total Count
+                        Sold: {{product.lastMonthNumberSold}}
                     </td>
                     <td>Total Value Sold: {{ product.lastYearTotalValue |
-                        currency}} <br>
-                    <br>
-                    <br> Total Count Sold: {{product.lastYearNumberSold}}
+                        currency}} <br> <br> <br> Total Count
+                        Sold: {{product.lastYearNumberSold}}
                     </td>
                 </tr>
                 <tr ng-if="product.expanded" ng-repeat-end="">
