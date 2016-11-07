@@ -72,8 +72,7 @@
                 <td>{{ pending.customer.lastName }}</td>
                 <td>{{pending.deliveryDate | date : 'MMMM dd, yyyy'}}</td>
                 <!--         <td>{{ pending.date.dayOfWeek }}, {{ pending.date.month }} {{ pending.date.dayOfMonth }}, {{ pending.date.year }}</td> -->
-                <td>{{pending.orderDate | date : 'hh:mm:ss a - MMMM dd,
-                    yyyy'}}</td>
+                <td>{{pending.orderDate | date : 'hh:mm:ss a - MMMM dd, yyyy'}}</td>
                 <!--         <td>{{ pending.timeOfOrder.dayOfWeek }}, {{ pending.timeOfOrder.month }} {{ pending.timeOfOrder.dayOfMonth }}, {{ pending.timeOfOrder.year }}</td> -->
                 <td>{{ pending.total | currency }}</td>
                 <td style="text-align: center">{{ pending.orderStatus }}<br>
