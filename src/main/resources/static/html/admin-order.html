@@ -73,8 +73,7 @@
                 <td>{{ unOrders.customer.lastName }}</td>
                 <td>{{unOrders.deliveryDate | date : 'MMMM dd, yyyy' }}</td>
                 <!--         <td>{{ unOrders.date.dayOfWeek }}, {{ unOrders.date.month }} {{ unOrders.date.dayOfMonth }}, {{ unOrders.date.year }}</td> -->
-                <td>{{unOrders.orderDate | date : 'hh:mm:ss a - MMMM dd,
-                    yyyy'}}</td>
+                <td>{{unOrders.orderDate | date : 'hh:mm:ss a - MMMM dd, yyyy'}}</td>
                 <!--         <td>{{ unOrders.timeOfOrder.dayOfWeek }}, {{ unOrders.timeOfOrder.month }} {{ unOrders.timeOfOrder.dayOfMonth }}, {{ unOrders.timeOfOrder.year }}</td> -->
                 <td>{{ unOrders.total | currency }}</td>
                 <td>{{ unOrders.orderStatus }}
