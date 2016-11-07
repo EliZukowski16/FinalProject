@@ -23,8 +23,9 @@
                 <div class="thumbnail">
 
                     <img class="group list-group-image"
-                        ng-src="/pictures/products/{{beers.coreProduct.thumbnail}}/images/thumb.png.png"
-                        onerror="if(this.src != '/pictures/products/noimage/images/thumb.png.png') this.src='/pictures/products/noimage/images/thumb.png.png'" />
+                        ng-src="http://s3.amazonaws.com/beerguyspictures/products/{{beer.coreProduct.thumbnail}}/images/thumb.png.png"
+                        onerror="if(this.src != '/pictures/products/noimage/images/thumb.png.png') this.src='/pictures/products/noimage/images/thumb.png.png'"
+                        />
                     <div class="caption">
                         <h4 id="prodName"
                             class="group inner list-group-item-heading">
@@ -46,7 +47,7 @@
                 <div class="thumbnail">
 
                     <img class="group list-group-image"
-                        ng-src="/pictures/products/{{wines.coreProduct.thumbnail}}/images/thumb.png.png"
+                    ng-src="http://s3.amazonaws.com/beerguyspictures/products/{{wines.coreProduct.thumbnail}}/images/thumb.png.png"
                         onerror="if(this.src != '/pictures/products/noimage/images/thumb.png.png') this.src='/pictures/products/noimage/images/thumb.png.png'" />
 
                     <div class="caption">
@@ -69,8 +70,9 @@
             <div class="item">
                 <div class="thumbnail">
                     <img class="group list-group-image"
-                        ng-src="/pictures/products/{{spirits.coreProduct.thumbnail}}/images/thumb.png.png"
-                        onerror="if(this.src != '/pictures/products/noimage/images/thumb.png.png') this.src='/pictures/products/noimage/images/thumb.png.png'" />
+                        ng-src="http://s3.amazonaws.com/beerguyspictures/products/{{spirits.coreProduct.thumbnail}}/images/thumb.png.png"
+                        onerror="if(this.src != '/pictures/products/noimage/images/thumb.png.png') this.src='/pictures/products/noimage/images/thumb.png.png'"
+                        />
                     <div class="caption">
                         <h4 id="prodName"
                             class="group inner list-group-item-heading">
