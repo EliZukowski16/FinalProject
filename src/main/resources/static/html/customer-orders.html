@@ -66,8 +66,7 @@
                 <td>{{ orders.orderStatus }}</td>
                 <td>{{ orders.deliveryDate | date : 'MMMM dd, yyyy'}}</td>
                 <!--         <td>{{ orders.date.monthValue}}/{{ orders.date.dayOfMonth }}/{{ orders.date.year }}</td> -->
-                <td>{{orders.orderDate | date : 'hh:mm:ss a - MMMM dd,
-                    yyyy' }}</td>
+                <td>{{orders.orderDate | date : 'hh:mm:ss a - MMMM dd, yyyy' }}</td>
                 <!--         <td>{{ orders.timeOfOrder.hour }}:{{ orders.timeOfOrder.minute }}:{{ orders.timeOfOrder.second }}</td> -->
             </tr>
             <tr ng-if="orders.expanded" ng-repeat-end="">

@@ -37,6 +37,7 @@ import org.ssa.ironyard.liquorstore.dao.DAOSales;
 import org.ssa.ironyard.liquorstore.dao.DAOSalesImpl;
 import org.ssa.ironyard.liquorstore.model.Admin;
 import org.ssa.ironyard.liquorstore.model.CoreProduct;
+import org.ssa.ironyard.liquorstore.model.CoreProduct.Type;
 import org.ssa.ironyard.liquorstore.model.Customer;
 import org.ssa.ironyard.liquorstore.model.Order;
 import org.ssa.ironyard.liquorstore.model.Order.OrderDetail;
@@ -169,7 +170,10 @@ public class MockDataLoaderTest
                     .collect(Collectors.toList()));
         }
 
-        for (int i = 0; i < 2000; i++)
+//        popularProducts.addAll(productsInDB.stream().filter(p -> p.getCoreProduct().getType().equals(Type.WINE))
+//              .collect(Collectors.toList()));
+        
+        for (int i = 0; i < 40; i++)
         {
             Integer customerIndex = (int) (Math.random() * customersInDB.size());
 
@@ -179,8 +183,8 @@ public class MockDataLoaderTest
             Order order;
             BigDecimal totalPrice = BigDecimal.ZERO;
 
-            Long minDay = LocalDate.of(2015, 11, 1).toEpochDay();
-            Long maxDay = LocalDate.of(2016, 10, 23).toEpochDay();
+            Long minDay = LocalDate.of(2016, 11, 7).toEpochDay();
+            Long maxDay = LocalDate.of(2016, 11, 12).toEpochDay();
             Long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
             Integer randomHour = (int) (Math.random() * 24);
             Integer randomMinute = (int) (Math.random() * 59);
@@ -220,23 +224,23 @@ public class MockDataLoaderTest
 
         List<Order> ordersInDB = orderDAO.readAll();
 
-        for (int i = 0; i < ordersInDB.size(); i++)
-        {
-            Integer statusChange = ((int) (Math.random() * 20)) + 1;
-
-            switch (statusChange)
-            {
-
-            case 1:
-                ordersService.rejectOrder(ordersInDB.get(i).getId());
-                break;
-            default:
-                ((OrdersServiceImpl) ordersService).testApproveOrder(ordersInDB.get(i).getId(),
-                        ordersInDB.get(i).getTimeOfOrder().plus(1, ChronoUnit.DAYS).toLocalDate());
-                break;
-
-            }
-        }
+//        for (int i = 0; i < ordersInDB.size(); i++)
+//        {
+//            Integer statusChange = ((int) (Math.random() * 20)) + 1;
+//
+//            switch (statusChange)
+//            {
+//
+//            case 1:
+//                ordersService.rejectOrder(ordersInDB.get(i).getId());
+//                break;
+//            default:
+//                ((OrdersServiceImpl) ordersService).testApproveOrder(ordersInDB.get(i).getId(),
+//                        ordersInDB.get(i).getTimeOfOrder().plus(1, ChronoUnit.DAYS).toLocalDate());
+//                break;
+//
+//            }
+//        }
 
     }
 
