@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.apache.logging.log4j.LogManager;
@@ -21,17 +22,22 @@ public class DataSourceConfiguration
     @Bean
     public DataSource datasource() throws URISyntaxException
     {
-        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+//        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+//        
+//        
+//        String username = dbUri.getUserInfo().split(":")[0];
+//        String password = dbUri.getUserInfo().split(":")[1];
+//        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+//        
+//        LOGGER.debug("YEAH ANnotation based processing is working");
+//        MysqlDataSource mysqlds = new MysqlDataSource();
+//        mysqlds.setURL(dbUrl);
+//        mysqlds.setUser(username);
+//        mysqlds.setPassword(password);
+//        return mysqlds;
         
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
-        
-        LOGGER.debug("YEAH ANnotation based processing is working");
         MysqlDataSource mysqlds = new MysqlDataSource();
-        mysqlds.setURL(dbUrl);
-        mysqlds.setUser(username);
-        mysqlds.setPassword(password);
+        mysqlds.setURL(DATABASE_URL);
         return mysqlds;
     }
 

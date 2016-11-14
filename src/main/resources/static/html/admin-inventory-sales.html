@@ -233,8 +233,7 @@
                             <td colspan="6">
                                 <div class="coreProductDetail"
                                     style="display: inline-block">
-                                    <img
-                                        ng-src="https://s3.amazonaws.com/beerguyspictures/products/{{coreProductSales.coreProduct.thumbnail}}/images/thumb.png.png"
+                                    <img ng-src="https://s3.amazonaws.com/beerguyspictures/products/{{coreProductSales.coreProduct.thumbnail}}/images/thumb.png.png"
                                         onerror="if(this.src != '/pictures/products/noimage/images/thumb.png.png') this.src='/pictures/products/noimage/images/thumb.png.png'"
                                         height="200 px" width="90px"> <span>
                                         <span><Strong>Type:</Strong>
@@ -438,8 +437,7 @@
                     <button id="maxBut" ng-if="!product.expanded"
                         ng-click="product.expanded = true">+</button>
                 </td>
-                <td><img
-                    ng-src="https://s3.amazonaws.com/beerguyspictures/products/{{coreProductSales.coreProduct.thumbnail}}/images/thumb.png.png"
+                <td><img ng-src="https://s3.amazonaws.com/beerguyspictures/products/{{product.product.coreProduct.thumbnail}}/images/thumb.png.png"
                     onerror="if(this.src != '/pictures/products/noimage/images/thumb.png.png') this.src='/pictures/products/noimage/images/thumb.png.png'"
                     height="100 px" width="45px" /></td>
                 <td><Strong>{{ product.product.coreProduct.name }}</Strong>
@@ -449,8 +447,7 @@
                     product.product.coreProduct.subType }}</td>
                 <td>{{ product.product.price | currency}}</td>
                 <td>{{ product.product.inventory }}</td>
-                <td>#<input id="{{product.product.id}}" type="number"
-                    style="width: 75px"></td>
+                <td>#<input id='{{product.product.id}}' type="number" style="width: 75px"></td>
             </tr>
             <tr ng-if="product.expanded" ng-repeat-end="">
                 <td colspan="7"><h4>Product Sales Details</h4> <br>
@@ -668,8 +665,7 @@
                         <button id="maxBut" ng-if="!product.expanded"
                             ng-click="product.expanded = true">+</button>
                     </td>
-                    <td><img
-                        ng-src="https://s3.amazonaws.com/beerguyspictures/products/{{coreProductSales.coreProduct.thumbnail}}/images/thumb.png.png"
+                    <td><img ng-src="https://s3.amazonaws.com/beerguyspictures/products/{{product.product.coreProduct.thumbnail}}/images/thumb.png.png"
                         onerror="if(this.src != '/pictures/products/noimage/images/thumb.png.png') this.src='/pictures/products/noimage/images/thumb.png.png'"
                         height="100 px" width="45px" /></td>
                     <td><Strong>{{

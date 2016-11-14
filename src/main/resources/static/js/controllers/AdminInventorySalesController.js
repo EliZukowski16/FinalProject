@@ -542,6 +542,7 @@ function InvSalesCtrl($http, CartService) {
 	    					qty : ctrl.lowInv[i].product.quantity,
 	    					value : value
 	    			}
+	    			console.log(ctrl.addIPop);
 	    			
 	    			ctrl.addInventory.push(ctrl.addI);
 	    			ctrl.addInventoryPop.push(ctrl.addIPop);
