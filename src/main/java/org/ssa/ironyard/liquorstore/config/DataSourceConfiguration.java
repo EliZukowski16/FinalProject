@@ -22,23 +22,23 @@ public class DataSourceConfiguration
     @Bean
     public DataSource datasource() throws URISyntaxException
     {
-//        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
-//        
-//        
-//        String username = dbUri.getUserInfo().split(":")[0];
-//        String password = dbUri.getUserInfo().split(":")[1];
-//        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
-//        
-//        LOGGER.debug("YEAH ANnotation based processing is working");
-//        MysqlDataSource mysqlds = new MysqlDataSource();
-//        mysqlds.setURL(dbUrl);
-//        mysqlds.setUser(username);
-//        mysqlds.setPassword(password);
-//        return mysqlds;
+        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
         
+        
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+        
+        LOGGER.debug("YEAH ANnotation based processing is working");
         MysqlDataSource mysqlds = new MysqlDataSource();
-        mysqlds.setURL(DATABASE_URL);
+        mysqlds.setURL(dbUrl);
+        mysqlds.setUser(username);
+        mysqlds.setPassword(password);
         return mysqlds;
+        
+//        MysqlDataSource mysqlds = new MysqlDataSource();
+//        mysqlds.setURL(DATABASE_URL);
+//        return mysqlds;
     }
 
 
